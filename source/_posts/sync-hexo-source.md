@@ -41,6 +41,8 @@ git init
 git add .
 ```
 
+<!-- more -->
+
 我们将所有文件进行添加 . 就是这个意思
 然后commit
 
