@@ -73,7 +73,3 @@ deploy:
   type: git
   repo: git@github.com:jimbray/jimbray.github.io.git
   branch: master
-  
-search:
-  path: search.xml
-  field: post
