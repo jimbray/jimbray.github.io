@@ -73,3 +73,5 @@ deploy:
   type: git
   repo: git@github.com:jimbray/jimbray.github.io.git
   branch: master
+
+google_analytics: UA-78813427-1
