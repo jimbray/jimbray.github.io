@@ -1,5 +1,5 @@
 ---
-title: linode 安装 lnmp 学习
+title: Linode 安装 lnmp 学习
 tags: VPS
 date: 2016-06-09 17:30:04
 ---
