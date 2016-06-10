@@ -22,6 +22,7 @@ Git 需要一个服务器
 
 ### 操作步骤
 
+#### 上传操作
 进入 Hexo 所在的文件夹
 打开 git bash 窗口
 
@@ -57,6 +58,7 @@ git commit -m "commit first time"
 ```bash
   git remote add origin https://github.com/your-name/your-name.github.io.git
 ```
+
 接下来就是把刚刚的提交 push 上去
 关键点到了
  Hexo 部署的 page 是在 master 上的
@@ -91,3 +93,99 @@ push到另外一个 分支中
 
 当然了，修改了文章或者其他东西，在 deploy 前 还是 先 commit 和push 一下哦
 记得：所有的本地操作 都在 source 分支里面。
+
+#### 下载操作
+现在我们切换视觉到 一台新的电脑上，
+在这台电脑上没有 Node.js,没有 Hexo，没有 Git
+
+1.先安装必要的程序 node.js 和 git，过程不再赘述
+
+2.把 原来的文章下载下来
+
+3.配置 git ssh key，你才拥有从这台电脑发布文章的权利（请不要在公共电脑操作）
+
+4.然后就是走 Hexo 的发布流程，也就是上面的 上传操作了
+
+具体操作如下
+
+##### 把文章下载下来
+找到自己喜欢的 路径，新建一个文件夹，命名随意，自己认识就好
+打开 git bash
+
+```bash
+git clone xxxxxxxxx.xx (输入你的 github page 的 repo 地址)
+```
+
+等待下载完成之后，默认的分支是 master，还记得吗？
+master分支是 Hexo 编译之后的 网站程序，我们的文章在 source 分支内
+
+```bash
+git checkout source
+```
+
+这个时候文件夹内的 内容已经是 我们的文章了
+
+##### 配置 git ssh key
+
+还是在当前的 git bash 界面
+
+打开 ssh-key 所在文件夹
+```bash
+cd ~/.ssh
+```
+
+生成 ssh-key
+```bash
+ssh-keygen -t rsa -C "your_email@youremail.com"
+```
+
+弹出一下提问
+我们不修改生成路径，不设置密码短语，直接回车	
+生成成功之后，找到 刚刚升车 ssh-key 的路径
+找到 id_rsa.pub 文件
+右键-使用文本编辑器打开，里面有一大串的英文字母，不需要管，从头开始复制，直到最后
+注意：最后的空格不需要 复制到（可能会引起一些问题）
+
+然后就是去 github setting 里面 设置 ssh-key 了
+具体参照 [如何创建公钥](https://gist.github.com/yisibl/8019693)
+
+配置完成之后，测试一下
+
+```bash
+ssh -T git@github.com
+```
+
+如果返回 Hello <username> (username 表示你的用户名)
+表示成功
+
+##### 然后就是配置 Hexo 程序了
+安装 hexo
+```bash
+npm install hexo-cli -g
+
+npm install hexo --save
+```
+
+检查 hexo 是否安装成功
+
+```bash
+hexo -v
+```
+
+这个时候就不做 初始化了
+这个时候就不做 初始化了
+这个时候就不做 初始化了
+
+自动安装需要的组件
+```bash
+npm install
+```
+
+安装 git 部署的 插件
+
+```bash
+npm install hexo-deployer-git --save
+```
+
+操作完成
+现在这台新电脑 就跟原来那台电脑一样操作就可以发布文章了。
