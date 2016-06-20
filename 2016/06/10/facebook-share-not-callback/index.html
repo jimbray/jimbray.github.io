@@ -1,0 +1,625 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="完成 facebook 分享功能之后，如果手机安装了Facebook，分享之后会有成功或者失败的 反馈
+但是如果没有安装，就会使用 WEB 版本的 进行分享，这个时候，分享完了就是完了，不知道是成功还是失败。
+去看了下文档，Facebook提供这个回调。
+叫做 CallbakManager ，既然找到了，就上手吧
+ShareDialog shareDialog = new ShareDialog(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Facebook ShareDialog 没有回调的问题">
+<meta property="og:url" content="http://jimbray.github.io/2016/06/10/facebook-share-not-callback/index.html">
+<meta property="og:site_name" content="Jimbray">
+<meta property="og:description" content="完成 facebook 分享功能之后，如果手机安装了Facebook，分享之后会有成功或者失败的 反馈
+但是如果没有安装，就会使用 WEB 版本的 进行分享，这个时候，分享完了就是完了，不知道是成功还是失败。
+去看了下文档，Facebook提供这个回调。
+叫做 CallbakManager ，既然找到了，就上手吧
+ShareDialog shareDialog = new ShareDialog(">
+<meta property="og:updated_time" content="2016-06-20T06:57:02.850Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Facebook ShareDialog 没有回调的问题">
+<meta name="twitter:description" content="完成 facebook 分享功能之后，如果手机安装了Facebook，分享之后会有成功或者失败的 反馈
+但是如果没有安装，就会使用 WEB 版本的 进行分享，这个时候，分享完了就是完了，不知道是成功还是失败。
+去看了下文档，Facebook提供这个回调。
+叫做 CallbakManager ，既然找到了，就上手吧
+ShareDialog shareDialog = new ShareDialog(">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Facebook ShareDialog 没有回调的问题 | Jimbray </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-78813427-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="http://s6.cnzz.com/stat.php?id=1259500890&web_id=1259500890" type="text/javascript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Jimbray</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">It is a short story</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Facebook ShareDialog 没有回调的问题
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-10T20:24:04+08:00" content="2016-06-10">
+              2016-06-10
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/10/facebook-share-not-callback/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/10/facebook-share-not-callback/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>完成 facebook 分享功能之后，如果手机安装了Facebook，分享之后会有成功或者失败的 反馈</p>
+<p>但是如果没有安装，就会使用 WEB 版本的 进行分享，这个时候，分享完了就是完了，不知道是成功还是失败。</p>
+<p>去看了下文档，Facebook提供这个回调。</p>
+<p>叫做 CallbakManager ，既然找到了，就上手吧</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ShareDialog shareDialog = <span class="keyword">new</span> ShareDialog(act);</span><br><span class="line"></span><br><span class="line">CallbackManager callbackManager = CallbackManager.Factory.create();</span><br><span class="line">shareDialog.registerCallback(callbackManager, <span class="keyword">new</span> FacebookCallback&lt;Sharer.Result&gt;() &#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSuccess</span><span class="params">(Sharer.Result result)</span> </span>&#123;</span><br><span class="line">		Log.d(<span class="string">"tag"</span>, <span class="string">"OnSuccess"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCancel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		Log.d(<span class="string">"tag"</span>, <span class="string">"onCancel"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(FacebookException error)</span> </span>&#123;</span><br><span class="line">		Log.d(<span class="string">"tag"</span>, <span class="string">"onError"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">ShareLinkContent content = <span class="keyword">new</span> ShareLinkContent.Builder()</span><br><span class="line">		.setContentUrl(Uri.parse(<span class="string">"http://url.com"</span>))</span><br><span class="line">		.setImageUrl(Uri.parse(<span class="string">"http://url.com"</span>))</span><br><span class="line">		.setContentTitle(<span class="string">"Title"</span>)</span><br><span class="line">		.setContentDescription(<span class="string">"description"</span>)</span><br><span class="line">		.build();</span><br><span class="line"></span><br><span class="line">shareDialog.show(content, ShareDialog.Mode.AUTOMATIC);</span><br></pre></td></tr></table></figure>
+<p>看上去就是这样的，可是每次都没有回调<br>最后去Facebook 文档又看了一遍，找到解决办法了，原来之前没有看清楚</p>
+<p>Facebook share封装起来之后是用 Activity 做回调的<br>所以 纯粹的使用 CallbackManager 肯定不会生效啦。</p>
+<a id="more"></a>
+<p>每个Activity需要对应的 CallbackManager<br>然后需要 override onActivityResult 进行callbackManager 的调用</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode, Intent data)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	callbackManager.onActivityResult(requestCode, resultCode, data);<span class="comment">//这个callbackmanager要是之前 create 的那一个，不能是 新 create的</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以写了一个 辅助类 FacebookHelper</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">public class FacebookHelper &#123;</span><br><span class="line"></span><br><span class="line">    private static final String TAG = FacebookHelper.class.getSimpleName();</span><br><span class="line"></span><br><span class="line">    private static CallbackManager mCallbackManager;</span><br><span class="line"></span><br><span class="line">    public static CallbackManager initCallbackManager(Activity activity) &#123;</span><br><span class="line">        if (!FacebookSdk.isInitialized()) &#123;</span><br><span class="line">            FacebookSdk.sdkInitialize(activity);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return mCallbackManager = CallbackManager.Factory.create();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	* url 需要分享的 url</span><br><span class="line">	* des 需要分享的 description</span><br><span class="line">	**/</span><br><span class="line">    public static void showLink2Facebook(Activity act, String url, String des) &#123;</span><br><span class="line">        if(TextUtils.isEmpty(url)) &#123;</span><br><span class="line">            return ;</span><br><span class="line">        &#125;</span><br><span class="line">        ShareDialog shareDialog = new ShareDialog(act);</span><br><span class="line"></span><br><span class="line">        shareDialog.registerCallback(mCallbackManager, new FacebookCallback&lt;Sharer.Result&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onSuccess(Sharer.Result result) &#123;</span><br><span class="line">                Utils.showToast("share successful");</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onCancel() &#123;</span><br><span class="line">                Utils.showToast("cancel the share operation");</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onError(FacebookException error) &#123;</span><br><span class="line">                Utils.showToast("share failed. you can try again later");</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        ShareLinkContent content = new ShareLinkContent.Builder()</span><br><span class="line">                .setContentUrl(Uri.parse(url))</span><br><span class="line">                .setImageUrl(Uri.parse(url))</span><br><span class="line">                .setContentTitle("Title)</span><br><span class="line">                .setContentDescription(des)</span><br><span class="line">                .build();</span><br><span class="line"></span><br><span class="line">        shareDialog.show(content, ShareDialog.Mode.AUTOMATIC);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>只要在每个需要分享的 Activity OnCreate 时 获取一个 CallbackManager 成员变量</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">mCallbackManager = FacebookHelper.initCallbackManager(<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
+<p>然后 重载 onActivityResult 方法中调用 就可以了</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">mCallbackManager.onActivityResult(requestCode, resultCode, data);</span><br></pre></td></tr></table></figure>
+<p>为了这事捣鼓了半天，都怪自己文档没看仔细。<br>看到CallbackManager 就 立马动手写代码了。<br>以后文档看完再动手，切记。<br>不然，掉坑。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/09/try-docker/" rel="next" title="试玩 Docker">
+                <i class="fa fa-chevron-left"></i> 试玩 Docker
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/06/14/python-to-qiniu/" rel="prev" title="简化markdown写作中的贴图流程（windows简陋版）">
+                简化markdown写作中的贴图流程（windows简陋版） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/06/10/facebook-share-not-callback/"
+           data-title="Facebook ShareDialog 没有回调的问题" data-url="http://jimbray.github.io/2016/06/10/facebook-share-not-callback/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://7xv11f.com1.z0.glb.clouddn.com/V.jpg"
+               alt="jimbray" />
+          <p class="site-author-name" itemprop="name">jimbray</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jimbray</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"jimbray"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
