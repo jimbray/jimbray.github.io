@@ -248,6 +248,109 @@
             
               
                 
+                <a class="post-title-link" href="/2016/07/13/my-first-custom-view/" itemprop="url">
+                  My-first-custom-view
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-13T12:35:05+08:00" content="2016-07-13">
+              2016-07-13
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/13/my-first-custom-view/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/13/my-first-custom-view/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>直接上代码，做个学习笔记好了。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Created by Jimbray  .</span><br><span class="line"> * on 2016/7/12</span><br><span class="line"> * Email: jimbray16@gmail.com</span><br><span class="line"> * Description: 这是我第一个真正意义上的自定义View</span><br><span class="line"> */</span><br><span class="line">public class MyFirstProgressbar extends View &#123;</span><br><span class="line"></span><br><span class="line">    //max progress 虽然注释写了，但是还是不解释</span><br><span class="line">    private int mMaxProgress = 100;</span><br><span class="line"></span><br><span class="line">    // current progress</span><br><span class="line">    private int mCurrentProgress;</span><br><span class="line"></span><br><span class="line">    //progress bar 背景颜色</span><br><span class="line">    private int mBackgroundColor;</span><br><span class="line"></span><br><span class="line">    //progress bar 进度条颜色</span><br><span class="line">    private int mProgressColor;</span><br><span class="line"></span><br><span class="line">    //progress bar 进度条高度</span><br><span class="line">    private float mProgressBarheight;</span><br><span class="line"></span><br><span class="line">    //progress bar 背景高度</span><br><span class="line">    private float mBackgroundHeight;</span><br><span class="line"></span><br><span class="line">    //设置默认值</span><br><span class="line">    //默认progress bar 背景颜色</span><br><span class="line">    private final int default_background_color = Color.rgb(204, 204, 204);</span><br><span class="line">    //默认progress bar 进度条颜色</span><br><span class="line">    private final int default_progressbar_color = Color.rgb(66, 145, 241);</span><br><span class="line">    //默认 pregress bar 背景高度</span><br><span class="line">    private float default_background_height;</span><br><span class="line">    //默认 porgress 进度条高度</span><br><span class="line">    private float default_progressbar_height;</span><br><span class="line">    //默认progress bar 背景宽度（最小宽度）</span><br><span class="line">    private final float default_background_width = dp2px(45.f);</span><br><span class="line"></span><br><span class="line">    //画笔</span><br><span class="line">    private Paint mBackgroundPaint, mProgressbarPaint;</span><br><span class="line"></span><br><span class="line">    //progress 需要draw 的矩形区域</span><br><span class="line">    private RectF mBackgroundRectF = new RectF(0, 0, 0, 0);</span><br><span class="line">    private RectF mProgressbarRectF = new RectF(0, 0, 0, 0);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public MyFirstProgressbar(Context context) &#123;</span><br><span class="line">        super(context);</span><br><span class="line">        init(context, null, 0);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public MyFirstProgressbar(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line">        init(context, attrs, 0);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public MyFirstProgressbar(Context context, AttributeSet attrs, int defStyleAttr) &#123;</span><br><span class="line">        super(context, attrs, defStyleAttr);</span><br><span class="line">        init(context, attrs, defStyleAttr);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void init(Context context, AttributeSet attrs, int defStyleAttr) &#123;</span><br><span class="line">        default_background_height = dp2px(1.0f);</span><br><span class="line">        default_progressbar_height = dp2px(1.5f);</span><br><span class="line">        //progress bar 背景高度 比 progress bar 进度条高度 矮啊</span><br><span class="line"></span><br><span class="line">        //都是用默认值，没有把这些数值抛出去做属性</span><br><span class="line">        mBackgroundHeight = default_background_height;</span><br><span class="line">        mProgressBarheight = default_progressbar_height;</span><br><span class="line"></span><br><span class="line">        mBackgroundColor = default_background_color;</span><br><span class="line">        mProgressColor = default_progressbar_color;</span><br><span class="line"></span><br><span class="line">        initPainters();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 初始化 画笔 Paint</span><br><span class="line">     */</span><br><span class="line">    private void initPainters() &#123;</span><br><span class="line">        mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);</span><br><span class="line">        mBackgroundPaint.setColor(mBackgroundColor);</span><br><span class="line"></span><br><span class="line">        mProgressbarPaint = new Paint(Paint.ANTI_ALIAS_FLAG);</span><br><span class="line">        mProgressbarPaint.setColor(mProgressColor);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 重载 函数</span><br><span class="line">     * @return view 的推荐最小宽度</span><br><span class="line">     * 修改为 progress bar 背景的默认高度</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    protected int getSuggestedMinimumWidth() &#123;</span><br><span class="line">        return (int) default_background_width;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 重载 函数</span><br><span class="line">     * @return view 的推荐最小高度</span><br><span class="line">     * 修改为 progress bar 的默认高度 （娶个最高的吧，不然高的那个头被截掉了就不好了）</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    protected int getSuggestedMinimumHeight() &#123;</span><br><span class="line">        return Math.max((int) mBackgroundHeight, (int) mProgressBarheight);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 这个函数的 解析 Google 一大把，就不解释了</span><br><span class="line">     * @param widthMeasureSpec</span><br><span class="line">     * @param heightMeasureSpec</span><br><span class="line">     * 现在这里是个套路活，跟着老司机走就行了</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) &#123;</span><br><span class="line">        setMeasuredDimension(measure(widthMeasureSpec, true), measure(heightMeasureSpec, false));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 测量 view 的 宽高信息</span><br><span class="line">     * @param measureSpec</span><br><span class="line">     * @param isWidth</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    private int measure(int measureSpec, boolean isWidth) &#123;</span><br><span class="line">        int result;</span><br><span class="line">        int mode = MeasureSpec.getMode(measureSpec);</span><br><span class="line">        int size = MeasureSpec.getSize(measureSpec);</span><br><span class="line">        //不要忘记 padding ，万一有人设置了呢</span><br><span class="line">        int padding = isWidth ? getPaddingLeft() + getPaddingRight() : getPaddingTop() + getPaddingBottom();</span><br><span class="line">        if (mode == MeasureSpec.EXACTLY) &#123; //如果 width 或者 height 都设置了 精确值：比如 45dp啊什么的</span><br><span class="line">            result = size; //就按主人的来吧，诶，森么是主人</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            //其他情况，既然你都不知道要什么，就按我的套路来吧</span><br><span class="line">            result = isWidth ? getSuggestedMinimumWidth() : getSuggestedMinimumHeight();</span><br><span class="line">            result += padding; //padding 这个小伙子还是很调皮的</span><br><span class="line">            if (mode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">                if (isWidth) &#123;</span><br><span class="line">                    result = Math.max(result, size);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    result = Math.min(result, size);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /** 要开车了，快上车！</span><br><span class="line">     * @param canvas</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    protected synchronized void onDraw(Canvas canvas) &#123;</span><br><span class="line">        calRectF();</span><br><span class="line"></span><br><span class="line">        canvas.drawRect(mBackgroundRectF, mBackgroundPaint);</span><br><span class="line"></span><br><span class="line">        canvas.drawRect(mProgressbarRectF, mProgressbarPaint);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 精华就在这里了。</span><br><span class="line">     * 一开始我也看不懂</span><br><span class="line">     * 现在我也看不懂</span><br><span class="line">     * 可是效果出来了</span><br><span class="line">     * 就这么滴吧</span><br><span class="line">     * 多看几次</span><br><span class="line">     * 说不定就懂了呢</span><br><span class="line">     */</span><br><span class="line">    private void calRectF() &#123;</span><br><span class="line">        mProgressbarRectF.left = getPaddingLeft();</span><br><span class="line">        mProgressbarRectF.top = getHeight() / 2.0f - mProgressBarheight / 2.0f;</span><br><span class="line">        mProgressbarRectF.right = (getWidth() - getPaddingLeft() - getPaddingRight()) / (getMax() * 1.0f) * getProgress() + getPaddingLeft();</span><br><span class="line">        mProgressbarRectF.bottom = getHeight() / 2.0f + mProgressBarheight / 2.0f ;</span><br><span class="line"></span><br><span class="line">        mBackgroundRectF.left = mProgressbarRectF.right;</span><br><span class="line">        mBackgroundRectF.top = getHeight() / 2.0f - mBackgroundHeight / 2.0f;</span><br><span class="line">        mBackgroundRectF.right = getWidth() - getPaddingRight();</span><br><span class="line">        mBackgroundRectF.bottom = getHeight() / 2.0f + mBackgroundHeight / 2.0f;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /** 这个我也不想说</span><br><span class="line">     * 如果三个月之后我看不懂这个代码</span><br><span class="line">     * 说明</span><br><span class="line">     * 我应该是失忆了</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public int getProgress() &#123;</span><br><span class="line">        return mCurrentProgress;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 同上</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public int getMax() &#123;</span><br><span class="line">        return mMaxProgress;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 同上</span><br><span class="line">     * @param progress</span><br><span class="line">     */</span><br><span class="line">    public void setProgress(int progress) &#123;</span><br><span class="line">        mCurrentProgress = progress;</span><br><span class="line">        invalidate();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 让我的 progress 动起来！</span><br><span class="line">     * ValueAnimator 是个神器</span><br><span class="line">     * Google一下</span><br><span class="line">     * @param progress</span><br><span class="line">     */</span><br><span class="line">    public void anitProgress(int progress) &#123;</span><br><span class="line">        ValueAnimator animator = ValueAnimator.ofInt(0, progress);</span><br><span class="line">        animator.setDuration(1500);</span><br><span class="line">        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">                mCurrentProgress = (int) animation.getAnimatedValue();</span><br><span class="line">                postInvalidate();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        animator.start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public float dp2px(float dp) &#123;</span><br><span class="line">        final float scale = getResources().getDisplayMetrics().density;</span><br><span class="line">        return dp * scale + 0.5f;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这就是我第一个实质意义上的自定义View了，以前一般都是扩展TextView啊，组合LinearLayout<br>之类的。<br>虽然这个View也是看着别人的代码写的。<br>不过总算是自己动手敲出来了。<br>敲开心啊。<br>我 <del>照抄</del>学习的 project <a href="https://github.com/daimajia" target="_blank" rel="external">代码家</a>的<a href="https://github.com/daimajia/NumberProgressBar" target="_blank" rel="external">NumberProgressBar</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/06/19/python-to-qiniu2/" itemprop="url">
                   简化markdown写作中的贴图流程（windows基本版）
                 </a>
@@ -1372,7 +1475,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
