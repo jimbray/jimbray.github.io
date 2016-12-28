@@ -258,6 +258,130 @@
             
               
                 
+                <a class="post-title-link" href="/2016/12/28/one-key post-to-facebook/" itemprop="url">
+                  Android 一键发布 Facebook 帖文
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-28T13:00:00+08:00" content="2016-12-28">
+              2016-12-28
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/28/one-key post-to-facebook/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/28/one-key post-to-facebook/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>一般遇到的需求都是做分享操作，现在国内已经有很多一键分享的 SDK了，而且还封装得不错，就是权限要得比较多。</p>
+<p>今天需要做的是  跟 Path APP 一样，在自己的 APP 发布post时，同步发送到 <del>其他平台</del>Facebook。</p>
+<h3 id="先把基本配置做了"><a href="#先把基本配置做了" class="headerlink" title="先把基本配置做了"></a>先把基本配置做了</h3><blockquote>
+<ul>
+<li>將 <strong>Facebook Android SDK</strong> 新增至您的行動開發環境</li>
+<li>取得正確設定並連結至 Android 應用程式的 <strong>Facebook 應用程式編號</strong>。請參閱 <a href="https://developers.facebook.com/docs/android/getting-started#app_id">Android 新手指南，新增 Facebook 應用程式編號</a></li>
+<li>產生 <strong>Android 金鑰雜湊</strong>並新增至<a href="https://developers.facebook.com/settings/developer/contact/">開發人員個人檔案</a></li>
+<li><strong>新增 Facebook Activity</strong> - 請將本項目加至 `AndroidManifest.xml</li>
+</ul>
+</blockquote>
+<h3 id="开始分享"><a href="#开始分享" class="headerlink" title="开始分享"></a>开始分享</h3><h4 id="建立内容模板"><a href="#建立内容模板" class="headerlink" title="建立内容模板"></a>建立内容模板</h4><p>模板有几种方式</p>
+<ul>
+<li>Link</li>
+<li>Photos</li>
+<li>Videos</li>
+<li>Multimedia</li>
+</ul>
+<p>参见<a href="https://developers.facebook.com/docs/sharing/android?locale=en_US">Facebook官方文档</a></p>
+<h4 id="最终使用"><a href="#最终使用" class="headerlink" title="最终使用"></a>最终使用</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ShareApi.share(content, null);</span><br></pre></td></tr></table></figure>
+<p>即可发送成功</p>
+<p>但是发送的样式 跟 使用那些 一键分享的 SDK 是一样的</p>
+<p>都是那种感觉像 转发 的形式。（会看到 发送的对话框，类似于 ShareDialog）</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/12/28/one-key post-to-facebook/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/07/14/my-second-custom-view/" itemprop="url">
                   我的第二个自定义View
                 </a>
@@ -1589,7 +1713,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

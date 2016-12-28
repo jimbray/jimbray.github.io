@@ -1,0 +1,695 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="一般遇到的需求都是做分享操作，现在国内已经有很多一键分享的 SDK了，而且还封装得不错，就是权限要得比较多。
+今天需要做的是  跟 Path APP 一样，在自己的 APP 发布post时，同步发送到 其他平台Facebook。
+先把基本配置做了
+
+將 Facebook Android SDK 新增至您的行動開發環境
+取得正確設定並連結至 Android 應用程式的 Facebook 應用程式編號">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 一键发布 Facebook 帖文">
+<meta property="og:url" content="http://jimbray.github.io/2016/12/28/one-key post-to-facebook/index.html">
+<meta property="og:site_name" content="Jimbray">
+<meta property="og:description" content="一般遇到的需求都是做分享操作，现在国内已经有很多一键分享的 SDK了，而且还封装得不错，就是权限要得比较多。
+今天需要做的是  跟 Path APP 一样，在自己的 APP 发布post时，同步发送到 其他平台Facebook。
+先把基本配置做了
+
+將 Facebook Android SDK 新增至您的行動開發環境
+取得正確設定並連結至 Android 應用程式的 Facebook 應用程式編號">
+<meta property="og:updated_time" content="2016-12-28T06:12:27.680Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 一键发布 Facebook 帖文">
+<meta name="twitter:description" content="一般遇到的需求都是做分享操作，现在国内已经有很多一键分享的 SDK了，而且还封装得不错，就是权限要得比较多。
+今天需要做的是  跟 Path APP 一样，在自己的 APP 发布post时，同步发送到 其他平台Facebook。
+先把基本配置做了
+
+將 Facebook Android SDK 新增至您的行動開發環境
+取得正確設定並連結至 Android 應用程式的 Facebook 應用程式編號">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Android 一键发布 Facebook 帖文 | Jimbray </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-78813427-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="http://s6.cnzz.com/stat.php?id=1259500890&web_id=1259500890" type="text/javascript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Jimbray</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">It is a short story</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-apps">
+          <a href="/apps" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            应用
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android 一键发布 Facebook 帖文
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-28T13:00:00+08:00" content="2016-12-28">
+              2016-12-28
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/28/one-key post-to-facebook/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/28/one-key post-to-facebook/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>一般遇到的需求都是做分享操作，现在国内已经有很多一键分享的 SDK了，而且还封装得不错，就是权限要得比较多。</p>
+<p>今天需要做的是  跟 Path APP 一样，在自己的 APP 发布post时，同步发送到 <del>其他平台</del>Facebook。</p>
+<h3 id="先把基本配置做了"><a href="#先把基本配置做了" class="headerlink" title="先把基本配置做了"></a>先把基本配置做了</h3><blockquote>
+<ul>
+<li>將 <strong>Facebook Android SDK</strong> 新增至您的行動開發環境</li>
+<li>取得正確設定並連結至 Android 應用程式的 <strong>Facebook 應用程式編號</strong>。請參閱 <a href="https://developers.facebook.com/docs/android/getting-started#app_id" target="_blank" rel="external">Android 新手指南，新增 Facebook 應用程式編號</a></li>
+<li>產生 <strong>Android 金鑰雜湊</strong>並新增至<a href="https://developers.facebook.com/settings/developer/contact/" target="_blank" rel="external">開發人員個人檔案</a></li>
+<li><strong>新增 Facebook Activity</strong> - 請將本項目加至 `AndroidManifest.xml</li>
+</ul>
+</blockquote>
+<h3 id="开始分享"><a href="#开始分享" class="headerlink" title="开始分享"></a>开始分享</h3><h4 id="建立内容模板"><a href="#建立内容模板" class="headerlink" title="建立内容模板"></a>建立内容模板</h4><p>模板有几种方式</p>
+<ul>
+<li>Link</li>
+<li>Photos</li>
+<li>Videos</li>
+<li>Multimedia</li>
+</ul>
+<p>参见<a href="https://developers.facebook.com/docs/sharing/android?locale=en_US" target="_blank" rel="external">Facebook官方文档</a></p>
+<h4 id="最终使用"><a href="#最终使用" class="headerlink" title="最终使用"></a>最终使用</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ShareApi.share(content, null);</span><br></pre></td></tr></table></figure>
+<p>即可发送成功</p>
+<p>但是发送的样式 跟 使用那些 一键分享的 SDK 是一样的</p>
+<p>都是那种感觉像 转发 的形式。（会看到 发送的对话框，类似于 ShareDialog）</p>
+<a id="more"></a>
+<h4 id="后台发送"><a href="#后台发送" class="headerlink" title="后台发送"></a>后台发送</h4><p>仔细看了文档，发现了一个 <a href="https://developers.facebook.com/docs/graph-api" target="_blank" rel="external">Graph API </a></p>
+<p>而且还提供了 <a href="https://developers.facebook.com/docs/graph-api/common-scenarios" target="_blank" rel="external">案例</a>，也有各个平台的SDK使用，用起来很方便。</p>
+<h5 id="Are-two-people-Facebook-friends-（判断两人是否为朋友）"><a href="#Are-two-people-Facebook-friends-（判断两人是否为朋友）" class="headerlink" title="Are two people Facebook friends? （判断两人是否为朋友）"></a>Are two people Facebook friends? （判断两人是否为朋友）</h5><ul>
+<li><a href="https://developers.facebook.com/docs/graph-api/reference/user/friends/#readmodifiers" target="_blank" rel="external"><code>/{user-a-id}/friends/{user-b-id}</code></a> - this API Read modifier will let you check via API.</li>
+</ul>
+<h5 id="Publishing-new-Status-Updates-（发布新的近况）"><a href="#Publishing-new-Status-Updates-（发布新的近况）" class="headerlink" title="Publishing new Status Updates （发布新的近况）"></a>Publishing new Status Updates （发布新的近况）</h5><ul>
+<li><a href="https://developers.facebook.com/docs/graph-api/reference/user/albums/#publish" target="_blank" rel="external"><code>/{user-id}/albums</code></a> to create empty photo albums for people.</li>
+<li><a href="https://developers.facebook.com/docs/graph-api/reference/user/photos/#publish" target="_blank" rel="external"><code>/{user-id}/photos</code></a> to add individual photos for people.</li>
+<li><a href="https://developers.facebook.com/docs/graph-api/reference/page/albums#publish" target="_blank" rel="external"><code>/{page-id}/albums</code></a> to create empty photo albums for Facebook Pages.</li>
+<li><a href="https://developers.facebook.com/docs/graph-api/reference/page/photos/#publish" target="_blank" rel="external"><code>/{page-id}/photos</code></a> to add individual photos for Facebook Pages.</li>
+<li><a href="https://developers.facebook.com/docs/reference/api/album/#photos" target="_blank" rel="external"><code>/{album-id}/photos</code></a> to add photos to an existing album for people or for Pages.</li>
+<li><a href="https://developers.facebook.com/docs/graph-api/reference/user/videos/" target="_blank" rel="external"><code>/{user-id}/videos</code></a> to update an user’s videos.</li>
+<li><a href="https://developers.facebook.com/docs/graph-api/reference/page/videos/" target="_blank" rel="external"><code>/{page-id}/videos</code></a> to update an page’s videos.</li>
+<li><a href="https://developers.facebook.com/docs/graph-api/reference/event/videos/" target="_blank" rel="external"><code>/{event-id}/videos</code></a> to update an event’s videos.</li>
+</ul>
+<h5 id="Sharing-Links-（分享链接）"><a href="#Sharing-Links-（分享链接）" class="headerlink" title="Sharing Links （分享链接）"></a>Sharing Links （分享链接）</h5><ul>
+<li><a href="https://developers.facebook.com/docs/graph-api/reference/user/feed/#publish" target="_blank" rel="external"><code>/{user-id}/feed</code></a> for people on Facebook, using the <code>link</code> field.</li>
+<li><a href="https://developers.facebook.com/docs/graph-api/reference/page/feed/#publish" target="_blank" rel="external"><code>/{page-id}/feed</code></a> for Facebook Pages, using the <code>link</code> field.</li>
+</ul>
+<p>等等……具体参见<a href="https://developers.facebook.com/docs/graph-api/common-scenarios" target="_blank" rel="external">文档</a></p>
+<h3 id="权限申请"><a href="#权限申请" class="headerlink" title="权限申请"></a>权限申请</h3><p>根据需求写了一个方法，用于发布 文字近况 和 图片近况</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public static void share2FBInBackground(String img_url, String des) &#123;</span><br><span class="line">        if(TextUtils.isEmpty(img_url)) &#123;</span><br><span class="line">            if(!TextUtils.isEmpty(des)) &#123;</span><br><span class="line">                Bundle params = new Bundle();</span><br><span class="line">                params.putString(&quot;message&quot;, des);</span><br><span class="line">                /* make the API call */</span><br><span class="line">                new GraphRequest(</span><br><span class="line">                        AccessToken.getCurrentAccessToken(),</span><br><span class="line">                        &quot;/me/feed&quot;,</span><br><span class="line">                        params,</span><br><span class="line">                        HttpMethod.POST,</span><br><span class="line">                        new GraphRequest.Callback() &#123;</span><br><span class="line">                            public void onCompleted(GraphResponse response) &#123;</span><br><span class="line">                                DebugUtils.LOG_D(TAG, &quot;post text complete&quot;);</span><br><span class="line">                                /* handle the result */</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                ).executeAsync();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            Bundle params = new Bundle();</span><br><span class="line">            params.putString(&quot;url&quot;, img_url);</span><br><span class="line">            if(!TextUtils.isEmpty(des)) &#123;</span><br><span class="line">                params.putString(&quot;caption&quot;, des);</span><br><span class="line">            &#125;</span><br><span class="line">            /* make the API call */</span><br><span class="line">            new GraphRequest(</span><br><span class="line">                    AccessToken.getCurrentAccessToken(),</span><br><span class="line">                    &quot;/me/photos&quot;,</span><br><span class="line">                    params,</span><br><span class="line">                    HttpMethod.POST,</span><br><span class="line">                    new GraphRequest.Callback() &#123;</span><br><span class="line">                        public void onCompleted(GraphResponse response) &#123;</span><br><span class="line">                        /* handle the result */</span><br><span class="line">                            DebugUtils.LOG_D(TAG, &quot;post photos complete&quot;);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">            ).executeAsync();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>可是</p>
+<p>每次都不成功！</p>
+<p>原来 Facebook 发布还需要权限，还需要申请（publish_actions）</p>
+<p>那就在 发布之前 加一个 判断吧</p>
+<p>是否有权限发布</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public static boolean hasPublishPermission() &#123;</span><br><span class="line">    AccessToken accessToken = AccessToken.getCurrentAccessToken();</span><br><span class="line">    return accessToken != null &amp;&amp; accessToken.getPermissions().contains(&quot;publish_actions&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那，怎么申请权限呢？</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public static void loginWithPublishPermission(Activity activity, final 			FacebookCallback&lt;LoginResult&gt; callback) &#123;</span><br><span class="line">        // 允许使用的权限</span><br><span class="line">        String permission[] = new String[]&#123;&quot;publish_actions&quot;&#125;;</span><br><span class="line">        LoginManager.getInstance().logInWithPublishPermissions(activity, Arrays.asList(permission));</span><br><span class="line">        LoginManager.getInstance().registerCallback(mCallbackManager, callback);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>做了做些操作，应该可以发布成功了。</p>
+<p>但是， <code>publish_actions</code> 这个权限是需要申请并审核的。</p>
+<p>那就去申请好了。</p>
+<p>进入 开发者账号–选中应用–选择 App-Review –选择 Submit Items for Approval–添加 需要的权限</p>
+<p>然后 Edit Notes 看下 审核需要做哪些事情。</p>
+<p>可严格了</p>
+<ul>
+<li>My app does not auto-populate the user message field</li>
+<li>My app does not use the Facebook <a href="https://developers.facebook.com/docs/sharing/reference/feed-dialog/" target="_blank" rel="external">Feed Dialog</a> or the Facebook <a href="https://developers.facebook.com/docs/sharing/reference/share-dialog" target="_blank" rel="external">Share Dialog</a> to publish content</li>
+<li>The share button has clear Facebook branding</li>
+<li>My app does not post to Facebook automatically</li>
+</ul>
+<p>还要录制一个视频</p>
+<p>You must show:</p>
+<ol>
+<li>How a person starts your app and logs in to Facebook login</li>
+<li>How a person shares to Facebook from your app</li>
+<li>How the post looks on the person’s Facebook timeline after posting</li>
+</ol>
+<p>比写代码还麻烦。</p>
+<p>还有一个问题，我想测试我写的代码是否能发布出去呢，现在权限还没有申请下来。</p>
+<p>没关系，facebook 提供了一个 测试账号（需要自己添加）</p>
+<p>左侧边栏–Roles–Test Users </p>
+<p>然后使用新增的用户，用刚才的代码，就可以进行发布测试了。</p>
+<p>流水帐式记录。Done.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/14/my-second-custom-view/" rel="next" title="我的第二个自定义View">
+                <i class="fa fa-chevron-left"></i> 我的第二个自定义View
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/12/28/one-key post-to-facebook/"
+           data-title="Android 一键发布 Facebook 帖文" data-url="http://jimbray.github.io/2016/12/28/one-key post-to-facebook/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://7xv11f.com1.z0.glb.clouddn.com/V.jpg"
+               alt="jimbray" />
+          <p class="site-author-name" itemprop="name">jimbray</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#先把基本配置做了"><span class="nav-number">1.</span> <span class="nav-text">先把基本配置做了</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开始分享"><span class="nav-number">2.</span> <span class="nav-text">开始分享</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#建立内容模板"><span class="nav-number">2.1.</span> <span class="nav-text">建立内容模板</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最终使用"><span class="nav-number">2.2.</span> <span class="nav-text">最终使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后台发送"><span class="nav-number">2.3.</span> <span class="nav-text">后台发送</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Are-two-people-Facebook-friends-（判断两人是否为朋友）"><span class="nav-number">2.3.1.</span> <span class="nav-text">Are two people Facebook friends? （判断两人是否为朋友）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Publishing-new-Status-Updates-（发布新的近况）"><span class="nav-number">2.3.2.</span> <span class="nav-text">Publishing new Status Updates （发布新的近况）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Sharing-Links-（分享链接）"><span class="nav-number">2.3.3.</span> <span class="nav-text">Sharing Links （分享链接）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#权限申请"><span class="nav-number">3.</span> <span class="nav-text">权限申请</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jimbray</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"jimbray"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
