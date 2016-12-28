@@ -1,7 +1,7 @@
 ---
 title: Facebook ShareDialog 没有回调的问题
 date: 2016-06-10 20:24:04
-tags:
+tags: Android
 ---
 
 完成 facebook 分享功能之后，如果手机安装了Facebook，分享之后会有成功或者失败的 反馈
