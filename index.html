@@ -258,6 +258,141 @@
             
               
                 
+                <a class="post-title-link" href="/2017/01/06/suppriseBottomView/" itemprop="url">
+                  ScrollView 与 ViewDragHelper 的混合使用学习
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-01-06T20:20:02+08:00" content="2017-01-06">
+              2017-01-06
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/01/06/suppriseBottomView/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/06/suppriseBottomView/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>按照惯例，先上效果</p>
+<p><img src="http://7xv11f.com1.z0.glb.clouddn.com/suppriseBottomView.gif" alt=""></p>
+<h3 id="涉及到的知识点"><a href="#涉及到的知识点" class="headerlink" title="涉及到的知识点"></a>涉及到的知识点</h3><ul>
+<li><p><code>ViewGroup</code> 的事件分发拦截机制</p>
+</li>
+<li><p><code>ViewDragHelper</code> 的基本使用</p>
+</li>
+</ul>
+<h4 id="ViewGroup-的事件分发拦截机制"><a href="#ViewGroup-的事件分发拦截机制" class="headerlink" title="ViewGroup 的事件分发拦截机制"></a><code>ViewGroup</code> 的事件分发拦截机制</h4><p><code>ViewGroup</code> 有三个方法</p>
+<ol>
+<li><code>dispatchTouchEvent</code></li>
+<li><code>onInterceptTouchEvent</code></li>
+<li><code>onTouchEvent</code></li>
+</ol>
+<h5 id="dispatchTouchEvent"><a href="#dispatchTouchEvent" class="headerlink" title="dispatchTouchEvent"></a>dispatchTouchEvent</h5><p>用于<code>touch</code>事件的分发；通俗点说，就是决定当前这个<code>touch</code>事件应该交给谁来处理（是当前<code>View</code>还是父<code>View</code>）</p>
+<blockquote>
+<p>当触摸事件发生时 <code>Activity</code> 的 <code>dispatchTouchEvent(MotionEvent ev)</code> 方法会从根元素依次往下传递直到最内层子元素或在中间某一元素中事件被拦截或者消费.</p>
+<p>如果 <code>return true</code>，事件会分发给当前 <code>View</code> 并由 <code>dispatchTouchEvent</code> 方法进行消费，同时事件会停止向下传递；这样该<code>View</code>的<code>onTouchEvent</code>事件也不会得到响应.<br>如果<code>return false</code>，会将事件返回给父 <code>View</code> 的 <code>onTouchEvent</code> 进行消费。<br>如果 <code>return super.dispatchTouchEvent(ev)</code>，事件会分发给当前 <code>View</code> 的 <code>onInterceptTouchEvent</code> 方法去进行处理。</p>
+</blockquote>
+<h5 id="onInterceptTouchEvent"><a href="#onInterceptTouchEvent" class="headerlink" title="onInterceptTouchEvent"></a>onInterceptTouchEvent</h5><p>用于<code>touch</code>事件的拦截；通俗点说，就是决定刚刚 <code>dispatchTouchEvent</code> 抛给我的<code>touch</code>事件应该交给谁来处理（是当前<code>View</code>还是子<code>View</code>）<em>注意跟<code>dispatchTouchEvent</code>的区别</em></p>
+<blockquote>
+<p>如果 <code>return true</code>，则将事件进行拦截，并将拦截到的事件交由该 <code>View</code> 的 <code>onTouchEvent</code> 进行处理；<br>如果 <code>return false</code>，则将事件向子<code>View</code>传递，再由子<code>View</code>的 <code>dispatchTouchEvent</code>来对这个事件处理；<br>如果 <code>return super.onInterceptTouchEvent(ev)</code>，事件会被拦截，并将事件交由该 <code>View</code> 的 <code>onTouchEvent</code> 进行处理。</p>
+</blockquote>
+<h5 id="onTouchEvent"><a href="#onTouchEvent" class="headerlink" title="onTouchEvent"></a>onTouchEvent</h5><p>用于touch事件的处理；通俗点说，就是决定刚刚 onInterceptTouchEvent 抛给我的touch事件进行处理（<del>这锅实在没得甩了</del> 还可以甩给父类，科科）</p>
+<blockquote>
+<p>如果<code>return false</code>，那么这个事件会从该 <code>View</code> 向父<code>View</code>传递，父 <code>View</code> 的 <code>onTouchEvent</code> 来接收，而且如果父<code>View</code>也是<code>return false</code>，那事件也会向上传递由<code>onTouchEvent</code>接收处理.<br>如果<code>retrun true</code>， 则会接收并消费该事件。<br>如果<code>retrun super.onTouchEvent(ev)</code> 和返回 false 时相同。</p>
+</blockquote>
+<h4 id="ViewDragHelper-的基本使用"><a href="#ViewDragHelper-的基本使用" class="headerlink" title="ViewDragHelper 的基本使用"></a>ViewDragHelper 的基本使用</h4><ol>
+<li>创建实例</li>
+<li><code>Touch</code> 事件分发拦截的相关处理</li>
+<li><code>ViewDragHelper callback</code> 的实现</li>
+</ol>
+<p><code>ViewDragHelper</code> 的出现就是为了减轻 开发者实现拖拽行为功能 的负担，所以很简单的几个方法就可以做出<del>很好的效果</del>比以前用<code>onTouchEvent</code>自己写得要死要活的效果还要好。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/01/06/suppriseBottomView/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/12/28/one-key post-to-facebook/" itemprop="url">
                   Android 一键发布 Facebook 帖文
                 </a>
@@ -1713,7 +1848,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-count">14</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1760,7 +1895,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
