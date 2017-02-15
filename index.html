@@ -258,6 +258,115 @@
             
               
                 
+                <a class="post-title-link" href="/2017/02/15/getPersonalSS/" itemprop="url">
+                  最简单方式拥有自己的SS服务器
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-02-15T12:20:20+08:00" content="2017-02-15">
+              2017-02-15
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/02/15/getPersonalSS/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/15/getPersonalSS/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="购买VPS"><a href="#购买VPS" class="headerlink" title="购买VPS"></a>购买VPS</h3><p>我买的是 <a href="https://www.50vz.net/aff.php?aff=656" target="_blank" rel="external">openvzvps-小尾巴</a> 国人弄的,虽然配置低点，但我又不用来做其他东西，就搭个ss，够用就行。<br>虽然带了小尾巴，但是为了避免广告嫌疑，我就不贴图了</p>
+<h3 id="安装shadowsocks"><a href="#安装shadowsocks" class="headerlink" title="安装shadowsocks"></a>安装shadowsocks</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get install python-gevent python-pip</span><br><span class="line">$ sudo pip install shadowsocks</span><br><span class="line">$ apt-get install python-m2crypto</span><br></pre></td></tr></table></figure>
+<h3 id="配置shadowsocks"><a href="#配置shadowsocks" class="headerlink" title="配置shadowsocks"></a>配置shadowsocks</h3><p>创建 shadowsocks.json 配置文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vi /etc/shadowsocks.json</span><br></pre></td></tr></table></figure>
+<p>修改shadowsocks.json 配置文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">&quot;server&quot;:&quot;0.0.0.0&quot;,</span><br><span class="line">&quot;server_port&quot;:8388,</span><br><span class="line">&quot;local_port&quot;:1080,</span><br><span class="line">&quot;password&quot;:&quot;password&quot;,</span><br><span class="line">&quot;timeout&quot;:600,</span><br><span class="line">&quot;method&quot;:&quot;aes-256-cfb&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>填写自定义的端口和密码就可以了</p>
+<h3 id="运行shadowsocks"><a href="#运行shadowsocks" class="headerlink" title="运行shadowsocks"></a>运行shadowsocks</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ssserver -c /etc/shadowsocks.json -d start</span><br><span class="line"></span><br><span class="line">ssserver -c /etc/shadowsocks.json -d stop</span><br></pre></td></tr></table></figure>
+<p>就搞定了。<br>一劳永逸，自从开了之后就没动过它。一直正常。<br>看了一下Youtube4K视频，略卡，不过1080无压力，日常使用完全没问题。<br><img src="http://7xv11f.com1.z0.glb.clouddn.com/SSSPEED.png" alt=""></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/01/06/suppriseBottomView/" itemprop="url">
                   ScrollView 与 ViewDragHelper 的混合使用学习
                 </a>
@@ -1848,7 +1957,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-count">15</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1858,7 +1967,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
