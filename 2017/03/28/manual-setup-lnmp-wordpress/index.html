@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="VPS," />
+  <meta name="keywords" content="docker," />
 
 
 
@@ -84,37 +84,21 @@
 
 
 
-<meta name="description" content="安装1.安装 LNMP 参见 lnmp官网
-2.安装完成之后 查看 nginx  、 php、mysql 的运行状态
-ps aux | grep nginxps aux | grep phpps aux | gerp mysql
-确保已经在运行状态
-3.查看 nginx 的配置文件 （nginx.conf）路径可以
-whereis nginx
-配置命令查看
-配置文件内 user：www-data">
+<meta name="description" content="安装 MySql
+install mysql：apt-get install mysql-server```#### 以root用户登录至MySQL：`mysql -u root -p`#### 创建用户我们可以直接使用root用户，但通常来讲，我们需要为WordPress单独创建一个数据库用户，创建数据库wordpress，用户wpuser：`create database wordpress;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linode 安装 lnmp 学习">
-<meta property="og:url" content="http://jimbray.github.io/2016/06/09/linode-install-lnmp/index.html">
+<meta property="og:title" content="Ubuntu/Debian手动安装完成lnmp部署wordpress">
+<meta property="og:url" content="http://jimbray.github.io/2017/03/28/manual-setup-lnmp-wordpress/index.html">
 <meta property="og:site_name" content="Jimbray">
-<meta property="og:description" content="安装1.安装 LNMP 参见 lnmp官网
-2.安装完成之后 查看 nginx  、 php、mysql 的运行状态
-ps aux | grep nginxps aux | grep phpps aux | gerp mysql
-确保已经在运行状态
-3.查看 nginx 的配置文件 （nginx.conf）路径可以
-whereis nginx
-配置命令查看
-配置文件内 user：www-data">
-<meta property="og:updated_time" content="2016-06-14T09:01:38.718Z">
+<meta property="og:description" content="安装 MySql
+install mysql：apt-get install mysql-server```#### 以root用户登录至MySQL：`mysql -u root -p`#### 创建用户我们可以直接使用root用户，但通常来讲，我们需要为WordPress单独创建一个数据库用户，创建数据库wordpress，用户wpuser：`create database wordpress;">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/44312-3a1d2cbb04eb86e7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-03-28T08:56:33.207Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Linode 安装 lnmp 学习">
-<meta name="twitter:description" content="安装1.安装 LNMP 参见 lnmp官网
-2.安装完成之后 查看 nginx  、 php、mysql 的运行状态
-ps aux | grep nginxps aux | grep phpps aux | gerp mysql
-确保已经在运行状态
-3.查看 nginx 的配置文件 （nginx.conf）路径可以
-whereis nginx
-配置命令查看
-配置文件内 user：www-data">
+<meta name="twitter:title" content="Ubuntu/Debian手动安装完成lnmp部署wordpress">
+<meta name="twitter:description" content="安装 MySql
+install mysql：apt-get install mysql-server```#### 以root用户登录至MySQL：`mysql -u root -p`#### 创建用户我们可以直接使用root用户，但通常来讲，我们需要为WordPress单独创建一个数据库用户，创建数据库wordpress，用户wpuser：`create database wordpress;">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/44312-3a1d2cbb04eb86e7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -132,7 +116,7 @@ whereis nginx
   };
 </script>
 
-  <title> Linode 安装 lnmp 学习 | Jimbray </title>
+  <title> Ubuntu/Debian手动安装完成lnmp部署wordpress | Jimbray </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -277,7 +261,7 @@ whereis nginx
             
             
               
-                Linode 安装 lnmp 学习
+                Ubuntu/Debian手动安装完成lnmp部署wordpress
               
             
           </h1>
@@ -289,8 +273,8 @@ whereis nginx
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-09T17:30:04+08:00" content="2016-06-09">
-              2016-06-09
+            <time itemprop="dateCreated" datetime="2017-03-28T20:00:00+08:00" content="2017-03-28">
+              2017-03-28
             </time>
           </span>
 
@@ -300,8 +284,8 @@ whereis nginx
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/06/09/linode-install-lnmp/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/09/linode-install-lnmp/" itemprop="commentsCount"></span>
+                <a href="/2017/03/28/manual-setup-lnmp-wordpress/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/28/manual-setup-lnmp-wordpress/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -324,44 +308,12 @@ whereis nginx
       
 
       
-        <h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>1.安装 LNMP 参见 <a href="http://lnmp.org/install.html" target="_blank" rel="external">lnmp官网</a></p>
-<p>2.安装完成之后 查看 nginx  、 php、mysql 的运行状态</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">ps aux | grep nginx</span><br><span class="line"></span><br><span class="line">ps aux | grep php</span><br><span class="line"></span><br><span class="line">ps aux | gerp mysql</span><br></pre></td></tr></table></figure>
-<p>确保已经在运行状态</p>
-<p>3.查看 nginx 的配置文件 （nginx.conf）路径可以</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">whereis nginx</span><br></pre></td></tr></table></figure>
-<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>命令查看</p>
-<p>配置文件内 user：www-data</p>
-<p>www-data 可任意修改</p>
-<p>4.修改 php 的配置文件 （php/etc/php-fpm.conf）</p>
-<p>修改<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">listen.owner = www-data</span><br><span class="line">listen.group = www-data</span><br></pre></td></tr></table></figure></p>
-<p>www-data 修改为 第3步 nginx 设置的对应的User名称</p>
-<a id="more"></a>
-<ol>
-<li>下载 wordpress程序 <a href="https://wordpress.org/download/" target="_blank" rel="external">官方下载</a></li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">wget http://wordpress.org/latest.tar.gz</span><br><span class="line"></span><br><span class="line">tar -xzvf latest.tar.gz</span><br></pre></td></tr></table></figure>
-<p>将解压出来的 wordpress文件夹 复制到 自定义文件夹，我的放在了/var/www/wordpress</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cp -r wordpress /var/www/wordpress</span><br></pre></td></tr></table></figure>
-<p>6.先不管wordpress 了，现在需要把wordpress交到nginx手上管理</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vi /nginx.conf</span><br></pre></td></tr></table></figure>
-<p>有一行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">include /etc/nginx/conf.d/*.conf;</span><br></pre></td></tr></table></figure>
-<p>意思是 配置文件会调用 /etc/nginx/conf.d/ 目录下的所有 conf 文件</p>
-<p>不需要修改 nginx.conf 文件（防止改错）</p>
-<p>在/etc/nginx/conf.d/目录下新建一个文件并编辑</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">touch myconf.conf</span><br><span class="line"></span><br><span class="line">vi myconf.conf</span><br></pre></td></tr></table></figure>
-<p>输入内容</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    root /var/www/wordpress;</span><br><span class="line">    index index.php index.html index.htm;</span><br><span class="line">    server_name jimbray.xyz;</span><br><span class="line">    location / &#123;</span><br><span class="line">        try_files <span class="variable">$uri</span> <span class="variable">$uri</span>/ /index.php?q=<span class="variable">$uri</span>&amp;amp;<span class="variable">$args</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    error_page 404 /404.html;</span><br><span class="line">    error_page 500 502 503 504 /50x.html;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000</span></span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">        fastcgi_pass unix:/tmp/php-cgi.sock;</span><br><span class="line">        fastcgi_index index.php;</span><br><span class="line">        fastcgi_param SCRIPT_FILENAME <span class="variable">$document_root</span><span class="variable">$fastcgi_script_name</span>;</span><br><span class="line">        fastcgi_buffer_size 1024k;</span><br><span class="line">        fastcgi_buffers 6 256k;</span><br><span class="line">        fastcgi_busy_buffers_size 1024k;</span><br><span class="line">        include /etc/nginx/fastcgi_params;</span><br><span class="line">        try_files <span class="variable">$uri</span> =404;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>7.重启 nginx 和 php</p>
-<p>访问域名或ip应该可以看到 worpress的安装页面了</p>
-<p>8.先不要安装，mysql还没有创建数据库</p>
-<p>参见 <a href="https://www.atlantic.net/community/howto/installing-wordpress-on-a-debian-8/" target="_blank" rel="external">MySql 部分</a></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&amp;lt;div class=&amp;quot;EnlighterJSWrapper classicEnlighterJSWrapper&amp;quot;&amp;gt;</span><br><span class="line"></span><br><span class="line">mysql -u root -p</span><br><span class="line"></span><br><span class="line">create database wordpress character <span class="built_in">set</span> utf8 collate utf8_bin;</span><br><span class="line"></span><br><span class="line">grant all privileges on wordpress.* to wordpressuser@localhost identified by <span class="string">'[insert-password-here]'</span>;</span><br><span class="line">flush privileges;</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
-<p>Mysql 的默认账户和密码都是 root</p>
-<p>如果输入不正确：参见 <a href="http://lnmp.org/faq.html" target="_blank" rel="external">如果忘记MySQL root密码，如何重设密码？</a> </p>
-<p>9.刷新界面，安装wordpress</p>
-<p>没有什么意外的话应该可以安装成功了</p>
+        <h3 id="安装-MySql"><a href="#安装-MySql" class="headerlink" title="安装 MySql"></a>安装 MySql</h3><p><img src="http://upload-images.jianshu.io/upload_images/44312-3a1d2cbb04eb86e7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h4 id="install-mysql："><a href="#install-mysql：" class="headerlink" title="install mysql："></a>install mysql：</h4><figure class="highlight plain"><figcaption><span>apt-get install mysql-server```</span></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">#### 以root用户登录至MySQL：</span><br><span class="line"></span><br><span class="line">`mysql -u root -p`</span><br><span class="line"></span><br><span class="line">#### 创建用户</span><br><span class="line"></span><br><span class="line">我们可以直接使用root用户，但通常来讲，我们需要为WordPress单独创建一个数据库用户，创建数据库wordpress，用户wpuser：</span><br><span class="line"></span><br><span class="line">`create database wordpress;</span><br><span class="line">create user wpuser@localhost identified by &apos;&lt;password&gt;&apos;;`</span><br><span class="line"></span><br><span class="line">#### 关联用户</span><br><span class="line"></span><br><span class="line">创建完WordPress数据库和用户后，需要将这两者关联起来：</span><br><span class="line"></span><br><span class="line">`grant all privileges on wordpress.* to wpuser@localhost;</span><br><span class="line">flush privileges;`</span><br><span class="line"></span><br><span class="line">mysql 到这一步就先告一段落了。继续下一步；</span><br><span class="line"></span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line"></span><br><span class="line">### 安装 nginx</span><br><span class="line"></span><br><span class="line">![](http://upload-images.jianshu.io/upload_images/44312-8972371d24c7fc22.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line">这里使用的是[nginx.org(http://nginx.org/en/linux_packages.html)</span><br><span class="line">的package安装。 通过配置源的下载，做好nginx安装的准备工作。</span><br><span class="line"></span><br><span class="line">`sudo apt-get install nginx`</span><br><span class="line"></span><br><span class="line">#### 配置 nginx</span><br><span class="line"></span><br><span class="line">`nano /etc/nginx/conf.d/default.conf`</span><br><span class="line"></span><br><span class="line">`listen       80;</span><br><span class="line">server_name  localhost;#如果有域名，则填写 xxx.xxx`</span><br><span class="line"></span><br><span class="line">### 安装 PHP</span><br><span class="line"></span><br><span class="line">![](http://upload-images.jianshu.io/upload_images/44312-06b69e7f91240175.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line"></span><br><span class="line">#### install php7.0-fpm</span><br><span class="line"></span><br><span class="line">由于我使用的是ubuntu16.04,所以默认安装的是 php7</span><br><span class="line"></span><br><span class="line">`sudo apt-get install php-fpm`</span><br><span class="line"></span><br><span class="line">#### 配置php</span><br><span class="line"></span><br><span class="line">修改 `php.ini`</span><br><span class="line"></span><br><span class="line">`nano /etc/php/7.0/fpm/php.ini`</span><br><span class="line"></span><br><span class="line">放开注释并改为 0</span><br><span class="line"></span><br><span class="line">`cgi.fix_pathinfo=0`</span><br><span class="line"></span><br><span class="line">修改 `www.conf`</span><br><span class="line"></span><br><span class="line">`nano /etc/php/7.0/fpm/pool.d/www.conf`</span><br><span class="line"></span><br><span class="line">修改 部分 为</span><br><span class="line"></span><br><span class="line">`listen = /run/php/php7.0-fpm.sock`</span><br><span class="line"></span><br><span class="line">如果本来就这样的话就不用改</span><br><span class="line"></span><br><span class="line">现在访问 VPS 的ip地址的话，应该能看到 `nginx` 的欢迎界面了。 但是现在还没有办法访问访问 路径下的 `php` 文件，会直接下载下来而不是执行 `php` 代码,所以我们的`nginx`还是需要跟`php`结合起来。 编辑 `nginx`配置文件</span><br><span class="line"></span><br><span class="line">`location ~ \.php$ &#123;</span><br><span class="line">        root           /usr/share/nginx/html/wordpress;</span><br><span class="line">        fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;</span><br><span class="line">        fastcgi_index  index.php;</span><br><span class="line">        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;</span><br><span class="line">        include        fastcgi_params;</span><br><span class="line">    &#125;`</span><br><span class="line"></span><br><span class="line">打开注释 `root`指的是 `nginx`对应的web目录下的`wordpress`文件夹</span><br><span class="line"></span><br><span class="line">### 安装 wordpress</span><br><span class="line"></span><br><span class="line">![](http://upload-images.jianshu.io/upload_images/44312-a435f8d569510b01.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line">按照[官方教程](https://codex.wordpress.org/zh-cn:%E5%AE%89%E8%A3%85_WordPress)来,简单点说就是把`wordpress`博客程序文件夹放到 `nginx`的web目录下，我这里就是 `/usr/share/nginx/html`下， 放置之后的路径就是 `/usr/share/nginx/html/wordpress;`, 是不是很眼熟的地址，就是刚刚在`nginx`里面配置的`root`路径。 接下来应该就是配置`wordpress`对应的 mysql数据库表了。 还记得上面建的表和用户吗？（wordpress和wpuser）,还有password。 打开 `wordpress`的配置文件 `wp-config.php`，就在`wordpress`目录下（默认没有，不过wordpress给了一个例子`wp-config-sample.php`，复制一份出来做改动即可）</span><br><span class="line"></span><br><span class="line">`sudo cp /usr/share/nginx/html/wordpress/wp-config-sample.php /usr/share/nginx/html/wordpress/wp-config.php</span><br><span class="line">sudo nano /usr/share/nginx/html/wordpress/wp-config.php`</span><br><span class="line"></span><br><span class="line">修改几处信息</span><br></pre></td></tr></table></figure>
+<p>define(‘DB_NAME’, ‘wordpress’); /<em>* MySQL database username </em>/ define(‘DB_USER’, ‘wpuser’);</p>
+<p>/<em>* MySQL database password </em>/ define(‘DB_PASSWORD’, ‘passsword’);</p>
+<p>/<em>* MySQL hostname </em>/ define(‘DB_HOST’, ‘localhost’);<br>```</p>
+<p>现在在浏览器使用IP 进行访问，就可以看到 wordpress 的界面了。</p>
 
       
     </div>
@@ -383,7 +335,7 @@ whereis nginx
       
         <div class="post-tags">
           
-            <a href="/tags/VPS/" rel="tag">#VPS</a>
+            <a href="/tags/docker/" rel="tag">#docker</a>
           
         </div>
       
@@ -392,17 +344,13 @@ whereis nginx
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/06/09/ssh-root-login-setting/" rel="next" title="VPS 禁止远程ROOT登录">
-                <i class="fa fa-chevron-left"></i> VPS 禁止远程ROOT登录
+              <a href="/2017/02/15/getPersonalSS/" rel="next" title="最简单方式拥有自己的SS服务器">
+                <i class="fa fa-chevron-left"></i> 最简单方式拥有自己的SS服务器
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/06/09/try-docker/" rel="prev" title="试玩 Docker">
-                试玩 Docker <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -428,8 +376,8 @@ whereis nginx
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/06/09/linode-install-lnmp/"
-           data-title="Linode 安装 lnmp 学习" data-url="http://jimbray.github.io/2016/06/09/linode-install-lnmp/">
+      <div class="ds-thread" data-thread-key="2017/03/28/manual-setup-lnmp-wordpress/"
+           data-title="Ubuntu/Debian手动安装完成lnmp部署wordpress" data-url="http://jimbray.github.io/2017/03/28/manual-setup-lnmp-wordpress/">
       </div>
     
   </div>
@@ -513,7 +461,7 @@ whereis nginx
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置"><span class="nav-number">2.</span> <span class="nav-text">配置</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-MySql"><span class="nav-number">1.</span> <span class="nav-text">安装 MySql</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#install-mysql："><span class="nav-number">1.1.</span> <span class="nav-text">install mysql：</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
