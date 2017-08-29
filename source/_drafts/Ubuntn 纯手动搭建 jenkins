@@ -1,0 +1,35 @@
+1. 安装jdk
+2. 配置 java home  
+测试 java -version
+2. 下载 android sdk
+4. 下载 android build tools (android list sdk --all)
+	android update sdk -u -a -t 1,2...（版本号）
+测试 android list sdk --all
+
+5. 安装 gradle
+下载二进制 gradle 包
+解压，并设置path
+设置 默认 gradle 命令
+ln -s /opt/setups/gradle/gradle /usr/bin/gradle
+解决提示 apt-get install gradle 问题
+
+测试 gradle --version
+
+nano ~/.bashrc
+source ~/.profile
+
+# set oracle jdk environment
+export JAVA_HOME=/opt/setups/jdk1.8.0_144
+export JRE_HOME=${JAVA_HOME}/jre
+export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
+export PATH=${JAVA_HOME}/bin:$PATH
+
+# set android sdk environment
+export ANDROID_HOME=/opt/setups/android-sdk-linux
+export PATH=$ANDROID_HOME/tools:$PATH
+export PATH=$ANDROID_HOME/platform-tools:$PATH
+
+# set gradle environment
+export GRADLE_HOME=/opt/setups/gradle/gradle
+export PATH=$GRADLE_HOME/bin:$PATH
+
