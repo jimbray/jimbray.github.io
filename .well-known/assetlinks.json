@@ -1,5 +1,9 @@
 [{
   "relation": ["delegate_permission/common.handle_all_urls"],
-  "target" : { "namespace": "android_app", "package_name": "com.poof.poof",
-               "sha256_cert_fingerprints": ["DA:67:27:35:6D:08:4A:06:59:F1:E8:91:10:C8:8F:5D:E7:D6:F6:C6:1B:80:2D:C1:A4:5E:1B:8D:07:05:6B:2F"] }
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.poofer.poof",
+    "sha256_cert_fingerprints":
+    ["DA:67:27:35:6D:08:4A:06:59:F1:E8:91:10:C8:8F:5D:E7:D6:F6:C6:1B:80:2D:C1:A4:5E:1B:8D:07:05:6B:2F"]
+  }
 }]
