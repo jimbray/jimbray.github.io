@@ -3,145 +3,151 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://example.org/get-free-google-cloud-vps-for-a-year/</loc>
+    <loc>https://jimbray.github.io/post/get-free-google-cloud-vps-for-a-year/</loc>
     <lastmod>2017-05-22T12:55:25+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/build-osmc-at-rasperrypi/</loc>
+    <loc>https://jimbray.github.io/post/build-osmc-at-rasperrypi/</loc>
     <lastmod>2017-05-22T12:39:36+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/getpersonalss/</loc>
+    <loc>https://jimbray.github.io/post/getpersonalss/</loc>
     <lastmod>2017-02-15T12:20:20+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/supprisebottomview/</loc>
+    <loc>https://jimbray.github.io/post/supprisebottomview/</loc>
     <lastmod>2017-01-06T20:20:02+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/one-key-post-to-facebook/</loc>
+    <loc>https://jimbray.github.io/post/one-key-post-to-facebook/</loc>
     <lastmod>2016-12-28T13:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/my-second-custom-view/</loc>
+    <loc>https://jimbray.github.io/post/my-second-custom-view/</loc>
     <lastmod>2016-07-14T15:19:05+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/my-first-custom-view/</loc>
+    <loc>https://jimbray.github.io/post/my-first-custom-view/</loc>
     <lastmod>2016-07-13T12:35:05+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/python-to-qiniu2/</loc>
+    <loc>https://jimbray.github.io/post/python-to-qiniu2/</loc>
     <lastmod>2016-06-19T21:12:36+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/python-to-qiniu/</loc>
+    <loc>https://jimbray.github.io/post/python-to-qiniu/</loc>
     <lastmod>2016-06-14T23:59:54+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/facebook-share-not-callback/</loc>
+    <loc>https://jimbray.github.io/post/facebook-share-not-callback/</loc>
     <lastmod>2016-06-10T20:24:04+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/try-docker/</loc>
+    <loc>https://jimbray.github.io/post/try-docker/</loc>
     <lastmod>2016-06-09T17:52:32+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/linode-install-lnmp/</loc>
+    <loc>https://jimbray.github.io/post/linode-install-lnmp/</loc>
     <lastmod>2016-06-09T17:30:04+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/ssh-root-login-setting/</loc>
+    <loc>https://jimbray.github.io/post/ssh-root-login-setting/</loc>
     <lastmod>2016-06-09T12:48:17+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/falsk-root/</loc>
+    <loc>https://jimbray.github.io/post/falsk-root/</loc>
     <lastmod>2016-06-09T12:37:25+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/ss-thunder/</loc>
+    <loc>https://jimbray.github.io/post/ss-thunder/</loc>
     <lastmod>2016-06-09T12:08:50+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/sync-hexo-source/</loc>
+    <loc>https://jimbray.github.io/post/sync-hexo-source/</loc>
     <lastmod>2016-06-04T16:48:27+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/hello-world/</loc>
+    <loc>https://jimbray.github.io/post/hello-world/</loc>
     <lastmod>2016-06-03T16:48:27+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/tags/android/</loc>
+    <loc>https://jimbray.github.io/tags/android/</loc>
     <lastmod>2017-01-06T20:20:02+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://example.org/categories/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/docker/</loc>
+    <loc>https://jimbray.github.io/tags/docker/</loc>
     <lastmod>2016-06-09T17:52:32+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/hexo/</loc>
+    <loc>https://jimbray.github.io/tags/hexo/</loc>
     <lastmod>2016-06-04T16:48:27+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/python/</loc>
+    <loc>https://jimbray.github.io/</loc>
+    <lastmod>2017-05-22T12:55:25+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jimbray.github.io/post/</loc>
+    <lastmod>2017-05-22T12:55:25+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jimbray.github.io/tags/python/</loc>
     <lastmod>2016-06-19T21:12:36+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/shadowsocks/</loc>
+    <loc>https://jimbray.github.io/tags/shadowsocks/</loc>
     <lastmod>2017-02-15T12:20:20+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/</loc>
+    <loc>https://jimbray.github.io/tags/</loc>
     <lastmod>2017-01-06T20:20:02+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/vps/</loc>
+    <loc>https://jimbray.github.io/topics/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jimbray.github.io/tags/vps/</loc>
     <lastmod>2017-05-22T12:55:25+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://example.org/</loc>
-    <lastmod>2017-05-22T12:55:25+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/</loc>
+    <loc>https://jimbray.github.io/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/</loc>
     <lastmod>2017-05-22T12:39:36+00:00</lastmod>
     <priority>0</priority>
   </url>

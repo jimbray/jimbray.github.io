@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="第一个自定义View，学得真慢">
+  <meta name="generator" content="Hugo 0.25.1" />
+
+  <title>我的第一个自定义View &middot; JIMBRAY</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://jimbray.github.io/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://jimbray.github.io/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="https://jimbray.github.io/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="https://jimbray.github.io/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="https://jimbray.github.io/">Jimbray</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://jimbray.github.io/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://jimbray.github.io/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://jimbray.github.io/tags/"><i class='fa fa-user fa-fw'></i>Tags</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>我的第一个自定义View</h1>
+  <h2>第一个自定义View，学得真慢</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>13 Jul 2016, 12:35</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://jimbray.github.io/tags/android">Android</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>直接上代码，做个学习笔记好了。</p>
+
+<pre><code>/**
+ * Created by Jimbray  .
+ * on 2016/7/12
+ * Email: jimbray16@gmail.com
+ * Description: 这是我第一个真正意义上的自定义View
+ */
+public class MyFirstProgressbar extends View {
+
+    //max progress 虽然注释写了，但是还是不解释
+    private int mMaxProgress = 100;
+
+    // current progress
+    private int mCurrentProgress;
+
+    //progress bar 背景颜色
+    private int mBackgroundColor;
+
+    //progress bar 进度条颜色
+    private int mProgressColor;
+
+    //progress bar 进度条高度
+    private float mProgressBarheight;
+
+    //progress bar 背景高度
+    private float mBackgroundHeight;
+
+    //设置默认值
+    //默认progress bar 背景颜色
+    private final int default_background_color = Color.rgb(204, 204, 204);
+    //默认progress bar 进度条颜色
+    private final int default_progressbar_color = Color.rgb(66, 145, 241);
+    //默认 pregress bar 背景高度
+    private float default_background_height;
+    //默认 porgress 进度条高度
+    private float default_progressbar_height;
+    //默认progress bar 背景宽度（最小宽度）
+    private final float default_background_width = dp2px(45.f);
+
+    //画笔
+    private Paint mBackgroundPaint, mProgressbarPaint;
+
+    //progress 需要draw 的矩形区域
+    private RectF mBackgroundRectF = new RectF(0, 0, 0, 0);
+    private RectF mProgressbarRectF = new RectF(0, 0, 0, 0);
+
+
+    public MyFirstProgressbar(Context context) {
+        super(context);
+        init(context, null, 0);
+    }
+
+    public MyFirstProgressbar(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(context, attrs, 0);
+    }
+
+    public MyFirstProgressbar(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init(context, attrs, defStyleAttr);
+
+    }
+
+    private void init(Context context, AttributeSet attrs, int defStyleAttr) {
+        default_background_height = dp2px(1.0f);
+        default_progressbar_height = dp2px(1.5f);
+        //progress bar 背景高度 比 progress bar 进度条高度 矮啊
+
+        //都是用默认值，没有把这些数值抛出去做属性
+        mBackgroundHeight = default_background_height;
+        mProgressBarheight = default_progressbar_height;
+
+        mBackgroundColor = default_background_color;
+        mProgressColor = default_progressbar_color;
+
+        initPainters();
+    }
+
+    /**
+     * 初始化 画笔 Paint
+     */
+    private void initPainters() {
+        mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mBackgroundPaint.setColor(mBackgroundColor);
+
+        mProgressbarPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mProgressbarPaint.setColor(mProgressColor);
+    }
+
+    /**
+     * 重载 函数
+     * @return view 的推荐最小宽度
+     * 修改为 progress bar 背景的默认高度
+     */
+    @Override
+    protected int getSuggestedMinimumWidth() {
+        return (int) default_background_width;
+    }
+
+    /**
+     * 重载 函数
+     * @return view 的推荐最小高度
+     * 修改为 progress bar 的默认高度 （娶个最高的吧，不然高的那个头被截掉了就不好了）
+     */
+    @Override
+    protected int getSuggestedMinimumHeight() {
+        return Math.max((int) mBackgroundHeight, (int) mProgressBarheight);
+    }
+
+    /**
+     * 这个函数的 解析 Google 一大把，就不解释了
+     * @param widthMeasureSpec
+     * @param heightMeasureSpec
+     * 现在这里是个套路活，跟着老司机走就行了
+     */
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        setMeasuredDimension(measure(widthMeasureSpec, true), measure(heightMeasureSpec, false));
+    }
+
+    /**
+     * 测量 view 的 宽高信息
+     * @param measureSpec
+     * @param isWidth
+     * @return
+     */
+    private int measure(int measureSpec, boolean isWidth) {
+        int result;
+        int mode = MeasureSpec.getMode(measureSpec);
+        int size = MeasureSpec.getSize(measureSpec);
+        //不要忘记 padding ，万一有人设置了呢
+        int padding = isWidth ? getPaddingLeft() + getPaddingRight() : getPaddingTop() + getPaddingBottom();
+        if (mode == MeasureSpec.EXACTLY) { //如果 width 或者 height 都设置了 精确值：比如 45dp啊什么的
+            result = size; //就按主人的来吧，诶，森么是主人
+        } else {
+            //其他情况，既然你都不知道要什么，就按我的套路来吧
+            result = isWidth ? getSuggestedMinimumWidth() : getSuggestedMinimumHeight();
+            result += padding; //padding 这个小伙子还是很调皮的
+            if (mode == MeasureSpec.AT_MOST) {
+                if (isWidth) {
+                    result = Math.max(result, size);
+                } else {
+                    result = Math.min(result, size);
+                }
+            }
+        }
+        return result;
+    }
+
+    /** 要开车了，快上车！
+     * @param canvas
+     */
+    @Override
+    protected synchronized void onDraw(Canvas canvas) {
+        calRectF();
+
+        canvas.drawRect(mBackgroundRectF, mBackgroundPaint);
+
+        canvas.drawRect(mProgressbarRectF, mProgressbarPaint);
+    }
+
+    /**
+     * 精华就在这里了。
+     * 一开始我也看不懂
+     * 现在我也看不懂
+     * 可是效果出来了
+     * 就这么滴吧
+     * 多看几次
+     * 说不定就懂了呢
+     */
+    private void calRectF() {
+        mProgressbarRectF.left = getPaddingLeft();
+        mProgressbarRectF.top = getHeight() / 2.0f - mProgressBarheight / 2.0f;
+        mProgressbarRectF.right = (getWidth() - getPaddingLeft() - getPaddingRight()) / (getMax() * 1.0f) * getProgress() + getPaddingLeft();
+        mProgressbarRectF.bottom = getHeight() / 2.0f + mProgressBarheight / 2.0f ;
+
+        mBackgroundRectF.left = mProgressbarRectF.right;
+        mBackgroundRectF.top = getHeight() / 2.0f - mBackgroundHeight / 2.0f;
+        mBackgroundRectF.right = getWidth() - getPaddingRight();
+        mBackgroundRectF.bottom = getHeight() / 2.0f + mBackgroundHeight / 2.0f;
+
+    }
+
+    /** 这个我也不想说
+     * 如果三个月之后我看不懂这个代码
+     * 说明
+     * 我应该是失忆了
+     * @return
+     */
+    public int getProgress() {
+        return mCurrentProgress;
+    }
+
+    /**
+     * 同上
+     * @return
+     */
+    public int getMax() {
+        return mMaxProgress;
+    }
+
+    /**
+     * 同上
+     * @param progress
+     */
+    public void setProgress(int progress) {
+        mCurrentProgress = progress;
+        invalidate();
+    }
+
+    /**
+     * 让我的 progress 动起来！
+     * ValueAnimator 是个神器
+     * Google一下
+     * @param progress
+     */
+    public void anitProgress(int progress) {
+        ValueAnimator animator = ValueAnimator.ofInt(0, progress);
+        animator.setDuration(1500);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mCurrentProgress = (int) animation.getAnimatedValue();
+                postInvalidate();
+            }
+        });
+
+        animator.start();
+    }
+
+    public float dp2px(float dp) {
+        final float scale = getResources().getDisplayMetrics().density;
+        return dp * scale + 0.5f;
+    }
+</code></pre>
+
+<p>这就是我第一个实质意义上的自定义View了，以前一般都是扩展TextView啊，组合LinearLayout
+之类的。
+虽然这个View也是看着别人的代码写的。
+不过总算是自己动手敲出来了。
+敲开心啊。
+我 <del>照抄</del>学习的 project <a href="https://github.com/daimajia">代码家</a>的<a href="https://github.com/daimajia/NumberProgressBar">NumberProgressBar</a></p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://jimbray.github.io/post/python-to-qiniu2/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://jimbray.github.io/post/python-to-qiniu2/">简化markdown写作中的贴图流程（windows基本版）</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="https://jimbray.github.io/post/my-second-custom-view/">我的第二个自定义View</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="https://jimbray.github.io/post/my-second-custom-view/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'Your Disqus shortname';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="https://jimbray.github.io/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'Your Google Analytics tracking ID', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+</body>
+</html>
+

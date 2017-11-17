@@ -4,10 +4,10 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
+  <meta name="description" content="用root 登录是一件很不安全的事情">
   <meta name="generator" content="Hugo 0.25.1" />
 
-  <title>Hexo &middot; JIMBRAY</title>
+  <title>VPS 禁止远程ROOT登录 &middot; JIMBRAY</title>
 
   
   
@@ -36,8 +36,6 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
 
   
-  
-  <link rel="alternate" type="application/rss+xml" title="JIMBRAY" href="https://jimbray.github.io/tags/hexo/index.xml" />
   
 
   
@@ -96,10 +94,6 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://jimbray.github.io/tags/hexo/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
-    </li>
     
 
     
@@ -195,20 +189,16 @@
 
 
 <div class="header">
-  <h1>Hexo</h1>
+  <h1>VPS 禁止远程ROOT登录</h1>
+  <h2>用root 登录是一件很不安全的事情</h2>
 </div>
-
 <div class="content">
-  
-    <article>
-  <header>
-    <h2><a href="https://jimbray.github.io/post/sync-hexo-source/">在同一个repo备份hexo文章以及配置</a></h2>
 
-    <div class="post-meta">
+  <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>04 Jun 2016, 16:48</time>
+    <time>09 Jun 2016, 12:48</time>
   </div>
 
   
@@ -221,7 +211,7 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://jimbray.github.io/tags/hexo">Hexo</a>
+      <a class="post-taxonomy-tag" href="https://jimbray.github.io/tags/vps">VPS</a>
     
   </div>
   
@@ -229,65 +219,79 @@
 
 </div>
 
-  </header>
-
-  <p>
-  
-  这样就不需要在两个地方备份了
-  </p>
-
-  
-  <footer>
-    <a href="https://jimbray.github.io/post/sync-hexo-source/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="https://jimbray.github.io/post/hello-world/">Hello World</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>03 Jun 2016, 16:48</time>
-  </div>
-
   
 
-  
+<h3 id="编辑ssh-配置文件">编辑ssh 配置文件</h3>
+
+<pre><code class="language-bash">vi /etc/ssh/sshd_config
+</code></pre>
+
+<h3 id="修改关键配置">修改关键配置</h3>
+
+<pre><code class="language-bash">PermitRootLogin no
+</code></pre>
+
+<h3 id="重启-ssh-服务">重启 ssh 服务</h3>
+
+<pre><code class="language-bash">service /etc/init.d/ssh restart
+</code></pre>
+
+<p>Done.</p>
+
 
   
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
     
-      <a class="post-taxonomy-tag" href="https://jimbray.github.io/tags/hexo">Hexo</a>
+    <a href="https://jimbray.github.io/post/falsk-root/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
-  
-  
-
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://jimbray.github.io/post/falsk-root/">Flask 直接显示根目录文件内容</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="https://jimbray.github.io/post/linode-install-lnmp/">Linode 安装 lnmp 学习</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="https://jimbray.github.io/post/linode-install-lnmp/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
 </div>
 
-  </header>
 
-  <p>
-  
-  Hello World 还是要有的
-  </p>
 
   
-  <footer>
-    <a href="https://jimbray.github.io/post/hello-world/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
 
-  
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'Your Disqus shortname';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
 </div>
 
 </div>
@@ -312,3 +316,4 @@
 
 </body>
 </html>
+

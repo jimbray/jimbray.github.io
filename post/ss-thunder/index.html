@@ -4,10 +4,10 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
+  <meta name="description" content="ss突然失效的背锅侠找到了">
   <meta name="generator" content="Hugo 0.25.1" />
 
-  <title>Hexo &middot; JIMBRAY</title>
+  <title>使用迅雷下载后 shadowsocks失效 解决办法 &middot; JIMBRAY</title>
 
   
   
@@ -36,8 +36,6 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
 
   
-  
-  <link rel="alternate" type="application/rss+xml" title="JIMBRAY" href="https://jimbray.github.io/tags/hexo/index.xml" />
   
 
   
@@ -96,10 +94,6 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://jimbray.github.io/tags/hexo/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
-    </li>
     
 
     
@@ -195,20 +189,16 @@
 
 
 <div class="header">
-  <h1>Hexo</h1>
+  <h1>使用迅雷下载后 shadowsocks失效 解决办法</h1>
+  <h2>ss突然失效的背锅侠找到了</h2>
 </div>
-
 <div class="content">
-  
-    <article>
-  <header>
-    <h2><a href="https://jimbray.github.io/post/sync-hexo-source/">在同一个repo备份hexo文章以及配置</a></h2>
 
-    <div class="post-meta">
+  <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>04 Jun 2016, 16:48</time>
+    <time>09 Jun 2016, 12:08</time>
   </div>
 
   
@@ -221,7 +211,7 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://jimbray.github.io/tags/hexo">Hexo</a>
+      <a class="post-taxonomy-tag" href="https://jimbray.github.io/tags/shadowsocks">Shadowsocks</a>
     
   </div>
   
@@ -229,65 +219,81 @@
 
 </div>
 
-  </header>
-
-  <p>
-  
-  这样就不需要在两个地方备份了
-  </p>
-
-  
-  <footer>
-    <a href="https://jimbray.github.io/post/sync-hexo-source/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="https://jimbray.github.io/post/hello-world/">Hello World</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>03 Jun 2016, 16:48</time>
-  </div>
-
   
 
-  
+<p>今天用的好好的 ss 突然之间失效了，看了下日志：</p>
+
+<pre><code class="language-bash">	failed to recv data in handshakeReceive2Callback
+</code></pre>
+
+<p>网上搜罗下，出现这个情况的不在少数，主要是因为使用了迅雷下载导致</p>
+
+<h3 id="解决办法">解决办法</h3>
+
+<p>1.在服务中找到XLServicePlatform把这个服务禁用了。现在应该可以使用ss了</p>
+
+<p>2.重启电脑后发现，ss又不能用了，继续查看服务，XLServicePlatform又起来了，还把启动方式变成了自动。</p>
+
+<p>3.关掉 服务，打开 C:\Program Files\Common Files\Thunder Network\ServicePlatform\XLSP.dll ，把里面的内容清空</p>
+
+<p>问题解决。</p>
+
+<p>XLServicePlatform：这个服务主要的功能是迅雷的网络诊断，并不是迅雷下载的基础服务，应该不会影响迅雷的下载使用</p>
+
 
   
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
     
-      <a class="post-taxonomy-tag" href="https://jimbray.github.io/tags/hexo">Hexo</a>
+    <a href="https://jimbray.github.io/post/sync-hexo-source/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
-  
-  
-
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://jimbray.github.io/post/sync-hexo-source/">在同一个repo备份hexo文章以及配置</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="https://jimbray.github.io/post/falsk-root/">Flask 直接显示根目录文件内容</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="https://jimbray.github.io/post/falsk-root/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
 </div>
 
-  </header>
 
-  <p>
-  
-  Hello World 还是要有的
-  </p>
 
   
-  <footer>
-    <a href="https://jimbray.github.io/post/hello-world/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
 
-  
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'Your Disqus shortname';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
 </div>
 
 </div>
@@ -312,3 +318,4 @@
 
 </body>
 </html>
+
