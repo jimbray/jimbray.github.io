@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+
+<meta name="description" content=" 购买VPS 我买的是 openvzvps-小尾巴 国人弄的,虽然配置低点，但我又不用来做其他东西，就搭个ss，够用就行。 虽然带了小尾巴，但是为了避免广告嫌疑，我就不贴图了
+安装shadowsocks $ sudo apt-get update $ sudo apt-get install python-gevent python-pip $ sudo pip install shadowsocks $ apt-get install python-m2crypto  配置shadowsocks 创建 shadowsocks.json 配置文件
+vi /etc/shadowsocks.json  修改shadowsocks.json 配置文件
+{ &quot;server&quot;:&quot;0.0.0.0&quot;, &quot;server_port&quot;:8388, &quot;local_port&quot;:1080, &quot;password&quot;:&quot;password&quot;, &quot;timeout&quot;:600, &quot;method&quot;:&quot;aes-256-cfb&quot; }  填写自定义的端口和密码就可以了
+运行shadowsocks ssserver -c /etc/shadowsocks.json -d start ssserver -c /etc/shadowsocks.json -d stop  就搞定了。 一劳永逸，自从开了之后就没动过它。一直正常。 看了一下Youtube4K视频，略卡，不过1080无压力，日常使用完全没问题。 ">
+
+<meta property="og:title" content="最简单方式拥有自己的SS服务器" />
+<meta property="og:description" content=" 购买VPS 我买的是 openvzvps-小尾巴 国人弄的,虽然配置低点，但我又不用来做其他东西，就搭个ss，够用就行。 虽然带了小尾巴，但是为了避免广告嫌疑，我就不贴图了
+安装shadowsocks $ sudo apt-get update $ sudo apt-get install python-gevent python-pip $ sudo pip install shadowsocks $ apt-get install python-m2crypto  配置shadowsocks 创建 shadowsocks.json 配置文件
+vi /etc/shadowsocks.json  修改shadowsocks.json 配置文件
+{ &quot;server&quot;:&quot;0.0.0.0&quot;, &quot;server_port&quot;:8388, &quot;local_port&quot;:1080, &quot;password&quot;:&quot;password&quot;, &quot;timeout&quot;:600, &quot;method&quot;:&quot;aes-256-cfb&quot; }  填写自定义的端口和密码就可以了
+运行shadowsocks ssserver -c /etc/shadowsocks.json -d start ssserver -c /etc/shadowsocks.json -d stop  就搞定了。 一劳永逸，自从开了之后就没动过它。一直正常。 看了一下Youtube4K视频，略卡，不过1080无压力，日常使用完全没问题。 " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/getpersonalss/" />
+
+
+
+<meta property="article:published_time" content="2017-02-15T12:20:20&#43;00:00"/>
+<meta property="article:modified_time" content="2017-02-15T12:20:20&#43;00:00"/>
+
+
+
+
+
+
+
+
+
+
+
+
+<title>
+
+
+     最简单方式拥有自己的SS服务器 
+
+</title>
+<link rel="canonical" href="http://example.org/getpersonalss/">
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:500">
+
+
+
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/pygments.css">
+    <link rel="stylesheet" href="/css/main.css">
+    
+
+
+
+
+<link rel="shortcut icon"
+
+    href="/img/favicon.ico"
+
+>
+
+
+
+
+
+
+
+
+</head>
+
+
+<body lang="">
+
+<section class="header">
+    <div class="container">
+        <div class="content">
+            
+            <a href="/"><div class="name"></div></a>
+            
+            <nav>
+                <ul>
+                    
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<section class="icons">
+    <div class="container">
+        <div class="content">
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+            
+        
+
+        
+
+        
+
+        
+            <a href="http://example.org/index.xml"><img class="icon" src="/img/rss.svg" alt="rss" /></a>
+        
+        
+        </div>
+    </div>
+</section>
+
+<section class="main">
+    <div class="container">
+        <div class="content">
+            <div class="page-heading">
+
+    最简单方式拥有自己的SS服务器
+
+</div>
+
+            <div class="markdown">
+                
+
+<h3 id="购买vps">购买VPS</h3>
+
+<p>我买的是 <a href="https://www.50vz.net/aff.php?aff=656">openvzvps-小尾巴</a> 国人弄的,虽然配置低点，但我又不用来做其他东西，就搭个ss，够用就行。
+虽然带了小尾巴，但是为了避免广告嫌疑，我就不贴图了</p>
+
+<h3 id="安装shadowsocks">安装shadowsocks</h3>
+
+<pre><code>$ sudo apt-get update
+$ sudo apt-get install python-gevent python-pip
+$ sudo pip install shadowsocks
+$ apt-get install python-m2crypto
+</code></pre>
+
+<h3 id="配置shadowsocks">配置shadowsocks</h3>
+
+<p>创建 shadowsocks.json 配置文件</p>
+
+<pre><code>vi /etc/shadowsocks.json
+</code></pre>
+
+<p>修改shadowsocks.json 配置文件</p>
+
+<pre><code>{
+&quot;server&quot;:&quot;0.0.0.0&quot;,
+&quot;server_port&quot;:8388,
+&quot;local_port&quot;:1080,
+&quot;password&quot;:&quot;password&quot;,
+&quot;timeout&quot;:600,
+&quot;method&quot;:&quot;aes-256-cfb&quot;
+}
+</code></pre>
+
+<p>填写自定义的端口和密码就可以了</p>
+
+<h3 id="运行shadowsocks">运行shadowsocks</h3>
+
+<pre><code>ssserver -c /etc/shadowsocks.json -d start
+
+ssserver -c /etc/shadowsocks.json -d stop
+</code></pre>
+
+<p>就搞定了。
+一劳永逸，自从开了之后就没动过它。一直正常。
+看了一下Youtube4K视频，略卡，不过1080无压力，日常使用完全没问题。
+<img src="http://7xv11f.com1.z0.glb.clouddn.com/SSSPEED.png" alt="" /></p>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+</body>
+</html>
+

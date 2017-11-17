@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+
+<meta name="description" content=" 目标 docker这么火，体验一下，感受一下
+准备工作 Linux系统主机一台(我用的的ubuntu) docker文档看一下，我找了好几个，都挺不错的，就是不动一下手，总感觉虚
+开动 安装docker 我用的是ubuntu14.04 两种方式 1.源已经内置docker，不过教程裡有说那个docker没有更新
+apt-get install docker  反正我没用
+curl -sSL https://get.docker.com/ubuntu/ | sudo sh  可能需要代理
+像这个样子就是安装成功了
+docker 最主要的就是container和image了 那就弄个image吧 从哪弄？直接pull就可以了 那pull什么呢，总要知道个地址的
+先搜一下
+docker search nginx  就用第一个吧
+docker pull nginx docker images docker run nginx docker run -i nginx docker run -t nginx docker run -it nginx docker run -d nginx docker run -- name nginx-test -d nginx docker run --name nginx -test -d -p 8080:80 nginx  ">
+
+<meta property="og:title" content="试玩 Docker" />
+<meta property="og:description" content=" 目标 docker这么火，体验一下，感受一下
+准备工作 Linux系统主机一台(我用的的ubuntu) docker文档看一下，我找了好几个，都挺不错的，就是不动一下手，总感觉虚
+开动 安装docker 我用的是ubuntu14.04 两种方式 1.源已经内置docker，不过教程裡有说那个docker没有更新
+apt-get install docker  反正我没用
+curl -sSL https://get.docker.com/ubuntu/ | sudo sh  可能需要代理
+像这个样子就是安装成功了
+docker 最主要的就是container和image了 那就弄个image吧 从哪弄？直接pull就可以了 那pull什么呢，总要知道个地址的
+先搜一下
+docker search nginx  就用第一个吧
+docker pull nginx docker images docker run nginx docker run -i nginx docker run -t nginx docker run -it nginx docker run -d nginx docker run -- name nginx-test -d nginx docker run --name nginx -test -d -p 8080:80 nginx  " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/try-docker/" />
+
+
+
+<meta property="article:published_time" content="2016-06-09T17:52:32&#43;00:00"/>
+<meta property="article:modified_time" content="2016-06-09T17:52:32&#43;00:00"/>
+
+
+
+
+
+
+
+
+
+
+
+
+<title>
+
+
+     试玩 Docker 
+
+</title>
+<link rel="canonical" href="http://example.org/try-docker/">
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:500">
+
+
+
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/pygments.css">
+    <link rel="stylesheet" href="/css/main.css">
+    
+
+
+
+
+<link rel="shortcut icon"
+
+    href="/img/favicon.ico"
+
+>
+
+
+
+
+
+
+
+
+</head>
+
+
+<body lang="">
+
+<section class="header">
+    <div class="container">
+        <div class="content">
+            
+            <a href="/"><div class="name"></div></a>
+            
+            <nav>
+                <ul>
+                    
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<section class="icons">
+    <div class="container">
+        <div class="content">
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+            
+        
+
+        
+
+        
+
+        
+            <a href="http://example.org/index.xml"><img class="icon" src="/img/rss.svg" alt="rss" /></a>
+        
+        
+        </div>
+    </div>
+</section>
+
+<section class="main">
+    <div class="container">
+        <div class="content">
+            <div class="page-heading">
+
+    试玩 Docker
+
+</div>
+
+            <div class="markdown">
+                
+
+<h3 id="目标">目标</h3>
+
+<p>docker这么火，体验一下，感受一下</p>
+
+<h3 id="准备工作">准备工作</h3>
+
+<p>Linux系统主机一台(我用的的ubuntu)
+docker文档看一下，我找了好几个，都挺不错的，就是不动一下手，总感觉虚</p>
+
+<h2 id="开动">开动</h2>
+
+<h4 id="安装docker">安装docker</h4>
+
+<p>我用的是ubuntu14.04
+两种方式
+1.源已经内置docker，不过教程裡有说那个docker没有更新</p>
+
+<pre><code class="language-bash">apt-get install docker 
+</code></pre>
+
+<p>反正我没用</p>
+
+<pre><code class="language-bash">curl -sSL https://get.docker.com/ubuntu/ | sudo sh
+</code></pre>
+
+<p>可能需要代理</p>
+
+<p>像这个样子就是安装成功了</p>
+
+<p>docker 最主要的就是container和image了
+那就弄个image吧
+从哪弄？直接pull就可以了
+那pull什么呢，总要知道个地址的</p>
+
+<p>先搜一下</p>
+
+<pre><code class="language-bash">docker search nginx 
+</code></pre>
+
+<p>就用第一个吧</p>
+
+<pre><code class="language-bash">docker pull nginx 
+
+docker images
+
+docker run nginx
+
+docker run -i nginx
+
+docker run -t nginx
+
+docker run -it nginx
+
+docker run -d nginx
+
+docker run -- name nginx-test -d nginx
+
+docker run --name nginx -test -d -p 8080:80 nginx
+</code></pre>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+</body>
+</html>
+

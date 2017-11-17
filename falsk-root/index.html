@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+
+<meta name="description" content="搜索结果 @app.route(&#39;/&lt;path&gt;&#39;) def info(path): resp = make_response(open(path).read()) resp.headers[&quot;Content-type&quot;]=&quot;application/json;charset=UTF-8&quot; return resp  按道理应该是可以生效的，但我在用的时候却报错了
+出现错误 IOError: [Errno 2] No such file or directory: u&#39;readme.json&#39;  居然找不到这个文件
+解决办法 使用绝对路径
+@app.route(&#39;/&lt;path&gt;&#39;) def today(path): base_dir = os.path.dirname(__file__) resp = make_response(open(os.path.join(base_dir, path)).read()) resp.headers[&quot;Content-type&quot;]=&quot;application/json;charset=UTF-8&quot; return resp  访问 127.0.0.1:5000/readme.json
+Done.">
+
+<meta property="og:title" content="Flask 直接显示根目录文件内容" />
+<meta property="og:description" content="搜索结果 @app.route(&#39;/&lt;path&gt;&#39;) def info(path): resp = make_response(open(path).read()) resp.headers[&quot;Content-type&quot;]=&quot;application/json;charset=UTF-8&quot; return resp  按道理应该是可以生效的，但我在用的时候却报错了
+出现错误 IOError: [Errno 2] No such file or directory: u&#39;readme.json&#39;  居然找不到这个文件
+解决办法 使用绝对路径
+@app.route(&#39;/&lt;path&gt;&#39;) def today(path): base_dir = os.path.dirname(__file__) resp = make_response(open(os.path.join(base_dir, path)).read()) resp.headers[&quot;Content-type&quot;]=&quot;application/json;charset=UTF-8&quot; return resp  访问 127.0.0.1:5000/readme.json
+Done." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/falsk-root/" />
+
+
+
+<meta property="article:published_time" content="2016-06-09T12:37:25&#43;00:00"/>
+<meta property="article:modified_time" content="2016-06-09T12:37:25&#43;00:00"/>
+
+
+
+
+
+
+
+
+
+
+
+
+<title>
+
+
+     Flask 直接显示根目录文件内容 
+
+</title>
+<link rel="canonical" href="http://example.org/falsk-root/">
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:500">
+
+
+
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/pygments.css">
+    <link rel="stylesheet" href="/css/main.css">
+    
+
+
+
+
+<link rel="shortcut icon"
+
+    href="/img/favicon.ico"
+
+>
+
+
+
+
+
+
+
+
+</head>
+
+
+<body lang="">
+
+<section class="header">
+    <div class="container">
+        <div class="content">
+            
+            <a href="/"><div class="name"></div></a>
+            
+            <nav>
+                <ul>
+                    
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<section class="icons">
+    <div class="container">
+        <div class="content">
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+            
+        
+
+        
+
+        
+
+        
+            <a href="http://example.org/index.xml"><img class="icon" src="/img/rss.svg" alt="rss" /></a>
+        
+        
+        </div>
+    </div>
+</section>
+
+<section class="main">
+    <div class="container">
+        <div class="content">
+            <div class="page-heading">
+
+    Flask 直接显示根目录文件内容
+
+</div>
+
+            <div class="markdown">
+                
+
+<h3 id="搜索结果">搜索结果</h3>
+
+<pre><code class="language-python">@app.route('/&lt;path&gt;')
+def info(path):
+    resp = make_response(open(path).read())
+    resp.headers[&quot;Content-type&quot;]=&quot;application/json;charset=UTF-8&quot;
+    return resp
+</code></pre>
+
+<p>按道理应该是可以生效的，但我在用的时候却报错了</p>
+
+<h3 id="出现错误">出现错误</h3>
+
+<pre><code class="language-bash">IOError: [Errno 2] No such file or directory: u'readme.json'
+</code></pre>
+
+<p>居然找不到这个文件</p>
+
+<h3 id="解决办法">解决办法</h3>
+
+<p>使用绝对路径</p>
+
+<pre><code class="language-python">@app.route('/&lt;path&gt;')
+def today(path):
+    base_dir = os.path.dirname(__file__)
+    resp = make_response(open(os.path.join(base_dir, path)).read())
+    resp.headers[&quot;Content-type&quot;]=&quot;application/json;charset=UTF-8&quot;
+    return resp
+</code></pre>
+
+<p>访问 127.0.0.1:5000/readme.json</p>
+
+<p>Done.</p>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+</body>
+</html>
+

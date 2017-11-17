@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+
+<meta name="description" content="其很Google cloud 很久之前就来了，那个时候免费送300刀，有效期两个月。当时觉得没用就没申请。 最近升级了，换成一年是试用了，刚好购买的SS快过期了。嘿嘿～
+准备工作  一张VISA信用卡 Google 账户 由于 Google 在中国是不存在的，所以 要有代理  300刀一年的有效期，使用最低配的话，可以玩一年，每个月有86G的流量，个人使用足够了吧&hellip;&hellip;
+开始了点击 Google cloud 点击 try free.
+开始申请  选择国家 很多人说不能选中国，后面会无法通过，不过我用的就是中国的，已经通过了。如果觉得不保险，可以用虚拟的美国身份 随机生成美国身份 填写注册信息和信用卡 根绝你的身份和信用卡账单地址如实填写就好了，如实也包括上面的美国身份。 信用卡会扣除1美元，过一会就会返还。  开始部署 防火墙配置 由于默认防火墙限制很多，需要更改防火墙规则
+菜单依次点击【网络】&ndash;【防火墙规则】&ndash;【创建防火墙规则】
+主要修改点：
+ 流量方向：入站 对匹配项执行的操作：允许 目标：网络中所有实例 来源IP地址范围：0.0.0.0/0 协议和端口：全部允许 其他默认即可  申请静态IP 如果是拿来做SS服务器，最好还是申请一个，不然的话每次重启ip地址都会变化，客户端又得重新配置了。
+  静态IP地址被分配到一个项目长期直到它们被明确地释放，并且保持附着到一个实例，即使当实例停止，直到它们被明确地分离 临时IP地址分配给一个实例只有等到它重新启动或终止。 如果一个实例被终止或停止时，分配给该实例的任何临时的外部IP地址被释放回通用计算引擎IP地址池，成为可以使用的其他项目。 当停止实例再次启动，一个新的临时外部IP地址被分配给该实例。   菜单依次点击【网络】&ndash;【外部IP地址】&ndash;【保留静态IP】
+区域科学亚洲东部、欧洲、美国等地。推荐使用亚洲
+注意：静态IP只能申请一个
+创建计算引擎 菜单一次点击【计算引擎】&ndash;【创建实例】
+主要修改点：
+ 机器类型：微型(一个共享vCPU) （右边会有每个月的金额估算值，根据需要吧，选这个是5美元/月，能用一年！） 选择启动磁盘（系统），我选择的是Debian 访问权限范围：允许默认访问权限 （打开管理、磁盘、网络、ssh密钥选项）选择【网络】 网络&ndash;外部IP选择静态IP  至此，Google cloud 服务器已经配置完成，可以像正常使用VPS一样操作了。">
+
+<meta property="og:title" content="用Google Cloud搭建免费一年的SS" />
+<meta property="og:description" content="其很Google cloud 很久之前就来了，那个时候免费送300刀，有效期两个月。当时觉得没用就没申请。 最近升级了，换成一年是试用了，刚好购买的SS快过期了。嘿嘿～
+准备工作  一张VISA信用卡 Google 账户 由于 Google 在中国是不存在的，所以 要有代理  300刀一年的有效期，使用最低配的话，可以玩一年，每个月有86G的流量，个人使用足够了吧&hellip;&hellip;
+开始了点击 Google cloud 点击 try free.
+开始申请  选择国家 很多人说不能选中国，后面会无法通过，不过我用的就是中国的，已经通过了。如果觉得不保险，可以用虚拟的美国身份 随机生成美国身份 填写注册信息和信用卡 根绝你的身份和信用卡账单地址如实填写就好了，如实也包括上面的美国身份。 信用卡会扣除1美元，过一会就会返还。  开始部署 防火墙配置 由于默认防火墙限制很多，需要更改防火墙规则
+菜单依次点击【网络】&ndash;【防火墙规则】&ndash;【创建防火墙规则】
+主要修改点：
+ 流量方向：入站 对匹配项执行的操作：允许 目标：网络中所有实例 来源IP地址范围：0.0.0.0/0 协议和端口：全部允许 其他默认即可  申请静态IP 如果是拿来做SS服务器，最好还是申请一个，不然的话每次重启ip地址都会变化，客户端又得重新配置了。
+  静态IP地址被分配到一个项目长期直到它们被明确地释放，并且保持附着到一个实例，即使当实例停止，直到它们被明确地分离 临时IP地址分配给一个实例只有等到它重新启动或终止。 如果一个实例被终止或停止时，分配给该实例的任何临时的外部IP地址被释放回通用计算引擎IP地址池，成为可以使用的其他项目。 当停止实例再次启动，一个新的临时外部IP地址被分配给该实例。   菜单依次点击【网络】&ndash;【外部IP地址】&ndash;【保留静态IP】
+区域科学亚洲东部、欧洲、美国等地。推荐使用亚洲
+注意：静态IP只能申请一个
+创建计算引擎 菜单一次点击【计算引擎】&ndash;【创建实例】
+主要修改点：
+ 机器类型：微型(一个共享vCPU) （右边会有每个月的金额估算值，根据需要吧，选这个是5美元/月，能用一年！） 选择启动磁盘（系统），我选择的是Debian 访问权限范围：允许默认访问权限 （打开管理、磁盘、网络、ssh密钥选项）选择【网络】 网络&ndash;外部IP选择静态IP  至此，Google cloud 服务器已经配置完成，可以像正常使用VPS一样操作了。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/get-free-google-cloud-vps-for-a-year/" />
+
+
+
+<meta property="article:published_time" content="2017-05-22T12:55:25&#43;00:00"/>
+<meta property="article:modified_time" content="2017-05-22T12:55:25&#43;00:00"/>
+
+
+
+
+
+
+
+
+
+
+
+
+<title>
+
+
+     用Google Cloud搭建免费一年的SS 
+
+</title>
+<link rel="canonical" href="http://example.org/get-free-google-cloud-vps-for-a-year/">
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:500">
+
+
+
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/pygments.css">
+    <link rel="stylesheet" href="/css/main.css">
+    
+
+
+
+
+<link rel="shortcut icon"
+
+    href="/img/favicon.ico"
+
+>
+
+
+
+
+
+
+
+
+</head>
+
+
+<body lang="">
+
+<section class="header">
+    <div class="container">
+        <div class="content">
+            
+            <a href="/"><div class="name"></div></a>
+            
+            <nav>
+                <ul>
+                    
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<section class="icons">
+    <div class="container">
+        <div class="content">
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+            
+        
+
+        
+
+        
+
+        
+            <a href="http://example.org/index.xml"><img class="icon" src="/img/rss.svg" alt="rss" /></a>
+        
+        
+        </div>
+    </div>
+</section>
+
+<section class="main">
+    <div class="container">
+        <div class="content">
+            <div class="page-heading">
+
+    用Google Cloud搭建免费一年的SS
+
+</div>
+
+            <div class="markdown">
+                
+
+<p>其很Google cloud 很久之前就来了，那个时候免费送300刀，有效期两个月。当时觉得没用就没申请。
+最近升级了，换成一年是试用了，刚好购买的SS快过期了。嘿嘿～</p>
+
+<h3 id="准备工作">准备工作</h3>
+
+<ol>
+<li>一张VISA信用卡</li>
+<li>Google 账户</li>
+<li>由于 Google 在中国是不存在的，所以 要有代理</li>
+</ol>
+
+<p>300刀一年的有效期，使用最低配的话，可以玩一年，每个月有86G的流量，个人使用足够了吧&hellip;&hellip;</p>
+
+<p>开始了点击 <a href="https://cloud.google.com/">Google cloud</a>
+点击 try free.</p>
+
+<h3 id="开始申请">开始申请</h3>
+
+<ol>
+<li>选择国家
+很多人说不能选中国，后面会无法通过，不过我用的就是中国的，已经通过了。如果觉得不保险，可以用虚拟的美国身份 <a href="http://www.haoweichi.com/Index/random">随机生成美国身份</a></li>
+<li>填写注册信息和信用卡
+根绝你的身份和信用卡账单地址如实填写就好了，如实也包括上面的美国身份。
+信用卡会扣除1美元，过一会就会返还。</li>
+</ol>
+
+<h3 id="开始部署">开始部署</h3>
+
+<h4 id="防火墙配置">防火墙配置</h4>
+
+<p>由于默认防火墙限制很多，需要更改防火墙规则</p>
+
+<p>菜单依次点击【网络】&ndash;【防火墙规则】&ndash;【创建防火墙规则】</p>
+
+<p>主要修改点：</p>
+
+<ol>
+<li>流量方向：入站</li>
+<li>对匹配项执行的操作：允许</li>
+<li>目标：网络中所有实例</li>
+<li>来源IP地址范围：0.0.0.0/0</li>
+<li>协议和端口：全部允许</li>
+<li>其他默认即可</li>
+</ol>
+
+<h4 id="申请静态ip">申请静态IP</h4>
+
+<p>如果是拿来做SS服务器，最好还是申请一个，不然的话每次重启ip地址都会变化，客户端又得重新配置了。</p>
+
+<!-- more -->
+
+<blockquote>
+<ul>
+<li>静态IP地址被分配到一个项目长期直到它们被明确地释放，并且保持附着到一个实例，即使当实例停止，直到它们被明确地分离</li>
+<li>临时IP地址分配给一个实例只有等到它重新启动或终止。 如果一个实例被终止或停止时，分配给该实例的任何临时的外部IP地址被释放回通用计算引擎IP地址池，成为可以使用的其他项目。 当停止实例再次启动，一个新的临时外部IP地址被分配给该实例。</li>
+</ul>
+</blockquote>
+
+<p>菜单依次点击【网络】&ndash;【外部IP地址】&ndash;【保留静态IP】</p>
+
+<p>区域科学亚洲东部、欧洲、美国等地。推荐使用亚洲</p>
+
+<p><em>注意：静态IP只能申请一个</em></p>
+
+<h3 id="创建计算引擎">创建计算引擎</h3>
+
+<p>菜单一次点击【计算引擎】&ndash;【创建实例】</p>
+
+<p>主要修改点：</p>
+
+<ol>
+<li>机器类型：微型(一个共享vCPU) （右边会有每个月的金额估算值，根据需要吧，选这个是5美元/月，能用一年！）</li>
+<li>选择启动磁盘（系统），我选择的是Debian</li>
+<li>访问权限范围：允许默认访问权限</li>
+<li>（打开管理、磁盘、网络、ssh密钥选项）选择【网络】</li>
+<li>网络&ndash;外部IP选择静态IP</li>
+</ol>
+
+<p>至此，Google cloud 服务器已经配置完成，可以像正常使用VPS一样操作了。</p>
+
+<p>当我想用密码登录时，发现我好像没有设置过密码。那怎么登录呢？</p>
+
+<p>Google Cloud 默认开启了SSH 服务，新建了一个 {USER}google 名称对应的，并带有 sudo 权限 Linux 用户，而且还自带了在线SSH终端，还挺好用的！如果不是经常连接上来的话，这个SSH终端完全够用了。</p>
+
+<h3 id="开启ss服务">开启ss服务</h3>
+
+<p>之前已经在<a href="http://jimbray.xyz/2017/02/15/getPersonalSS/">最简单方式拥有自己的SS服务器</a> 这里说过了，同样可用。</p>
+
+<p>用上了Google 的代理，妈呀，访问google 简直不能太快，简直一颗赛艇！</p>
+
+<p>Youtube 看 4K 视频毫无压力！！ 爽爆了！</p>
+
+<p>稳定性的问题只有等用一段时间才知道了。</p>
+
+<p><img src="http://7xv11f.com1.z0.glb.clouddn.com/youtube-4k.jpg" alt="" /></p>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+</body>
+</html>
+
