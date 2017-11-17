@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Hexo on JIMBRAY</title>
-    <link>http://jimbray.github.io/tags/hexo/</link>
+    <link>http://jimbray.xyz/tags/hexo/</link>
     <description>Recent content in Hexo on JIMBRAY</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
     <lastBuildDate>Sat, 04 Jun 2016 16:48:27 +0000</lastBuildDate>
     
-	<atom:link href="http://jimbray.github.io/tags/hexo/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://jimbray.xyz/tags/hexo/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>在同一个repo备份hexo文章以及配置</title>
-      <link>http://jimbray.github.io/post/sync-hexo-source/</link>
+      <link>http://jimbray.xyz/post/sync-hexo-source/</link>
       <pubDate>Sat, 04 Jun 2016 16:48:27 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/sync-hexo-source/</guid>
+      <guid>http://jimbray.xyz/post/sync-hexo-source/</guid>
       <description>使用场景 使用 Hexo 的一键发布文章很方便，但是有多个地点需要同步文章的时候就麻烦了。 因为GitHub 的 repo 上 只有Hexo 编译好的 html文件， 并没有Hexo 的source 文件（也就是文章）。 如果需要在不同地点进行 文章发布的话，就没有办法完成了（先不考虑草稿的事） 所以 我们需要在其他 repo 进行文章的备份。
 使用工具 还是使用Git 进行操作 Git 需要一个服务器 现在支持 git 托管的服务已经很多了，用其他的也可以。 不过我不想注册使用那么多，还是使用Github 吧 而且还是同一个 repo
 操作步骤 上传操作 进入 Hexo 所在的文件夹 打开 git bash 窗口
@@ -29,10 +29,10 @@ git commit -m &amp;quot;commit first time&amp;quot;  提交成功之后 接下�
     
     <item>
       <title>Hello World</title>
-      <link>http://jimbray.github.io/post/hello-world/</link>
+      <link>http://jimbray.xyz/post/hello-world/</link>
       <pubDate>Fri, 03 Jun 2016 16:48:27 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/hello-world/</guid>
+      <guid>http://jimbray.xyz/post/hello-world/</guid>
       <description>参照 史上最详细的Hexo博客搭建图文教程 搭建了自己的 Blog，向来不会写东西。
 作为一个技术工作者，工作学习过程中总会有一些经验总结，我又比较健忘，基本上学什么忘什么，还是找个地方做下笔记做个记录好了。
 毕竟，好记性不如烂笔头。还是很有道理的。

@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Android on JIMBRAY</title>
-    <link>http://jimbray.github.io/tags/android/</link>
+    <link>http://jimbray.xyz/tags/android/</link>
     <description>Recent content in Android on JIMBRAY</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
     <lastBuildDate>Fri, 06 Jan 2017 20:20:02 +0000</lastBuildDate>
     
-	<atom:link href="http://jimbray.github.io/tags/android/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://jimbray.xyz/tags/android/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>ScrollView 与 ViewDragHelper 的混合使用学习</title>
-      <link>http://jimbray.github.io/post/supprisebottomview/</link>
+      <link>http://jimbray.xyz/post/supprisebottomview/</link>
       <pubDate>Fri, 06 Jan 2017 20:20:02 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/supprisebottomview/</guid>
+      <guid>http://jimbray.xyz/post/supprisebottomview/</guid>
       <description>按照惯例，先上效果
 涉及到的知识点  ViewGroup 的事件分发拦截机制
  ViewDragHelper 的基本使用
@@ -31,10 +31,10 @@
     
     <item>
       <title>Android 一键发布 Facebook 帖文</title>
-      <link>http://jimbray.github.io/post/one-key-post-to-facebook/</link>
+      <link>http://jimbray.xyz/post/one-key-post-to-facebook/</link>
       <pubDate>Wed, 28 Dec 2016 13:00:00 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/one-key-post-to-facebook/</guid>
+      <guid>http://jimbray.xyz/post/one-key-post-to-facebook/</guid>
       <description>一般遇到的需求都是做分享操作，现在国内已经有很多一键分享的 SDK了，而且还封装得不错，就是权限要得比较多。
 今天需要做的是 跟 Path APP 一样，在自己的 APP 发布post时，同步发送到 其他平台Facebook。
 先把基本配置做了   將 Facebook Android SDK 新增至您的行動開發環境 取得正確設定並連結至 Android 應用程式的 Facebook 應用程式編號。請參閱 Android 新手指南，新增 Facebook 應用程式編號 產生 Android 金鑰雜湊並新增至開發人員個人檔案 新增 Facebook Activity - 請將本項目加至 `AndroidManifest.xml   开始分享 建立内容模板 模板有几种方式
@@ -47,10 +47,10 @@
     
     <item>
       <title>我的第二个自定义View</title>
-      <link>http://jimbray.github.io/post/my-second-custom-view/</link>
+      <link>http://jimbray.xyz/post/my-second-custom-view/</link>
       <pubDate>Thu, 14 Jul 2016 15:19:05 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/my-second-custom-view/</guid>
+      <guid>http://jimbray.xyz/post/my-second-custom-view/</guid>
       <description>自古以来，第一个总是抢走了所有的聚光灯。 怎么办，我是第二个。
 据说有一个国际惯例，要真相 那就来吧 看到了吗。 下边那个圆环就是我们第二个主角啦。 上面那个是 传说中的第一个。 没办法，第二个不管再怎么好看也比不上 号称第一的那位。 这，应该是一个诅咒。
  /** * Created by Jimbray . * on 2016/7/13 * Email: jimbray16@gmail.com * Description: 这是我第二个自定义View。 * 第一个永远是被人铭记的，可是第二个呢 * 问你一个问题：世界上最高的山峰是？ * 答：当然是珠穆朗玛峰啦！ * 那第二高的呢？ * 答：当然是乔戈里峰啦！ * -_- 你不按套路出牌啊，套路里你是不知道的！ */ public class MySecondProgressbar extends View { private Context mContext; // 准备好画圆环的矩形区域 private RectF mRectF = new RectF(0, 0, 0, 0); // 准备好画文字的矩形区域 private RectF mTextRrectF = new RectF(0, 0, 0, 0); // 握好画笔啊，有三个频段，还有一个文字 private Paint mHeavyProgressPaint, mModerateProgressPaint, mLightProgressPaint, mTextPaint; // 默认值设置 private final float default_height = dp2px(45); private final float default_width = dp2px(45); private final int default_heavy_color = Color.</description>
@@ -58,20 +58,20 @@
     
     <item>
       <title>我的第一个自定义View</title>
-      <link>http://jimbray.github.io/post/my-first-custom-view/</link>
+      <link>http://jimbray.xyz/post/my-first-custom-view/</link>
       <pubDate>Wed, 13 Jul 2016 12:35:05 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/my-first-custom-view/</guid>
+      <guid>http://jimbray.xyz/post/my-first-custom-view/</guid>
       <description>直接上代码，做个学习笔记好了。
 /** * Created by Jimbray . * on 2016/7/12 * Email: jimbray16@gmail.com * Description: 这是我第一个真正意义上的自定义View */ public class MyFirstProgressbar extends View { //max progress 虽然注释写了，但是还是不解释 private int mMaxProgress = 100; // current progress private int mCurrentProgress; //progress bar 背景颜色 private int mBackgroundColor; //progress bar 进度条颜色 private int mProgressColor; //progress bar 进度条高度 private float mProgressBarheight; //progress bar 背景高度 private float mBackgroundHeight; //设置默认值 //默认progress bar 背景颜色 private final int default_background_color = Color.</description>
     </item>
     
     <item>
       <title>Facebook ShareDialog 没有回调的问题</title>
-      <link>http://jimbray.github.io/post/facebook-share-not-callback/</link>
+      <link>http://jimbray.xyz/post/facebook-share-not-callback/</link>
       <pubDate>Fri, 10 Jun 2016 20:24:04 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/facebook-share-not-callback/</guid>
+      <guid>http://jimbray.xyz/post/facebook-share-not-callback/</guid>
       <description>完成 facebook 分享功能之后，如果手机安装了Facebook，分享之后会有成功或者失败的 反馈
 但是如果没有安装，就会使用 WEB 版本的 进行分享，这个时候，分享完了就是完了，不知道是成功还是失败。
 去看了下文档，Facebook提供这个回调。

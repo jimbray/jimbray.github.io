@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>JIMBRAY</title>
-    <link>http://jimbray.github.io/</link>
+    <link>http://jimbray.xyz/</link>
     <description>Recent content on JIMBRAY</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
     <lastBuildDate>Mon, 22 May 2017 12:55:25 +0000</lastBuildDate>
     
-	<atom:link href="http://jimbray.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://jimbray.xyz/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>用Google Cloud搭建免费一年的SS</title>
-      <link>http://jimbray.github.io/post/get-free-google-cloud-vps-for-a-year/</link>
+      <link>http://jimbray.xyz/post/get-free-google-cloud-vps-for-a-year/</link>
       <pubDate>Mon, 22 May 2017 12:55:25 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/get-free-google-cloud-vps-for-a-year/</guid>
+      <guid>http://jimbray.xyz/post/get-free-google-cloud-vps-for-a-year/</guid>
       <description>其很Google cloud 很久之前就来了，那个时候免费送300刀，有效期两个月。当时觉得没用就没申请。 最近升级了，换成一年是试用了，刚好购买的SS快过期了。嘿嘿～
 准备工作  一张VISA信用卡 Google 账户 由于 Google 在中国是不存在的，所以 要有代理  300刀一年的有效期，使用最低配的话，可以玩一年，每个月有86G的流量，个人使用足够了吧&amp;hellip;&amp;hellip;
 开始了点击 Google cloud 点击 try free.
@@ -35,10 +35,10 @@
     
     <item>
       <title>使用树莓派搭建OSMC家庭影院</title>
-      <link>http://jimbray.github.io/post/build-osmc-at-rasperrypi/</link>
+      <link>http://jimbray.xyz/post/build-osmc-at-rasperrypi/</link>
       <pubDate>Mon, 22 May 2017 12:39:36 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/build-osmc-at-rasperrypi/</guid>
+      <guid>http://jimbray.xyz/post/build-osmc-at-rasperrypi/</guid>
       <description>手上有一台Raspberry Pi 3 ，为了避免吃灰，还是折腾一下好了。 选个系统安装一下，经过长时间的纠结 选择了 OSMC,还是插电视用吧。
 安装OSMC 系统  在 osmc官网先下载镜像 因为是在 win 下干活的，所以用的是 win32diskimager 直接选择 osmc img文件烧录就行了。 整个过程都是自动的，完成之后就会进入 系统了  修改系统语言为中文  找到 system–&amp;gt;settings–&amp;gt;apparence–&amp;gt;skin，把 fonts 改成 Arial based； 找到 skin 下面的 international，把 language 改成 Chinese； 一定要先修改字体，否则的话切换成中文之后会乱码。  不识别NTFS硬盘 系统安上了，也有中文了，手里移动硬盘插上去，准备看电影了。 但是插上去死活没反应，我硬盘不是坏了吧。 Google 老师告诉我，OSMC 不认识我的硬盘。（不识别NTFS硬盘）
  安装 ntfs-3g ，让系统支持NTFS硬盘 sudo apt-get install ntfs-3g 安装完成之后重启
@@ -48,10 +48,10 @@
     
     <item>
       <title>最简单方式拥有自己的SS服务器</title>
-      <link>http://jimbray.github.io/post/getpersonalss/</link>
+      <link>http://jimbray.xyz/post/getpersonalss/</link>
       <pubDate>Wed, 15 Feb 2017 12:20:20 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/getpersonalss/</guid>
+      <guid>http://jimbray.xyz/post/getpersonalss/</guid>
       <description> 购买VPS 我买的是 openvzvps-小尾巴 国人弄的,虽然配置低点，但我又不用来做其他东西，就搭个ss，够用就行。 虽然带了小尾巴，但是为了避免广告嫌疑，我就不贴图了
 安装shadowsocks $ sudo apt-get update $ sudo apt-get install python-gevent python-pip $ sudo pip install shadowsocks $ apt-get install python-m2crypto  配置shadowsocks 创建 shadowsocks.json 配置文件
 vi /etc/shadowsocks.json  修改shadowsocks.json 配置文件
@@ -61,10 +61,10 @@ vi /etc/shadowsocks.json  修改shadowsocks.json 配置文件
     
     <item>
       <title>ScrollView 与 ViewDragHelper 的混合使用学习</title>
-      <link>http://jimbray.github.io/post/supprisebottomview/</link>
+      <link>http://jimbray.xyz/post/supprisebottomview/</link>
       <pubDate>Fri, 06 Jan 2017 20:20:02 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/supprisebottomview/</guid>
+      <guid>http://jimbray.xyz/post/supprisebottomview/</guid>
       <description>按照惯例，先上效果
 涉及到的知识点  ViewGroup 的事件分发拦截机制
  ViewDragHelper 的基本使用
@@ -78,10 +78,10 @@ vi /etc/shadowsocks.json  修改shadowsocks.json 配置文件
     
     <item>
       <title>Android 一键发布 Facebook 帖文</title>
-      <link>http://jimbray.github.io/post/one-key-post-to-facebook/</link>
+      <link>http://jimbray.xyz/post/one-key-post-to-facebook/</link>
       <pubDate>Wed, 28 Dec 2016 13:00:00 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/one-key-post-to-facebook/</guid>
+      <guid>http://jimbray.xyz/post/one-key-post-to-facebook/</guid>
       <description>一般遇到的需求都是做分享操作，现在国内已经有很多一键分享的 SDK了，而且还封装得不错，就是权限要得比较多。
 今天需要做的是 跟 Path APP 一样，在自己的 APP 发布post时，同步发送到 其他平台Facebook。
 先把基本配置做了   將 Facebook Android SDK 新增至您的行動開發環境 取得正確設定並連結至 Android 應用程式的 Facebook 應用程式編號。請參閱 Android 新手指南，新增 Facebook 應用程式編號 產生 Android 金鑰雜湊並新增至開發人員個人檔案 新增 Facebook Activity - 請將本項目加至 `AndroidManifest.xml   开始分享 建立内容模板 模板有几种方式
@@ -94,10 +94,10 @@ vi /etc/shadowsocks.json  修改shadowsocks.json 配置文件
     
     <item>
       <title>我的第二个自定义View</title>
-      <link>http://jimbray.github.io/post/my-second-custom-view/</link>
+      <link>http://jimbray.xyz/post/my-second-custom-view/</link>
       <pubDate>Thu, 14 Jul 2016 15:19:05 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/my-second-custom-view/</guid>
+      <guid>http://jimbray.xyz/post/my-second-custom-view/</guid>
       <description>自古以来，第一个总是抢走了所有的聚光灯。 怎么办，我是第二个。
 据说有一个国际惯例，要真相 那就来吧 看到了吗。 下边那个圆环就是我们第二个主角啦。 上面那个是 传说中的第一个。 没办法，第二个不管再怎么好看也比不上 号称第一的那位。 这，应该是一个诅咒。
  /** * Created by Jimbray . * on 2016/7/13 * Email: jimbray16@gmail.com * Description: 这是我第二个自定义View。 * 第一个永远是被人铭记的，可是第二个呢 * 问你一个问题：世界上最高的山峰是？ * 答：当然是珠穆朗玛峰啦！ * 那第二高的呢？ * 答：当然是乔戈里峰啦！ * -_- 你不按套路出牌啊，套路里你是不知道的！ */ public class MySecondProgressbar extends View { private Context mContext; // 准备好画圆环的矩形区域 private RectF mRectF = new RectF(0, 0, 0, 0); // 准备好画文字的矩形区域 private RectF mTextRrectF = new RectF(0, 0, 0, 0); // 握好画笔啊，有三个频段，还有一个文字 private Paint mHeavyProgressPaint, mModerateProgressPaint, mLightProgressPaint, mTextPaint; // 默认值设置 private final float default_height = dp2px(45); private final float default_width = dp2px(45); private final int default_heavy_color = Color.</description>
@@ -105,20 +105,20 @@ vi /etc/shadowsocks.json  修改shadowsocks.json 配置文件
     
     <item>
       <title>我的第一个自定义View</title>
-      <link>http://jimbray.github.io/post/my-first-custom-view/</link>
+      <link>http://jimbray.xyz/post/my-first-custom-view/</link>
       <pubDate>Wed, 13 Jul 2016 12:35:05 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/my-first-custom-view/</guid>
+      <guid>http://jimbray.xyz/post/my-first-custom-view/</guid>
       <description>直接上代码，做个学习笔记好了。
 /** * Created by Jimbray . * on 2016/7/12 * Email: jimbray16@gmail.com * Description: 这是我第一个真正意义上的自定义View */ public class MyFirstProgressbar extends View { //max progress 虽然注释写了，但是还是不解释 private int mMaxProgress = 100; // current progress private int mCurrentProgress; //progress bar 背景颜色 private int mBackgroundColor; //progress bar 进度条颜色 private int mProgressColor; //progress bar 进度条高度 private float mProgressBarheight; //progress bar 背景高度 private float mBackgroundHeight; //设置默认值 //默认progress bar 背景颜色 private final int default_background_color = Color.</description>
     </item>
     
     <item>
       <title>简化markdown写作中的贴图流程（windows基本版）</title>
-      <link>http://jimbray.github.io/post/python-to-qiniu2/</link>
+      <link>http://jimbray.xyz/post/python-to-qiniu2/</link>
       <pubDate>Sun, 19 Jun 2016 21:12:36 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/python-to-qiniu2/</guid>
+      <guid>http://jimbray.xyz/post/python-to-qiniu2/</guid>
       <description>接上一篇文章 简化markdown写作中的贴图流程（windows简陋版）
 上一篇文章是 做了很久，除了对python不熟，还有懒，所以最终的结果不尽人意，可以说做出来一个半成品。能用，但用起来不爽。 所以，现在完成了基本版，基本版基本可用了
 上次的版本是 获取 全屏截图，这样的话像QQ截图这些功能都用不上了，而且还是显示很多不必要的元素在截图里面，比如说下面这个图啊 箭头所指的地方，根本不应该出现在截图里面的，是多余的元素。 废话不多说，开干。 思路跟实现跟上次一点区别都没有 代码也只是修改了一个函数，其他的基本没有变化 主要记录遇到的几个问题
@@ -128,10 +128,10 @@ def save_clipboard_image(): im = ImageGrab.grabclipboard() if im is None: print(
     
     <item>
       <title>简化markdown写作中的贴图流程（windows简陋版）</title>
-      <link>http://jimbray.github.io/post/python-to-qiniu/</link>
+      <link>http://jimbray.xyz/post/python-to-qiniu/</link>
       <pubDate>Tue, 14 Jun 2016 23:59:54 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/python-to-qiniu/</guid>
+      <guid>http://jimbray.xyz/post/python-to-qiniu/</guid>
       <description>上次在网上闲逛的时候看到一篇文章
 简化markdown写作中的贴图流程
 刚好最近也在学习python，看起来好有趣啊，这篇文章讲的是Mac上的， 我没有Mac，只有Windows，文章里面也写了Windows系统的实现思路，既然作者已经给出来了，作为一个python初学者，动动手罢
@@ -143,10 +143,10 @@ def save_clipboard_image(): pic = ImageGrab.</description>
     
     <item>
       <title>Facebook ShareDialog 没有回调的问题</title>
-      <link>http://jimbray.github.io/post/facebook-share-not-callback/</link>
+      <link>http://jimbray.xyz/post/facebook-share-not-callback/</link>
       <pubDate>Fri, 10 Jun 2016 20:24:04 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/facebook-share-not-callback/</guid>
+      <guid>http://jimbray.xyz/post/facebook-share-not-callback/</guid>
       <description>完成 facebook 分享功能之后，如果手机安装了Facebook，分享之后会有成功或者失败的 反馈
 但是如果没有安装，就会使用 WEB 版本的 进行分享，这个时候，分享完了就是完了，不知道是成功还是失败。
 去看了下文档，Facebook提供这个回调。
@@ -157,10 +157,10 @@ Facebook share封装起来之后是用 Activity 做回调的 所以 纯粹的使
     
     <item>
       <title>试玩 Docker</title>
-      <link>http://jimbray.github.io/post/try-docker/</link>
+      <link>http://jimbray.xyz/post/try-docker/</link>
       <pubDate>Thu, 09 Jun 2016 17:52:32 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/try-docker/</guid>
+      <guid>http://jimbray.xyz/post/try-docker/</guid>
       <description> 目标 docker这么火，体验一下，感受一下
 准备工作 Linux系统主机一台(我用的的ubuntu) docker文档看一下，我找了好几个，都挺不错的，就是不动一下手，总感觉虚
 开动 安装docker 我用的是ubuntu14.04 两种方式 1.源已经内置docker，不过教程裡有说那个docker没有更新
@@ -175,10 +175,10 @@ docker pull nginx docker images docker run nginx docker run -i nginx docker run 
     
     <item>
       <title>Linode 安装 lnmp 学习</title>
-      <link>http://jimbray.github.io/post/linode-install-lnmp/</link>
+      <link>http://jimbray.xyz/post/linode-install-lnmp/</link>
       <pubDate>Thu, 09 Jun 2016 17:30:04 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/linode-install-lnmp/</guid>
+      <guid>http://jimbray.xyz/post/linode-install-lnmp/</guid>
       <description>安装 1.安装 LNMP 参见 lnmp官网
 2.安装完成之后 查看 nginx 、 php、mysql 的运行状态
 ps aux | grep nginx ps aux | grep php ps aux | gerp mysql  确保已经在运行状态
@@ -194,19 +194,19 @@ listen.owner = www-data listen.group = www-data  www-data 修改为 第3步 ngin
     
     <item>
       <title>VPS 禁止远程ROOT登录</title>
-      <link>http://jimbray.github.io/post/ssh-root-login-setting/</link>
+      <link>http://jimbray.xyz/post/ssh-root-login-setting/</link>
       <pubDate>Thu, 09 Jun 2016 12:48:17 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/ssh-root-login-setting/</guid>
+      <guid>http://jimbray.xyz/post/ssh-root-login-setting/</guid>
       <description>编辑ssh 配置文件 vi /etc/ssh/sshd_config  修改关键配置 PermitRootLogin no  重启 ssh 服务 service /etc/init.d/ssh restart  Done.</description>
     </item>
     
     <item>
       <title>Flask 直接显示根目录文件内容</title>
-      <link>http://jimbray.github.io/post/falsk-root/</link>
+      <link>http://jimbray.xyz/post/falsk-root/</link>
       <pubDate>Thu, 09 Jun 2016 12:37:25 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/falsk-root/</guid>
+      <guid>http://jimbray.xyz/post/falsk-root/</guid>
       <description>搜索结果 @app.route(&#39;/&amp;lt;path&amp;gt;&#39;) def info(path): resp = make_response(open(path).read()) resp.headers[&amp;quot;Content-type&amp;quot;]=&amp;quot;application/json;charset=UTF-8&amp;quot; return resp  按道理应该是可以生效的，但我在用的时候却报错了
 出现错误 IOError: [Errno 2] No such file or directory: u&#39;readme.json&#39;  居然找不到这个文件
 解决办法 使用绝对路径
@@ -216,10 +216,10 @@ Done.</description>
     
     <item>
       <title>使用迅雷下载后 shadowsocks失效 解决办法</title>
-      <link>http://jimbray.github.io/post/ss-thunder/</link>
+      <link>http://jimbray.xyz/post/ss-thunder/</link>
       <pubDate>Thu, 09 Jun 2016 12:08:50 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/ss-thunder/</guid>
+      <guid>http://jimbray.xyz/post/ss-thunder/</guid>
       <description>今天用的好好的 ss 突然之间失效了，看了下日志：
 failed to recv data in handshakeReceive2Callback  网上搜罗下，出现这个情况的不在少数，主要是因为使用了迅雷下载导致
 解决办法 1.在服务中找到XLServicePlatform把这个服务禁用了。现在应该可以使用ss了
@@ -231,10 +231,10 @@ XLServicePlatform：这个服务主要的功能是迅雷的网络诊断，并不
     
     <item>
       <title>在同一个repo备份hexo文章以及配置</title>
-      <link>http://jimbray.github.io/post/sync-hexo-source/</link>
+      <link>http://jimbray.xyz/post/sync-hexo-source/</link>
       <pubDate>Sat, 04 Jun 2016 16:48:27 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/sync-hexo-source/</guid>
+      <guid>http://jimbray.xyz/post/sync-hexo-source/</guid>
       <description>使用场景 使用 Hexo 的一键发布文章很方便，但是有多个地点需要同步文章的时候就麻烦了。 因为GitHub 的 repo 上 只有Hexo 编译好的 html文件， 并没有Hexo 的source 文件（也就是文章）。 如果需要在不同地点进行 文章发布的话，就没有办法完成了（先不考虑草稿的事） 所以 我们需要在其他 repo 进行文章的备份。
 使用工具 还是使用Git 进行操作 Git 需要一个服务器 现在支持 git 托管的服务已经很多了，用其他的也可以。 不过我不想注册使用那么多，还是使用Github 吧 而且还是同一个 repo
 操作步骤 上传操作 进入 Hexo 所在的文件夹 打开 git bash 窗口
@@ -246,10 +246,10 @@ git commit -m &amp;quot;commit first time&amp;quot;  提交成功之后 接下�
     
     <item>
       <title>Hello World</title>
-      <link>http://jimbray.github.io/post/hello-world/</link>
+      <link>http://jimbray.xyz/post/hello-world/</link>
       <pubDate>Fri, 03 Jun 2016 16:48:27 +0000</pubDate>
       
-      <guid>http://jimbray.github.io/post/hello-world/</guid>
+      <guid>http://jimbray.xyz/post/hello-world/</guid>
       <description>参照 史上最详细的Hexo博客搭建图文教程 搭建了自己的 Blog，向来不会写东西。
 作为一个技术工作者，工作学习过程中总会有一些经验总结，我又比较健忘，基本上学什么忘什么，还是找个地方做下笔记做个记录好了。
 毕竟，好记性不如烂笔头。还是很有道理的。
