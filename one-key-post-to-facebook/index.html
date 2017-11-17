@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+
+<meta name="description" content="一般遇到的需求都是做分享操作，现在国内已经有很多一键分享的 SDK了，而且还封装得不错，就是权限要得比较多。
+今天需要做的是 跟 Path APP 一样，在自己的 APP 发布post时，同步发送到 其他平台Facebook。
+先把基本配置做了   將 Facebook Android SDK 新增至您的行動開發環境 取得正確設定並連結至 Android 應用程式的 Facebook 應用程式編號。請參閱 Android 新手指南，新增 Facebook 應用程式編號 產生 Android 金鑰雜湊並新增至開發人員個人檔案 新增 Facebook Activity - 請將本項目加至 `AndroidManifest.xml   开始分享 建立内容模板 模板有几种方式
+ Link Photos Videos Multimedia  参见Facebook官方文档
+最终使用 ShareApi.share(content, null);  即可发送成功
+但是发送的样式 跟 使用那些 一键分享的 SDK 是一样的
+都是那种感觉像 转发 的形式。（会看到 发送的对话框，类似于 ShareDialog）
+后台发送 仔细看了文档，发现了一个 Graph API">
+
+<meta property="og:title" content="Android 一键发布 Facebook 帖文" />
+<meta property="og:description" content="一般遇到的需求都是做分享操作，现在国内已经有很多一键分享的 SDK了，而且还封装得不错，就是权限要得比较多。
+今天需要做的是 跟 Path APP 一样，在自己的 APP 发布post时，同步发送到 其他平台Facebook。
+先把基本配置做了   將 Facebook Android SDK 新增至您的行動開發環境 取得正確設定並連結至 Android 應用程式的 Facebook 應用程式編號。請參閱 Android 新手指南，新增 Facebook 應用程式編號 產生 Android 金鑰雜湊並新增至開發人員個人檔案 新增 Facebook Activity - 請將本項目加至 `AndroidManifest.xml   开始分享 建立内容模板 模板有几种方式
+ Link Photos Videos Multimedia  参见Facebook官方文档
+最终使用 ShareApi.share(content, null);  即可发送成功
+但是发送的样式 跟 使用那些 一键分享的 SDK 是一样的
+都是那种感觉像 转发 的形式。（会看到 发送的对话框，类似于 ShareDialog）
+后台发送 仔细看了文档，发现了一个 Graph API" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/one-key-post-to-facebook/" />
+
+
+
+<meta property="article:published_time" content="2016-12-28T13:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2016-12-28T13:00:00&#43;00:00"/>
+
+
+
+
+
+
+
+
+
+
+
+
+<title>
+
+
+     Android 一键发布 Facebook 帖文 
+
+</title>
+<link rel="canonical" href="http://example.org/one-key-post-to-facebook/">
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:500">
+
+
+
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/pygments.css">
+    <link rel="stylesheet" href="/css/main.css">
+    
+
+
+
+
+<link rel="shortcut icon"
+
+    href="/img/favicon.ico"
+
+>
+
+
+
+
+
+
+
+
+</head>
+
+
+<body lang="">
+
+<section class="header">
+    <div class="container">
+        <div class="content">
+            
+            <a href="/"><div class="name"></div></a>
+            
+            <nav>
+                <ul>
+                    
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<section class="icons">
+    <div class="container">
+        <div class="content">
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+            
+        
+
+        
+
+        
+
+        
+            <a href="http://example.org/index.xml"><img class="icon" src="/img/rss.svg" alt="rss" /></a>
+        
+        
+        </div>
+    </div>
+</section>
+
+<section class="main">
+    <div class="container">
+        <div class="content">
+            <div class="page-heading">
+
+    Android 一键发布 Facebook 帖文
+
+</div>
+
+            <div class="markdown">
+                
+
+<p>一般遇到的需求都是做分享操作，现在国内已经有很多一键分享的 SDK了，而且还封装得不错，就是权限要得比较多。</p>
+
+<p>今天需要做的是  跟 Path APP 一样，在自己的 APP 发布post时，同步发送到 <del>其他平台</del>Facebook。</p>
+
+<h3 id="先把基本配置做了">先把基本配置做了</h3>
+
+<blockquote>
+<ul>
+<li>將 <strong>Facebook Android SDK</strong> 新增至您的行動開發環境</li>
+<li>取得正確設定並連結至 Android 應用程式的 <strong>Facebook 應用程式編號</strong>。請參閱 <a href="https://developers.facebook.com/docs/android/getting-started#app_id">Android 新手指南，新增 Facebook 應用程式編號</a></li>
+<li>產生 <strong>Android 金鑰雜湊</strong>並新增至<a href="https://developers.facebook.com/settings/developer/contact/">開發人員個人檔案</a></li>
+<li><strong>新增 Facebook Activity</strong> - 請將本項目加至 `AndroidManifest.xml</li>
+</ul>
+</blockquote>
+
+<h3 id="开始分享">开始分享</h3>
+
+<h4 id="建立内容模板">建立内容模板</h4>
+
+<p>模板有几种方式</p>
+
+<ul>
+<li>Link</li>
+<li>Photos</li>
+<li>Videos</li>
+<li>Multimedia</li>
+</ul>
+
+<p>参见<a href="https://developers.facebook.com/docs/sharing/android?locale=en_US">Facebook官方文档</a></p>
+
+<h4 id="最终使用">最终使用</h4>
+
+<pre><code>ShareApi.share(content, null);
+</code></pre>
+
+<p>即可发送成功</p>
+
+<p>但是发送的样式 跟 使用那些 一键分享的 SDK 是一样的</p>
+
+<p>都是那种感觉像 转发 的形式。（会看到 发送的对话框，类似于 ShareDialog）</p>
+
+<!-- more -->
+
+<h4 id="后台发送">后台发送</h4>
+
+<p>仔细看了文档，发现了一个 <a href="https://developers.facebook.com/docs/graph-api">Graph API </a></p>
+
+<p>而且还提供了 <a href="https://developers.facebook.com/docs/graph-api/common-scenarios">案例</a>，也有各个平台的SDK使用，用起来很方便。</p>
+
+<h5 id="are-two-people-facebook-friends-判断两人是否为朋友">Are two people Facebook friends? （判断两人是否为朋友）</h5>
+
+<ul>
+<li><a href="https://developers.facebook.com/docs/graph-api/reference/user/friends/#readmodifiers"><code>/{user-a-id}/friends/{user-b-id}</code></a> - this API Read modifier will let you check via API.</li>
+</ul>
+
+<h5 id="publishing-new-status-updates-发布新的近况">Publishing new Status Updates （发布新的近况）</h5>
+
+<ul>
+<li><a href="https://developers.facebook.com/docs/graph-api/reference/user/albums/#publish"><code>/{user-id}/albums</code></a> to create empty photo albums for people.</li>
+<li><a href="https://developers.facebook.com/docs/graph-api/reference/user/photos/#publish"><code>/{user-id}/photos</code></a> to add individual photos for people.</li>
+<li><a href="https://developers.facebook.com/docs/graph-api/reference/page/albums#publish"><code>/{page-id}/albums</code></a> to create empty photo albums for Facebook Pages.</li>
+<li><a href="https://developers.facebook.com/docs/graph-api/reference/page/photos/#publish"><code>/{page-id}/photos</code></a> to add individual photos for Facebook Pages.</li>
+<li><a href="https://developers.facebook.com/docs/reference/api/album/#photos"><code>/{album-id}/photos</code></a> to add photos to an existing album for people or for Pages.</li>
+<li><a href="https://developers.facebook.com/docs/graph-api/reference/user/videos/"><code>/{user-id}/videos</code></a> to update an user&rsquo;s videos.</li>
+<li><a href="https://developers.facebook.com/docs/graph-api/reference/page/videos/"><code>/{page-id}/videos</code></a> to update an page&rsquo;s videos.</li>
+<li><a href="https://developers.facebook.com/docs/graph-api/reference/event/videos/"><code>/{event-id}/videos</code></a> to update an event&rsquo;s videos.</li>
+</ul>
+
+<h5 id="sharing-links-分享链接">Sharing Links （分享链接）</h5>
+
+<ul>
+<li><a href="https://developers.facebook.com/docs/graph-api/reference/user/feed/#publish"><code>/{user-id}/feed</code></a> for people on Facebook, using the <code>link</code> field.</li>
+<li><a href="https://developers.facebook.com/docs/graph-api/reference/page/feed/#publish"><code>/{page-id}/feed</code></a> for Facebook Pages, using the <code>link</code> field.</li>
+</ul>
+
+<p>等等&hellip;&hellip;具体参见<a href="https://developers.facebook.com/docs/graph-api/common-scenarios">文档</a></p>
+
+<h3 id="权限申请">权限申请</h3>
+
+<p>根据需求写了一个方法，用于发布 文字近况 和 图片近况</p>
+
+<pre><code>public static void share2FBInBackground(String img_url, String des) {
+        if(TextUtils.isEmpty(img_url)) {
+            if(!TextUtils.isEmpty(des)) {
+                Bundle params = new Bundle();
+                params.putString(&quot;message&quot;, des);
+                /* make the API call */
+                new GraphRequest(
+                        AccessToken.getCurrentAccessToken(),
+                        &quot;/me/feed&quot;,
+                        params,
+                        HttpMethod.POST,
+                        new GraphRequest.Callback() {
+                            public void onCompleted(GraphResponse response) {
+                                DebugUtils.LOG_D(TAG, &quot;post text complete&quot;);
+                                /* handle the result */
+                            }
+                        }
+                ).executeAsync();
+            }
+
+        } else {
+            Bundle params = new Bundle();
+            params.putString(&quot;url&quot;, img_url);
+            if(!TextUtils.isEmpty(des)) {
+                params.putString(&quot;caption&quot;, des);
+            }
+            /* make the API call */
+            new GraphRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    &quot;/me/photos&quot;,
+                    params,
+                    HttpMethod.POST,
+                    new GraphRequest.Callback() {
+                        public void onCompleted(GraphResponse response) {
+                        /* handle the result */
+                            DebugUtils.LOG_D(TAG, &quot;post photos complete&quot;);
+                        }
+                    }
+            ).executeAsync();
+        }
+    }
+</code></pre>
+
+<p>可是</p>
+
+<p>每次都不成功！</p>
+
+<p>原来 Facebook 发布还需要权限，还需要申请（publish_actions）</p>
+
+<p>那就在 发布之前 加一个 判断吧</p>
+
+<p>是否有权限发布</p>
+
+<pre><code>public static boolean hasPublishPermission() {
+    AccessToken accessToken = AccessToken.getCurrentAccessToken();
+    return accessToken != null &amp;&amp; accessToken.getPermissions().contains(&quot;publish_actions&quot;);
+}
+</code></pre>
+
+<p>那，怎么申请权限呢？</p>
+
+<pre><code>public static void loginWithPublishPermission(Activity activity, final 			FacebookCallback&lt;LoginResult&gt; callback) {
+        // 允许使用的权限
+        String permission[] = new String[]{&quot;publish_actions&quot;};
+        LoginManager.getInstance().logInWithPublishPermissions(activity, Arrays.asList(permission));
+        LoginManager.getInstance().registerCallback(mCallbackManager, callback);
+    }
+</code></pre>
+
+<p>做了做些操作，应该可以发布成功了。</p>
+
+<p>但是， <code>publish_actions</code> 这个权限是需要申请并审核的。</p>
+
+<p>那就去申请好了。</p>
+
+<p>进入 开发者账号&ndash;选中应用&ndash;选择 App-Review &ndash;选择 Submit Items for Approval&ndash;添加 需要的权限</p>
+
+<p>然后 Edit Notes 看下 审核需要做哪些事情。</p>
+
+<p>可严格了</p>
+
+<ul>
+<li>My app does not auto-populate the user message field</li>
+<li>My app does not use the Facebook <a href="https://developers.facebook.com/docs/sharing/reference/feed-dialog/">Feed Dialog</a> or the Facebook <a href="https://developers.facebook.com/docs/sharing/reference/share-dialog">Share Dialog</a> to publish content</li>
+<li>The share button has clear Facebook branding</li>
+<li>My app does not post to Facebook automatically</li>
+</ul>
+
+<p>还要录制一个视频</p>
+
+<p>You must show:</p>
+
+<ol>
+<li>How a person starts your app and logs in to Facebook login</li>
+<li>How a person shares to Facebook from your app</li>
+<li>How the post looks on the person&rsquo;s Facebook timeline after posting</li>
+</ol>
+
+<p>比写代码还麻烦。</p>
+
+<p>还有一个问题，我想测试我写的代码是否能发布出去呢，现在权限还没有申请下来。</p>
+
+<p>没关系，facebook 提供了一个 测试账号（需要自己添加）</p>
+
+<p>左侧边栏&ndash;Roles&ndash;Test Users</p>
+
+<p>然后使用新增的用户，用刚才的代码，就可以进行发布测试了。</p>
+
+<p>流水帐式记录。Done.</p>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+</body>
+</html>
+
