@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="这里有很多弯路，以后扯直了再走一遍。">
+  <meta name="generator" content="Hugo 0.25.1" />
+
+  <title>我的第三个自定义View &middot; JIMBRAY</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://jimbray.xyz/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="http://jimbray.xyz/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="http://jimbray.xyz/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://jimbray.xyz/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="http://jimbray.xyz/">Jimbray</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://jimbray.xyz/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://jimbray.xyz/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://jimbray.xyz/tags/"><i class='fa fa-user fa-fw'></i>Tags</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>我的第三个自定义View</h1>
+  <h2>这里有很多弯路，以后扯直了再走一遍。</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>15 Sep 2016, 15:47</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://jimbray.xyz/tags/android">Android</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<p>这次的主角是一个折线图，牛逼的 画图控件已经很多了，
+虽然只用过 <a href="https://github.com/PhilJay/MPAndroidChart">MPAndroidChart</a>
+想着自己写一个学习一下咯
+下面是效果</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/44312-148eff8ead6590e7.gif?imageMogr2/auto-orient/strip" alt="" />
+可能录制得有点卡顿</p>
+
+<h3 id="学习路径">学习路径</h3>
+
+<h4 id="变量设置">变量设置</h4>
+
+<pre><code>private Context mContext;
+
+private float mViewHeight, mViewWidth;
+private Paint mNormalPointPaint,mSelectedPointPaint, mLinePaint, mBgLinePaint, mTestPaint,
+  mBottomTextPaint, mTopTextPaint, mAverageLinePaint, mLifeLongLinePaint, mBottomValuePaint, mBgPaint;//各种画笔
+
+private float mVerticalOffset = dp2px(5); //上下边距
+private float mPointWidth = dp2px(4f); //圆点大小（现已修改为图片）
+private float mHorizontalOffset = dp2px(15f); //左右边距
+private float mValuePaddingOffset;
+private boolean mIsHorizontalValue = false; //所有值都相等（是一条水平线）将所有点都画在中间位置
+
+private List&lt;SimpleLineData&gt; mData; // 数据
+private List&lt;String&gt; mBottomTexts; // 底部文字集合
+private float mBottomTextSize; // 底部文字大小
+private int mBottomTextStepSize; // 底部文字 相隔展示间距
+
+private String mTopText; // 顶部中间文字内容
+private float mTopTextSize; // 顶部中间文字大小
+
+// 点到点之间的动画相关变量
+private int mDrawingLineIndex;
+private float mDrawingStopX = -1f, mDrawingStopY = -1f;
+private AnimatorSet mAnimatorLine;
+private boolean isAnimatingLine;
+
+// 平均线的动画相关变量
+private boolean isAnimatingAverageLine;
+private AnimatorSet mAnimatorAverageLine;
+private float mDrawingStopAverageLineX = -1f;
+
+private String mAverageIconText; //平均线图示文字
+private float mAverageIconTextSize; //平均线图示文字大小
+private float mAverageValue = -1;
+
+// lifelong 的动画相关变量
+private boolean isAnimatingLifelongLine;
+private AnimatorSet mAnimatorLifelongLine;
+private float mDrawingStopLifelongLineX = -1;
+
+private String mLifeLongIconText; //linflong 图示文字
+private float mLifelongIconTextSize;
+private float mLifeLongValue = -1;
+
+// 点击点到底部的动画相关变量
+private boolean isAnimatingSelectedLine;
+private AnimatorSet mAnimatorSelectedLine;
+private float mDrawingStopSelectedLineY = -1f;
+
+// 数据值 原点的 图片
+private Bitmap mBitmapNormalCircle, mBitmapSelectedCircle;
+
+// 点击位置相关变量
+private float mTouchDownX, mTouchDownY;
+private float mTouchPadding = dp2px(2.5f);
+
+// 是否绘制的控制
+private boolean mIsDrawBottomText = false; //是否绘制底部文字
+private boolean mIsDrawAverageLine = true; //是否绘制平均线
+private boolean mIsDrawLiflongLine = false; //是否绘制 lifelongprivate boolean mIsDrawVerticalLine = true; //是否绘制背景竖线
+private boolean mIsDrawHorizontalLine = false; //是否绘制背景横线
+private boolean mIsDrawTopSideLine = true; //是否绘制顶部边线
+private boolean mIsDrawBottomSideLine = true; //是否绘制底部边线
+private boolean mIsDrawRightSideLine = true; //是否绘制右部边线
+private boolean mIsDrawLeftSideLine = true; //是否绘制左部边线
+private boolean mIsDrawPointSelectedLine = true; //是否绘制点击时的竖线
+private boolean mIsDrawValueTextBottom = true; //是否在底部空间显示点击值的内容
+
+private float mBottomValueTextSize; //底部空间文字大小
+private String mBottomValueSuffix = &quot;&quot;;
+private String mBottomValuePrefix = &quot;&quot;;
+
+//各模块颜色配置
+private final int DEFAULT_NORMAL_POINT_COLOR = Color.rgb(0,181,255);
+private final int DEFAULT_SELECTED_POINT_COLOR = Color.rgb(255,128,97);
+private final int DEFAULT_POINT_TO_LINE_COLOR = Color.rgb(0,181,255);
+private final int DEFAULT_BACKGROUNG_LINE_COLOR = Color.rgb(194,200,208);
+private final int DEFAULT_BOTTOM_TEXT_COLOR = Color.rgb(194,200,208);
+private final int DEFAULT_TOP_TEXT_COLOR = Color.rgb(0,181,255);
+private final int DEFAULT_AVERAGE_LINE_COLOR = Color.rgb(254,117,117);
+private final int DEFAULT_LIFELONG_LINE_COLOR = Color.rgb(175,117,254);
+private final int DEFAULT_VIEW_BACKGROUND_COLOR = Color.rgb(250,251,254);
+private final int DEFAULT_BOTTOM_VALUE_TEXT_COLOR = Color.rgb(0,181,255);
+
+private int mNormalPointColor = DEFAULT_NORMAL_POINT_COLOR;
+private int mSelectedPointColor = DEFAULT_SELECTED_POINT_COLOR;
+private int mPointToLineColor = DEFAULT_POINT_TO_LINE_COLOR;
+private int mBackgroungLineColor = DEFAULT_BACKGROUNG_LINE_COLOR;
+private int mBottomTextColor = DEFAULT_BOTTOM_TEXT_COLOR;
+private int mTopTextColor = DEFAULT_TOP_TEXT_COLOR;
+private int mAverageLineColor = DEFAULT_AVERAGE_LINE_COLOR;
+private int mLifelongLineColor = DEFAULT_LIFELONG_LINE_COLOR;
+private int mViewBackgroundColor = DEFAULT_VIEW_BACKGROUND_COLOR;
+private int mBottomValueTextColor = DEFAULT_BOTTOM_VALUE_TEXT_COLOR;
+
+private static final int DEFAULT_COLUMN_COUNT = 7;
+private int mColumnCount;
+
+</code></pre>
+
+<p>综上所述，需要展示以及绘制的东西在上面都已经定义好了。
+虽然现在看起来有好多，实际上都是一个个敲出来的，像我这种初学者就不要太心急，别想一口吃撑胖子，一个一个效果实现，然后再去定义变量，然后再开放接口。</p>
+
+<h4 id="类的定义套路">类的定义套路</h4>
+
+<p>这点就不赘述了，关于构造函数啊，绘制流程啊，差不多都是 万变不离其宗。
+我也说不出什么花来。
+主要讲讲 draw 的思路好了。</p>
+
+<h4 id="绘制">绘制</h4>
+
+<h5 id="绘制背景线">绘制背景线</h5>
+
+<p>在画背景线之前，我做了一个操作</p>
+
+<pre><code>mValuePaddingOffset = (getHeight() - (mIsDrawBottomText ? mBottomTextSize : 0))*0.2f; //把上下两部分（20%）区域 不做绘图区域
+</code></pre>
+
+<p>意思就是之后的画图（主要是点和线的部分，我都限定在了 除去上下20%的剩余空间里）
+<img src="http://upload-images.jianshu.io/upload_images/44312-5fa25e3f52c7f5cc.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img_1473920068.96.jpg" />
+就是把最低点与底部的距离和最高点与顶部的距离 空出来（图上箭头所示），用来放一些图示信息。
+最低点是 数据中最小的数值所在的点
+最高点是 数据中最大的数值所在的点
+当最大值与最小值相等时，所有点都画在中间位置</p>
+
+<p>开始画背景线
+<!-- more --></p>
+
+<pre><code>private void drawBackgroundLine(Canvas canvas) {
+        //画背景线
+
+
+        for (int i = 0 ; i &lt; mColumnCount; i++) {
+            float verticalStartX = ((getWidth()- mHorizontalOffset *2)/(mColumnCount - 1))*i + mHorizontalOffset;
+            if(mIsDrawVerticalLine) {
+                mIsDrawRightSideLine = true; //如果需要画竖线，默认需要画最右边的竖线
+                mIsDrawLeftSideLine  = true; //如果需要画竖线，默认需要画最左边的竖线
+                float verticalStartY = mVerticalOffset;
+                float verticalStopX  = verticalStartX;
+                float verticalStopY  = getHeight() - mVerticalOffset - (mIsDrawBottomText ? mBottomTextSize : 0);
+                canvas.drawLine(verticalStartX, verticalStartY, verticalStopX, verticalStopY, mBgLinePaint);
+            }
+
+            if(mIsDrawHorizontalLine) {
+                mIsDrawTopSideLine = true;
+                mIsDrawBottomSideLine = true;
+                float horizontalStartX = mHorizontalOffset;
+                float horizontalStartY = ((getHeight() - mVerticalOffset*2 - (mIsDrawBottomText ? mBottomTextSize : 0))/(mColumnCount -1))*i + mVerticalOffset;
+                float horizontalStopX  = getWidth() - mHorizontalOffset;
+                float horiontalStopY   = horizontalStartY;
+                canvas.drawLine(horizontalStartX, horizontalStartY, horizontalStopX, horiontalStopY, mBgLinePaint);
+            }
+
+            if(mIsDrawBottomText) {
+                if (mBottomTexts != null) {
+                    //draw bottom text
+                    String bottom_text_str = mBottomTexts.get(i);
+//                    float bottom_text_width = mBottomTextPaint.measureText(bottom_text_str);
+                    if(i % mBottomTextStepSize == 0) {
+                        canvas.drawText(bottom_text_str, verticalStartX, getHeight() - mVerticalOffset, mBottomTextPaint);
+                    } else if(i == mColumnCount - 1) {
+                        if((i - 1) % mBottomTextStepSize != 0) {
+                            canvas.drawText(bottom_text_str, verticalStartX, getHeight() - mVerticalOffset, mBottomTextPaint);
+                        }
+                    }
+                }
+            }
+        }
+
+        if(mIsDrawRightSideLine) {
+            //最后一条竖线
+            canvas.drawLine(getWidth() - mHorizontalOffset, mVerticalOffset, getWidth() - mHorizontalOffset, getHeight() - mVerticalOffset - (mIsDrawBottomText ? mBottomTextSize : 0), mBgLinePaint);
+        }
+
+        if(mIsDrawLeftSideLine) {
+            canvas.drawLine(mHorizontalOffset, mVerticalOffset, mHorizontalOffset, getHeight() - mVerticalOffset - (mIsDrawBottomText ? mBottomTextSize : 0), mBgLinePaint);
+        }
+
+        if(mIsDrawBottomSideLine) {
+            canvas.drawLine(mHorizontalOffset, getHeight()- mVerticalOffset - (mIsDrawBottomText ? mBottomTextSize : 0), getWidth()- mHorizontalOffset, getHeight()- mVerticalOffset - (mIsDrawBottomText ? mBottomTextSize : 0), mBgLinePaint);//底部横线
+        }
+        if(mIsDrawTopSideLine) {
+            canvas.drawLine(mHorizontalOffset, mVerticalOffset, getWidth() - mHorizontalOffset, mVerticalOffset, mBgLinePaint);//顶部横线
+        }
+
+    }
+</code></pre>
+
+<p>先画了竖线，竖线的条数与之前设定的 mColumnCount 相关
+然后画横线，横线的位置只要由高度，上下边距，以及是否绘制底部文字相关（有的画要去除这部分的高度哇）
+当然了，底部的 bottomText 我也当成是一个背景绘制了</p>
+
+<h5 id="绘制圆点位置">绘制圆点位置</h5>
+
+<p>圆点的位置是与数据息息相关的。</p>
+
+<pre><code>private void drawPoint(Canvas canvas) {
+
+        float max_value = getMaxValue();
+        float min_value = getMinValue();
+        float max_pos_y = getHeight() - mVerticalOffset - mValuePaddingOffset - (mIsDrawBottomText ? mBottomTextSize : 0);
+        float min_pos_y = mValuePaddingOffset;
+        //画点
+        float average_value = 0;
+        for (int i = 0 ; i &lt; mData.size(); i++) {
+            if(mData.get(i).getValue() &lt; 0) {
+                continue;
+            }
+            average_value += mData.get(i).getValue();
+            if(mIsHorizontalValue) {
+                //之前的圆点是用画的，现在修改为图片了
+//                canvas.drawCircle(((getWidth()- mHorizontalOffset *2)/(mData.size() - 1))*i + mHorizontalOffset,
+//                        min_pos_y + (max_pos_y - min_pos_y)/2, mPointWidth, mNormalPointPaint);
+
+
+                float left, top;
+                if(mColumnCount &gt; 1) {
+                    left = ((getWidth()- mHorizontalOffset *2)/(mColumnCount - 1))*i + mHorizontalOffset - mBitmapNormalCircle.getWidth()/2;
+                } else {
+                    left = mHorizontalOffset - mBitmapNormalCircle.getWidth()/2;
+                }
+                top = (min_pos_y + (max_pos_y - min_pos_y)/2) - mBitmapNormalCircle.getHeight()/2;
+                boolean isInTouchArea= false;
+                if(mTouchDownX &gt; left - mTouchPadding &amp;&amp; mTouchDownX &lt; left + mBitmapNormalCircle.getWidth() + mTouchPadding) {
+                    //X 符合要求
+                    if(mTouchDownY &gt; top - mTouchPadding &amp;&amp; mTouchDownY &lt; top + mBitmapNormalCircle.getHeight() + mTouchPadding) {
+                        // Y 符合要求
+                        isInTouchArea = true;
+                    }
+                }
+                if(isInTouchArea) {
+                    if(mIsDrawPointSelectedLine) {
+                        if(mDrawingStopSelectedLineY != getHeight() - mVerticalOffset - (mIsDrawBottomText ? mBottomTextSize : 0)) {
+                            if(isAnimatingSelectedLine) {
+                                float line_x;
+                                if(mColumnCount &gt; 1) {
+                                    line_x = ((getWidth()- mHorizontalOffset *2)/(mColumnCount - 1))*i + mHorizontalOffset;
+                                } else {
+                                    line_x = mHorizontalOffset;
+                                }
+                                canvas.drawLine(line_x,
+                                        min_pos_y + (max_pos_y - min_pos_y)/2, line_x,
+                                        mDrawingStopSelectedLineY, mLinePaint);
+                            } else {
+                                if(mDrawingStopSelectedLineY == -1) {
+                                    startSelectedLineAnimation(min_pos_y + (max_pos_y - min_pos_y)/2,
+                                            getHeight() - mVerticalOffset - (mIsDrawBottomText ? mBottomTextSize : 0));
+                                }
+                            }
+                        } else {
+                            float line_x;
+                            if(mColumnCount &gt; 1) {
+                                line_x = ((getWidth()- mHorizontalOffset *2)/(mColumnCount - 1))*i + mHorizontalOffset;
+                            } else {
+                                line_x = mHorizontalOffset;
+                            }
+                            canvas.drawLine(line_x,
+                                    min_pos_y + (max_pos_y - min_pos_y)/2, line_x,
+                                    getHeight() - mVerticalOffset - (mIsDrawBottomText ? mBottomTextSize : 0), mLinePaint);
+                            if(mIsDrawBottomText) {
+                                if (mBottomTexts != null) {
+                                    //draw bottom text
+                                    String bottom_text_str = mBottomTexts.get(i);
+                                    mBottomTextPaint.setColor(mPointToLineColor);
+                                    canvas.drawText(bottom_text_str, line_x, getHeight() - mVerticalOffset, mBottomTextPaint);
+                                    mBottomTextPaint.setColor(mBottomTextColor);
+                                }
+                            }
+                        }
+                    }
+
+                    if(mColumnCount &gt; 1) {
+                        left = ((getWidth()- mHorizontalOffset *2)/(mColumnCount - 1))*i + mHorizontalOffset - mBitmapSelectedCircle.getWidth()/2;
+                    } else {
+                        left = mHorizontalOffset - mBitmapSelectedCircle.getWidth()/2;
+                    }
+                    top = (min_pos_y + (max_pos_y - min_pos_y)/2) - mBitmapSelectedCircle.getHeight()/2;
+                    canvas.drawBitmap(mBitmapSelectedCircle, left, top, mNormalPointPaint);
+
+                    if(mIsDrawValueTextBottom) {
+                        String bottom_value_text = null;
+                        if(TextUtils.isEmpty(mData.get(i).getValue_text())) {
+                            bottom_value_text = String.valueOf(mData.get(i).getValue());
+                            bottom_value_text = mBottomValuePrefix + bottom_value_text + mBottomValueSuffix;
+                        } else {
+                            bottom_value_text = mData.get(i).getValue_text();
+                        }
+
+                        float bottom_value_text_width = mBottomValuePaint.measureText(bottom_value_text);
+
+                        RectF rectF_bg = new RectF();
+                        if(mColumnCount &gt; 1) {
+                            rectF_bg.left = ((getWidth()- mHorizontalOffset *2)/(mColumnCount - 1))*i + mHorizontalOffset - bottom_value_text_width/2;
+                        } else {
+                            rectF_bg.left = mHorizontalOffset - bottom_value_text_width/2;
+                        }
+
+                        if(rectF_bg.left &lt; mHorizontalOffset) {
+                            rectF_bg.left = mHorizontalOffset + dp2px(2);
+                        }
+
+                        if((rectF_bg.left + bottom_value_text_width) &gt; getWidth() - mHorizontalOffset) {
+                            rectF_bg.left = rectF_bg.left - bottom_value_text_width/2 - dp2px(2);
+                        }
+
+                        rectF_bg.top = getHeight() - mValuePaddingOffset/2 - mBottomValueTextSize/2 - (mIsDrawBottomText ? mBottomTextSize : 0) ;
+                        rectF_bg.right = rectF_bg.left + bottom_value_text_width;
+                        rectF_bg.bottom = rectF_bg.top + mBottomTextSize;
+                        canvas.drawRect(rectF_bg, mBgPaint);
+
+                        canvas.drawText(bottom_value_text, rectF_bg.left + bottom_value_text_width/2,
+                                getHeight() - mValuePaddingOffset/2 - (mIsDrawBottomText ? mBottomTextSize : 0) + mBottomValueTextSize/2 + (mBottomValuePaint.descent() + mBottomValuePaint.ascent() / 2.0f), mBottomValuePaint);
+                    }
+                } else {
+                    canvas.drawBitmap(mBitmapNormalCircle, left, top, mNormalPointPaint);
+                }
+
+
+
+            } else {
+//                canvas.drawCircle(((getWidth()- mHorizontalOffset *2)/(mData.size() - 1))*i + mHorizontalOffset,
+//                        mValuePaddingOffset + ((max_value-mData.get(i).getValue())/(max_value-min_value))*(max_pos_y-min_pos_y), mPointWidth, mNormalPointPaint);
+
+                float left, top;
+                if(mColumnCount &gt; 1) {
+                    left = ((getWidth()- mHorizontalOffset *2)/(mColumnCount - 1))*i + mHorizontalOffset - mBitmapNormalCircle.getWidth()/2;
+                } else {
+                    left = mHorizontalOffset - mBitmapNormalCircle.getWidth()/2;
+                }
+                top = (mValuePaddingOffset + ((max_value-mData.get(i).getValue())/(max_value-min_value))*(max_pos_y-min_pos_y)) - mBitmapNormalCircle.getHeight()/2;
+                boolean isInTouchArea= false;
+                if(mTouchDownX &gt; left - mTouchPadding &amp;&amp; mTouchDownX &lt; left + mBitmapNormalCircle.getWidth() + mTouchPadding) {
+                    //X 符合要求
+                    if(mTouchDownY &gt; top - mTouchPadding &amp;&amp; mTouchDownY &lt; top + mBitmapNormalCircle.getHeight() + mTouchPadding) {
+                        // Y 符合要求
+                        isInTouchArea = true;
+                    }
+                }
+                if(isInTouchArea) {
+                    if(mIsDrawPointSelectedLine) {
+                        if(mDrawingStopSelectedLineY != getHeight() - mVerticalOffset - (mIsDrawBottomText ? mBottomTextSize : 0)) {
+                            if(isAnimatingSelectedLine) {
+                                float line_x;
+                                if(mColumnCount &gt; 1) {
+                                    line_x = ((getWidth()- mHorizontalOffset *2)/(mColumnCount - 1))*i + mHorizontalOffset;
+                                } else {
+                                    line_x = mHorizontalOffset;
+                                }
+                                canvas.drawLine(line_x,
+                                        mValuePaddingOffset + ((max_value-mData.get(i).getValue())/(max_value-min_value))*(max_pos_y-min_pos_y),
+                                        line_x,
+                                        mDrawingStopSelectedLineY, mLinePaint);
+                            } else {
+                                if(mDrawingStopSelectedLineY == -1) {
+                                    startSelectedLineAnimation(mValuePaddingOffset + ((max_value-mData.get(i).getValue())/(max_value-min_value))*(max_pos_y-min_pos_y),
+                                            getHeight() - mVerticalOffset - (mIsDrawBottomText ? mBottomTextSize : 0));
+                                }
+                            }
+                        } else {
+                            float line_x;
+                            if(mColumnCount &gt; 1) {
+                                line_x = ((getWidth()- mHorizontalOffset *2)/(mColumnCount - 1))*i + mHorizontalOffset;
+                            } else {
+                                line_x = mHorizontalOffset;
+                            }
+                            canvas.drawLine(line_x,
+                                    mValuePaddingOffset + ((max_value-mData.get(i).getValue())/(max_value-min_value))*(max_pos_y-min_pos_y),
+                                    line_x,
+                                    getHeight() - mVerticalOffset - (mIsDrawBottomText ? mBottomTextSize : 0), mLinePaint);
+                            if(mIsDrawBottomText) {
+                                if (mBottomTexts != null) {
+                                    //draw bottom text
+                                    String bottom_text_str = mBottomTexts.get(i);
+                                    mBottomTextPaint.setColor(mPointToLineColor);
+                                    canvas.drawText(bottom_text_str, line_x, getHeight() - mVerticalOffset, mBottomTextPaint);
+                                    mBottomTextPaint.setColor(mBottomTextColor);
+                                }
+                            }
+                        }
+                    }
+
+
+                    if(mColumnCount &gt; 1) {
+                        left = ((getWidth()- mHorizontalOffset *2)/(mColumnCount - 1))*i + mHorizontalOffset - mBitmapSelectedCircle.getWidth()/2;
+                    } else {
+                        left = mHorizontalOffset - mBitmapSelectedCircle.getWidth()/2;
+                    }
+                    top = (mValuePaddingOffset + ((max_value-mData.get(i).getValue())/(max_value-min_value))*(max_pos_y-min_pos_y)) - mBitmapSelectedCircle.getHeight()/2;
+                    canvas.drawBitmap(mBitmapSelectedCircle, left, top, mNormalPointPaint);
+
+                    if(mIsDrawValueTextBottom) {
+                        String bottom_value_text = null;
+                        if(TextUtils.isEmpty(mData.get(i).getValue_text())) {
+                            bottom_value_text = String.valueOf(mData.get(i).getValue());
+                            bottom_value_text = mBottomValuePrefix + bottom_value_text + mBottomValueSuffix;
+                        } else {
+                            bottom_value_text = mData.get(i).getValue_text();
+                        }
+
+                        float bottom_value_text_width = mBottomValuePaint.measureText(bottom_value_text);
+
+                        RectF rectF_bg = new RectF();
+                        if(mColumnCount &gt; 1) {
+                            rectF_bg.left = ((getWidth()- mHorizontalOffset *2)/(mColumnCount - 1))*i + mHorizontalOffset - bottom_value_text_width/2;
+                        } else {
+                            rectF_bg.left = mHorizontalOffset - bottom_value_text_width/2;
+                        }
+                        if(rectF_bg.left &lt; mHorizontalOffset) {
+                            rectF_bg.left = mHorizontalOffset + dp2px(2);
+                        }
+                        if((rectF_bg.left + bottom_value_text_width) &gt; getWidth() - mHorizontalOffset) {
+                            rectF_bg.left = rectF_bg.left - bottom_value_text_width/2 - dp2px(2);
+                        }
+
+                        rectF_bg.top = getHeight() - mValuePaddingOffset/2 - mBottomValueTextSize/2 - (mIsDrawBottomText ? mBottomTextSize : 0) ;
+                        rectF_bg.right = rectF_bg.left + bottom_value_text_width;
+                        rectF_bg.bottom = rectF_bg.top + mBottomTextSize;
+                        canvas.drawRect(rectF_bg, mBgPaint);
+
+                        canvas.drawText(bottom_value_text, rectF_bg.left + bottom_value_text_width/2,
+                                getHeight() - mValuePaddingOffset/2 - (mIsDrawBottomText ? mBottomTextSize : 0) + mBottomValueTextSize/2 + (mBottomValuePaint.descent() + mBottomValuePaint.ascent() / 2.0f), mBottomValuePaint);
+                    }
+                } else {
+                    canvas.drawBitmap(mBitmapNormalCircle, left, top, mNormalPointPaint);
+                }
+
+            }
+
+
+        }
+        if(mAverageValue &lt; 0) {
+            average_value = average_value/mData.size();
+        } else {
+            average_value = mAverageValue;
+        }
+
+        if(mLifeLongValue &lt; 0) {
+            mIsDrawLiflongLine = false;
+        }
+
+        if(mIsDrawLiflongLine) { // lifelong 是另外一种平均值，可以不用（我用在多个simpleLine所有的平均值）
+            if(mDrawingStopLifelongLineX != getWidth() - mHorizontalOffset) {
+                if(mIsHorizontalValue) {
+                    if(isAnimatingLifelongLine) {
+                        //draw average line
+                        canvas.drawLine(mHorizontalOffset, min_pos_y + (max_pos_y - min_pos_y)/2,
+                                mDrawingStopLifelongLineX, min_pos_y + (max_pos_y - min_pos_y)/2,
+                                mLifeLongLinePaint);
+                    } else {
+                        if(mDrawingStopLifelongLineX  == -1) {
+                            startLifelongLineAnimation(mHorizontalOffset, getWidth() - mHorizontalOffset);
+                        }
+                    }
+                } else {
+                    if(isAnimatingLifelongLine) {
+                        canvas.drawLine(mHorizontalOffset,
+                                mValuePaddingOffset + ((max_value-mLifeLongValue)/(max_value-min_value))*(max_pos_y-min_pos_y),
+                                mDrawingStopLifelongLineX,
+                                mValuePaddingOffset + ((max_value-mLifeLongValue)/(max_value-min_value))*(max_pos_y-min_pos_y),
+                                mLifeLongLinePaint);
+                    } else {
+                        if(mDrawingStopLifelongLineX == -1) {
+                            startLifelongLineAnimation(mHorizontalOffset, getWidth() - mHorizontalOffset);
+                        }
+                    }
+
+                }
+            } else {
+                if(mIsHorizontalValue) {
+                    canvas.drawLine(mHorizontalOffset, min_pos_y + (max_pos_y - min_pos_y)/2,
+                            getWidth() - mHorizontalOffset, min_pos_y + (max_pos_y - min_pos_y)/2,
+                            mLifeLongLinePaint);
+                } else {
+                    canvas.drawLine(mHorizontalOffset,
+                            mValuePaddingOffset + ((max_value-mLifeLongValue)/(max_value-min_value))*(max_pos_y-min_pos_y),
+                            getWidth() - mHorizontalOffset,
+                            mValuePaddingOffset + ((max_value-mLifeLongValue)/(max_value-min_value))*(max_pos_y-min_pos_y),
+                            mLifeLongLinePaint);
+                }
+            }
+        }
+
+        if(mIsDrawAverageLine) {
+            if(mDrawingStopAverageLineX != getWidth() - mHorizontalOffset) {
+                if(mIsHorizontalValue) {
+                    if(isAnimatingAverageLine) {
+                        //draw average line
+                        canvas.drawLine(mHorizontalOffset, min_pos_y + (max_pos_y - min_pos_y)/2,
+                                mDrawingStopAverageLineX, min_pos_y + (max_pos_y - min_pos_y)/2,
+                                mAverageLinePaint);
+                    } else {
+                        if(mDrawingStopAverageLineX  == -1) {
+                            startAverageLineAnimation(mHorizontalOffset, getWidth() - mHorizontalOffset);
+                        }
+                    }
+                } else {
+                    if(isAnimatingAverageLine) {
+                        canvas.drawLine(mHorizontalOffset,
+                                mValuePaddingOffset + ((max_value-average_value)/(max_value-min_value))*(max_pos_y-min_pos_y),
+                                mDrawingStopAverageLineX,
+                                mValuePaddingOffset + ((max_value-average_value)/(max_value-min_value))*(max_pos_y-min_pos_y),
+                                mAverageLinePaint);
+                    } else {
+                        if(mDrawingStopAverageLineX == -1) {
+                            startAverageLineAnimation(mHorizontalOffset, getWidth() - mHorizontalOffset);
+                        }
+                    }
+
+                }
+            } else {
+                if(mIsHorizontalValue) {
+                    canvas.drawLine(mHorizontalOffset, min_pos_y + (max_pos_y - min_pos_y)/2,
+                            getWidth() - mHorizontalOffset, min_pos_y + (max_pos_y - min_pos_y)/2,
+                            mAverageLinePaint);
+                } else {
+                    canvas.drawLine(mHorizontalOffset,
+                            mValuePaddingOffset + ((max_value-average_value)/(max_value-min_value))*(max_pos_y-min_pos_y),
+                            getWidth() - mHorizontalOffset,
+                            mValuePaddingOffset + ((max_value-average_value)/(max_value-min_value))*(max_pos_y-min_pos_y),
+                            mAverageLinePaint);
+                }
+            }
+        }
+
+
+    }
+</code></pre>
+
+<p>圆点的位置主要跟数据点相关
+原点的 X 跟着 竖线走，原点的 Y 跟着数据百分比走
+两个点就能确定一个圆的位置，这里这么多代码，很重要的一个问题就是，我不会高级写法
+只会一点点计算位置，包括加上上下左右边上的offset，加上圆点图片的长宽，
+之前设计的原点本来是绘制的，后来觉得后续如果要修改这个圆点效果，如果绘制的效果很炫，我不会怎么办，就换成了图片，要换成啥样就啥样，连点击效果就随意换，换个图片就好了，省心省事。</p>
+
+<h5 id="圆点连线绘制">圆点连线绘制</h5>
+
+<pre><code>    private void drawPoint2Line(Canvas canvas) {
+        float max_value = getMaxValue();
+        float min_value = getMinValue();
+        float max_pos_y = getHeight() - mVerticalOffset - mValuePaddingOffset - (mIsDrawBottomText ? mBottomTextSize : 0);
+        float min_pos_y = mValuePaddingOffset;
+
+        if(max_value == min_value) {
+            mIsHorizontalValue = true;
+        } else {
+            mIsHorizontalValue = false;
+        }
+
+        //画连接线 不带动画的全部连接线
+//        for (int i = 0 ; i &lt; mData.size(); i++) {
+//            if(i &lt; mData.size() - 1) {
+//                if(mIsHorizontalValue) {
+//                    canvas.drawLine(((getWidth()- mHorizontalOffset *2)/(mData.size() - 1))*i + mHorizontalOffset,
+//                            min_pos_y + (max_pos_y - min_pos_y)/2,
+//                            ((getWidth()- mHorizontalOffset *2)/(mData.size() - 1))*(i+1) + mHorizontalOffset,
+//                            min_pos_y + (max_pos_y - min_pos_y)/2, mLinePaint);
+//                } else {
+//                    canvas.drawLine(((getWidth()- mHorizontalOffset *2)/(mData.size() - 1))*i + mHorizontalOffset,
+//                            mValuePaddingOffset + ((max_value-mData.get(i).getValue())/(max_value-min_value))*(max_pos_y-min_pos_y),
+//                            ((getWidth()- mHorizontalOffset *2)/(mData.size() - 1))*(i+1) + mHorizontalOffset,
+//                            mValuePaddingOffset + ((max_value-mData.get(i+1).getValue())/(max_value-min_value))*(max_pos_y-min_pos_y), mLinePaint);
+//                }
+//
+//            }
+//        }
+
+        boolean hadDrawed = false;
+        for (int k = 0 ; k &lt; mData.size() - 1; k++) {
+            if(mData.get(k).getValue() &lt; 0) {
+                continue;
+            }
+            if(k &lt; mDrawingLineIndex) {
+                hadDrawed = true;
+                float line_start_x;
+                if(mColumnCount &gt; 1) {
+                    line_start_x = ((getWidth()- mHorizontalOffset *2)/(mColumnCount - 1))*k + mHorizontalOffset;
+                } else {
+                    line_start_x = mHorizontalOffset;
+                }
+                if(k == mDrawingLineIndex - 1) {
+
+                    if(isAnimatingLine) {
+
+                        if(mIsHorizontalValue) {
+                            canvas.drawLine(line_start_x,
+                                    min_pos_y + (max_pos_y - min_pos_y)/2,
+                                    mDrawingStopX, mDrawingStopY, mLinePaint);
+                        } else {
+                            canvas.drawLine(line_start_x,
+                                    mValuePaddingOffset + ((max_value-mData.get(k).getValue())/(max_value-min_value))*(max_pos_y-min_pos_y),
+                                    mDrawingStopX, mDrawingStopY, mLinePaint);
+                        }
+                    } else {
+                        float line_stop_x;
+                        if(mColumnCount &gt; 1) {
+                            line_stop_x = ((getWidth()- mHorizontalOffset *2)/(mColumnCount - 1))*(mDrawingLineIndex) + mHorizontalOffset;
+                        } else {
+                            line_stop_x = mHorizontalOffset;
+                        }
+                        if(mIsHorizontalValue) {
+                            startLineToAnimation(line_start_x,
+                                    min_pos_y + (max_pos_y - min_pos_y)/2,
+                                    line_stop_x,
+                                    min_pos_y + (max_pos_y - min_pos_y)/2);
+                        } else {
+                            startLineToAnimation(line_start_x,
+                                    mValuePaddingOffset + ((max_value-mData.get(k).getValue())/(max_value-min_value))*(max_pos_y-min_pos_y),
+                                    line_stop_x,
+                                    mValuePaddingOffset + ((max_value-mData.get(mDrawingLineIndex).getValue())/(max_value-min_value))*(max_pos_y-min_pos_y));
+                        }
+                    }
+                } else {
+                    float line_stop_x;
+                    if(mColumnCount &gt; 1) {
+                        line_stop_x = ((getWidth()- mHorizontalOffset *2)/(mColumnCount - 1))*(k+1) + mHorizontalOffset;
+                    } else {
+                        line_stop_x = mHorizontalOffset;
+                    }
+                    if(mIsHorizontalValue) {
+                        canvas.drawLine(line_start_x,
+                                min_pos_y + (max_pos_y - min_pos_y)/2,
+                                line_stop_x,
+                                min_pos_y + (max_pos_y - min_pos_y)/2, mLinePaint);
+                    } else {
+                        canvas.drawLine(line_start_x,
+                                mValuePaddingOffset + ((max_value-mData.get(k).getValue())/(max_value-min_value))*(max_pos_y-min_pos_y),
+                                line_stop_x,
+                                mValuePaddingOffset + ((max_value-mData.get(k+1).getValue())/(max_value-min_value))*(max_pos_y-min_pos_y), mLinePaint);
+                    }
+                }
+            }
+        }
+
+        if(!hadDrawed) {
+            mDrawingLineIndex++;
+            invalidate();
+        }
+    }
+</code></pre>
+
+<p>圆点连线与圆点相关，也就是也跟数据相关。
+我没有根据原点来绘制线条，直接就跟数据挂钩了。
+对我来说，主要麻烦的地方就是动画，需要计算每一次变化后点的位置，然后确定最终绘制的点的位置。
+这里用到了 ValueAnimator 和 贝塞尔曲线的 公式
+ValueAnimator 只要是用于计算 两点之间的 过渡值。
+贝塞尔曲线才是 核心。</p>
+
+<pre><code>private void startLineToAnimation(float startX, float startY, final float stopX, final float stopY) {
+//        Log.d(&quot;simpleLineView&quot;, &quot;startAnim --&gt; startX--&gt;&quot; + startX + &quot; | startY-&gt;&quot; + startY + &quot; | stopX-&gt;&quot; + stopX + &quot; | stopY-&gt;&quot; + stopY);
+        isAnimatingLine = true;
+
+        ValueAnimator xAnimator = ValueAnimator.ofObject(new LineEvaluator(), startX, stopX);
+        xAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float animation_value  = (float) animation.getAnimatedValue();
+                mDrawingStopX = animation_value;
+                if(animation_value == stopX) {
+                    isAnimatingLine = false;
+                    mDrawingLineIndex++;
+                    if(mAnimatorLine != null) {
+                        mAnimatorLine.cancel();
+                    }
+                }
+                postInvalidate();
+            }
+        });
+
+        ValueAnimator yAnimator = ValueAnimator.ofObject(new LineEvaluator(), startY, stopY);
+        yAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+
+                float animation_value  = (float) animation.getAnimatedValue();
+                mDrawingStopY = animation_value;
+
+            }
+        });
+
+
+
+        mAnimatorLine.playTogether(xAnimator, yAnimator);
+        mAnimatorLine.setDuration(2500/ mColumnCount);
+        mAnimatorLine.start();
+    }
+</code></pre>
+
+<p>点与点之间的连线 是同时根据 起点的 XY轴一起变化的。所以动画的过渡值肯定也是 XY一起变化
+就拿X 来举例吧</p>
+
+<pre><code>ValueAnimator xAnimator = ValueAnimator.ofObject(new LineEvaluator(), startX, stopX);
+</code></pre>
+
+<p>自定义的LineEvaluator 主要作用是
+&gt; <strong>通过起始值、结束值以及插值时间点来计算在该时间点的属性值应该是多少。</strong>
+这个东西是属性动画的核心
+具体的可以看看 别人的分析，我功力不足 <a href="http://gold.xitu.io/entry/575063b4df0eea004f57be79">当数学遇上动画：讲述 ValueAnimator、TypeEvaluator 和 TimeInterpolator 之间的恩恩怨怨 (1)</a>
+这里的 lineEvaluator 是用得 贝塞尔曲线一阶公式
+<img src="http://upload-images.jianshu.io/upload_images/44312-7424f08c7fe1c5f2.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" />
+<img src="http://upload-images.jianshu.io/upload_images/44312-293a0ca2a9ebc74a.gif?imageMogr2/auto-orient/strip" alt="" /></p>
+
+<pre><code>private class LineEvaluator implements TypeEvaluator {
+
+        @Override
+        public Object evaluate(float fraction, Object startValue, Object endValue) {
+            return (1 - fraction) * (float) startValue + fraction * (float) endValue;
+        }
+    }
+</code></pre>
+
+<h5 id="绘制-数据图示">绘制 数据图示</h5>
+
+<p>图示我的定位是在右上角
+既然有了定位，那就慢慢计算咯</p>
+
+<pre><code>    private void drawValueIcon(Canvas canvas) {
+        if(mLifeLongValue &lt; 0) {
+            mIsDrawLiflongLine = false;
+        }
+
+        float lifelong_text_width = mLifeLongLinePaint.measureText(mLifeLongIconText);
+        if(mIsDrawLiflongLine) {
+
+            canvas.drawText(mLifeLongIconText, getWidth() - mHorizontalOffset - lifelong_text_width,
+                    mVerticalOffset + mValuePaddingOffset/2 + mLifelongIconTextSize/2 + (mLifeLongLinePaint.descent() + mLifeLongLinePaint.ascent() / 2.0f), mLifeLongLinePaint);//文字居中
+            canvas.drawCircle(getWidth() - mHorizontalOffset - lifelong_text_width - mLifelongIconTextSize*2 - dp2px(2), mVerticalOffset + mValuePaddingOffset/2, mLifelongIconTextSize/3, mLifeLongLinePaint);
+        }
+
+        float average_text_width = mAverageLinePaint.measureText(mAverageIconText);
+
+
+//        canvas.drawText(mAverageIconText,
+//                getWidth() - mHorizontalOffset - average_text_width,
+//                mVerticalOffset + mAverageIconTextSize + mAverageIconTextSize/3 + (mAverageLinePaint.descent() + mAverageLinePaint.ascent() / 2.0f),
+//                mAverageLinePaint);//文字居中
+        canvas.drawText(mAverageIconText, getWidth() - mHorizontalOffset - average_text_width - (mIsDrawLiflongLine ? (lifelong_text_width + mLifelongIconTextSize + dp2px(2) + dp2px(2)) : 0),
+                mVerticalOffset + mValuePaddingOffset/2 + mAverageIconTextSize/2 + (mAverageLinePaint.descent() + mAverageLinePaint.ascent() / 2.0f), mAverageLinePaint);
+
+
+//        canvas.drawCircle(getWidth() - mHorizontalOffset - average_text_width - mAverageIconTextSize*2 - dp2px(2),
+//                mVerticalOffset + mAverageIconTextSize/2 + mAverageIconTextSize/3, mAverageIconTextSize/3, mAverageLinePaint);
+
+        canvas.drawCircle(getWidth() - mHorizontalOffset - average_text_width - (mIsDrawLiflongLine ? (lifelong_text_width + mLifelongIconTextSize + dp2px(2) + dp2px(2)) : 0) - mAverageIconTextSize*2 - dp2px(2),
+                mVerticalOffset + mValuePaddingOffset/2, mAverageIconTextSize/3, mAverageLinePaint);
+
+    }
+</code></pre>
+
+<p>主要是平均线的图示绘制
+位置基本是固定死的。没什么好说</p>
+
+<p>顶部文字也是差不多。</p>
+
+<h5 id="加入点击事件响应">加入点击事件响应</h5>
+
+<p>目前的简单做法是，使用onTouchEvent获取点击位置，然后在绘制的时候计算点击位置与需要绘制的点的位置 是否在 圆点半径之内 来确定点击到了哪一个点。
+这个原点半径之内，如果原点图片过小，可能会导致很难点击到的问题。
+所以后面加了一个 mTouchPadding 变量来扩大点击范围
+但这样会引起另外一个问题：当两个点相差比较近的时候，会有可能计算都两个点都在点击位置范围内。
+还有一个动画的绘制，被点击圆点到 底部的 连线动画。
+与圆点间连线 一样原理。</p>
+
+<pre><code>    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+            mTouchDownX = event.getX();
+            mTouchDownY = event.getY();
+            mDrawingStopSelectedLineY = -1;
+            invalidate();
+        }
+
+        return super.onTouchEvent(event);
+    }
+</code></pre>
+
+<h5 id="开放变量设置">开放变量设置</h5>
+
+<p>之前画的时候都是写死的。
+后面一个个写成变量，将变量设置开放到 调用者。
+这样的可塑性就好了很多。
+这里没有写自定义属性。</p>
+
+<h5 id="用于展示的数据结构">用于展示的数据结构</h5>
+
+<pre><code>public class SimpleLineData {
+
+    private int index;
+
+    private float value;
+
+    //与value性质相同，但优先级比value 高，主要用于显示与value相关的 特殊文字组成
+    private String value_text;
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public float getValue() {
+        return value;
+    }
+
+    public void setValue(float value) {
+        this.value = value;
+    }
+
+    public String getValue_text() {
+        return value_text;
+    }
+
+    public void setValue_text(String value_text) {
+        this.value_text = value_text;
+    }
+}
+</code></pre>
+
+<h5 id="测试用的界面activity">测试用的界面Activity</h5>
+
+<pre><code>public class ActivityMain extends Activity {
+
+    private SimpleLineView simple_line_view_week, simple_line_view_month;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.layout_ac_main);
+
+        initViews();
+    }
+
+    private void initViews() {
+        simple_line_view_week = (SimpleLineView) findViewById(R.id.simple_line_view_week);
+        simple_line_view_month = (SimpleLineView) findViewById(R.id.simple_line_view_month);
+
+        initData();
+    }
+
+    private void initData() {
+        initWeekData();
+        initMonthData();
+    }
+
+    private void initWeekData() {
+        List&lt;String&gt;  bottomTexts = new ArrayList&lt;&gt;();
+        bottomTexts.add(&quot;Sun&quot;);
+        bottomTexts.add(&quot;Mon&quot;);
+        bottomTexts.add(&quot;Tue&quot;);
+        bottomTexts.add(&quot;Wed&quot;);
+        bottomTexts.add(&quot;Thu&quot;);
+        bottomTexts.add(&quot;Fri&quot;);
+        bottomTexts.add(&quot;Sat&quot;);
+
+
+        List&lt;SimpleLineData&gt; data = new ArrayList&lt;&gt;();
+        for(int i = 0 ; i &lt; 7; i++) {
+            SimpleLineData item = new SimpleLineData();
+            item.setIndex(i);
+            item.setValue((int) (Math.random() * 99 + 1));
+//            item.setValue_text(&quot;什么&quot; + item.getValue() + &quot;什么&quot;);
+
+            data.add(item);
+        }
+
+        simple_line_view_week.setColumnCount(7); //设置 列数
+        simple_line_view_week.setData(data);
+        simple_line_view_week.setIsDrawBottomText(true); //设置是否绘制底部文字
+        simple_line_view_week.setBottomTextList(bottomTexts); //设置底部文字列表
+        simple_line_view_week.setTouchPadding(dp2px(5));
+        simple_line_view_week.setTopText(&quot;week&quot;);
+    }
+
+    private void initMonthData() {
+        List&lt;String&gt;  bottomTexts = new ArrayList&lt;&gt;();
+
+        List&lt;SimpleLineData&gt; data = new ArrayList&lt;&gt;();
+        for(int i = 0 ; i &lt; 31; i++) {
+            SimpleLineData item = new SimpleLineData();
+            item.setIndex(i);
+            item.setValue((int) (Math.random() * 99 + 1));
+
+            data.add(item);
+
+            bottomTexts.add((i+1) + &quot;&quot;);
+        }
+
+        simple_line_view_month.setColumnCount(31);
+        simple_line_view_month.setData(data);
+        simple_line_view_month.setIsDrawBottomText(false);
+        simple_line_view_month.setBottomTextList(bottomTexts);
+        simple_line_view_month.setIsDrawBottomText(true);
+        simple_line_view_month.setBottomTextStepSize(6);
+        simple_line_view_month.setBottomValueSuffix(&quot;%&quot;);
+        simple_line_view_month.setTopText(&quot;month&quot;);
+    }
+
+
+    private float dp2px(float dp) {
+        final float scale = getResources().getDisplayMetrics().density;
+        return dp * scale + 0.5f;
+    }
+
+
+}
+</code></pre>
+
+<p>整个的学习流程大概就是这样。
+由于 绘制的计算都是一次次单独计算的，可能会有很多地方的计算都是重复的。
+也没有整理，看起来会费劲些，不过可以直接看出绘制的计算思路，所以就没有改掉。
+代码都是学习所用，如果有问题，欢迎指点，定当学习改正。</p>
+
+<p>BTW,中秋快乐！</p>
+
+<p>项目地址：<a href="https://github.com/jimbray/SimpleLineChart">Github</a></p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://jimbray.xyz/post/my-second-custom-view/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://jimbray.xyz/post/my-second-custom-view/">我的第二个自定义View</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="http://jimbray.xyz/post/one-key-post-to-facebook/">Android 一键发布 Facebook 帖文</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="http://jimbray.xyz/post/one-key-post-to-facebook/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'Your Disqus shortname';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="http://jimbray.xyz/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'Your Google Analytics tracking ID', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+</body>
+</html>
+

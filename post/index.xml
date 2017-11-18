@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Mon, 22 May 2017 12:55:25 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 18 Nov 2017 01:23:40 +0800</lastBuildDate>
     
 	<atom:link href="http://jimbray.xyz/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>迁移到Hugo</title>
+      <link>http://jimbray.xyz/post/move-to-hugo/</link>
+      <pubDate>Sat, 18 Nov 2017 01:23:40 +0800</pubDate>
+      
+      <guid>http://jimbray.xyz/post/move-to-hugo/</guid>
+      <description> 安装hugo 挑选主题 自定义主题 修改首页显示 description 配置config.toml 域名后面一定要带 &amp;ldquo;/&amp;rdquo; github page 绑定 hugo public 文件夹 配置自定义域名 CNAME </description>
+    </item>
     
     <item>
       <title>用Google Cloud搭建免费一年的SS</title>
@@ -90,6 +99,17 @@ vi /etc/shadowsocks.json  修改shadowsocks.json 配置文件
 但是发送的样式 跟 使用那些 一键分享的 SDK 是一样的
 都是那种感觉像 转发 的形式。（会看到 发送的对话框，类似于 ShareDialog）
 后台发送 仔细看了文档，发现了一个 Graph API</description>
+    </item>
+    
+    <item>
+      <title>我的第三个自定义View</title>
+      <link>http://jimbray.xyz/post/my-third-customview/</link>
+      <pubDate>Thu, 15 Sep 2016 15:47:03 +0800</pubDate>
+      
+      <guid>http://jimbray.xyz/post/my-third-customview/</guid>
+      <description>这次的主角是一个折线图，牛逼的 画图控件已经很多了， 虽然只用过 MPAndroidChart 想着自己写一个学习一下咯 下面是效果
+可能录制得有点卡顿
+学习路径 变量设置 private Context mContext; private float mViewHeight, mViewWidth; private Paint mNormalPointPaint,mSelectedPointPaint, mLinePaint, mBgLinePaint, mTestPaint, mBottomTextPaint, mTopTextPaint, mAverageLinePaint, mLifeLongLinePaint, mBottomValuePaint, mBgPaint;//各种画笔 private float mVerticalOffset = dp2px(5); //上下边距 private float mPointWidth = dp2px(4f); //圆点大小（现已修改为图片） private float mHorizontalOffset = dp2px(15f); //左右边距 private float mValuePaddingOffset; private boolean mIsHorizontalValue = false; //所有值都相等（是一条水平线）将所有点都画在中间位置 private List&amp;lt;SimpleLineData&amp;gt; mData; // 数据 private List&amp;lt;String&amp;gt; mBottomTexts; // 底部文字集合 private float mBottomTextSize; // 底部文字大小 private int mBottomTextStepSize; // 底部文字 相隔展示间距 private String mTopText; // 顶部中间文字内容 private float mTopTextSize; // 顶部中间文字大小 // 点到点之间的动画相关变量 private int mDrawingLineIndex; private float mDrawingStopX = -1f, mDrawingStopY = -1f; private AnimatorSet mAnimatorLine; private boolean isAnimatingLine; // 平均线的动画相关变量 private boolean isAnimatingAverageLine; private AnimatorSet mAnimatorAverageLine; private float mDrawingStopAverageLineX = -1f; private String mAverageIconText; //平均线图示文字 private float mAverageIconTextSize; //平均线图示文字大小 private float mAverageValue = -1; // lifelong 的动画相关变量 private boolean isAnimatingLifelongLine; private AnimatorSet mAnimatorLifelongLine; private float mDrawingStopLifelongLineX = -1; private String mLifeLongIconText; //linflong 图示文字 private float mLifelongIconTextSize; private float mLifeLongValue = -1; // 点击点到底部的动画相关变量 private boolean isAnimatingSelectedLine; private AnimatorSet mAnimatorSelectedLine; private float mDrawingStopSelectedLineY = -1f; // 数据值 原点的 图片 private Bitmap mBitmapNormalCircle, mBitmapSelectedCircle; // 点击位置相关变量 private float mTouchDownX, mTouchDownY; private float mTouchPadding = dp2px(2.</description>
     </item>
     
     <item>
