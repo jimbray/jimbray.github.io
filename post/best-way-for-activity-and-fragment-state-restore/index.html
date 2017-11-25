@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="阅读感想：读完对Activity和Fragment 状态的保存和恢复有了更好的理解，非常受用。">
+  <meta name="generator" content="Hugo 0.25.1" />
+
+  <title>[转][译]保存/恢复 Activity 和 Fragment 状态的最佳实践 &middot; JIMBRAY</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://jimbray.xyz/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="http://jimbray.xyz/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="http://jimbray.xyz/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://jimbray.xyz/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="http://jimbray.xyz/">Jimbray</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://jimbray.xyz/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://jimbray.xyz/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://jimbray.xyz/tags/"><i class='fa fa-user fa-fw'></i>Tags</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  
+  <ins class="adsbygoogle"
+            style="display:inline-block;width:300px;height:600px"
+	         data-ad-client="ca-pub-2960593853032576"
+	       data-ad-slot="1610352031"></ins>
+	<script>
+		(adsbygoogle = window.adsbygoogle || []).push({});
+	</script>
+
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>[转][译]保存/恢复 Activity 和 Fragment 状态的最佳实践</h1>
+  <h2>阅读感想：读完对Activity和Fragment 状态的保存和恢复有了更好的理解，非常受用。</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>25 Nov 2017, 16:44</time>
+  </div>
+
+  
+
+  
+
+  
+
+</div>
+
+  
+
+<p>很久之前看过的一篇文章，写的很好。转载并译于：<a href="https://inthecheesefactory.com/blog/fragment-state-saving-best-practices/en">https://inthecheesefactory.co&hellip;</a>。</p>
+
+<p>几个月以前，我发布了一篇关于Fragment状态保存和恢复的文章，那可能是目前为止最好的方式用于保存/恢复 Android Fragment 的状态。我收到了很多来自世界各地的Android开发者有价值的反馈。十分感谢你们 =)</p>
+
+<p>无论如何，<code>StatedFragment</code>打破了设计模式，我使用了不同于Android状态保存/恢复的方式来设计它，这样做的目的是为了让Android开发者能够更简单的理解Fragment状态的保存与恢复，就像Activity做的一样(同时处理View状态和实例状态),所以我通过开发<code>StatedFragment</code>做了一个实验，并且看看它是怎么做的，以及StatedFragment这样的设计是否更容易被理解？是否对开发者更加友好？</p>
+
+<p>现在，两个月的实验过去了，我相信我已经得到了结果。虽然<code>StatedFragment</code> 有点容易被理解，但是它同时带来了很大的问题。它破坏了Android View的基本框架.所以我认为这是很糟糕的，可能会导致长远的影响。事实上我已经对自己的代码感到担忧了&hellip;</p>
+
+<p>由于这个原因，<strong>我决定从现在开始弃用StatedFragment</strong>。并且，为了弥补我错误，我写了这篇文章，用可见的方式来展示基于Android的设计如何保存和恢复Fragment的状态的最佳实践。</p>
+
+<h3 id="理解在activity的状态被保存-恢复的时候发生了什么">理解在Activity的状态被保存/恢复的时候发生了什么</h3>
+
+<p>当Activity的<code>onSaveInstanceState</code>被调用的时候，Activity将会从View 层次(View Hierachy)中的每一个View中自动搜集View的状态。请注意，只会搜集实现了View状态保存/恢复的内部方法的View的数据。一旦onRestoreInstanceState被调用,Activity将会将这些搜集到的数据一对一的返还给View 层次里在搜集的时候提供了同样的<code>android:id</code>属性的View。</p>
+
+<p>让我们看看视觉上的效果。</p>
+
+<p><img src="https://segmentfault.com/img/bVCeZY" alt="img" /></p>
+
+<p><img src="https://segmentfault.com/img/bVCeZ2" alt="img" /></p>
+
+<p>这就是为什么尽管Activity已经被销毁，而我们并没有做一些特别的事情来保存状态，但是EditText中键入的文本仍然能够呈现的原因。这并不是什么魔法，这些View 的状态已经被自动的保存和恢复回来了。</p>
+
+<p>这也是为什么View 在没有被设置<code>android:id</code>属性的时候不能保存和恢复自己的状态的原因。</p>
+
+<p>尽管这些View 的状态被自动的保存了，但是Activity的成员变量并不会有同样的效果。这些成员变量会被和Activity一起销毁。你可以手动的保存和恢复它们，通过<code>onSaveInstanceState</code>和<code>onRestoreInstanceState</code>方法。</p>
+
+<pre><code class="language-java">public class MainActivity extends AppCompatActivity {
+
+    // These variable are destroyed along with Activity
+    private int someVarA;
+    private String someVarB;
+
+    ...
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(&quot;someVarA&quot;, someVarA);
+        outState.putString(&quot;someVarB&quot;, someVarB);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        someVarA = savedInstanceState.getInt(&quot;someVarA&quot;);
+        someVarB = savedInstanceState.getString(&quot;someVarB&quot;);
+    }
+
+}
+</code></pre>
+
+<p>这就是为了恢复Activity实例的状态和View 状态需要做的。</p>
+
+<h3 id="理解在fragment的状态被保存-恢复的时候发生了什么">理解在Fragment的状态被保存/恢复的时候发生了什么</h3>
+
+<p>如果Fragment被系统销毁，所有事情都会发生的像Activity发生的那样。</p>
+
+<p><img src="https://segmentfault.com/img/remote/1460000006760794" alt="img" /></p>
+
+<p><img src="https://segmentfault.com/img/remote/1460000006691833" alt="img" /></p>
+
+<p>这意味着每一个单独的成员变量被销毁了。你必须分别地通过<code>onSaveInstanceState</code>和<code>onActivityCreated</code>方法，手动的保存和恢复这些变量。</p>
+
+<p>请注意在Fragment里面没有<code>onRestoreInstanceState</code>方法存在。</p>
+
+<pre><code class="language-java">public class MainFragment extends Fragment {
+
+    // These variable are destroyed along with Activity
+    private int someVarA;
+    private String someVarB;
+
+    ...
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(&quot;someVarA&quot;, someVarA);
+        outState.putString(&quot;someVarB&quot;, someVarB);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        someVarA = savedInstanceState.getInt(&quot;someVarA&quot;);
+        someVarB = savedInstanceState.getString(&quot;someVarB&quot;);
+    }
+
+}
+</code></pre>
+
+<p>对于Fragment来说，有一些特殊情况不同于Activity,我觉得你需要知道这些情况。<strong>一旦Fragment从后退栈中返回，它的View 会被销毁，并重新创建</strong></p>
+
+<p><img src="https://segmentfault.com/img/remote/1460000006691839" alt="img" /></p>
+
+<p><strong>在这种情况下，Fragment并不会被销毁，只有Fragment中的View 会被销毁。</strong> 结果是，并不会发生任何实例状态的保存。但是上面展示的这些View在Fragment生命周期中被重新创建时，发生了什么？</p>
+
+<p>别惊讶，因为Android是这样设计的。在这种情况下，Fragment中的View 状态的保存/恢复会被内部调用。结果就是，每一个实现了内部View 状态保存/恢复的View ，将会被自动的保存并且恢复状态，例如带有<code>android:freezeText=&quot;true&quot;</code>属性的<code>EditText</code>或者<code>TextView</code>。就之前完美显示的一样。</p>
+
+<p><img src="https://segmentfault.com/img/remote/1460000006691842" alt="img" /></p>
+
+<p>请注意，在这种情况下，只有View 被销毁(并重建)了。Fragment仍然在这里，就像它内部的成员变量一样。所以你不需要对它们做任何事情。不需要任何额外的代码。</p>
+
+<pre><code class="language-java">ublic class MainFragment extends Fragment {
+
+    // These variable still persist in this case
+    private int someVarA;
+    private String someVarB;
+
+    ...
+
+}
+</code></pre>
+
+<p>你也许已经注意到了，如果Fragment中的每一个View 都在内部实现了View 的状态的保存和恢复.在这种情况下，你就没有必要做任何事情，View 状态会被自动的恢复，并且Fragment中的成员变量也和之前的一样。</p>
+
+<p>所以Fragment状态保存/恢复最佳实践的第一条件就是&hellip;</p>
+
+<h3 id="你应用中使用的每一个单独的view都必须在内部实现状态的保存和恢复">你应用中使用的每一个单独的View都必须在内部实现状态的保存和恢复</h3>
+
+<p>Android内部通过<code>onSaveInstanceState</code> 和 <code>onRestoreInstanceState</code> 方法提供了保存和恢复View 状态的机制。开发者的任务就是实现它。</p>
+
+<pre><code class="language-java">public class CustomView extends View {
+
+    ...
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+        Bundle bundle = new Bundle();
+        // Save current View's state here
+        return bundle;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        super.onRestoreInstanceState(state);
+        // Restore View's state here
+    }
+
+    ...
+
+}
+</code></pre>
+
+<p>基本上来说，每一个单独的Android提供的的标准View 组件都已经在内部完成了这些事情，例如<code>EditText</code>,<code>TextView</code>,<code>Checkbox</code>.
+尽管也许你手动让它生效，例如，你需要为<code>TextView</code>设置<code>android:freezeText</code>为true，来使用这个功能。</p>
+
+<p>但是如果我们讨论关于互联网上贡献的第三方的自定义组件。我必须说，它们大多数都没有实现这部分的代码，在使用中会导致很大的问题。</p>
+
+<p>如果你决定使用第三方的自定义组件，你不得不确保它已经在内部实现了View 的保存和恢复，否则你必须创建继承这个三方组件的一个派生的子类，并且自己实现<code>onSaveInstanceState</code>和<code>onRestoreInstanceState</code>方法。</p>
+
+<pre><code class="language-java">//
+// Assumes that SomeSmartButton is a 3rd Party view that
+// View State Saving/Restoring are not implemented internally
+//
+public class SomeBetterSmartButton extends SomeSmartButton {
+
+    ...
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+        Bundle bundle = new Bundle();
+        // Save current View's state here
+        return bundle;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        super.onRestoreInstanceState(state);
+        // Restore View's state here
+    }
+
+    ...
+
+}
+</code></pre>
+
+<p>并且，如果你创建你自己的自定义View或者自定义ViewGroup，也不要忘记实现这两个方法。应用中每一个类型的View实现这部分都是很重要的。</p>
+
+<p>并且不要忘记为每一个你需要开启View状态保存和恢复的View设置<code>android:id</code>属性，不然它们的状态不能正确的恢复。</p>
+
+<pre><code class="language-xml">&lt;EditText
+    android:id=&quot;@+id/editText1&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot; /&gt;
+
+&lt;EditText
+    android:id=&quot;@+id/editText2&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot; /&gt;
+
+&lt;CheckBox
+    android:id=&quot;@+id/cbAgree&quot;
+    android:text=&quot;I agree&quot;
+    android:layout_width=&quot;wrap_content&quot;
+    android:layout_height=&quot;wrap_content&quot; /&gt;
+</code></pre>
+
+<p>这篇文章已经进行到了一半!</p>
+
+<h3 id="完全分开处理fragment状态和view状态">完全分开处理Fragment状态和view状态</h3>
+
+<p>为了使你的代码变得干净和可扩展，你最好把Fragment状态和View状态分开处理。如果这里有任何属性是属于View的，在View内部进行保存和恢复.如果这里有任何属性是属于Fragment的，在Fragment内部进行保存和恢复。这里有一个例子。</p>
+
+<pre><code class="language-java">public class MainFragment extends Fragment {
+
+    ...
+
+    private String dataGotFromServer;
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(&quot;dataGotFromServer&quot;, dataGotFromServer);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        dataGotFromServer = savedInstanceState.getString(&quot;dataGotFromServer&quot;);
+    }
+
+    ...
+
+}
+</code></pre>
+
+<p><strong>让我再重复一遍。不要在Fragment中的 onSaveInstanceState 中保存View状态，反之亦然。</strong></p>
+
+<p>这就是所有的内容了。这是如何保存和恢复Activity，Fragment和View状态的最佳实践。希望你在这篇文章中找到一些有用的信息=)</p>
+
+<h3 id="再见-statedfragment-迎接-nestedactivityresultfragment">再见 StatedFragment，迎接，NestedActivityResultFragment</h3>
+
+<p>请按照上面所描述的方法来保存恢复Activity,Fragment,View的状态。从现在开始，让我把<code>StatedFragment</code>废弃掉吧。</p>
+
+<p>还有，StatedFragment中获取onActivityResult的特性在NestedFragment中仍然是可以使用的。为了避免未来的混淆，我决定把这个功能分离到一个<code>NestedActivityResultFragment</code>这个新的类里面，在v0.10.0以及后续的版本可用。</p>
+
+<p>更多的关于它的信息参见 <a href="https://github.com/nuuneoi/StatedFragment">https://github.com/nuuneoi/St&hellip;</a>，请随时查看。</p>
+
+<p>希望这篇文章中这种动态图片的方式能够帮助你们清楚的理解Activity,Fragment,View状态的恢复。对于前一篇文章的导致的混淆，我感到十分抱歉。^^&rdquo;</p>
+
+<p>阅读感想：读完对Activity和Fragment 状态的保存和恢复有了更好的理解，非常受用。</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://jimbray.xyz/post/move-to-hugo/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://jimbray.xyz/post/move-to-hugo/">迁移到Hugo</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'jimbray-github-io';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="http://jimbray.xyz/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-78813427-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+</body>
+</html>
+

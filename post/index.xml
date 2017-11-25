@@ -7,10 +7,29 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Sat, 18 Nov 2017 01:23:40 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 25 Nov 2017 16:44:19 +0800</lastBuildDate>
     
 	<atom:link href="http://jimbray.xyz/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>[转][译]保存/恢复 Activity 和 Fragment 状态的最佳实践</title>
+      <link>http://jimbray.xyz/post/best-way-for-activity-and-fragment-state-restore/</link>
+      <pubDate>Sat, 25 Nov 2017 16:44:19 +0800</pubDate>
+      
+      <guid>http://jimbray.xyz/post/best-way-for-activity-and-fragment-state-restore/</guid>
+      <description>很久之前看过的一篇文章，写的很好。转载并译于：https://inthecheesefactory.co&amp;hellip;。
+几个月以前，我发布了一篇关于Fragment状态保存和恢复的文章，那可能是目前为止最好的方式用于保存/恢复 Android Fragment 的状态。我收到了很多来自世界各地的Android开发者有价值的反馈。十分感谢你们 =)
+无论如何，StatedFragment打破了设计模式，我使用了不同于Android状态保存/恢复的方式来设计它，这样做的目的是为了让Android开发者能够更简单的理解Fragment状态的保存与恢复，就像Activity做的一样(同时处理View状态和实例状态),所以我通过开发StatedFragment做了一个实验，并且看看它是怎么做的，以及StatedFragment这样的设计是否更容易被理解？是否对开发者更加友好？
+现在，两个月的实验过去了，我相信我已经得到了结果。虽然StatedFragment 有点容易被理解，但是它同时带来了很大的问题。它破坏了Android View的基本框架.所以我认为这是很糟糕的，可能会导致长远的影响。事实上我已经对自己的代码感到担忧了&amp;hellip;
+由于这个原因，我决定从现在开始弃用StatedFragment。并且，为了弥补我错误，我写了这篇文章，用可见的方式来展示基于Android的设计如何保存和恢复Fragment的状态的最佳实践。
+理解在Activity的状态被保存/恢复的时候发生了什么 当Activity的onSaveInstanceState被调用的时候，Activity将会从View 层次(View Hierachy)中的每一个View中自动搜集View的状态。请注意，只会搜集实现了View状态保存/恢复的内部方法的View的数据。一旦onRestoreInstanceState被调用,Activity将会将这些搜集到的数据一对一的返还给View 层次里在搜集的时候提供了同样的android:id属性的View。
+让我们看看视觉上的效果。
+这就是为什么尽管Activity已经被销毁，而我们并没有做一些特别的事情来保存状态，但是EditText中键入的文本仍然能够呈现的原因。这并不是什么魔法，这些View 的状态已经被自动的保存和恢复回来了。
+这也是为什么View 在没有被设置android:id属性的时候不能保存和恢复自己的状态的原因。
+尽管这些View 的状态被自动的保存了，但是Activity的成员变量并不会有同样的效果。这些成员变量会被和Activity一起销毁。你可以手动的保存和恢复它们，通过onSaveInstanceState和onRestoreInstanceState方法。
+public class MainActivity extends AppCompatActivity { // These variable are destroyed along with Activity private int someVarA; private String someVarB; ... @Override protected void onSaveInstanceState(Bundle outState) { super.onSaveInstanceState(outState); outState.putInt(&amp;quot;someVarA&amp;quot;, someVarA); outState.putString(&amp;quot;someVarB&amp;quot;, someVarB); } @Override protected void onRestoreInstanceState(Bundle savedInstanceState) { super.onRestoreInstanceState(savedInstanceState); someVarA = savedInstanceState.getInt(&amp;quot;someVarA&amp;quot;); someVarB = savedInstanceState.getString(&amp;quot;someVarB&amp;quot;); } }  这就是为了恢复Activity实例的状态和View 状态需要做的。</description>
+    </item>
     
     <item>
       <title>迁移到Hugo</title>
