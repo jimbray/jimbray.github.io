@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://jimbray.xyz/post/android-auto-size-textview/</loc>
+    <lastmod>2017-11-26T21:49:25+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://jimbray.xyz/post/best-way-for-activity-and-fragment-state-restore/</loc>
     <lastmod>2017-11-25T16:44:19+08:00</lastmod>
   </url>
@@ -122,13 +127,13 @@
   
   <url>
     <loc>http://jimbray.xyz/</loc>
-    <lastmod>2017-11-25T16:44:19+08:00</lastmod>
+    <lastmod>2017-11-26T21:49:25+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://jimbray.xyz/post/</loc>
-    <lastmod>2017-11-25T16:44:19+08:00</lastmod>
+    <lastmod>2017-11-26T21:49:25+08:00</lastmod>
     <priority>0</priority>
   </url>
   

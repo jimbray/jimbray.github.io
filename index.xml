@@ -7,10 +7,25 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Sat, 25 Nov 2017 16:44:19 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 26 Nov 2017 21:49:25 +0800</lastBuildDate>
     
 	<atom:link href="http://jimbray.xyz/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>自动调整大小的TextView</title>
+      <link>http://jimbray.xyz/post/android-auto-size-textview/</link>
+      <pubDate>Sun, 26 Nov 2017 21:49:25 +0800</pubDate>
+      
+      <guid>http://jimbray.xyz/post/android-auto-size-textview/</guid>
+      <description>遇见问题：当一个控件显示的文字有点长的时候，可能在屏幕小的设备上就会变得显示不完整，特别是那种不允许文字省略的按钮。
+像我这种懒人，当然是看看有没有前人的肩膀可以踩。Google 了一下，果然发现了不止一个
+AutoScaleTextView
+android-autofittextview
+大概看一下 实现方式
+两者的 的核心代码 大致相同
+/** * Resize the text so that it fits * * @param text * The text. Neither &amp;lt;code&amp;gt;null&amp;lt;/code&amp;gt; nor empty. * @param textWidth * The width of the TextView. &amp;gt; 0 */ private void refitText(String text, int textWidth) { if (textWidth &amp;lt;= 0 || text == null || text.length() == 0) return; // the width int targetWidth = textWidth - this.</description>
+    </item>
     
     <item>
       <title>[转][译]保存/恢复 Activity 和 Fragment 状态的最佳实践</title>
