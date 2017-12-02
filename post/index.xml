@@ -7,10 +7,23 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Sun, 26 Nov 2017 21:49:25 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 02 Dec 2017 23:48:48 +0800</lastBuildDate>
     
 	<atom:link href="http://jimbray.xyz/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>解决Linux(Deepin)无法连接Android真机的问题</title>
+      <link>http://jimbray.xyz/post/linux-connect-android-phone/</link>
+      <pubDate>Sat, 02 Dec 2017 23:48:48 +0800</pubDate>
+      
+      <guid>http://jimbray.xyz/post/linux-connect-android-phone/</guid>
+      <description>好不容易在 Deepin 上配置好了Android开发环境，代码写起来，运行起来爽爽的。
+可能我用的是 google 五阿哥手机，所以一路都很顺畅，今天换了个三星手机，居然连不上，无法调试。
+Google 了一下，找到解决方案，记录一下
+准备工作  手机开启开发者选项，并开启USB调试 需要root?（我的手机并没有root）  查看手机端口ID 终端输入命令 lsusb,系统会列出所有 USB设备:
+Bus 002 Device 019: ID 18d1:4ee7 Google Inc. Bus 002 Device 018: ID 04e8:6860 Samsung Electronics Co., Ltd Galaxy (MTP) Bus 002 Device 002: ID 8087:0020 Intel Corp. Integrated Rate Matching Hub Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub Bus 001 Device 003: ID 04f2:b1e5 Chicony Electronics Co., Ltd Bus 001 Device 002: ID 8087:0020 Intel Corp.</description>
+    </item>
     
     <item>
       <title>自动调整大小的TextView</title>
