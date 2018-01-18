@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="facebook 分享中一不小心掉进去的坑">
-  <meta name="generator" content="Hugo 0.25.1" />
+  <meta name="generator" content="Hugo 0.31.1" />
 
   <title>Facebook ShareDialog 没有回调的问题 &middot; JIMBRAY</title>
 
@@ -244,28 +244,28 @@
 
 CallbackManager callbackManager = CallbackManager.Factory.create();
 shareDialog.registerCallback(callbackManager, new FacebookCallback&lt;Sharer.Result&gt;() {
-	@Override
-	public void onSuccess(Sharer.Result result) {
-		Log.d(&quot;tag&quot;, &quot;OnSuccess&quot;);
-	}
+    @Override
+    public void onSuccess(Sharer.Result result) {
+        Log.d(&quot;tag&quot;, &quot;OnSuccess&quot;);
+    }
 
-	@Override
-	public void onCancel() {
-		Log.d(&quot;tag&quot;, &quot;onCancel&quot;);
-	}
+    @Override
+    public void onCancel() {
+        Log.d(&quot;tag&quot;, &quot;onCancel&quot;);
+    }
 
-	@Override
-	public void onError(FacebookException error) {
-		Log.d(&quot;tag&quot;, &quot;onError&quot;);
-	}
+    @Override
+    public void onError(FacebookException error) {
+        Log.d(&quot;tag&quot;, &quot;onError&quot;);
+    }
 });
 
 ShareLinkContent content = new ShareLinkContent.Builder()
-		.setContentUrl(Uri.parse(&quot;http://url.com&quot;))
-		.setImageUrl(Uri.parse(&quot;http://url.com&quot;))
-		.setContentTitle(&quot;Title&quot;)
-		.setContentDescription(&quot;description&quot;)
-		.build();
+        .setContentUrl(Uri.parse(&quot;http://url.com&quot;))
+        .setImageUrl(Uri.parse(&quot;http://url.com&quot;))
+        .setContentTitle(&quot;Title&quot;)
+        .setContentDescription(&quot;description&quot;)
+        .build();
 
 shareDialog.show(content, ShareDialog.Mode.AUTOMATIC);
 </code></pre>
@@ -284,7 +284,7 @@ shareDialog.show(content, ShareDialog.Mode.AUTOMATIC);
 <pre><code class="language-java">@Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-	callbackManager.onActivityResult(requestCode, resultCode, data);//这个callbackmanager要是之前 create 的那一个，不能是 新 create的
+    callbackManager.onActivityResult(requestCode, resultCode, data);//这个callbackmanager要是之前 create 的那一个，不能是 新 create的
 }
 </code></pre>
 
@@ -304,10 +304,10 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         return mCallbackManager = CallbackManager.Factory.create();
     }
 
-	/**
-	* url 需要分享的 url
-	* des 需要分享的 description
-	**/
+    /**
+    * url 需要分享的 url
+    * des 需要分享的 description
+    **/
     public static void showLink2Facebook(Activity act, String url, String des) {
         if(TextUtils.isEmpty(url)) {
             return ;

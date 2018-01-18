@@ -7,10 +7,23 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Fri, 06 Jan 2017 20:20:02 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 04 Jan 2018 20:16:16 +0800</lastBuildDate>
     
 	<atom:link href="http://jimbray.xyz/tags/android/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>基于 Smack 的 xmpp 学习笔记</title>
+      <link>http://jimbray.xyz/post/xmpp-study-notes/</link>
+      <pubDate>Thu, 04 Jan 2018 20:16:16 +0800</pubDate>
+      
+      <guid>http://jimbray.xyz/post/xmpp-study-notes/</guid>
+      <description>XMPP 开发学习 由于 aSmack 已经弃用，目前使用的是 smack 原版 4.2.0
+ aSmack is deprecated and obsolete. Starting with Version 4.1 Smack is able to run without modifications on Android.
+More information on how to use Smack 4.1 in your Android Project can be found in the Smack 4.1 Readme and Upgrade Guide.
+ smack 的 github repo
+ Instructions how to use Smack in your Java or Android project are provided in the Smack 4.</description>
+    </item>
     
     <item>
       <title>ScrollView 与 ViewDragHelper 的混合使用学习</title>

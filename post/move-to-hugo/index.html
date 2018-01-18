@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="从 Hexo 迁移到 Hugo，明显速度快了很多">
-  <meta name="generator" content="Hugo 0.25.1" />
+  <meta name="generator" content="Hugo 0.31.1" />
 
   <title>迁移到Hugo &middot; JIMBRAY</title>
 
@@ -234,20 +234,25 @@ Linux 下很简单，我直接用 apt 装了。</p>
 
 <h3 id="基本使用">基本使用</h3>
 
-<p>然后就是简单的基本使用了：
-1. 创建网站 <code>hugo new site quickstart</code>,可以看到新建了目录
-2. 由于默认没有一个主题(我觉得这点做的不好),所以要挑选一个主题，在<a href="https://themes.gohugo.io/">主题</a>挑选自己喜欢的款，我用的是<a href="https://themes.gohugo.io/blackburn/">Blackburn</a>
-   把 主题的 仓库 clone 到 网站目录的 themes 下就可以了。
-3. 这个主题还有一个example文件夹，可以把里面的 comfig.toml 直接复制到 网站根目录下；里面写了一些配置，自己根据需要进行修改就可以了，
-    记得配置 baseurl 的使用 一定要以 “/”结尾，否则上传到github时解析不到。
-4. 创建文章<code>hugo new test-article.md</code> 会在 网站目录下的content目录下生成 文件，有些主题会在首页直接显示content下的 文章，我选的这个主题默认是在 content/post 文件夹下，所以只能手动复制进去了
-5. 编辑好文章之后，配置基本与hexo 一致，只有一些小差异，比如 tags: test 是不对的，应该修改为 tags: [test],其他大同小异。
-6. 本地生成预览，<code>hugo server -D</code> 生成速度很快，然后可以在 <a href="http://localhost:1313">localhost</a>直接看到效果了。</p>
+<p>然后就是简单的基本使用了：</p>
+
+<ul>
+<li>创建网站 <code>hugo new site quickstart</code>,可以看到新建了目录</li>
+
+<li><p>由于默认没有一个主题(我觉得这点做的不好),所以要挑选一个主题，在<a href="https://themes.gohugo.io/">主题</a>挑选自己喜欢的款，我用的是<a href="https://themes.gohugo.io/blackburn/">Blackburn</a>把 主题的 仓库 clone 到 网站目录的 themes 下就可以了。</p></li>
+
+<li><p>这个主题还有一个example文件夹，可以把里面的 comfig.toml 直接复制到 网站根目录下；里面写了一些配置，自己根据需要进行修改就可以了，记得配置 baseurl 的使用 一定要以 “/”结尾，否则上传到github时解析不到。</p></li>
+
+<li><p>创建文章<code>hugo new test-article.md</code> 会在 网站目录下的content目录下生成 文件，有些主题会在首页直接显示content下的 文章，我选的这个主题默认是在 content/post 文件夹下，所以只能手动复制进去了</p></li>
+
+<li><p>编辑好文章之后，配置基本与hexo 一致，只有一些小差异，比如 tags: test 是不对的，应该修改为 tags: [test],其他大同小异。</p></li>
+
+<li><p>本地生成预览，<code>hugo server -D</code> 生成速度很快，然后可以在 <a href="http://localhost:1313">localhost</a>直接看到效果了。</p></li>
+</ul>
 
 <h3 id="主题修改">主题修改</h3>
 
-<p>用了主题之后 ，发现首页显示的文章除了标题之后，摘要部分显示的极其混乱，markdown格式丢失不说，连 <!-- more -->规则也没有遵守
-经过一番搜索之后, 找到了 首页显示的 html (/blackburn/layouts/_default/summary.html) 显示的摘要部分是 {{ .Summary }}，官方提示是 summary 会提取文章前70个字符进行截断显示，但是实际效果太差了。我改成了 {{ .Description}}，然后在每个文章前面加入
+<p>用了主题之后 ，发现首页显示的文章除了标题之后，摘要部分显示的极其混乱，markdown格式丢失不说，连规则也没有遵守，经过一番搜索之后, 找到了 首页显示的 <code>html (/blackburn/layouts/_default/summary.html)</code> 显示的摘要部分是 <code>{{ .Summary }}</code>，官方提示是 summary 会提取文章前70个字符进行截断显示，但是实际效果太差了。我改成了 <code>{{ .Description}}</code>，然后在每个文章前面加入
 <code>description: this is the summary</code>
 就有了现在的效果。</p>
 
@@ -256,11 +261,15 @@ Linux 下很简单，我直接用 apt 装了。</p>
 <p>hugo 是个静态网站生成器
 生成之后的所有静态代码在 public 文件夹下
 因为之前已经用 Hexo 部署在 github page 上了，所以也不需要开 仓库了。
-1. 先把之前的 html 静态文件全部删除
-2. 把 public 文件夹 上传到 <username>.github.io 的master分支
-   在public 文件夹内进行 <code>git init</code>，然后进行 <code>git remote add origin 地址</code>
-   最后在 &ndash;set-upstream-to=origin/master master 进行分支绑定就可以了。
-3. 只要每次push public 文件夹就可以了。</p>
+* 先把之前的 html 静态文件全部删除
+* 把 public 文件夹 上传到 <username>.github.io 的master分支</p>
+
+<p>在public 文件夹内进行 <code>git init</code>，然后进行 <code>git remote add origin 地址</code>
+最后在 &ndash;set-upstream-to=origin/master master 进行分支绑定就可以了。</p>
+
+<ul>
+<li>只要每次push public 文件夹就可以了。</li>
+</ul>
 
 <h3 id="自定义域名">自定义域名</h3>
 

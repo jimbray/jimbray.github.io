@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="使用 kotlin, rxjava, smack 完成的一个xmpp demo。支持网络切换自动重连，可以直接 编译为 Android Library。">
+  <meta name="generator" content="Hugo 0.31.1" />
+
+  <title>基于 Smack 的 xmpp 学习笔记 &middot; JIMBRAY</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://jimbray.xyz/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="http://jimbray.xyz/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="http://jimbray.xyz/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://jimbray.xyz/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="http://jimbray.xyz/">Jimbray</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://jimbray.xyz/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://jimbray.xyz/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://jimbray.xyz/tags/"><i class='fa fa-user fa-fw'></i>Tags</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  
+  <ins class="adsbygoogle"
+            style="display:inline-block;width:300px;height:600px"
+	         data-ad-client="ca-pub-2960593853032576"
+	       data-ad-slot="1610352031"></ins>
+	<script>
+		(adsbygoogle = window.adsbygoogle || []).push({});
+	</script>
+
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>基于 Smack 的 xmpp 学习笔记</h1>
+  <h2>使用 kotlin, rxjava, smack 完成的一个xmpp demo。支持网络切换自动重连，可以直接 编译为 Android Library。</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>04 Jan 2018, 20:16</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://jimbray.xyz/tags/android">android</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<h3 id="xmpp-开发学习">XMPP 开发学习</h3>
+
+<p>由于 aSmack 已经弃用，目前使用的是 smack 原版 4.2.0</p>
+
+<blockquote>
+<p><strong>aSmack is deprecated and obsolete.</strong> Starting with Version 4.1 <a href="https://github.com/igniterealtime/Smack">Smack</a> is able to run without modifications on Android.</p>
+
+<p>More information on how to use Smack 4.1 in your Android Project can be found in the <a href="https://github.com/igniterealtime/Smack/wiki/Smack-4.1-Readme-and-Upgrade-Guide">Smack 4.1 Readme and Upgrade Guide</a>.</p>
+</blockquote>
+
+<p>smack 的 github <a href="https://github.com/igniterealtime/Smack">repo</a></p>
+
+<blockquote>
+<p>Instructions how to use Smack in your Java or Android project are provided in the <a href="https://github.com/igniterealtime/Smack/wiki/Smack-4.2-Readme-and-Upgrade-Guide">Smack 4.2 Readme and Upgrade Guide</a>.</p>
+</blockquote>
+
+<p>使用Android 的同学可以进入上面的链接。</p>
+
+<p>Android 需要依赖的</p>
+
+<pre><code class="language-groovy">dependencies {
+  compile &quot;org.igniterealtime.smack:smack-android-extensions:4.2.0&quot;
+  compile &quot;org.igniterealtime.smack:smack-tcp:4.2.0&quot;
+}
+</code></pre>
+
+<blockquote>
+<p><strong>A typical Smack setup may also want to additional declare dependencies on smack-tcp, smack-extensions and smack-experimental</strong></p>
+</blockquote>
+
+<p>如果是一个完整的 xmpp 还需要额外依赖 这几个库，我没有使用</p>
+
+<p>但是后面在做<code>注册用户</code>这个需求的时候发现 <code>AccountManager</code>这个类在 <code>smack-extensions</code>里面，如果需要一些完整的功能，还是全加上好了，或者按照自己需求。</p>
+
+<blockquote>
+<p>完整的 JID
+Username@Domain/Resource
+基本组成部分</p>
+
+<p>Node/Username - 用户名/节点 用户的基本标识
+Domain - 登陆的XMPP服务器域名
+Resource - 资源/来源，用于区别客户端来源, XMPP协议设计为可多客户端同时登陆, Resource就是用于区分同一用户不同端登陆
+Bare - 除去Resource部分, 包含Username@Domain</p>
+</blockquote>
+
+<h3 id="接口使用">接口使用</h3>
+
+<h4 id="连接-connection">连接 (Connection)</h4>
+
+<pre><code class="language-java">public void connect() {
+
+        try {
+            XMPPTCPConnectionConfiguration.Builder configBuilder = XMPPTCPConnectionConfiguration.builder();
+            configBuilder.setHostAddress(InetAddress.getByName(SERVER_IP));
+            configBuilder.setHost(SERVER_IP);
+            configBuilder.setPort(SERVER_PORT);
+            configBuilder.setXmppDomain(SERVER_IP);
+            configBuilder.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
+            configBuilder.setDebuggerEnabled(true);
+            configBuilder.setCompressionEnabled(true);
+            configBuilder.setSendPresence(false);
+
+            mConnection = new XMPPTCPConnection(configBuilder.build());
+
+            mConnection.connect();
+
+            Log.d(TAG, &quot;connection status is -&gt; &quot; + String.valueOf(mConnection.isConnected()));
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+            Log.d(TAG, e.toString());
+        } catch (XmppStringprepException e) {
+            e.printStackTrace();
+            Log.d(TAG, e.toString());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Log.d(TAG, e.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d(TAG, e.toString());
+        } catch (SmackException e) {
+            e.printStackTrace();
+            Log.d(TAG, e.toString());
+        } catch (XMPPException e) {
+            e.printStackTrace();
+            Log.d(TAG, e.toString());
+        }
+    }
+</code></pre>
+
+<p><strong>端口</strong>记得要去openfire后台去看，默认是 5222,  我一开始写成了9090，后来发现9090 的openfire 管理后台的端口。<strong>切记切记</strong></p>
+
+<h4 id="登录-login">登录(Login)</h4>
+
+<pre><code class="language-java">/**
+     * 登录
+     * @param user_name 用户名
+     * @param passwd 密码
+     * @return 是否成功
+     */
+    fun login(user_name: String, passwd: String): Boolean {
+        log_d(TAG, &quot;login&quot;)
+        if (mConnection != null &amp;&amp; mConnection!!.isConnected) {
+            try {
+                mConnection?.login(user_name, passwd)
+                setStatus(XMPP_STATUS_ONLINE)
+
+//                mConnection?.addConnectionListener(this)
+                ChatManager.getInstanceFor(mConnection).addIncomingListener(this)
+                ChatManager.getInstanceFor(mConnection).addOutgoingListener(this)
+
+                log_d(TAG, &quot;login successful&quot;)
+                return true
+
+            } catch (e: XMPPException) {
+                e.printStackTrace()
+                log_e(TAG, e.toString())
+            } catch (e: SmackException) {
+                e.printStackTrace()
+                log_e(TAG, e.toString())
+                if (e is SmackException.AlreadyLoggedInException) {
+                    return true
+                }
+            } catch (e: IOException) {
+                e.printStackTrace()
+                log_e(TAG, e.toString())
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+                log_e(TAG, e.toString())
+            }
+
+        }
+        return false
+    }
+</code></pre>
+
+<p><code>setStatus</code>是修改状态</p>
+
+<pre><code class="language-java">/**
+     * 更改用户状态
+     * @param code 状态常量
+     */
+    fun setStatus(code: Int) {
+        log_d(TAG, &quot;setStatus&quot;)
+        if (mConnection != null &amp;&amp; mConnection!!.isConnected) {
+
+            try {
+                var presence: Presence? = null
+
+                when (code) {
+                    XMPP_STATUS_ONLINE -&gt; {
+                        log_d(TAG, &quot;设置在线&quot;)
+                        presence = Presence(Presence.Type.available)
+                    }
+
+                    XMPP_STATUS_CHAT_ME -&gt; {
+                        log_d(TAG, &quot;设置Q我吧&quot;)
+                        presence = Presence(Presence.Type.available)
+                        presence.mode = Presence.Mode.chat
+                    }
+
+                    XMPP_STATUS_BUSY -&gt; {
+                        log_d(TAG, &quot;设置忙碌&quot;)
+                        presence = Presence(Presence.Type.available)
+                        presence.mode = Presence.Mode.dnd
+                    }
+
+                    XMPP_STATUS_LEAVE -&gt; {
+                        log_d(TAG, &quot;设置离开&quot;)
+                        presence = Presence(Presence.Type.available)
+                        presence.mode = Presence.Mode.away
+                    }
+
+                    XMPP_STATUS_OFFLINE -&gt; {
+
+                        log_d(TAG, &quot;设置离线&quot;)
+                        presence = Presence(Presence.Type.unavailable)
+                    }
+                }
+
+                mConnection?.sendStanza(presence)
+                log_d(TAG, &quot;set status successful&quot;)
+            } catch (e: SmackException.NotConnectedException) {
+                e.printStackTrace()
+                log_e(TAG, e.toString())
+                connect()
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+                log_e(TAG, e.toString())
+            }
+
+
+        }
+    }
+</code></pre>
+
+<h4 id="注册-register">注册（Register）</h4>
+
+<p><code>java.lang.IllegalStateException: Creating account over insecure connection</code></p>
+
+<p>不安全的连接创建 account</p>
+
+<pre><code class="language-java">accountManager.sensitiveOperationOverInsecureConnection(true);
+</code></pre>
+
+<p>现在不安全了</p>
+
+<pre><code>public boolean registerUser(String user_name, String passwd) {
+        if (mConnection != null &amp;&amp; mConnection.isConnected()) {
+            // 已经connect 上了，才可以进行注册操作
+            try {
+                AccountManager accountManager = AccountManager.getInstance(mConnection);
+                if (accountManager.supportsAccountCreation()) {
+                    accountManager.sensitiveOperationOverInsecureConnection(true);
+                    accountManager.createAccount(Localpart.from(user_name), passwd);
+
+                    return true;
+                }
+            } catch (SmackException.NoResponseException e) {
+                e.printStackTrace();
+            } catch (XMPPException.XMPPErrorException e) {
+                e.printStackTrace();
+                if (e.getXMPPError().getCondition() == XMPPError.Condition.conflict) {
+                    // 用户名已存在
+                }
+            } catch (SmackException.NotConnectedException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (XmppStringprepException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return false;
+
+    }
+</code></pre>
+
+<p>创建成功。openfile 可以看到，虽然没有 name [doge]</p>
+
+<p>如果已经存在用户的，则会有异常。</p>
+
+<h4 id="发送消息-send-message">发送消息(Send Message)</h4>
+
+<pre><code class="language-java">/**
+     * 发送单人聊天 消息
+     * @param chat 单人聊天室
+     * @param message 发送的消息
+     */
+    fun sendSingleMessage(chat: Chat, message: String) {
+        log_d(TAG, &quot;sendSingleMessage-&gt;$message&quot;)
+        if (mConnection != null) {
+            try {
+                chat.send(message)
+            } catch (e: SmackException.NotConnectedException) {
+                log_e(TAG, e.toString())
+                e.printStackTrace()
+                connect()
+            } catch (e: InterruptedException) {
+                log_e(TAG, e.toString())
+                e.printStackTrace()
+            }
+        }
+    }
+</code></pre>
+
+<p>之前一直使用 chat.send(message: String)  这个接口，在用spark 聊天的时候，一直显示我发送的是“广播”，但我确实是只发给了一个人，也就是“发给一个人的广播“。这本身就是一个很怪的事情。而且这个“广播”的丢失率还很高。后面看了接口，发现 chat.send(message: String) 默认发送的是 normal类型的(normal为什么是广播？)，</p>
+
+<p>后来改动了一下，好像改善了消息丢失的问题。</p>
+
+<pre><code class="language-java">val stanza = Message()
+stanza.body = message
+stanza.type = Message.Type.chat
+chat.send(stanza)
+</code></pre>
+
+<p>也只是修改了message 的 类型为 chat 而已。起码 spark 里面不会显示 广播了。</p>
+
+<p>发送消息必须要先关注（订阅）对方，不然的话发送不能成功。</p>
+
+<h4 id="添加好友">添加好友</h4>
+
+<pre><code class="language-java">    /**
+     * 添加好友 无分组
+     * @param user_name jid
+     * @param nick_name 用户昵称
+     * @return 是否添加成功
+     */
+    fun addFriend(user_name: String, nick_name: String): Boolean {
+        log_d(TAG, &quot;addFriend&quot;)
+        if (mConnection != null) {
+            try {
+                Roster.getInstanceFor(mConnection).createEntry(JidCreate.bareFrom(generateJID(user_name)),
+                        nick_name, null)
+                return true
+            } catch (e: Exception) {
+                log_e(TAG, e.toString())
+                e.printStackTrace()
+            }
+        }
+        return false
+    }
+</code></pre>
+
+<p>添加好友到指定分组</p>
+
+<pre><code class="language-java">    /**
+     * 添加好友 加入到指定分组
+     * @param user_name jid
+     * @param nick_name 用户昵称
+     * @param group_name 用户组
+     * @return 是否添加成功
+     */
+    fun addFriendToGroup(user_name: String, nick_name: String, group_name: String): Boolean {
+        log_d(TAG, &quot;addFriendToGroup&quot;)
+        if (mConnection != null) {
+            try {
+                val subscription = Presence(Presence.Type.subscribe)
+                subscription.to = JidCreate.entityBareFrom(generateJID(user_name))
+                mConnection?.sendStanza(subscription)
+                Roster.getInstanceFor(mConnection).createEntry(JidCreate.entityBareFrom(generateJID(user_name)),
+                        nick_name,
+                        arrayOf(group_name))
+
+                return true
+            } catch (e: Exception) {
+                log_e(TAG, e.toString())
+            }
+        }
+        return false
+    }
+</code></pre>
+
+<h4 id="获取好友-get-all-friends">获取好友（Get All Friends）</h4>
+
+<pre><code class="language-java">    /**
+     * 获取所有好友信息
+     * @return 所有好友列表
+     */
+    fun getAllFriends(): List&lt;RosterEntry&gt;? {
+        log_d(TAG, &quot;getAllFriends&quot;)
+        if (mConnection != null) {
+            val entryList = ArrayList&lt;RosterEntry&gt;()
+            val rotryEntry = Roster.getInstanceFor(mConnection).entries
+            entryList += rotryEntry
+            return entryList
+        }
+
+        return null
+    }
+</code></pre>
+
+<p>获取好友列表</p>
+
+<p>还封装了好几个接口</p>
+
+<ul>
+<li><code>isAuthenticated()</code>  判断是否已经登录</li>
+<li><code>isConnect()</code>  判断是否连接</li>
+<li><code>disconnect()</code> 断开连接</li>
+<li><code>getGroups()</code> 获取所有分组</li>
+<li><code>getFriendsInGroup</code> 获取指定分组内的所有好友</li>
+<li>&hellip; &hellip; 等等</li>
+</ul>
+
+<p>使用的时候，我用了 RxJava 的 链式调用，用起来还不错。</p>
+
+<h5 id="登录">登录</h5>
+
+<pre><code class="language-java">fun login(user_name: String, passwd: String) {
+            log_d(TAG, &quot;login name-&gt;$user_name&quot;)
+
+            curUserName = user_name
+            curPasswd = passwd
+            if (mXmppApiManager.isAuthenticated()) {
+                // 已经登录过
+                val userName = mXmppApiManager.getAuthenticatedUser()
+                if (!TextUtils.isEmpty(userName)) {
+                    log_d(TAG, &quot;account logined as -&gt; &quot; + userName!!)
+                } else {
+                    log_d(TAG, &quot;login successful as -&gt; &quot; + user_name)
+                }
+            } else {
+                if (!mXmppApiManager.isConnected()) {
+                    // 先进行连接
+
+                    Observable.create(ObservableOnSubscribe&lt;Boolean&gt; { emitter -&gt;
+                        emitter.onNext(mXmppApiManager.connect())
+                    })
+                            .subscribeOn(Schedulers.io())
+                            .flatMap { isConnectSuccessful -&gt;
+                                if (isConnectSuccessful) {
+                                    // 连接成功后
+                                    // 进行注册
+                                    log_d(TAG, &quot;xmpp connect successful&quot;)
+                                    Observable.just(mXmppApiManager.registerUser(user_name, passwd))
+                                } else {
+                                    // 连接失败
+                                    log_d(TAG, &quot;xmpp connect failed&quot;)
+                                    // 几秒后进行重连
+                                    handler.postDelayed(reconnectRunnable, RECONNECT_TIME_MILLSECOND)
+                                    Observable.just(false)
+                                }
+                            }
+                            .flatMap { isRegisterSuccessful -&gt;
+                                if (isRegisterSuccessful) {
+                                    // 注册成功
+                                    // 进行登录
+                                    log_d(TAG, &quot;xmpp register successful&quot;)
+                                    Observable.just(mXmppApiManager.login(user_name, passwd))
+                                } else {
+                                    // 注册失败
+                                    log_d(TAG, &quot;xmpp register failed&quot;)
+                                    Observable.just(false)
+                                }
+                            }.observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({ isLoginSuccessful -&gt;
+                                if (isLoginSuccessful!!) {
+                                    log_d(TAG, &quot;login successful as -&gt; &quot; + mXmppApiManager.getAuthenticatedUser()!!)
+                                } else {
+                                    log_d(TAG, &quot;login failed&quot;)
+                                }
+                            })
+                } else {
+                    // 直接进行登录操作
+                    Observable.create(ObservableOnSubscribe&lt;Boolean&gt; { emitter -&gt;
+                        emitter.onNext(mXmppApiManager.registerUser(user_name, passwd))
+                    })
+                            .subscribeOn(Schedulers.io())
+                            .flatMap { isRegisterSuccessful -&gt;
+                                if (isRegisterSuccessful) {
+                                    // 注册成功
+                                    // 进行登录
+                                    log_d(TAG, &quot;xmpp register successful&quot;)
+                                    Observable.just(mXmppApiManager.login(user_name, passwd))
+                                } else {
+                                    // 注册失败
+                                    log_d(TAG, &quot;xmpp register failed&quot;)
+                                    Observable.just(false)
+                                }
+                            }.observeOn(AndroidSchedulers.mainThread())
+                            .subscribe { isLoginSuccessful -&gt;
+                                if (isLoginSuccessful!!) {
+                                    val userName = mXmppApiManager.getAuthenticatedUser()
+                                    if (!TextUtils.isEmpty(userName)) {
+                                        log_d(TAG, &quot;account logined as -&gt; &quot; + userName!!)
+                                    } else {
+                                        log_d(TAG, &quot;login successful as -&gt; &quot; + userName)
+                                    }
+                                } else {
+                                    log_d(TAG, &quot;login failed&quot;)
+                                }
+                            }
+                }
+
+            }
+        }
+</code></pre>
+
+<p>在登录的时候先进行一些连接的判断。</p>
+
+<p>这样使用的时候就不需要去处理是否连接的问题。</p>
+
+<p>还有注册也是一样</p>
+
+<pre><code class="language-java">        fun register(user_name: String, passwd: String) {
+            // 如果已经验证过的，需要退出登录?
+            log_d(TAG, &quot;register name-&gt;$user_name&quot;)
+
+            if (!mXmppApiManager.isConnected()) {
+                // 先进行连接
+                Observable.create(ObservableOnSubscribe&lt;Boolean&gt; { emitter -&gt;
+                    emitter.onNext(mXmppApiManager.connect())
+                })
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(Schedulers.io())
+                        .flatMap { isConnectSuccessful -&gt;
+                            if (isConnectSuccessful) {
+                                // 连接成功后
+                                // 进行注册
+                                log_d(TAG, &quot;xmpp connect successful&quot;)
+                                Observable.just(mXmppApiManager.registerUser(user_name, passwd))
+                            } else {
+                                // 连接失败
+                                log_d(TAG, &quot;xmpp connect failed&quot;)
+                                // 几秒后进行重连
+                                handler.postDelayed(reconnectRunnable, RECONNECT_TIME_MILLSECOND)
+                                Observable.just(false)
+                            }
+                        }
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe { isRegisterSuccessful -&gt;
+                            if (isRegisterSuccessful) {
+                                // 注册成功
+                                // 进行登录
+                                log_d(TAG, &quot;xmpp register successful&quot;)
+                            } else {
+                                // 注册失败
+                                log_d(TAG, &quot;xmpp register failed&quot;)
+                            }
+                        }
+            } else {
+                // 直接进行注册操作
+                Observable.create(ObservableOnSubscribe&lt;Boolean&gt; { emitter -&gt;
+                    emitter.onNext(mXmppApiManager.registerUser(user_name, passwd))
+                })
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe { isRegisterSuccessful -&gt;
+                            if (isRegisterSuccessful) {
+                                // 注册成功
+                                log_d(TAG, &quot;xmpp register successful&quot;)
+                            } else {
+                                // 注册失败
+                                log_d(TAG, &quot;xmpp register failed&quot;)
+                            }
+                        }
+            }
+        }
+</code></pre>
+
+<p>这样用起来就比较方便。</p>
+
+<h2 id="需要注意的问题">需要注意的问题</h2>
+
+<h4 id="如何保持xmpp连接稳定">如何保持XMPP连接稳定</h4>
+
+<h5 id="遇到问题">遇到问题</h5>
+
+<blockquote>
+<p>应用程序处于活动状态。但是迟早，XMPP连接都没有任何提示。服务器表示客户端仍处于联机状态，但未发送或者接收数据包。</p>
+
+<p><code>XMPPConnection connection.isConnected()</code>返回 True。</p>
+
+<p>实际上 客户端 无法知道 实际连接已经丢失。</p>
+</blockquote>
+
+<h5 id="解决方案">解决方案</h5>
+
+<ol>
+<li>首先在 openfire 服务器后台发现了这个</li>
+</ol>
+
+<blockquote>
+<p>服务器可以在断开闲置连接前发送XMPP Ping请求给该客户端。客户端必须回复 Ping请求，这样服务器能判断客户端连接确实是闲置状态。 XMPP规范要求所有客户端必须响应 Ping请求。如果客户端不支持该Ping请求，必须返回错误（这本身就是一个响应）。</p>
+</blockquote>
+
+<p>所以，我们的客户端必须对 服务器的 ping 请求进行回复。但是 smack 4.2 的 incomingMessage 仅仅会返回 用户消息，所以在 incomingmessage 回调里面没有办法完成这件事情。</p>
+
+<p>搜索一番之后发现一个：</p>
+
+<pre><code class="language-java">   connection = new XMPPTCPConnection(config);  
+   PingManager pingManager = PingManager.getInstanceFor(connection); pingManager.setPingInterval(300);//seconds
+</code></pre>
+
+<p>​</p>
+
+<p>在 connect 完成后 加了这个设置，测试了一下，仍然后断线的问题，但是频率少了。应该是有一点作用的。</p>
+
+<ol>
+<li>添加 <code>XMPPConnectionListener</code> 连接监听</li>
+</ol>
+
+<p>如果需要保持长期的连接，需要对很多异常进行进行处理，也就是重连机制的实现。</p>
+
+<p>比如说</p>
+
+<ul>
+<li>监听到 <code>connectitonCloseError</code> 的时候</li>
+<li>监听到 <code>connectionClose</code> 的时候</li>
+<li>或者是连接异常的时候</li>
+</ul>
+
+<p>都可以加入 自动重连的逻辑，从而保证 连接的稳定性。</p>
+
+<ol>
+<li>添加 网络变化 监听</li>
+</ol>
+
+<p>移动应用的网络情况千变万化，有时候并不稳定，所以需要加入网络情况的判断</p>
+
+<pre><code class="language-java">   class NetworkChangeReceiver: BroadcastReceiver() {
+
+       private val TAG = NetworkChangeReceiver::class.java.simpleName
+
+       override fun onReceive(context: Context?, intent: Intent?) {
+           log_i(TAG, &quot;onReceive 网络状态发生变化&quot;)
+
+           // 如果api小于21，getNetworkinfo(int networType) 已弃用
+           if (Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.LOLLIPOP) {
+               log_i(TAG, &quot;API 小于 21&quot;)
+
+               val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+               // Wi-Fi 连接
+               val wifiNetworkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+               // 移动数据连接
+               val dataNetworkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
+
+               if (wifiNetworkInfo.isConnected &amp;&amp; dataNetworkInfo.isConnected) {
+                   log_i(TAG, &quot;Wi-Fi 已连接，移动数据已连接&quot;)
+                   RxBus2.getIntanceBus().post(RxMessage(RxMessageConstants.MESSAGE_TYPE_NETWOKR, RxMessageConstants.MESSAGE_NETWORK_WIFI_CONNECTED) as Object)
+               } else if (wifiNetworkInfo.isConnected &amp;&amp; !dataNetworkInfo.isConnected) {
+                   log_i(TAG, &quot;Wi-Fi 已连接，移动数据已断开&quot;)
+                   RxBus2.getIntanceBus().post(RxMessage(RxMessageConstants.MESSAGE_TYPE_NETWOKR, RxMessageConstants.MESSAGE_NETWORK_WIFI_CONNECTED) as Object)
+               } else if (!wifiNetworkInfo.isConnected &amp;&amp; dataNetworkInfo.isConnected) {
+                   log_i(TAG, &quot;Wi-Fi 已断开，移动数据已连接&quot;)
+                   RxBus2.getIntanceBus().post(RxMessage(RxMessageConstants.MESSAGE_TYPE_NETWOKR, RxMessageConstants.MESSAGE_NETWORK_MOBILE_CONNECTED) as Object)
+               } else {
+                   RxBus2.getIntanceBus().post(RxMessage(RxMessageConstants.MESSAGE_TYPE_NETWOKR, RxMessageConstants.MESSAGE_NETWORK_DISCONNETED) as Object)
+                   log_i(TAG, &quot;Wi-Fi 已断开，移动数据已断开&quot;)
+               }
+
+           } else {
+               log_i(TAG, &quot;API 大于 21&quot;)
+
+               val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+               val networks = connectivityManager.allNetworks
+
+               var result = 0 // mobile false = 1, mobile true = 2 wifi = 4
+
+               for (network in networks) {
+                   val networkInfo = connectivityManager.getNetworkInfo(network)
+
+                   networkInfo?.let {
+                       //检测到有数据连接，但是并连接状态未生效，此种状态为wifi和数据同时已连接，以wifi连接优先
+                       if (networkInfo.type == ConnectivityManager.TYPE_MOBILE &amp;&amp; !networkInfo.isConnected) {
+                           result += 1
+                       }
+
+                       //检测到有数据连接，并连接状态已生效，此种状态为只有数据连接，wifi并未连接上
+                       if (networkInfo.type == ConnectivityManager.TYPE_MOBILE &amp;&amp; networkInfo.isConnected) {
+                           result += 2
+                       }
+
+                       //检测到有wifi连接，连接状态必为true
+                       if (networkInfo.type == ConnectivityManager.TYPE_WIFI) {
+                           result += 4
+                        }
+                  }
+            }
+             
+             // 存在组合情况，以组合相加的唯一值作为最终状态的判断
+              when (result) {
+                  0   -&gt;  {
+                      log_i(TAG, &quot;Wi-Fi 已断开，移动数据已断开&quot;)
+                  }
+                  2   -&gt;  {
+                      log_i(TAG, &quot;Wi-Fi 已断开，移动数据已连接&quot;)
+                  }
+                  4   -&gt;  {
+                      log_i(TAG, &quot;Wi-Fi 已连接，移动数据已断开&quot;)
+                  }
+                  5   -&gt;  {
+                      log_i(TAG, &quot;Wi-Fi 已连接，移动数据已连接&quot;)
+                  }
+              }
+          }
+
+      }
+   }           
+</code></pre>
+
+<p>在网络变化的时候，进行连接判断，或者重连操作，也是一种保持稳定性的方法。</p>
+
+<h4 id="使用的第三方库">使用的第三方库</h4>
+
+<pre><code class="language-groovy">compile &quot;org.igniterealtime.smack:smack-android-extensions:4.2.0&quot;
+compile &quot;org.igniterealtime.smack:smack-tcp:4.2.0&quot;
+compile &quot;org.igniterealtime.smack:smack-extensions:4.2.0&quot;
+
+// 只是在使用的时候 方便一些
+compile 'io.reactivex.rxjava2:rxjava:2.1.8'
+compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+</code></pre>
+
+<ul>
+<li>可以根据网络状况自动重连</li>
+<li>可以在中断后自动进行重连</li>
+</ul>
+
+<p><a href="https://github.com/jimbray/XMPPDemo">代码在这里</a></p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://jimbray.xyz/post/linux-connect-android-phone/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://jimbray.xyz/post/linux-connect-android-phone/">解决Linux(Deepin)无法连接Android真机的问题</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'jimbray-github-io';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="http://jimbray.xyz/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-78813427-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+</body>
+</html>
+

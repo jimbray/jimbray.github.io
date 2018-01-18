@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="使用Facebook官方API发布POST">
-  <meta name="generator" content="Hugo 0.25.1" />
+  <meta name="generator" content="Hugo 0.31.1" />
 
   <title>Android 一键发布 Facebook 帖文 &middot; JIMBRAY</title>
 
@@ -376,7 +376,7 @@
 
 <p>那，怎么申请权限呢？</p>
 
-<pre><code>public static void loginWithPublishPermission(Activity activity, final 			FacebookCallback&lt;LoginResult&gt; callback) {
+<pre><code>public static void loginWithPublishPermission(Activity activity, final          FacebookCallback&lt;LoginResult&gt; callback) {
         // 允许使用的权限
         String permission[] = new String[]{&quot;publish_actions&quot;};
         LoginManager.getInstance().logInWithPublishPermissions(activity, Arrays.asList(permission));
