@@ -3,12 +3,12 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://jimbray.xyz/wiki/content/process_and_thread/</loc>
+    <loc>http://jimbray.xyz/note/content/process_and_thread/</loc>
     <lastmod>2018-01-20T10:44:47+08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://jimbray.xyz/wiki/wiki/</loc>
+    <loc>http://jimbray.xyz/note/note/</loc>
     <lastmod>2018-01-20T10:39:42+08:00</lastmod>
   </url>
   
@@ -152,6 +152,12 @@
   </url>
   
   <url>
+    <loc>http://jimbray.xyz/note/</loc>
+    <lastmod>2018-01-20T10:44:47+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>http://jimbray.xyz/post/</loc>
     <lastmod>2018-01-04T20:16:16+08:00</lastmod>
     <priority>0</priority>
@@ -183,12 +189,6 @@
   <url>
     <loc>http://jimbray.xyz/tags/vps/</loc>
     <lastmod>2017-05-22T12:55:25+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://jimbray.xyz/wiki/</loc>
-    <lastmod>2018-01-20T10:44:47+08:00</lastmod>
     <priority>0</priority>
   </url>
   

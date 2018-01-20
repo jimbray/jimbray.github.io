@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.31.1" />
 
-  <title>Posts &middot; JIMBRAY</title>
+  <title>进程与线程的区别 &middot; JIMBRAY</title>
 
   
   
@@ -36,8 +36,6 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
 
   
-  
-  <link rel="alternate" type="application/rss+xml" title="JIMBRAY" href="http://jimbray.xyz/post/index.xml" />
   
 
   
@@ -102,10 +100,6 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="http://jimbray.xyz/post/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
-    </li>
     
 
     
@@ -214,94 +208,22 @@
 
 
 <div class="header">
-  <h1>Posts</h1>
+  <h1>进程与线程的区别</h1>
+  <h2></h2>
 </div>
 <div class="content">
-  
-  <h2>2018</h2>
-  <ul>
-  
-    <li><time>04 Jan 2018, 20:16</time> - <a href="http://jimbray.xyz/post/xmpp-study-notes/">基于 Smack 的 xmpp 学习笔记</a></li>
+  <p>进程和线程的主要差别在于它们是不同的操作系统资源管理方式。进程有独立的地址空间，一个进程崩溃后，在保护模式下不会对其它进程产生影响，而线程只是一个进程中的不同执行路径。线程有自己的堆栈和局部变量，但线程之间没有单独的地址空间，一个线程死掉就等于整个进程死掉，所以多进程的程序要比多线程的程序健壮，但在进程切换时，耗费资源较大，效率要差一些。<strong>但对于一些要求同时进行并且又要共享某些变量的并发操作，只能用线程，不能用进程。</strong></p>
 
-  
-  </ul>
-  
-  <h2>2017</h2>
-  <ul>
-  
-    <li><time>02 Dec 2017, 23:48</time> - <a href="http://jimbray.xyz/post/linux-connect-android-phone/">解决Linux(Deepin)无法连接Android真机的问题</a></li>
+<p><strong>1) 简而言之,一个程序至少有一个进程,一个进程至少有一个线程.</strong></p>
 
-  
-    <li><time>26 Nov 2017, 21:49</time> - <a href="http://jimbray.xyz/post/android-auto-size-textview/">自动调整大小的TextView</a></li>
+<p>2) 线程的划分尺度小于进程，使得多线程程序的并发性高。</p>
 
-  
-    <li><time>25 Nov 2017, 16:44</time> - <a href="http://jimbray.xyz/post/best-way-for-activity-and-fragment-state-restore/">[转][译]保存/恢复 Activity 和 Fragment 状态的最佳实践</a></li>
+<p>3) 另外，进程在执行过程中拥有独立的内存单元，而多个线程共享内存，从而极大地提高了程序的运行效率。</p>
 
-  
-    <li><time>18 Nov 2017, 01:23</time> - <a href="http://jimbray.xyz/post/move-to-hugo/">迁移到Hugo</a></li>
+<p>4) 线程在执行过程中与进程还是有区别的。每个独立的线程有一个程序运行的入口、顺序执行序列和程序的出口。<strong>但是线程不能够独立执行，</strong>必须依存在应用程序中，由应用程序提供多个线程执行控制。</p>
 
-  
-    <li><time>22 May 2017, 12:55</time> - <a href="http://jimbray.xyz/post/get-free-google-cloud-vps-for-a-year/">用Google Cloud搭建免费一年的SS</a></li>
+<p>5) 从逻辑角度来看，多线程的意义在于一个应用程序中，有多个执行部分可以同时执行。但操作系统并没有将多个线程看做多个独立的应用，来实现进程的调度和管理以及资源分配。<strong>这就是进程和线程的重要区别。</strong></p>
 
-  
-    <li><time>22 May 2017, 12:39</time> - <a href="http://jimbray.xyz/post/build-osmc-at-rasperrypi/">使用树莓派搭建OSMC家庭影院</a></li>
-
-  
-    <li><time>15 Feb 2017, 12:20</time> - <a href="http://jimbray.xyz/post/getpersonalss/">最简单方式拥有自己的SS服务器</a></li>
-
-  
-    <li><time>06 Jan 2017, 20:20</time> - <a href="http://jimbray.xyz/post/supprisebottomview/">ScrollView 与 ViewDragHelper 的混合使用学习</a></li>
-
-  
-  </ul>
-  
-  <h2>2016</h2>
-  <ul>
-  
-    <li><time>28 Dec 2016, 13:00</time> - <a href="http://jimbray.xyz/post/one-key-post-to-facebook/">Android 一键发布 Facebook 帖文</a></li>
-
-  
-    <li><time>15 Sep 2016, 15:47</time> - <a href="http://jimbray.xyz/post/my-third-customview/">我的第三个自定义View</a></li>
-
-  
-    <li><time>14 Jul 2016, 15:19</time> - <a href="http://jimbray.xyz/post/my-second-custom-view/">我的第二个自定义View</a></li>
-
-  
-    <li><time>13 Jul 2016, 12:35</time> - <a href="http://jimbray.xyz/post/my-first-custom-view/">我的第一个自定义View</a></li>
-
-  
-    <li><time>19 Jun 2016, 21:12</time> - <a href="http://jimbray.xyz/post/python-to-qiniu2/">简化markdown写作中的贴图流程（windows基本版）</a></li>
-
-  
-    <li><time>14 Jun 2016, 23:59</time> - <a href="http://jimbray.xyz/post/python-to-qiniu/">简化markdown写作中的贴图流程（windows简陋版）</a></li>
-
-  
-    <li><time>10 Jun 2016, 20:24</time> - <a href="http://jimbray.xyz/post/facebook-share-not-callback/">Facebook ShareDialog 没有回调的问题</a></li>
-
-  
-    <li><time>09 Jun 2016, 17:52</time> - <a href="http://jimbray.xyz/post/try-docker/">试玩 Docker</a></li>
-
-  
-    <li><time>09 Jun 2016, 17:30</time> - <a href="http://jimbray.xyz/post/linode-install-lnmp/">Linode 安装 lnmp 学习</a></li>
-
-  
-    <li><time>09 Jun 2016, 12:48</time> - <a href="http://jimbray.xyz/post/ssh-root-login-setting/">VPS 禁止远程ROOT登录</a></li>
-
-  
-    <li><time>09 Jun 2016, 12:37</time> - <a href="http://jimbray.xyz/post/falsk-root/">Flask 直接显示根目录文件内容</a></li>
-
-  
-    <li><time>09 Jun 2016, 12:08</time> - <a href="http://jimbray.xyz/post/ss-thunder/">使用迅雷下载后 shadowsocks失效 解决办法</a></li>
-
-  
-    <li><time>04 Jun 2016, 16:48</time> - <a href="http://jimbray.xyz/post/sync-hexo-source/">在同一个repo备份hexo文章以及配置</a></li>
-
-  
-    <li><time>03 Jun 2016, 16:48</time> - <a href="http://jimbray.xyz/post/hello-world/">Hello World</a></li>
-
-  
-  </ul>
-  
 </div>
 
 </div>
