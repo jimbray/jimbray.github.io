@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://jimbray.xyz/note/content/orm/</loc>
+    <lastmod>2018-02-11T21:13:14+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://jimbray.xyz/note/content/process_and_thread/</loc>
     <lastmod>2018-01-20T10:44:47+08:00</lastmod>
   </url>
@@ -147,13 +152,13 @@
   
   <url>
     <loc>http://jimbray.xyz/</loc>
-    <lastmod>2018-01-20T10:44:47+08:00</lastmod>
+    <lastmod>2018-02-11T21:13:14+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://jimbray.xyz/note/</loc>
-    <lastmod>2018-01-20T10:44:47+08:00</lastmod>
+    <lastmod>2018-02-11T21:13:14+08:00</lastmod>
     <priority>0</priority>
   </url>
   

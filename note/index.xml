@@ -7,10 +7,23 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Sat, 20 Jan 2018 10:44:47 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 11 Feb 2018 21:13:14 +0800</lastBuildDate>
     
 	<atom:link href="http://jimbray.xyz/note/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>什么是ORM</title>
+      <link>http://jimbray.xyz/note/content/orm/</link>
+      <pubDate>Sun, 11 Feb 2018 21:13:14 +0800</pubDate>
+      
+      <guid>http://jimbray.xyz/note/content/orm/</guid>
+      <description>ORM，全称 Object Relational Mapping，中文叫做 对象关系映射。
+是一种程序设计技术，用于实现面向对象编程语言里不同类型系统的数据之间的转换。从效果上说，它其实是创建了一个可在编程语言里使用的“虚拟对象数据库”。
+通俗一点理解或者举个例子就是：
+将 数据库中的 数据抽象成 编程语言中的对象，将所有的数据持久化相关工作转换为变成语言的对象操作，用来屏蔽底层数据库的操作细节。
+简单的 CRUD 甚至可以完全不懂 数据库操作也可以完成。</description>
+    </item>
     
     <item>
       <title>进程与线程的区别</title>
@@ -33,7 +46,7 @@
       
       <guid>http://jimbray.xyz/note/note/</guid>
       <description>网址导航 V2EX
-学习 进程与线程的区别
+学习 进程与线程的区别 | ORM
 工具 SVG转Vector Drawable | SVG在线编辑器 | 在线文件转换 | IP查询</description>
     </item>
     
