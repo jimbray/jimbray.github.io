@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.31.1" />
 
-  <title>Posts &middot; JIMBRAY</title>
+  <title>Android 线程池中的核心线程 &middot; JIMBRAY</title>
 
   
   
@@ -36,8 +36,6 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
 
   
-  
-  <link rel="alternate" type="application/rss+xml" title="JIMBRAY" href="http://jimbray.xyz/post/index.xml" />
   
 
   
@@ -102,10 +100,6 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="http://jimbray.xyz/post/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
-    </li>
     
 
     
@@ -214,94 +208,14 @@
 
 
 <div class="header">
-  <h1>Posts</h1>
+  <h1>Android 线程池中的核心线程</h1>
+  <h2></h2>
 </div>
 <div class="content">
-  
-  <h2>2018</h2>
-  <ul>
-  
-    <li><time>04 Jan 2018, 20:16</time> - <a href="http://jimbray.xyz/post/xmpp-study-notes/">基于 Smack 的 xmpp 学习笔记</a></li>
+  <blockquote>
+<p>核心线程即使在没有任务执行的时候也会存在，线程池一般设定一定数量的核心线程且一直存活，这样的话就可以一般情况下CPU创建或销毁线程带来的性能开销。如果线程池管理中设置了allowCoreThreadTimeout 时，核心线程就会有超时策略，这个时间由keepAliveTime来设定，即keepAliveTime时间内，如果核心线程无响应，则该核心线程就会被终止。如果allowCoreThreadTimeout没有设置，则核心线程没有超时时间。</p>
+</blockquote>
 
-  
-  </ul>
-  
-  <h2>2017</h2>
-  <ul>
-  
-    <li><time>02 Dec 2017, 23:48</time> - <a href="http://jimbray.xyz/post/linux-connect-android-phone/">解决Linux(Deepin)无法连接Android真机的问题</a></li>
-
-  
-    <li><time>26 Nov 2017, 21:49</time> - <a href="http://jimbray.xyz/post/android-auto-size-textview/">自动调整大小的TextView</a></li>
-
-  
-    <li><time>25 Nov 2017, 16:44</time> - <a href="http://jimbray.xyz/post/best-way-for-activity-and-fragment-state-restore/">[转][译]保存/恢复 Activity 和 Fragment 状态的最佳实践</a></li>
-
-  
-    <li><time>18 Nov 2017, 01:23</time> - <a href="http://jimbray.xyz/post/move-to-hugo/">迁移到Hugo</a></li>
-
-  
-    <li><time>22 May 2017, 12:55</time> - <a href="http://jimbray.xyz/post/get-free-google-cloud-vps-for-a-year/">用Google Cloud搭建免费一年的SS</a></li>
-
-  
-    <li><time>22 May 2017, 12:39</time> - <a href="http://jimbray.xyz/post/build-osmc-at-rasperrypi/">使用树莓派搭建OSMC家庭影院</a></li>
-
-  
-    <li><time>15 Feb 2017, 12:20</time> - <a href="http://jimbray.xyz/post/getpersonalss/">最简单方式拥有自己的SS服务器</a></li>
-
-  
-    <li><time>06 Jan 2017, 20:20</time> - <a href="http://jimbray.xyz/post/supprisebottomview/">ScrollView 与 ViewDragHelper 的混合使用学习</a></li>
-
-  
-  </ul>
-  
-  <h2>2016</h2>
-  <ul>
-  
-    <li><time>28 Dec 2016, 13:00</time> - <a href="http://jimbray.xyz/post/one-key-post-to-facebook/">Android 一键发布 Facebook 帖文</a></li>
-
-  
-    <li><time>15 Sep 2016, 15:47</time> - <a href="http://jimbray.xyz/post/my-third-customview/">我的第三个自定义View</a></li>
-
-  
-    <li><time>14 Jul 2016, 15:19</time> - <a href="http://jimbray.xyz/post/my-second-custom-view/">我的第二个自定义View</a></li>
-
-  
-    <li><time>13 Jul 2016, 12:35</time> - <a href="http://jimbray.xyz/post/my-first-custom-view/">我的第一个自定义View</a></li>
-
-  
-    <li><time>19 Jun 2016, 21:12</time> - <a href="http://jimbray.xyz/post/python-to-qiniu2/">简化markdown写作中的贴图流程（windows基本版）</a></li>
-
-  
-    <li><time>14 Jun 2016, 23:59</time> - <a href="http://jimbray.xyz/post/python-to-qiniu/">简化markdown写作中的贴图流程（windows简陋版）</a></li>
-
-  
-    <li><time>10 Jun 2016, 20:24</time> - <a href="http://jimbray.xyz/post/facebook-share-not-callback/">Facebook ShareDialog 没有回调的问题</a></li>
-
-  
-    <li><time>09 Jun 2016, 17:52</time> - <a href="http://jimbray.xyz/post/try-docker/">试玩 Docker</a></li>
-
-  
-    <li><time>09 Jun 2016, 17:30</time> - <a href="http://jimbray.xyz/post/linode-install-lnmp/">Linode 安装 lnmp 学习</a></li>
-
-  
-    <li><time>09 Jun 2016, 12:48</time> - <a href="http://jimbray.xyz/post/ssh-root-login-setting/">VPS 禁止远程ROOT登录</a></li>
-
-  
-    <li><time>09 Jun 2016, 12:37</time> - <a href="http://jimbray.xyz/post/falsk-root/">Flask 直接显示根目录文件内容</a></li>
-
-  
-    <li><time>09 Jun 2016, 12:08</time> - <a href="http://jimbray.xyz/post/ss-thunder/">使用迅雷下载后 shadowsocks失效 解决办法</a></li>
-
-  
-    <li><time>04 Jun 2016, 16:48</time> - <a href="http://jimbray.xyz/post/sync-hexo-source/">在同一个repo备份hexo文章以及配置</a></li>
-
-  
-    <li><time>03 Jun 2016, 16:48</time> - <a href="http://jimbray.xyz/post/hello-world/">Hello World</a></li>
-
-  
-  </ul>
-  
 </div>
 
 </div>

@@ -3,6 +3,21 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://jimbray.xyz/note/content/core_thread/</loc>
+    <lastmod>2018-03-02T11:25:23+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://jimbray.xyz/note/content/android_thread_advantage/</loc>
+    <lastmod>2018-03-02T11:24:09+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://jimbray.xyz/note/content/android_thread_type/</loc>
+    <lastmod>2018-03-02T11:19:38+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://jimbray.xyz/note/content/orm/</loc>
     <lastmod>2018-02-11T21:13:14+08:00</lastmod>
   </url>
@@ -152,13 +167,13 @@
   
   <url>
     <loc>http://jimbray.xyz/</loc>
-    <lastmod>2018-02-11T21:13:14+08:00</lastmod>
+    <lastmod>2018-03-02T11:25:23+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://jimbray.xyz/note/</loc>
-    <lastmod>2018-02-11T21:13:14+08:00</lastmod>
+    <lastmod>2018-03-02T11:25:23+08:00</lastmod>
     <priority>0</priority>
   </url>
   

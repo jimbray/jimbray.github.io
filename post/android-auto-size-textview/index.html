@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="使用Android官方的解决方式">
-  <meta name="generator" content="Hugo 0.25.1" />
+  <meta name="generator" content="Hugo 0.31.1" />
 
   <title>自动调整大小的TextView &middot; JIMBRAY</title>
 
@@ -243,37 +243,37 @@
 <p>两者的 的核心代码 大致相同</p>
 
 <pre><code class="language-java">/**
-	 * Resize the text so that it fits
-	 * 
-	 * @param text
-	 *            The text. Neither &lt;code&gt;null&lt;/code&gt; nor empty.
-	 * @param textWidth
-	 *            The width of the TextView. &gt; 0
-	 */
-	private void refitText(String text, int textWidth)
-	{
-		if (textWidth &lt;= 0 || text == null || text.length() == 0)
-			return;
+     * Resize the text so that it fits
+     * 
+     * @param text
+     *            The text. Neither &lt;code&gt;null&lt;/code&gt; nor empty.
+     * @param textWidth
+     *            The width of the TextView. &gt; 0
+     */
+    private void refitText(String text, int textWidth)
+    {
+        if (textWidth &lt;= 0 || text == null || text.length() == 0)
+            return;
 
-		// the width
-		int targetWidth = textWidth - this.getPaddingLeft() - this.getPaddingRight();
+        // the width
+        int targetWidth = textWidth - this.getPaddingLeft() - this.getPaddingRight();
 
-		final float threshold = 0.5f; // How close we have to be
+        final float threshold = 0.5f; // How close we have to be
 
-		this.textPaint.set(this.getPaint());
+        this.textPaint.set(this.getPaint());
 
-		while ((this.preferredTextSize - this.minTextSize) &gt; threshold)
-		{
-			float size = (this.preferredTextSize + this.minTextSize) / 2;
-			this.textPaint.setTextSize(size);
-			if (this.textPaint.measureText(text) &gt;= targetWidth)
-				this.preferredTextSize = size; // too big
-			else
-				this.minTextSize = size; // too small
-		}
-		// Use min size so that we undershoot rather than overshoot
-		this.setTextSize(TypedValue.COMPLEX_UNIT_PX, this.minTextSize);
-	}
+        while ((this.preferredTextSize - this.minTextSize) &gt; threshold)
+        {
+            float size = (this.preferredTextSize + this.minTextSize) / 2;
+            this.textPaint.setTextSize(size);
+            if (this.textPaint.measureText(text) &gt;= targetWidth)
+                this.preferredTextSize = size; // too big
+            else
+                this.minTextSize = size; // too small
+        }
+        // Use min size so that we undershoot rather than overshoot
+        this.setTextSize(TypedValue.COMPLEX_UNIT_PX, this.minTextSize);
+    }
 </code></pre>
 
 <p>主要思想是重写 TextView 在 <code>onTextChanged</code> 和 <code>onSizeChanged</code>方式调用时，根据设定进行字体大小的变更。</p>

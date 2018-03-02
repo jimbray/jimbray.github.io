@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="主要是 ViewGroup 的事件分发拦截机制学习和ViewDragHelper的基本使用">
-  <meta name="generator" content="Hugo 0.25.1" />
+  <meta name="generator" content="Hugo 0.31.1" />
 
   <title>ScrollView 与 ViewDragHelper 的混合使用学习 &middot; JIMBRAY</title>
 
@@ -367,7 +367,7 @@ public boolean onTouchEvent(MotionEvent event) {
 
         @Override
         public int clampViewPositionVertical(View child, int top, int dy) {
-          	int topBound = -1 * bottomView.getMeasuredHeight();
+            int topBound = -1 * bottomView.getMeasuredHeight();
             int bottomBound = getHeight() - mDragView.getMeasuredHeight();
             return Math.min(Math.max(top, topBound), bottomBound);
         }
@@ -388,7 +388,7 @@ public boolean onTouchEvent(MotionEvent event) {
         }
 
         @Override
-        public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) 		   {
+        public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy)         {
             if(changedView == mDragView) {
                 bottomView.layout(bottomView.getLeft(), 
                 top + mDragView.getHeight(), 
@@ -397,7 +397,7 @@ public boolean onTouchEvent(MotionEvent event) {
             postInvalidate();
         }
   
-  		@Override
+        @Override
         public int getViewVerticalDragRange(View child) {
             return getMeasuredHeight() - child.getMeasuredHeight();
         }
@@ -427,7 +427,7 @@ public boolean onTouchEvent(MotionEvent event) {
 
 <pre><code class="language-java">  int leftBound = 100; // 左边限定为 100
 
-  int rightBound = 400 - mDragView.getWidth(); // 右边限定为 400的位置，由于要使用 left 进行布局，											    // 所以需要减去mDragView的宽度
+  int rightBound = 400 - mDragView.getWidth(); // 右边限定为 400的位置，由于要使用 left 进行布局，                                             // 所以需要减去mDragView的宽度
 
   return Math.min(Math.max(leftBound, left), rightBound);
 </code></pre>
@@ -557,9 +557,9 @@ public boolean onTouchEvent(MotionEvent event) {
         @Override
         public int clampViewPositionHorizontal(View child, int left, int dx) {
 
-          	// 左边限定为 100
+            // 左边限定为 100
             int leftBound = 100; 
-			// 右边限定为 400的位置，由于要使用 left 进行布局,所以需要减去mDragView的宽度
+            // 右边限定为 400的位置，由于要使用 left 进行布局,所以需要减去mDragView的宽度
             int rightBound = 400 - mDragView.getWidth(); /
 
             return Math.min(Math.max(leftBound, left), rightBound);
@@ -653,7 +653,7 @@ public boolean onTouchEvent(MotionEvent event) {
     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-    	Log.w(&quot;jimbray&quot;, &quot;onTouchEvent&quot;);
+        Log.w(&quot;jimbray&quot;, &quot;onTouchEvent&quot;);
         mDragViewHelper.processTouchEvent(event);
       return true;
     }
@@ -693,7 +693,7 @@ bottomView.layout(getPaddingLeft(),
 <h4 id="第二个view-的跟随出现">第二个View 的跟随出现</h4>
 
 <pre><code class="language-java">if(changedView == mDragView) {
-	bottomView.layout(bottomView.getLeft(), 
+    bottomView.layout(bottomView.getLeft(), 
               top + mDragView.getHeight(), 
               bottomView.getRight(), 
               top+mDragView.getHeight() + bottomView.getMeasuredHeight());
@@ -732,16 +732,16 @@ dy : 此次调用距离上次调用时的 y 坐标的 差值;
 
 <pre><code class="language-java">@Override
 public int clampViewPositionVertical(View child, int top, int dy) {
-  	int topBound = -1 * bottomView.getMeasuredHeight();
+    int topBound = -1 * bottomView.getMeasuredHeight();
     int bottomBound = getHeight() - mDragView.getMeasuredHeight();
     return Math.min(Math.max(top, topBound), bottomBound);
 }
 
 @Override
 public int clampViewPositionHorizontal(View child, int left, int dx) {
-  	int leftBound = mDragView.getLeft();
-  	int rightBound = mDragView.getRight() - mDragView.getWidth();
-  	return Math.min(Math.max(leftBound, left), rightBound);
+    int leftBound = mDragView.getLeft();
+    int rightBound = mDragView.getRight() - mDragView.getWidth();
+    return Math.min(Math.max(leftBound, left), rightBound);
 }
 </code></pre>
 
@@ -766,7 +766,7 @@ public int clampViewPositionHorizontal(View child, int left, int dx) {
 <h4 id="松手回弹">松手回弹</h4>
 
 <pre><code class="language-java">if(releasedChild == mDragView) {
-	mDragViewHelper.settleCapturedViewAt(mDragViewOri.x, mDragViewOri.y);
+    mDragViewHelper.settleCapturedViewAt(mDragViewOri.x, mDragViewOri.y);
     postInvalidate();
 }
 </code></pre>
@@ -993,9 +993,9 @@ case MotionEvent.ACTION_MOVE:
     lastY = curY;
 
     if(deltaY &lt; 0) { //手指往上划动
-      	if(isScrollToBottom()) {
-        	return false;
-      	}
+        if(isScrollToBottom()) {
+            return false;
+        }
     }
 </code></pre>
 
