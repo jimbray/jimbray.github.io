@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Fri, 02 Mar 2018 11:25:23 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 29 Mar 2018 16:16:51 +0800</lastBuildDate>
     
 	<atom:link href="http://jimbray.xyz/note/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>php7 如何重启 php-fpm</title>
+      <link>http://jimbray.xyz/note/content/how-to-restart-php7-fpm/</link>
+      <pubDate>Thu, 29 Mar 2018 16:16:51 +0800</pubDate>
+      
+      <guid>http://jimbray.xyz/note/content/how-to-restart-php7-fpm/</guid>
+      <description>找到 php-fpm  ps aux | grep php   kill php-fpm  kill [对应的pid]   启动 php-fpm  /usr/local/php/sbin/php-fpm  ​</description>
+    </item>
     
     <item>
       <title>Android 线程池中的核心线程</title>
@@ -79,6 +88,7 @@
       <description>网址导航 V2EX
 学习 进程与线程的区别 | ORM | Android 线程池的分类 | 使用线程池的优点
 核心线程
+php7 如何重启 php-fpm
 工具 SVG转Vector Drawable | SVG在线编辑器 | 在线文件转换 | IP查询
 JSON View Editor[jsonohyeah] | APKPure apk下载</description>
     </item>

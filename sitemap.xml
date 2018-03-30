@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://jimbray.xyz/note/content/how-to-restart-php7-fpm/</loc>
+    <lastmod>2018-03-29T16:16:51+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://jimbray.xyz/note/content/core_thread/</loc>
     <lastmod>2018-03-02T11:25:23+08:00</lastmod>
   </url>
@@ -98,6 +103,11 @@
   </url>
   
   <url>
+    <loc>http://jimbray.xyz/post/manual_install_lnmp/</loc>
+    <lastmod>2016-06-30T14:31:59+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://jimbray.xyz/post/python-to-qiniu2/</loc>
     <lastmod>2016-06-19T21:12:36+00:00</lastmod>
   </url>
@@ -167,13 +177,13 @@
   
   <url>
     <loc>http://jimbray.xyz/</loc>
-    <lastmod>2018-03-02T11:25:23+08:00</lastmod>
+    <lastmod>2018-03-29T16:16:51+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://jimbray.xyz/note/</loc>
-    <lastmod>2018-03-02T11:25:23+08:00</lastmod>
+    <lastmod>2018-03-29T16:16:51+08:00</lastmod>
     <priority>0</priority>
   </url>
   

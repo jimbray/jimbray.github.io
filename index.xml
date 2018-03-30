@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Fri, 02 Mar 2018 11:25:23 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 29 Mar 2018 16:16:51 +0800</lastBuildDate>
     
 	<atom:link href="http://jimbray.xyz/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>php7 如何重启 php-fpm</title>
+      <link>http://jimbray.xyz/note/content/how-to-restart-php7-fpm/</link>
+      <pubDate>Thu, 29 Mar 2018 16:16:51 +0800</pubDate>
+      
+      <guid>http://jimbray.xyz/note/content/how-to-restart-php7-fpm/</guid>
+      <description>找到 php-fpm  ps aux | grep php   kill php-fpm  kill [对应的pid]   启动 php-fpm  /usr/local/php/sbin/php-fpm  ​</description>
+    </item>
     
     <item>
       <title>Android 线程池中的核心线程</title>
@@ -79,6 +88,7 @@
       <description>网址导航 V2EX
 学习 进程与线程的区别 | ORM | Android 线程池的分类 | 使用线程池的优点
 核心线程
+php7 如何重启 php-fpm
 工具 SVG转Vector Drawable | SVG在线编辑器 | 在线文件转换 | IP查询
 JSON View Editor[jsonohyeah] | APKPure apk下载</description>
     </item>
@@ -269,6 +279,20 @@ vi /etc/shadowsocks.json  修改shadowsocks.json 配置文件
       <guid>http://jimbray.xyz/post/my-first-custom-view/</guid>
       <description>直接上代码，做个学习笔记好了。
 /** * Created by Jimbray . * on 2016/7/12 * Email: jimbray16@gmail.com * Description: 这是我第一个真正意义上的自定义View */ public class MyFirstProgressbar extends View { //max progress 虽然注释写了，但是还是不解释 private int mMaxProgress = 100; // current progress private int mCurrentProgress; //progress bar 背景颜色 private int mBackgroundColor; //progress bar 进度条颜色 private int mProgressColor; //progress bar 进度条高度 private float mProgressBarheight; //progress bar 背景高度 private float mBackgroundHeight; //设置默认值 //默认progress bar 背景颜色 private final int default_background_color = Color.</description>
+    </item>
+    
+    <item>
+      <title>Ubuntu/Debian手动安装完成lnmp部署wordpress</title>
+      <link>http://jimbray.xyz/post/manual_install_lnmp/</link>
+      <pubDate>Thu, 30 Jun 2016 14:31:59 +0800</pubDate>
+      
+      <guid>http://jimbray.xyz/post/manual_install_lnmp/</guid>
+      <description>安装 MySql install mysql： sudo apt-get install mysql-server  以root用户登录至MySQL： mysql -u root -p  创建用户 我们可以直接使用root用户，但通常来讲，我们需要为WordPress单独创建一个数据库用户，创建数据库wordpress，用户wpuser：
+create database wordpress; create user wpuser@localhost identified by &#39;&amp;lt;password&amp;gt;&#39;;  关联用户 创建完WordPress数据库和用户后，需要将这两者关联起来：
+grant all privileges on wordpress.* to wpuser@localhost; flush privileges;  mysql 到这一步就先告一段落了。继续下一步；
+安装 nginx 这里使用的是nginx.org 的package安装。 通过配置源的下载，做好nginx安装的准备工作。
+sudo apt-get install nginx  配置 nginx nano /etc/nginx/conf.d/default.conf  listen 80; server_name localhost;#如果有域名，则填写 xxx.xxx  安装 PHP install php7.0-fpm 由于我使用的是ubuntu16.04,所以默认安装的是 php7
+sudo apt-get install php-fpm  配置php 修改 php.</description>
     </item>
     
     <item>
