@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
+  <meta name="description" content="什么是异步消息处理线程？异步消息处理过程中有哪些角色？这些角色是怎样关联到一起，完美地完成消息通信的？带你走进 Handler与Looper的世界。">
   <meta name="generator" content="Hugo 0.31.1" />
 
   <title>【学习笔记】Looper 与 Handler 的关系 &middot; JIMBRAY</title>
@@ -209,7 +209,7 @@
 
 <div class="header">
   <h1>【学习笔记】Looper 与 Handler 的关系</h1>
-  <h2></h2>
+  <h2>什么是异步消息处理线程？异步消息处理过程中有哪些角色？这些角色是怎样关联到一起，完美地完成消息通信的？带你走进 Handler与Looper的世界。</h2>
 </div>
 <div class="content">
 
@@ -610,9 +610,11 @@ public Handler(Callback callback, boolean async) {
 
 <p>Handler 不仅可以更新UI， 我们完全可以在一个子线程中去创建一个 Handler，然后使用这个handler实例在任何其他线程中发送消息，最终处理消息的代码都会在创建 Handler 实例的线程中执行。</p>
 
-<p>####发散问题</p>
+<p>####想到一个问题</p>
 
-<p>*<em>一个 Activity 可以有多个 handler吗</em> **</p>
+<ul>
+<li>一个 Activity 可以有多个 handler吗*</li>
+</ul>
 
 
   
