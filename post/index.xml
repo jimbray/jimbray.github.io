@@ -7,10 +7,25 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Thu, 04 Jan 2018 20:16:16 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 31 Mar 2018 09:38:32 +0800</lastBuildDate>
     
 	<atom:link href="http://jimbray.xyz/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>【学习笔记】Looper 与 Handler 的关系</title>
+      <link>http://jimbray.xyz/post/activity_with_handler_learning/</link>
+      <pubDate>Sat, 31 Mar 2018 09:38:32 +0800</pubDate>
+      
+      <guid>http://jimbray.xyz/post/activity_with_handler_learning/</guid>
+      <description>什么是异步消息处理线程  异步消息处理线程启动会进入一个无限的循环体之中，每循环一次，从其内部的消息队列中会取出一个消息，然后回调给相应的消息处理函数，执行完成一个消息后则继续循环。若消息队列为空，线程则会阻塞等待。
+ 这个消息处理过程有哪些角色
+ 无限的循环体 内部的消息队列 相应的消息处理函数   Looper 对于 Looper这个角色，主要是 prepare() 和 loop( )两个方法。
+public static final void prepare() { if (sThreadLocal.get() != null) { throw new RuntimeException(&amp;quot;Only one Looper may be created per thread&amp;quot;); } sThreadLocal.set(new Looper(true)); }  sThreadLocal 是一个 ThreadLocal对象，可以在一个线程中存储变量。在最后面进行了 Looper 实例的保存。
+在 prepare() 方法中，首先进行了 Looper 对象的判空处理，如果不为空（之前已经有了一个 Looper 实例），就会抛出异常，说明了 prepare 不能被调用两次，同时也保证了 一个线程里面只能有一个 Looper 实例。
+那 new Looper(true)里面做了什么呢？
+private Looper(boolean quitAllowed) { mQueue = new MessageQueue(quitAllowed); mRun = true; mThread = Thread.</description>
+    </item>
     
     <item>
       <title>基于 Smack 的 xmpp 学习笔记</title>
