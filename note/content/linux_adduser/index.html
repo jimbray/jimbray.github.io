@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.31.1" />
 
-  <title>记录 &middot; JIMBRAY</title>
+  <title>Linux 新增sudo用户 &middot; JIMBRAY</title>
 
   
   
@@ -208,31 +208,46 @@
 
 
 <div class="header">
-  <h1>记录</h1>
+  <h1>Linux 新增sudo用户</h1>
   <h2></h2>
 </div>
 <div class="content">
-  
+  <ul>
+<li>新增用户</li>
+</ul>
 
-<h3 id="网址导航">网址导航</h3>
+<p>使用root 用户登录</p>
 
-<p><a href="https://www.v2ex.com/">V2EX</a></p>
+<pre><code class="language-shell">adduser jimbray
+</code></pre>
 
-<h3 id="学习">学习</h3>
+<p>添加用户，然后根据提示输入密码</p>
 
-<p><a href="../content/process_and_thread/">进程与线程的区别</a> | <a href="../content/orm/">ORM</a> | <a href="../content/android_thread_type/">Android 线程池的分类</a> | <a href="../content/android_thread_advantage/">使用线程池的优点</a></p>
+<ul>
+<li>加入 sudo 权限</li>
+</ul>
 
-<p><a href="../content/core_thread/">核心线程</a></p>
+<p>修改 /etc/sudoers 文件权限</p>
 
-<p><a href="../content/how-to-restart-php7-fpm/">php7 如何重启 php-fpm</a></p>
+<pre><code class="language-shell">chmod 755 /etc/sudoers
+</code></pre>
 
-<p><a href="../content/linux_adduser/">Linux新增sudo用户</a></p>
+<ul>
+<li>修改 sudoers 文件</li>
+</ul>
 
-<h3 id="工具">工具</h3>
+<p>复制一行</p>
 
-<p><a href="http://inloop.github.io/svg2android/">SVG转Vector Drawable</a>   |  <a href="http://editor.method.ac/">SVG在线编辑器</a>  |  <a href="https://convertio.co/zh/">在线文件转换</a>  |  <a href="https://www.ipip.net/">IP查询</a></p>
+<pre><code class="language-shell">root    ALL=(ALL:ALL) ALL
+</code></pre>
 
-<p><a href="http://www.jsonohyeah.com/">JSON View Editor[jsonohyeah]</a> | <a href="https://apkpure.com/">APKPure apk下载</a></p>
+<p>最终结果为</p>
+
+<pre><code class="language-shell">root    ALL=(ALL:ALL) ALL
+jimbray ALL=(ALL:ALL) ALL
+</code></pre>
+
+<p>完成。可以日常使用 jimbray  了。</p>
 
 </div>
 

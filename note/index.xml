@@ -7,10 +7,24 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Thu, 29 Mar 2018 16:16:51 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 03 Apr 2018 14:40:25 +0800</lastBuildDate>
     
 	<atom:link href="http://jimbray.xyz/note/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Linux 新增sudo用户</title>
+      <link>http://jimbray.xyz/note/content/linux_adduser/</link>
+      <pubDate>Tue, 03 Apr 2018 14:40:25 +0800</pubDate>
+      
+      <guid>http://jimbray.xyz/note/content/linux_adduser/</guid>
+      <description>新增用户  使用root 用户登录
+adduser jimbray  添加用户，然后根据提示输入密码
+ 加入 sudo 权限  修改 /etc/sudoers 文件权限
+chmod 755 /etc/sudoers   修改 sudoers 文件  复制一行
+root ALL=(ALL:ALL) ALL  最终结果为
+root ALL=(ALL:ALL) ALL jimbray ALL=(ALL:ALL) ALL  完成。可以日常使用 jimbray 了。</description>
+    </item>
     
     <item>
       <title>php7 如何重启 php-fpm</title>
@@ -89,6 +103,7 @@
 学习 进程与线程的区别 | ORM | Android 线程池的分类 | 使用线程池的优点
 核心线程
 php7 如何重启 php-fpm
+Linux新增sudo用户
 工具 SVG转Vector Drawable | SVG在线编辑器 | 在线文件转换 | IP查询
 JSON View Editor[jsonohyeah] | APKPure apk下载</description>
     </item>
