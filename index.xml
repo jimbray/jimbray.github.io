@@ -7,10 +7,41 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Tue, 03 Apr 2018 14:40:25 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 09 Apr 2018 11:03:18 +0800</lastBuildDate>
     
 	<atom:link href="http://jimbray.xyz/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>什么是弱引用</title>
+      <link>http://jimbray.xyz/note/content/what_is_weakreference/</link>
+      <pubDate>Mon, 09 Apr 2018 11:03:18 +0800</pubDate>
+      
+      <guid>http://jimbray.xyz/note/content/what_is_weakreference/</guid>
+      <description>弱引用（WeakReference）与强引用（日常提到的引用）相对，弱引用的特点是，在GC回收的时候会忽略掉弱引用，即就算有弱引用指向某对象，但只有该对象没有被强引用指向，该对象就会被GC回收掉。</description>
+    </item>
+    
+    <item>
+      <title>为什么Handler容易引起内存泄露</title>
+      <link>http://jimbray.xyz/note/content/why_handler_make_leak_mem/</link>
+      <pubDate>Mon, 09 Apr 2018 10:30:48 +0800</pubDate>
+      
+      <guid>http://jimbray.xyz/note/content/why_handler_make_leak_mem/</guid>
+      <description>首先还是先了解一下什么叫内存泄露
+####内存泄漏
+ Java 使用有向图机制，通过GC自动检查内存中的对象（什么时候检查交给虚拟机决定）,如果GC发现一个或一组对象为不可达状态，则将该对象从内存中回收。
+也就是说，一个对象不被任何引用所指向，则该对象会被在GC发现的时候被回收；
+还有一种情况是，如果一组对象中只包含互相的应用，而没有来自他们外部的应用，仍然属于不可达的范围，同样会被GC回收。
+ 可以总结为两个词：
+ 不可达 无根  就会被GC回收。
+内存泄漏会发生什么？ Android中经常出现的一种现象：内存占用越来越大，App越用越卡，只有在强制关闭程序后才会有好转的迹象，这个就属于内存泄漏。而导致内存越来越大的原因有很多，其中最主要的原因之一，就是内存泄漏。
+Handler 是怎么把内存泄漏的？ Handler mHandler = new Handler() { @Override public void handleMessage(Message msg) { iv_test.setImageBitmap(mBitmap); } }  这是一段很简单的 handler 。但使用内部类（包括匿名类）来创建Handler 的时候，Handler对象会*隐式*地持有一个外部类对象的引用（一般是一个 Activity）。
+而Handler的主要使用场景是处理一个耗时的任务，等待任务处理完成之后，通过Handler 的消息机制通知到 Activity，然后完成更新界面的工作。
+但是，移动端的交互方式决定了何时关闭Activity是由用户决定的，如果在耗时任务完成之前，Activity就被关闭了。正常情况下，由于用户关闭了Activity，所以Activity申请的相关资源内存，应该要被释放掉。
+但是，之前的 【学习笔记】Looper 与 Handler 的关系 学习到了一点，Handler在发送消息的时候，会把Message 排队到 一个 消息队列里面 (MessageQueue)，等到任务完成后，再从消息队列里面取出来，通知handler，这里的关系是 引用持有关系可以表现为 MessageQueue -&amp;gt; Message -&amp;gt; Handler -&amp;gt; Activity，但任务没有完成的情况下，Activity理应被回收的业务逻辑下，由于Activity的引用被持有，导致GC不会去进行回收操作，这个就形成了内存泄漏。
+内存泄漏有什么危害 导致虚拟机占用内存过高，导致OOM，程序崩溃。对于Android来说，目前这种Android手机越用越卡的第一印象很大程度上与应用的质量有很大的关系，应用没有很好地解决性能问题（内存泄漏只是其中一种情况）。用户打开一个Activity，关闭的时候并没有把之前向系统申请的内存回收掉，反复操作几次之后，就会出现内存超过系统限制的问题而被强制关闭，用户体验就不好了。
+Handler导致内存泄漏的解决办法  通过程序逻辑进行保护   在Activity被关闭的时候，进行耗时任务的停止工作，任务被停止了，Activity也就没有被引用了。自然也就回收了。 在Activity被关闭的时候，在消息队列里面把Message消息（包含 Handler引用）remove掉，使用 handler.</description>
+    </item>
     
     <item>
       <title>Linux 新增sudo用户</title>
@@ -115,8 +146,8 @@ private Looper(boolean quitAllowed) { mQueue = new MessageQueue(quitAllowed); mR
       
       <guid>http://jimbray.xyz/note/note/</guid>
       <description>网址导航 V2EX
-学习 进程与线程的区别 | ORM | Android 线程池的分类 | 使用线程池的优点
-核心线程
+学习 进程与线程的区别 | ORM | Android 线程池的分类 | 使用线程池的优点 | 弱引用
+核心线程 | 为什么Handler容易引起内存泄露
 php7 如何重启 php-fpm
 Linux新增sudo用户
 工具 SVG转Vector Drawable | SVG在线编辑器 | 在线文件转换 | IP查询
