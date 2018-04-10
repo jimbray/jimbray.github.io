@@ -4,10 +4,10 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="API的错误用法[doge]">
+  <meta name="description" content="">
   <meta name="generator" content="Hugo 0.31.1" />
 
-  <title>Flask 直接显示根目录文件内容 &middot; JIMBRAY</title>
+  <title>Hugo &middot; JIMBRAY</title>
 
   
   
@@ -36,6 +36,8 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
 
   
+  
+  <link rel="alternate" type="application/rss+xml" title="JIMBRAY" href="http://jimbray.xyz/tags/hugo/index.xml" />
   
 
   
@@ -100,6 +102,10 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="http://jimbray.xyz/tags/hugo/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+    </li>
     
 
     
@@ -208,16 +214,20 @@
 
 
 <div class="header">
-  <h1>Flask 直接显示根目录文件内容</h1>
-  <h2>API的错误用法[doge]</h2>
+  <h1>Hugo</h1>
 </div>
-<div class="content">
 
-  <div class="post-meta">
+<div class="content">
+  
+    <article>
+  <header>
+    <h2><a href="http://jimbray.xyz/post/move-to-hugo/">迁移到Hugo</a></h2>
+
+    <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>09 Jun 2016, 12:37</time>
+    <time>18 Nov 2017, 01:23</time>
   </div>
 
   
@@ -230,7 +240,7 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="http://jimbray.xyz/tags/python">Python</a>
+      <a class="post-taxonomy-tag" href="http://jimbray.xyz/tags/hugo">Hugo</a>
     
   </div>
   
@@ -238,96 +248,21 @@
 
 </div>
 
+  </header>
+
+  <p>
   
-
-<h3 id="搜索结果">搜索结果</h3>
-
-<pre><code class="language-python">@app.route('/&lt;path&gt;')
-def info(path):
-    resp = make_response(open(path).read())
-    resp.headers[&quot;Content-type&quot;]=&quot;application/json;charset=UTF-8&quot;
-    return resp
-</code></pre>
-
-<p>按道理应该是可以生效的，但我在用的时候却报错了</p>
-
-<h3 id="出现错误">出现错误</h3>
-
-<pre><code class="language-bash">IOError: [Errno 2] No such file or directory: u'readme.json'
-</code></pre>
-
-<p>居然找不到这个文件</p>
-
-<h3 id="解决办法">解决办法</h3>
-
-<p>使用绝对路径</p>
-
-<pre><code class="language-python">@app.route('/&lt;path&gt;')
-def today(path):
-    base_dir = os.path.dirname(__file__)
-    resp = make_response(open(os.path.join(base_dir, path)).read())
-    resp.headers[&quot;Content-type&quot;]=&quot;application/json;charset=UTF-8&quot;
-    return resp
-</code></pre>
-
-<p>访问 127.0.0.1:5000/readme.json</p>
-
-<p>Done.</p>
-
+  从 Hexo 迁移到 Hugo，明显速度快了很多
+  </p>
 
   
-<div class="prev-next-post pure-g">
-  <div class="pure-u-1-24" style="text-align: left;">
-    
-    <a href="http://jimbray.xyz/post/ss-thunder/"><i class="fa fa-chevron-left"></i></a>
-    
-  </div>
-  <div class="pure-u-10-24">
-    
-    <nav class="prev">
-      <a href="http://jimbray.xyz/post/ss-thunder/">使用迅雷下载后 shadowsocks失效 解决办法</a>
-    </nav>
-    
-  </div>
-  <div class="pure-u-2-24">
-    &nbsp;
-  </div>
-  <div class="pure-u-10-24">
-    
-    <nav class="next">
-      <a href="http://jimbray.xyz/post/ssh-root-login-setting/">VPS 禁止远程ROOT登录</a>
-    </nav>
-    
-  </div>
-  <div class="pure-u-1-24" style="text-align: right;">
-    
-    <a href="http://jimbray.xyz/post/ssh-root-login-setting/"><i class="fa fa-chevron-right"></i></a>
-    
-  </div>
-</div>
-
-
+  <footer>
+    <a href="http://jimbray.xyz/post/move-to-hugo/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
 
   
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-
-(function() {
-    
-    
-    if (window.location.hostname == "localhost")
-        return;
-
-    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-    var disqus_shortname = 'jimbray-github-io';
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
 </div>
 
 </div>
@@ -352,4 +287,3 @@ def today(path):
 
 </body>
 </html>
-

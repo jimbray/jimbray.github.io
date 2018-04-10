@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on JIMBRAY</title>
+    <link>http://jimbray.xyz/tags/linux/</link>
+    <description>Recent content in Linux on JIMBRAY</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2016. All rights reserved.</copyright>
+    <lastBuildDate>Sat, 02 Dec 2017 23:48:48 +0800</lastBuildDate>
+    
+	<atom:link href="http://jimbray.xyz/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>解决Linux(Deepin)无法连接Android真机的问题</title>
+      <link>http://jimbray.xyz/post/linux-connect-android-phone/</link>
+      <pubDate>Sat, 02 Dec 2017 23:48:48 +0800</pubDate>
+      
+      <guid>http://jimbray.xyz/post/linux-connect-android-phone/</guid>
+      <description>好不容易在 Deepin 上配置好了Android开发环境，代码写起来，运行起来爽爽的。
+可能我用的是 google 五阿哥手机，所以一路都很顺畅，今天换了个三星手机，居然连不上，无法调试。
+Google 了一下，找到解决方案，记录一下
+准备工作  手机开启开发者选项，并开启USB调试 需要root?（我的手机并没有root）  查看手机端口ID 终端输入命令 lsusb,系统会列出所有 USB设备:
+Bus 002 Device 019: ID 18d1:4ee7 Google Inc. Bus 002 Device 018: ID 04e8:6860 Samsung Electronics Co., Ltd Galaxy (MTP) Bus 002 Device 002: ID 8087:0020 Intel Corp. Integrated Rate Matching Hub Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub Bus 001 Device 003: ID 04f2:b1e5 Chicony Electronics Co., Ltd Bus 001 Device 002: ID 8087:0020 Intel Corp.</description>
+    </item>
+    
+    <item>
+      <title>Ubuntu/Debian手动安装完成lnmp部署wordpress</title>
+      <link>http://jimbray.xyz/post/manual_install_lnmp/</link>
+      <pubDate>Thu, 30 Jun 2016 14:31:59 +0800</pubDate>
+      
+      <guid>http://jimbray.xyz/post/manual_install_lnmp/</guid>
+      <description>安装 MySql install mysql： sudo apt-get install mysql-server  以root用户登录至MySQL： mysql -u root -p  创建用户 我们可以直接使用root用户，但通常来讲，我们需要为WordPress单独创建一个数据库用户，创建数据库wordpress，用户wpuser：
+create database wordpress; create user wpuser@localhost identified by &#39;&amp;lt;password&amp;gt;&#39;;  关联用户 创建完WordPress数据库和用户后，需要将这两者关联起来：
+grant all privileges on wordpress.* to wpuser@localhost; flush privileges;  mysql 到这一步就先告一段落了。继续下一步；
+安装 nginx 这里使用的是nginx.org 的package安装。 通过配置源的下载，做好nginx安装的准备工作。
+sudo apt-get install nginx  配置 nginx nano /etc/nginx/conf.d/default.conf  listen 80; server_name localhost;#如果有域名，则填写 xxx.xxx  安装 PHP install php7.0-fpm 由于我使用的是ubuntu16.04,所以默认安装的是 php7
+sudo apt-get install php-fpm  配置php 修改 php.</description>
+    </item>
+    
+    <item>
+      <title>试玩 Docker</title>
+      <link>http://jimbray.xyz/post/try-docker/</link>
+      <pubDate>Thu, 09 Jun 2016 17:52:32 +0000</pubDate>
+      
+      <guid>http://jimbray.xyz/post/try-docker/</guid>
+      <description> 目标 docker这么火，体验一下，感受一下
+准备工作 Linux系统主机一台(我用的的ubuntu) docker文档看一下，我找了好几个，都挺不错的，就是不动一下手，总感觉虚
+开动 安装docker 我用的是ubuntu14.04 两种方式 1.源已经内置docker，不过教程裡有说那个docker没有更新
+apt-get install docker  反正我没用
+curl -sSL https://get.docker.com/ubuntu/ | sudo sh  可能需要代理
+像这个样子就是安装成功了
+docker 最主要的就是container和image了 那就弄个image吧 从哪弄？直接pull就可以了 那pull什么呢，总要知道个地址的
+先搜一下
+docker search nginx  就用第一个吧
+docker pull nginx docker images docker run nginx docker run -i nginx docker run -t nginx docker run -it nginx docker run -d nginx docker run -- name nginx-test -d nginx docker run --name nginx -test -d -p 8080:80 nginx  </description>
+    </item>
+    
+    <item>
+      <title>Linode 安装 lnmp 学习</title>
+      <link>http://jimbray.xyz/post/linode-install-lnmp/</link>
+      <pubDate>Thu, 09 Jun 2016 17:30:04 +0000</pubDate>
+      
+      <guid>http://jimbray.xyz/post/linode-install-lnmp/</guid>
+      <description>安装 1.安装 LNMP 参见 lnmp官网
+2.安装完成之后 查看 nginx 、 php、mysql 的运行状态
+ps aux | grep nginx ps aux | grep php ps aux | gerp mysql  确保已经在运行状态
+3.查看 nginx 的配置文件 （nginx.conf）路径可以
+whereis nginx  配置 命令查看
+配置文件内 user：www-data
+www-data 可任意修改
+4.修改 php 的配置文件 （php/etc/php-fpm.conf）
+修改
+listen.owner = www-data listen.group = www-data  www-data 修改为 第3步 nginx 设置的对应的User名称
+ 下载 wordpress程序 官方下载  wget http://wordpress.org/latest.tar.gz tar -xzvf latest.tar.gz  将解压出来的 wordpress文件夹 复制到 自定义文件夹，我的放在了/var/www/wordpress</description>
+    </item>
+    
+  </channel>
+</rss>

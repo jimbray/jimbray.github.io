@@ -7,10 +7,46 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Thu, 04 Jan 2018 20:16:16 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 10 Apr 2018 10:01:28 +0800</lastBuildDate>
     
 	<atom:link href="http://jimbray.xyz/tags/android/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Android主线程进行 Thread.Sleep()会导致ANR吗</title>
+      <link>http://jimbray.xyz/post/may_sleep_make_anr/</link>
+      <pubDate>Tue, 10 Apr 2018 10:01:28 +0800</pubDate>
+      
+      <guid>http://jimbray.xyz/post/may_sleep_make_anr/</guid>
+      <description>首先 先 明白一个问题：什么是ANR
+ Application Not Responding，意思是”应用没有响应“
+ 以前我的理解就是 “在主线程做了耗时操作”就会引起ANR，现在我觉得我是错误的，ANR的意思是应用没有响应，耗时操作实际上 并不一定会导致没有响应，我对没有响应的理解是
+ 有人（事件或操作）发出了一个请求，但是主线程没有对这个人进行反馈（可能是没时间、可能是不想理、可能是手被绑住了没有办法理你），这个叫没有响应
+ 那举个例子
+override fun onCreate(savedInstanceState: Bundle?) { super.onCreate(savedInstanceState) setContentView(R.layout.activity_main) // do some blablabla... Log.d(&amp;quot;test&amp;quot;, &amp;quot;准备sleep30秒&amp;quot;) Thread.sleep(30000) Log.d(&amp;quot;test&amp;quot;, &amp;quot;sleep30秒完成&amp;quot;) // do some blablabla... }  这段代码在 onCreate 中 sleep 了 30秒，会出现 ANR 吗？
+答案是
+ 可能会，也可能不会
+ 当主线程在 Sleep 的时候，如果 UI线程不需要进行操作，也就是说没有消息会发送给UI线程并要求UI线程进行处理的时候 Sleep 30秒就不会导致ANR，因为没有 出现 ANR(应用没有响应)的情况啊，没有人向线程请求什么东西，也就不需要响应了，既然没有响应了，那怎么会有ANR呢？
+但是，但线程在Sleep的时候，主线程有接收到需要处理的请求的时候
+ 需要注意的是，需要处理的请求，不一定只是用户的手动触摸，也有可能是其他线程需要对线程进行UI更新的请求，这个时候UI线程正在Sleep，根本没有办法理你（不想理你），这就符合了ANR的条件，所以会出现ANR（比如说在这 30 秒内，点击了 返回按钮，就会出现 ANR）
+ 另外，如果在这个30秒内进行UI更新会发生ANR吗？
+override fun onCreate(savedInstanceState: Bundle?) { super.</description>
+    </item>
+    
+    <item>
+      <title>【学习笔记】Looper 与 Handler 的关系</title>
+      <link>http://jimbray.xyz/post/activity_with_handler_learning/</link>
+      <pubDate>Sat, 31 Mar 2018 09:38:32 +0800</pubDate>
+      
+      <guid>http://jimbray.xyz/post/activity_with_handler_learning/</guid>
+      <description>什么是异步消息处理线程  异步消息处理线程启动会进入一个无限的循环体之中，每循环一次，从其内部的消息队列中会取出一个消息，然后回调给相应的消息处理函数，执行完成一个消息后则继续循环。若消息队列为空，线程则会阻塞等待。
+ 这个消息处理过程有哪些角色
+ 无限的循环体 内部的消息队列 相应的消息处理函数   Looper 对于 Looper这个角色，主要是 prepare() 和 loop( )两个方法。
+public static final void prepare() { if (sThreadLocal.get() != null) { throw new RuntimeException(&amp;quot;Only one Looper may be created per thread&amp;quot;); } sThreadLocal.set(new Looper(true)); }  sThreadLocal 是一个 ThreadLocal对象，可以在一个线程中存储变量。在最后面进行了 Looper 实例的保存。
+在 prepare() 方法中，首先进行了 Looper 对象的判空处理，如果不为空（之前已经有了一个 Looper 实例），就会抛出异常，说明了 prepare 不能被调用两次，同时也保证了 一个线程里面只能有一个 Looper 实例。
+那 new Looper(true)里面做了什么呢？
+private Looper(boolean quitAllowed) { mQueue = new MessageQueue(quitAllowed); mRun = true; mThread = Thread.</description>
+    </item>
     
     <item>
       <title>基于 Smack 的 xmpp 学习笔记</title>
@@ -23,6 +59,40 @@
 More information on how to use Smack 4.1 in your Android Project can be found in the Smack 4.1 Readme and Upgrade Guide.
  smack 的 github repo
  Instructions how to use Smack in your Java or Android project are provided in the Smack 4.</description>
+    </item>
+    
+    <item>
+      <title>自动调整大小的TextView</title>
+      <link>http://jimbray.xyz/post/android-auto-size-textview/</link>
+      <pubDate>Sun, 26 Nov 2017 21:49:25 +0800</pubDate>
+      
+      <guid>http://jimbray.xyz/post/android-auto-size-textview/</guid>
+      <description>遇见问题：当一个控件显示的文字有点长的时候，可能在屏幕小的设备上就会变得显示不完整，特别是那种不允许文字省略的按钮。
+像我这种懒人，当然是看看有没有前人的肩膀可以踩。Google 了一下，果然发现了不止一个
+AutoScaleTextView
+android-autofittextview
+大概看一下 实现方式
+两者的 的核心代码 大致相同
+/** * Resize the text so that it fits * * @param text * The text. Neither &amp;lt;code&amp;gt;null&amp;lt;/code&amp;gt; nor empty. * @param textWidth * The width of the TextView. &amp;gt; 0 */ private void refitText(String text, int textWidth) { if (textWidth &amp;lt;= 0 || text == null || text.length() == 0) return; // the width int targetWidth = textWidth - this.</description>
+    </item>
+    
+    <item>
+      <title>[转][译]保存/恢复 Activity 和 Fragment 状态的最佳实践</title>
+      <link>http://jimbray.xyz/post/best-way-for-activity-and-fragment-state-restore/</link>
+      <pubDate>Sat, 25 Nov 2017 16:44:19 +0800</pubDate>
+      
+      <guid>http://jimbray.xyz/post/best-way-for-activity-and-fragment-state-restore/</guid>
+      <description>很久之前看过的一篇文章，写的很好。转载并译于：https://inthecheesefactory.co&amp;hellip;。
+几个月以前，我发布了一篇关于Fragment状态保存和恢复的文章，那可能是目前为止最好的方式用于保存/恢复 Android Fragment 的状态。我收到了很多来自世界各地的Android开发者有价值的反馈。十分感谢你们 =)
+无论如何，StatedFragment打破了设计模式，我使用了不同于Android状态保存/恢复的方式来设计它，这样做的目的是为了让Android开发者能够更简单的理解Fragment状态的保存与恢复，就像Activity做的一样(同时处理View状态和实例状态),所以我通过开发StatedFragment做了一个实验，并且看看它是怎么做的，以及StatedFragment这样的设计是否更容易被理解？是否对开发者更加友好？
+现在，两个月的实验过去了，我相信我已经得到了结果。虽然StatedFragment 有点容易被理解，但是它同时带来了很大的问题。它破坏了Android View的基本框架.所以我认为这是很糟糕的，可能会导致长远的影响。事实上我已经对自己的代码感到担忧了&amp;hellip;
+由于这个原因，我决定从现在开始弃用StatedFragment。并且，为了弥补我错误，我写了这篇文章，用可见的方式来展示基于Android的设计如何保存和恢复Fragment的状态的最佳实践。
+理解在Activity的状态被保存/恢复的时候发生了什么 当Activity的onSaveInstanceState被调用的时候，Activity将会从View 层次(View Hierachy)中的每一个View中自动搜集View的状态。请注意，只会搜集实现了View状态保存/恢复的内部方法的View的数据。一旦onRestoreInstanceState被调用,Activity将会将这些搜集到的数据一对一的返还给View 层次里在搜集的时候提供了同样的android:id属性的View。
+让我们看看视觉上的效果。
+这就是为什么尽管Activity已经被销毁，而我们并没有做一些特别的事情来保存状态，但是EditText中键入的文本仍然能够呈现的原因。这并不是什么魔法，这些View 的状态已经被自动的保存和恢复回来了。
+这也是为什么View 在没有被设置android:id属性的时候不能保存和恢复自己的状态的原因。
+尽管这些View 的状态被自动的保存了，但是Activity的成员变量并不会有同样的效果。这些成员变量会被和Activity一起销毁。你可以手动的保存和恢复它们，通过onSaveInstanceState和onRestoreInstanceState方法。
+public class MainActivity extends AppCompatActivity { // These variable are destroyed along with Activity private int someVarA; private String someVarB; ... @Override protected void onSaveInstanceState(Bundle outState) { super.onSaveInstanceState(outState); outState.putInt(&amp;quot;someVarA&amp;quot;, someVarA); outState.putString(&amp;quot;someVarB&amp;quot;, someVarB); } @Override protected void onRestoreInstanceState(Bundle savedInstanceState) { super.onRestoreInstanceState(savedInstanceState); someVarA = savedInstanceState.getInt(&amp;quot;someVarA&amp;quot;); someVarB = savedInstanceState.getString(&amp;quot;someVarB&amp;quot;); } }  这就是为了恢复Activity实例的状态和View 状态需要做的。</description>
     </item>
     
     <item>
