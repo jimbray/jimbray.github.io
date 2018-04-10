@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Mon, 09 Apr 2018 11:03:18 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 10 Apr 2018 09:30:27 +0800</lastBuildDate>
     
 	<atom:link href="http://jimbray.xyz/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>理论上一个APP可以使用多大的内存</title>
+      <link>http://jimbray.xyz/note/content/how_much_mem_per_app_alloc/</link>
+      <pubDate>Tue, 10 Apr 2018 09:30:27 +0800</pubDate>
+      
+      <guid>http://jimbray.xyz/note/content/how_much_mem_per_app_alloc/</guid>
+      <description>准确的说法是 Google 原生OS 默认值是 16M，但是各个厂家的定制OS会对这个值进行修改。所以理论上是不固定的，由厂家决定，我也没有测试过。</description>
+    </item>
     
     <item>
       <title>什么是弱引用</title>
@@ -146,8 +155,8 @@ private Looper(boolean quitAllowed) { mQueue = new MessageQueue(quitAllowed); mR
       
       <guid>http://jimbray.xyz/note/note/</guid>
       <description>网址导航 V2EX
-学习 进程与线程的区别 | ORM | Android 线程池的分类 | 使用线程池的优点 | 弱引用
-核心线程 | 为什么Handler容易引起内存泄露
+学习笔记 进程与线程的区别 | ORM | Android 线程池的分类 | 使用线程池的优点 | 弱引用
+| 理论上一个Android APP可以申请使用多大的内存 | 核心线程 | 为什么Handler容易引起内存泄露
 php7 如何重启 php-fpm
 Linux新增sudo用户
 工具 SVG转Vector Drawable | SVG在线编辑器 | 在线文件转换 | IP查询
