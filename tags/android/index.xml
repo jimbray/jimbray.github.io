@@ -30,7 +30,7 @@ override fun onCreate(savedInstanceState: Bundle?) { super.onCreate(savedInstanc
 但是，但线程在Sleep的时候，主线程有接收到需要处理的请求的时候
  需要注意的是，需要处理的请求，不一定只是用户的手动触摸，也有可能是其他线程需要对线程进行UI更新的请求，这个时候UI线程正在Sleep，根本没有办法理你（不想理你），这就符合了ANR的条件，所以会出现ANR（比如说在这 30 秒内，点击了 返回按钮，就会出现 ANR）
  另外，如果在这个30秒内进行UI更新会发生ANR吗？
-override fun onCreate(savedInstanceState: Bundle?) { super.</description>
+override fun onCreate(savedInstanceState: Bundle?</description>
     </item>
     
     <item>

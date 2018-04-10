@@ -238,7 +238,9 @@
 
 </div>
 
-  <p>首先 先 明白一个问题：什么是ANR</p>
+  
+
+<p>首先 先 明白一个问题：什么是ANR</p>
 
 <blockquote>
 <p>Application Not Responding，意思是”应用没有响应“</p>
@@ -252,7 +254,7 @@
 
 <p>那举个例子</p>
 
-<pre><code class="language-kotlin">override fun onCreate(savedInstanceState: Bundle?) {
+<pre><code class="language-java">override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -285,7 +287,7 @@
 
 <p><strong>另外</strong>，如果在这个30秒内进行UI更新会发生ANR吗？</p>
 
-<pre><code class="language-kotlin">override fun onCreate(savedInstanceState: Bundle?) {
+<pre><code class="language-java">override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -317,7 +319,7 @@ D/sleep_test: 更新text完成
 
 <p>在android里面都对其进行了常量定义</p>
 
-<p>####Android N 的 ANR时间</p>
+<h4 id="android-n-的-anr时间">Android N 的 ANR时间</h4>
 
 <ul>
 <li>Service 超时</li>
@@ -358,7 +360,7 @@ static final int CONTENT_PROVIDER_PUBLISH_TIMEOUT = 10*1000;
 
 <p>ANR的学习目前就到这个点，后续还要继续学习</p>
 
-<p>####延伸：Thread.sleep() 还有其加锁的问题</p>
+<h4 id="延伸-thread-sleep-还有其加锁的问题">延伸：Thread.sleep() 还有其加锁的问题</h4>
 
 <blockquote>
 <p>由于CPU分配的每个线程的时间片极为短暂(一般为几十毫秒)，所以，CPU通过不停地切换线程执行，这样就给程序员一种错觉，以为多个线程是在同时执行。sleep就是正在执行的线程主动让出CPU，CPU去执行其他线程，在sleep指定的时间过后，CPU才会回到这个线程上继续往下执行。</p>
