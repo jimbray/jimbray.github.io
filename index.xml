@@ -24,10 +24,10 @@ sudo apt-get install nginx  打开nginx 服务
 sudo service nginx start  测试是否成功
 在浏览器输入ip地址，出现以下界面
 即表示安装成功。
-第三步：安装php7 打开nginx 配置文件
+第三步：安装php7 sudo apt-get install php7.0-fpm  打开nginx 配置文件
 sudo vi /etc/nginx/sites-available/default  未免修改错误，可以先进行 defaule配置文件的备份
 sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak  在 defult 文件中找到以下 代码段
-# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000 # # location ~ \.php$ { # include snippets/fastcgi-php.conf; # # # With php7.0-cgi alone: # fastcgi_pass 127.0.0.1:9000; # # With php7.</description>
+# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000 # # location ~ \.php$ { # include snippets/fastcgi-php.conf; # # # With php7.</description>
     </item>
     
     <item>
