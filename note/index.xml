@@ -7,10 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Tue, 10 Apr 2018 09:30:27 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 19 Apr 2018 15:10:46 +0800</lastBuildDate>
     
 	<atom:link href="http://jimbray.xyz/note/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Ubuntu16.04安装nginx&#43;php7环境记录</title>
+      <link>http://jimbray.xyz/note/content/ubuntu16_install_nginx_and_php7/</link>
+      <pubDate>Thu, 19 Apr 2018 15:10:46 +0800</pubDate>
+      
+      <guid>http://jimbray.xyz/note/content/ubuntu16_install_nginx_and_php7/</guid>
+      <description>第一步 更新源
+apt-get update  第二步：安装nginx 直接安装
+sudo apt-get install nginx  打开nginx 服务
+sudo service nginx start  测试是否成功
+在浏览器输入ip地址，出现以下界面
+即表示安装成功。
+第三步：安装php7 打开nginx 配置文件
+sudo vi /etc/nginx/sites-available/default  未免修改错误，可以先进行 defaule配置文件的备份
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak  在 defult 文件中找到以下 代码段
+# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000 # # location ~ \.php$ { # include snippets/fastcgi-php.conf; # # # With php7.0-cgi alone: # fastcgi_pass 127.0.0.1:9000; # # With php7.</description>
+    </item>
     
     <item>
       <title>理论上一个APP可以使用多大的内存</title>
@@ -142,7 +160,7 @@ root ALL=(ALL:ALL) ALL jimbray ALL=(ALL:ALL) ALL  完成。可以日常使用 ji
       <description>网址导航 V2EX
 学习笔记 进程与线程的区别 | ORM | Android 线程池的分类 | 使用线程池的优点 | 弱引用
 | 理论上一个Android APP可以申请使用多大的内存 | 核心线程 | 为什么Handler容易引起内存泄露
-php7 如何重启 php-fpm
+php7 如何重启 php-fpm | ubuntu16.04安装nginx+php7环境记录
 Linux新增sudo用户
 工具 SVG转Vector Drawable | SVG在线编辑器 | 在线文件转换 | IP查询
 JSON View Editor[jsonohyeah] | APKPure apk下载</description>
