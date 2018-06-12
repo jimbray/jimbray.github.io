@@ -13,7 +13,7 @@
     
     
     <item>
-      <title>内存优化之LowMemoryKiller策略学习</title>
+      <title>【学习笔记】内存优化之LowMemoryKiller策略</title>
       <link>http://jimbray.xyz/post/low-momery-killer-with-memory_optimization/</link>
       <pubDate>Mon, 11 Jun 2018 20:16:16 +0000</pubDate>
       
@@ -224,7 +224,7 @@ private Looper(boolean quitAllowed) { mQueue = new MessageQueue(quitAllowed); mR
 php7 如何重启 php-fpm | ubuntu16.04安装nginx+php7环境记录
 Linux新增sudo用户
 工具 SVG转Vector Drawable | SVG在线编辑器 | 在线文件转换 | IP查询
-JSON View Editor[jsonohyeah] | APKPure apk下载</description>
+JSON View Editor[jsonohyeah] | APKPure apk下载 | 在线工具合集</description>
     </item>
     
     <item>
