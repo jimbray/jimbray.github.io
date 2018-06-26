@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Android N 以后 Google不再允许在app中把file:// Uri暴露给其他app，否则应用会抛出FileUriExposedException">
+  <meta name="generator" content="Hugo 0.31.1" />
+
+  <title>Android N 出现FileUriExposedException的兼容处理 &middot; JIMBRAY</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://jimbray.xyz/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="http://jimbray.xyz/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="http://jimbray.xyz/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://jimbray.xyz/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="http://jimbray.xyz/">Jimbray</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://jimbray.xyz/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://jimbray.xyz/post/"><i class='fa fa-archive fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://jimbray.xyz/tags/"><i class='fa fa-tags fa-fw'></i>Tags</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://jimbray.xyz/note/note"><i class='fa fa-sticky-note fa-fw'></i>Notes</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/jimbray16" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/jimbray" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  
+  <ins class="adsbygoogle"
+            style="display:inline-block;width:300px;height:600px"
+	         data-ad-client="ca-pub-2960593853032576"
+	       data-ad-slot="1610352031"></ins>
+	<script>
+		(adsbygoogle = window.adsbygoogle || []).push({});
+	</script>
+
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>Android N 出现FileUriExposedException的兼容处理</h1>
+  <h2>Android N 以后 Google不再允许在app中把file:// Uri暴露给其他app，否则应用会抛出FileUriExposedException</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>25 Jun 2018, 20:20</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://jimbray.xyz/tags/android">Android</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<p>这次遇到一个问题</p>
+
+<pre><code class="language-java">Caused by: android.os.FileUriExposedException: file:///........ exposed beyond app through Intent.getData()  
+   at android.os.StrictMode.onFileUriExposed(StrictMode.java:1799)  
+   at android.net.Uri.checkFileUriExposed(Uri.java:2346)  
+   at android.content.Intent.prepareToLeaveProcess(Intent.java:8933)  
+   at android.content.Intent.prepareToLeaveProcess(Intent.java:8894)  
+   at android.app.Instrumentation.execStartActivity(Instrumentation.java:1517)  
+   at android.app.Activity.startActivityForResult(Activity.java:4224)  
+   at android.support.v4.app.BaseFragmentActivityJB.startActivityForResult(BaseFragmentActivityJB.java:50)  
+   at android.support.v4.app.FragmentActivity.startActivityForResult(FragmentActivity.java:79)  
+   at android.app.Activity.startActivityForResult(Activity.java:4183)  
+   at android.support.v4.app.FragmentActivity.startActivityForResult(FragmentActivity.java:859)  
+   at android.app.Activity.startActivity(Activity.java:4507)  
+   at android.app.Activity.startActivity(Activity.java:4475)  
+</code></pre>
+
+<p>充分发挥 面向 stackoverflow 编程 精神，找到了 一个解决办法</p>
+
+<p><a href="https://stackoverflow.com/questions/38200282/android-os-fileuriexposedexception-file-storage-emulated-0-test-txt-exposed">Solved StackOverFlow Link</a>，可是为什么呢，明明之前运行得好好的，现在突然不行了。</p>
+
+<p><a href="https://developer.android.google.cn/reference/android/os/FileUriExposedException">Google 官方解释</a></p>
+
+<blockquote>
+<p>This is only thrown for applications targeting <code>Build.VERSION_CODES.N</code> or higher. Applications targeting earlier SDK versions are allowed to share <code>file://</code> <code>Uri</code>, but it&rsquo;s strongly discouraged.</p>
+</blockquote>
+
+<p>Android N 以前是没有问题的，Android N 以后 Google不再允许在app中把file:// Uri暴露给其他app，否则应用会抛出FileUriExposedException。原因在于，Google认为使用file:// Uri存在一定的风险。比如，文件是私有的，其他app无法访问该文件，或者其他app没有申请READ_EXTERNAL_STORAGE运行时权限。解决方案是，使用FileProvider生成content:// Uri来替代file:// Uri。</p>
+
+<p>我们就看看 FileProvider 的解决方式 <a href="https://developer.android.google.cn/reference/android/support/v4/content/FileProvider">FileProvider</a></p>
+
+<h5 id="声明fileprovider">声明FileProvider</h5>
+
+<pre><code class="language-xml">&lt;manifest&gt;
+    ...
+    &lt;application&gt;
+        ...
+        &lt;provider
+            android:name=&quot;android.support.v4.content.FileProvider&quot;
+            android:authorities=&quot;com.mydomain.fileprovider&quot;
+            android:exported=&quot;false&quot;
+            android:grantUriPermissions=&quot;true&quot;&gt;
+            &lt;meta-data
+                 android:name=&quot;android.support.FILE_PROVIDER_PATHS&quot;
+                 android:resource=&quot;@xml/file_paths&quot; /&gt;
+        &lt;/provider&gt;
+        ...
+    &lt;/application&gt;
+&lt;/manifest&gt;
+</code></pre>
+
+<p>name 是固定写法</p>
+
+<p>authorities 为 唯一验证，建议使用包名</p>
+
+<p>exported 必须为 false</p>
+
+<p>grantUriPermissions 必须为 true</p>
+
+<h5 id="添加file-paths-文件">添加file_paths 文件</h5>
+
+<p>在res目录下新建一个xml文件夹，并且新建一个file_paths的xml文件</p>
+
+<p>其中根元素<paths>是固定的，内部元素可以是以下节点：
+<files-path name="name" path="path" /> 对应getFilesDir()
+<cache-path name="name" path="path" /> 对应getCacheDir()
+<external-path name="name" path="path" /> 对应Environment.getExternalStorageDirectory()
+<external-files-path name="name" path="path" /> 对应getExternalFilesDir()
+<external-cache-path name="name" path="path" /> 对应getExternalCacheDir()</p>
+
+<p>例：</p>
+
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;paths&gt;
+    &lt;!--path：需要临时授权访问的路径（.代表所有路径）--&gt;
+    &lt;!--name：就是你给这个访问路径起个名字--&gt;
+    &lt;external-path path=&quot;Android/data/package_name/&quot; name=&quot;data_files_root&quot; /&gt;
+    &lt;external-path path=&quot;.&quot; name=&quot;external_storage_root&quot; /&gt;
+&lt;/paths&gt;
+</code></pre>
+
+<h5 id="使用fileprovider">使用FileProvider</h5>
+
+<pre><code class="language-java">Uri data;  
+    // 判断版本大于等于7.0  
+    if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.N) {  
+        // &quot;com.mydomain.fileprovider&quot;即是在清单文件中配置的authorities  
+        data = FileProvider.getUriForFile(context, &quot;com.mydomain.fileprovider&quot;, file);  
+    // 给目标应用一个临时授权  
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);  
+    } else {  
+        data = Uri.fromFile(file);  
+    }  
+</code></pre>
+
+<p>这样，在 Android N 上就不会出现再出现这个FileUriExposedException异常了。</p>
+
+<p>Done.</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://jimbray.xyz/post/low-momery-killer-with-memory_optimization/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://jimbray.xyz/post/low-momery-killer-with-memory_optimization/">【学习笔记】内存优化之LowMemoryKiller策略</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'jimbray-github-io';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="http://jimbray.xyz/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-78813427-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+</body>
+</html>
+

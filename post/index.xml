@@ -7,10 +7,23 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Mon, 11 Jun 2018 20:16:16 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 25 Jun 2018 20:20:20 +0000</lastBuildDate>
     
 	<atom:link href="http://jimbray.xyz/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Android N 出现FileUriExposedException的兼容处理</title>
+      <link>http://jimbray.xyz/post/android-n-with-fileuriexposedexception/</link>
+      <pubDate>Mon, 25 Jun 2018 20:20:20 +0000</pubDate>
+      
+      <guid>http://jimbray.xyz/post/android-n-with-fileuriexposedexception/</guid>
+      <description>这次遇到一个问题
+Caused by: android.os.FileUriExposedException: file:///........ exposed beyond app through Intent.getData() at android.os.StrictMode.onFileUriExposed(StrictMode.java:1799) at android.net.Uri.checkFileUriExposed(Uri.java:2346) at android.content.Intent.prepareToLeaveProcess(Intent.java:8933) at android.content.Intent.prepareToLeaveProcess(Intent.java:8894) at android.app.Instrumentation.execStartActivity(Instrumentation.java:1517) at android.app.Activity.startActivityForResult(Activity.java:4224) at android.support.v4.app.BaseFragmentActivityJB.startActivityForResult(BaseFragmentActivityJB.java:50) at android.support.v4.app.FragmentActivity.startActivityForResult(FragmentActivity.java:79) at android.app.Activity.startActivityForResult(Activity.java:4183) at android.support.v4.app.FragmentActivity.startActivityForResult(FragmentActivity.java:859) at android.app.Activity.startActivity(Activity.java:4507) at android.app.Activity.startActivity(Activity.java:4475)  充分发挥 面向 stackoverflow 编程 精神，找到了 一个解决办法
+Solved StackOverFlow Link，可是为什么呢，明明之前运行得好好的，现在突然不行了。
+Google 官方解释
+ This is only thrown for applications targeting Build.VERSION_CODES.N or higher. Applications targeting earlier SDK versions are allowed to share file:// Uri, but it&amp;rsquo;s strongly discouraged.</description>
+    </item>
     
     <item>
       <title>【学习笔记】内存优化之LowMemoryKiller策略</title>
