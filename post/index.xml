@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Mon, 25 Jun 2018 20:20:20 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 27 Jun 2018 20:20:20 +0000</lastBuildDate>
     
 	<atom:link href="http://jimbray.xyz/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>FloatingActionButton的Behavior里面onNestedScroll()只调了一次?</title>
+      <link>http://jimbray.xyz/post/fab-onnestedscroll-just-called-once/</link>
+      <pubDate>Wed, 27 Jun 2018 20:20:20 +0000</pubDate>
+      
+      <guid>http://jimbray.xyz/post/fab-onnestedscroll-just-called-once/</guid>
+      <description>今天，在重写 FloatingActionButton.Behavior 的时候，遇到了问题，记录一下
+第一个问题，在完成了 behavior 代码之后
+public class ScrollFABBehavior extends FloatingActionButton.Behavior { @Override public boolean onStartNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull FloatingActionButton child, @NonNull View directTargetChild, @NonNull View target, int axes, int type) { // Ensure we react to vertical scrolling return axes == ViewCompat.SCROLL_AXIS_VERTICAL || super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, axes); } @Override public void onNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull FloatingActionButton child, @NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) { super.</description>
+    </item>
     
     <item>
       <title>Android N 出现FileUriExposedException的兼容处理</title>
