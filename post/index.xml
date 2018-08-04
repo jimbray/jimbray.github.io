@@ -7,10 +7,25 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Wed, 27 Jun 2018 20:20:20 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 03 Aug 2018 20:20:20 +0000</lastBuildDate>
     
 	<atom:link href="http://jimbray.xyz/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Flutter 卡在 package get 的解决办法</title>
+      <link>http://jimbray.xyz/post/using-flutter-in-china/</link>
+      <pubDate>Fri, 03 Aug 2018 20:20:20 +0000</pubDate>
+      
+      <guid>http://jimbray.xyz/post/using-flutter-in-china/</guid>
+      <description>今天在尝试使用Flutter 的时候，需要使用一个第三方库
+修改了 pubspec 文件之后，AS 像往常一样提示 需要 package get.
+之前都听正常，不知道今天怎么了。
+一直处在
+Running &amp;quot;flutter packages get&amp;quot; in project_name...  的状态。
+没关系我等，等了大概有10分钟吧，看了下 logcat
+OS Error: 信号灯超时时间已到 , errno = 121, address = storage.googleapis.com, port = 60109 pub get failed (69) -- attempting retry 2 in 2 seconds... OS Error: 信号灯超时时间已到 , errno = 121, address = pub.dartlang.org, port = 60352 pub get failed (69) -- attempting retry 3 in 4 seconds... Got socket error trying to find package package_name at https://pub.</description>
+    </item>
     
     <item>
       <title>FloatingActionButton的Behavior里面onNestedScroll()只调了一次?</title>

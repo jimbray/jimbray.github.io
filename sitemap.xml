@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://jimbray.xyz/post/using-flutter-in-china/</loc>
+    <lastmod>2018-08-03T20:20:20+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://jimbray.xyz/post/fab-onnestedscroll-just-called-once/</loc>
     <lastmod>2018-06-27T20:20:20+00:00</lastmod>
   </url>
@@ -220,6 +225,12 @@
   </url>
   
   <url>
+    <loc>http://jimbray.xyz/tags/flutter/</loc>
+    <lastmod>2018-08-03T20:20:20+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>http://jimbray.xyz/tags/hexo/</loc>
     <lastmod>2016-06-04T16:48:27+00:00</lastmod>
     <priority>0</priority>
@@ -233,7 +244,7 @@
   
   <url>
     <loc>http://jimbray.xyz/</loc>
-    <lastmod>2018-06-27T20:20:20+00:00</lastmod>
+    <lastmod>2018-08-03T20:20:20+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -251,7 +262,7 @@
   
   <url>
     <loc>http://jimbray.xyz/post/</loc>
-    <lastmod>2018-06-27T20:20:20+00:00</lastmod>
+    <lastmod>2018-08-03T20:20:20+00:00</lastmod>
     <priority>0</priority>
   </url>
   
