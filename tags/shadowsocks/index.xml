@@ -22,9 +22,7 @@
 安装shadowsocks $ sudo apt-get update $ sudo apt-get install python-gevent python-pip $ sudo pip install shadowsocks $ apt-get install python-m2crypto  配置shadowsocks 创建 shadowsocks.json 配置文件
 vi /etc/shadowsocks.json  修改shadowsocks.json 配置文件
 { &amp;quot;server&amp;quot;:&amp;quot;0.0.0.0&amp;quot;, &amp;quot;server_port&amp;quot;:8388, &amp;quot;local_port&amp;quot;:1080, &amp;quot;password&amp;quot;:&amp;quot;password&amp;quot;, &amp;quot;timeout&amp;quot;:600, &amp;quot;method&amp;quot;:&amp;quot;aes-256-cfb&amp;quot; }  填写自定义的端口和密码就可以了
-运行shadowsocks ssserver -c /etc/shadowsocks.json -d start ssserver -c /etc/shadowsocks.json -d stop  就搞定了。 一劳永逸，自从开了之后就没动过它。一直正常。 看了一下Youtube4K视频，略卡，不过1080无压力，日常使用完全没问题。  相关书籍:
-  
- </description>
+运行shadowsocks ssserver -c /etc/shadowsocks.json -d start ssserver -c /etc/shadowsocks.json -d stop  就搞定了。 一劳永逸，自从开了之后就没动过它。一直正常。 看了一下Youtube4K视频，略卡，不过1080无压力，日常使用完全没问题。 </description>
     </item>
     
     <item>
