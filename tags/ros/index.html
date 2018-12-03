@@ -4,10 +4,10 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="主要是天朝的原因，解决办法亲测有效（windows &#43; Android Studio）">
+  <meta name="description" content="">
   <meta name="generator" content="Hugo 0.31.1" />
 
-  <title>Flutter 卡在 package get 的解决办法 &middot; JIMBRAY</title>
+  <title>Ros &middot; JIMBRAY</title>
 
   
   
@@ -36,6 +36,8 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
 
   
+  
+  <link rel="alternate" type="application/rss+xml" title="JIMBRAY" href="http://jimbray.xyz/tags/ros/index.xml" />
   
 
   
@@ -112,6 +114,10 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="http://jimbray.xyz/tags/ros/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+    </li>
     
 
     
@@ -226,16 +232,20 @@
 
 
 <div class="header">
-  <h1>Flutter 卡在 package get 的解决办法</h1>
-  <h2>主要是天朝的原因，解决办法亲测有效（windows &#43; Android Studio）</h2>
+  <h1>Ros</h1>
 </div>
-<div class="content">
 
-  <div class="post-meta">
+<div class="content">
+  
+    <article>
+  <header>
+    <h2><a href="http://jimbray.xyz/post/android-connect-to-ros/">Android使用ROSBridge与ROS通信 简单使用</a></h2>
+
+    <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>03 Aug 2018, 20:20</time>
+    <time>02 Dec 2018, 12:20</time>
   </div>
 
   
@@ -248,7 +258,9 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="http://jimbray.xyz/tags/flutter">Flutter</a>
+      <a class="post-taxonomy-tag" href="http://jimbray.xyz/tags/android">Android</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://jimbray.xyz/tags/ros">ROS</a>
     
   </div>
   
@@ -256,123 +268,21 @@
 
 </div>
 
-  <p>今天在尝试使用Flutter 的时候，需要使用一个第三方库</p>
+  </header>
 
-<p>修改了 pubspec 文件之后，AS 像往常一样提示 需要 package get.</p>
-
-<p>之前都听正常，不知道今天怎么了。</p>
-
-<p>一直处在</p>
-
-<pre><code class="language-shell">Running &quot;flutter packages get&quot; in project_name...
-</code></pre>
-
-<p>的状态。</p>
-
-<p>没关系我等，等了大概有10分钟吧，看了下 logcat</p>
-
-<pre><code class="language-shell">OS Error: 信号灯超时时间已到
-, errno = 121, address = storage.googleapis.com, port = 60109
-pub get failed (69) -- attempting retry 2 in 2 seconds...
-OS Error: 信号灯超时时间已到
-, errno = 121, address = pub.dartlang.org, port = 60352
-pub get failed (69) -- attempting retry 3 in 4 seconds...
-Got socket error trying to find package package_name at https://pub.dartlang.org.
-pub get failed (69) -- attempting retry 4 in 8 seconds...
-Got socket error trying to find package package_name at https://pub.dartlang.org.
-pub get failed (69) -- attempting retry 5 in 16 seconds...
-Got socket error trying to find package package_name at https://pub.dartlang.org.
-pub get failed (69) -- attempting retry 6 in 32 seconds...
-</code></pre>
-
-<p>看来，应该是 storage.googleapis.com 撞墙了。</p>
-
-<p><del>Google</del> 搜索一下，原来flutter 已经有对策了。</p>
-
-<p><a href="https://github.com/flutter/flutter/wiki/Using-Flutter-in-China">Using Flutter in China</a> 。</p>
-
-<p>大概意思就是 把默认的 package 获取地址改为访问没有问题的镜像站就可以了。</p>
-
-<p>具体操作</p>
-
-<ul>
-<li>Linux 或 Mac</li>
-</ul>
-
-<pre><code class="language-shell">export PUB_HOSTED_URL=https://pub.flutter-io.cn
-export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
-</code></pre>
-
-<ul>
-<li>Windows</li>
-</ul>
-
-<p>新增两个环境变量即可</p>
-
-<pre><code class="language-shell">PUB_HOSTED_URL ===== https://pub.flutter-io.cn
-FLUTTER_STORAGE_BASE_URL ===== https://storage.flutter-io.cn
-</code></pre>
-
-<p>执行一下 flutter doctor命令</p>
-
-<p>下载在 package get 应该就没有问题了。</p>
-
-<p>反正我是没问题了。</p>
-
+  <p>
+  
+  ROS官方只支持了C&#43;&#43;和Python，想要在Android上与ROS通讯，我的选择是ROSBridge
+  </p>
 
   
-<div class="prev-next-post pure-g">
-  <div class="pure-u-1-24" style="text-align: left;">
-    
-    <a href="http://jimbray.xyz/post/fab-onnestedscroll-just-called-once/"><i class="fa fa-chevron-left"></i></a>
-    
-  </div>
-  <div class="pure-u-10-24">
-    
-    <nav class="prev">
-      <a href="http://jimbray.xyz/post/fab-onnestedscroll-just-called-once/">FloatingActionButton的Behavior里面onNestedScroll()只调了一次?</a>
-    </nav>
-    
-  </div>
-  <div class="pure-u-2-24">
-    &nbsp;
-  </div>
-  <div class="pure-u-10-24">
-    
-    <nav class="next">
-      <a href="http://jimbray.xyz/post/android-connect-to-ros/">Android使用ROSBridge与ROS通信 简单使用</a>
-    </nav>
-    
-  </div>
-  <div class="pure-u-1-24" style="text-align: right;">
-    
-    <a href="http://jimbray.xyz/post/android-connect-to-ros/"><i class="fa fa-chevron-right"></i></a>
-    
-  </div>
-</div>
-
-
+  <footer>
+    <a href="http://jimbray.xyz/post/android-connect-to-ros/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
 
   
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-
-(function() {
-    
-    
-    if (window.location.hostname == "localhost")
-        return;
-
-    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-    var disqus_shortname = 'jimbray-github-io';
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
 </div>
 
 </div>
@@ -397,4 +307,3 @@ FLUTTER_STORAGE_BASE_URL ===== https://storage.flutter-io.cn
 
 </body>
 </html>
-

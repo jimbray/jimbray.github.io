@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Wed, 27 Jun 2018 20:20:20 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 02 Dec 2018 12:20:20 +0000</lastBuildDate>
     
 	<atom:link href="http://jimbray.xyz/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Android</title>
       <link>http://jimbray.xyz/tags/android/</link>
-      <pubDate>Wed, 27 Jun 2018 20:20:20 +0000</pubDate>
+      <pubDate>Sun, 02 Dec 2018 12:20:20 +0000</pubDate>
       
       <guid>http://jimbray.xyz/tags/android/</guid>
       <description></description>
@@ -72,6 +72,15 @@
       <pubDate>Sun, 19 Jun 2016 21:12:36 +0000</pubDate>
       
       <guid>http://jimbray.xyz/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ros</title>
+      <link>http://jimbray.xyz/tags/ros/</link>
+      <pubDate>Sun, 02 Dec 2018 12:20:20 +0000</pubDate>
+      
+      <guid>http://jimbray.xyz/tags/ros/</guid>
       <description></description>
     </item>
     

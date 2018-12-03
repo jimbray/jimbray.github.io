@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://jimbray.xyz/post/android-connect-to-ros/</loc>
+    <lastmod>2018-12-02T12:20:20+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://jimbray.xyz/note/content/app_privicy_policy/</loc>
     <lastmod>2018-08-13T20:20:20+08:00</lastmod>
   </url>
@@ -219,7 +224,7 @@
   
   <url>
     <loc>http://jimbray.xyz/tags/android/</loc>
-    <lastmod>2018-06-27T20:20:20+00:00</lastmod>
+    <lastmod>2018-12-02T12:20:20+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -249,7 +254,7 @@
   
   <url>
     <loc>http://jimbray.xyz/</loc>
-    <lastmod>2018-08-13T20:20:20+08:00</lastmod>
+    <lastmod>2018-12-02T12:20:20+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -267,13 +272,19 @@
   
   <url>
     <loc>http://jimbray.xyz/post/</loc>
-    <lastmod>2018-08-03T20:20:20+00:00</lastmod>
+    <lastmod>2018-12-02T12:20:20+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://jimbray.xyz/tags/python/</loc>
     <lastmod>2016-06-19T21:12:36+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://jimbray.xyz/tags/ros/</loc>
+    <lastmod>2018-12-02T12:20:20+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -285,7 +296,7 @@
   
   <url>
     <loc>http://jimbray.xyz/tags/</loc>
-    <lastmod>2018-06-27T20:20:20+00:00</lastmod>
+    <lastmod>2018-12-02T12:20:20+00:00</lastmod>
     <priority>0</priority>
   </url>
   
