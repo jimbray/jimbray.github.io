@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Docker on JIMBRAY</title>
-    <link>http://jimbray.xyz/tags/docker/</link>
+    <link>https://jimbray.xyz/tags/docker/</link>
     <description>Recent content in Docker on JIMBRAY</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
     <lastBuildDate>Thu, 09 Jun 2016 17:52:32 +0000</lastBuildDate>
     
-	<atom:link href="http://jimbray.xyz/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://jimbray.xyz/tags/docker/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>试玩 Docker</title>
-      <link>http://jimbray.xyz/post/try-docker/</link>
+      <link>https://jimbray.xyz/post/try-docker/</link>
       <pubDate>Thu, 09 Jun 2016 17:52:32 +0000</pubDate>
       
-      <guid>http://jimbray.xyz/post/try-docker/</guid>
+      <guid>https://jimbray.xyz/post/try-docker/</guid>
       <description>目标 docker这么火，体验一下，感受一下
 准备工作 Linux系统主机一台(我用的的ubuntu) docker文档看一下，我找了好几个，都挺不错的，就是不动一下手，总感觉虚
 开动 安装docker 我用的是ubuntu14.04 两种方式 1.源已经内置docker，不过教程裡有说那个docker没有更新

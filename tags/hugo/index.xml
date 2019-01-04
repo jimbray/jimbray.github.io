@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Hugo on JIMBRAY</title>
-    <link>http://jimbray.xyz/tags/hugo/</link>
+    <link>https://jimbray.xyz/tags/hugo/</link>
     <description>Recent content in Hugo on JIMBRAY</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
     <lastBuildDate>Sat, 18 Nov 2017 01:23:40 +0800</lastBuildDate>
     
-	<atom:link href="http://jimbray.xyz/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://jimbray.xyz/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>迁移到Hugo</title>
-      <link>http://jimbray.xyz/post/move-to-hugo/</link>
+      <link>https://jimbray.xyz/post/move-to-hugo/</link>
       <pubDate>Sat, 18 Nov 2017 01:23:40 +0800</pubDate>
       
-      <guid>http://jimbray.xyz/post/move-to-hugo/</guid>
+      <guid>https://jimbray.xyz/post/move-to-hugo/</guid>
       <description>安装hugo 安装很简单，比node.js 方便多了，重装了系统，本来也是直接用户Hexo 的，居然装不上 hexo， 又看到了 Hugo 的 好评如潮。 索性换了。 安装教程直接参照官网了， Linux 下很简单，我直接用 apt 装了。
 基本使用 然后就是简单的基本使用了：
  创建网站 hugo new site quickstart,可以看到新建了目录 由于默认没有一个主题(我觉得这点做的不好),所以要挑选一个主题，在主题挑选自己喜欢的款，我用的是Blackburn把 主题的 仓库 clone 到 网站目录的 themes 下就可以了。

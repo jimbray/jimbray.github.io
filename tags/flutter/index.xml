@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Flutter on JIMBRAY</title>
-    <link>http://jimbray.xyz/tags/flutter/</link>
+    <link>https://jimbray.xyz/tags/flutter/</link>
     <description>Recent content in Flutter on JIMBRAY</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
     <lastBuildDate>Fri, 03 Aug 2018 20:20:20 +0000</lastBuildDate>
     
-	<atom:link href="http://jimbray.xyz/tags/flutter/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://jimbray.xyz/tags/flutter/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Flutter 卡在 package get 的解决办法</title>
-      <link>http://jimbray.xyz/post/using-flutter-in-china/</link>
+      <link>https://jimbray.xyz/post/using-flutter-in-china/</link>
       <pubDate>Fri, 03 Aug 2018 20:20:20 +0000</pubDate>
       
-      <guid>http://jimbray.xyz/post/using-flutter-in-china/</guid>
+      <guid>https://jimbray.xyz/post/using-flutter-in-china/</guid>
       <description>今天在尝试使用Flutter 的时候，需要使用一个第三方库
 修改了 pubspec 文件之后，AS 像往常一样提示 需要 package get.
 之前都听正常，不知道今天怎么了。

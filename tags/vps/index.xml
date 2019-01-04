@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Vps on JIMBRAY</title>
-    <link>http://jimbray.xyz/tags/vps/</link>
+    <link>https://jimbray.xyz/tags/vps/</link>
     <description>Recent content in Vps on JIMBRAY</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
     <lastBuildDate>Mon, 22 May 2017 12:55:25 +0000</lastBuildDate>
     
-	<atom:link href="http://jimbray.xyz/tags/vps/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://jimbray.xyz/tags/vps/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>用Google Cloud搭建免费一年的SS</title>
-      <link>http://jimbray.xyz/post/get-free-google-cloud-vps-for-a-year/</link>
+      <link>https://jimbray.xyz/post/get-free-google-cloud-vps-for-a-year/</link>
       <pubDate>Mon, 22 May 2017 12:55:25 +0000</pubDate>
       
-      <guid>http://jimbray.xyz/post/get-free-google-cloud-vps-for-a-year/</guid>
+      <guid>https://jimbray.xyz/post/get-free-google-cloud-vps-for-a-year/</guid>
       <description>其很Google cloud 很久之前就来了，那个时候免费送300刀，有效期两个月。当时觉得没用就没申请。 最近升级了，换成一年是试用了，刚好购买的SS快过期了。嘿嘿～
 准备工作  一张VISA信用卡 Google 账户 由于 Google 在中国是不存在的，所以 要有代理  300刀一年的有效期，使用最低配的话，可以玩一年，每个月有86G的流量，个人使用足够了吧&amp;hellip;&amp;hellip;
 开始了点击 Google cloud 点击 try free.
@@ -35,10 +35,10 @@
     
     <item>
       <title>最简单方式拥有自己的SS服务器</title>
-      <link>http://jimbray.xyz/post/getpersonalss/</link>
+      <link>https://jimbray.xyz/post/getpersonalss/</link>
       <pubDate>Wed, 15 Feb 2017 12:20:20 +0000</pubDate>
       
-      <guid>http://jimbray.xyz/post/getpersonalss/</guid>
+      <guid>https://jimbray.xyz/post/getpersonalss/</guid>
       <description> 购买VPS 我买的是 openvzvps-小尾巴 国人弄的,虽然配置低点，但我又不用来做其他东西，就搭个ss，够用就行。 虽然带了小尾巴，但是为了避免广告嫌疑，我就不贴图了
 安装shadowsocks $ sudo apt-get update $ sudo apt-get install python-gevent python-pip $ sudo pip install shadowsocks $ apt-get install python-m2crypto  配置shadowsocks 创建 shadowsocks.json 配置文件
 vi /etc/shadowsocks.json  修改shadowsocks.json 配置文件
@@ -48,10 +48,10 @@ vi /etc/shadowsocks.json  修改shadowsocks.json 配置文件
     
     <item>
       <title>Ubuntu/Debian手动安装完成lnmp部署wordpress</title>
-      <link>http://jimbray.xyz/post/manual_install_lnmp/</link>
+      <link>https://jimbray.xyz/post/manual_install_lnmp/</link>
       <pubDate>Thu, 30 Jun 2016 14:31:59 +0800</pubDate>
       
-      <guid>http://jimbray.xyz/post/manual_install_lnmp/</guid>
+      <guid>https://jimbray.xyz/post/manual_install_lnmp/</guid>
       <description>安装 MySql install mysql： sudo apt-get install mysql-server  以root用户登录至MySQL： mysql -u root -p  创建用户 我们可以直接使用root用户，但通常来讲，我们需要为WordPress单独创建一个数据库用户，创建数据库wordpress，用户wpuser：
 create database wordpress; create user wpuser@localhost identified by &#39;&amp;lt;password&amp;gt;&#39;;  关联用户 创建完WordPress数据库和用户后，需要将这两者关联起来：
 grant all privileges on wordpress.* to wpuser@localhost; flush privileges;  mysql 到这一步就先告一段落了。继续下一步；
@@ -62,10 +62,10 @@ sudo apt-get install php-fpm  配置php 修改 php.</description>
     
     <item>
       <title>Linode 安装 lnmp 学习</title>
-      <link>http://jimbray.xyz/post/linode-install-lnmp/</link>
+      <link>https://jimbray.xyz/post/linode-install-lnmp/</link>
       <pubDate>Thu, 09 Jun 2016 17:30:04 +0000</pubDate>
       
-      <guid>http://jimbray.xyz/post/linode-install-lnmp/</guid>
+      <guid>https://jimbray.xyz/post/linode-install-lnmp/</guid>
       <description>安装 1.安装 LNMP 参见 lnmp官网
 2.安装完成之后 查看 nginx 、 php、mysql 的运行状态
 ps aux | grep nginx ps aux | grep php ps aux | gerp mysql  确保已经在运行状态
@@ -81,10 +81,10 @@ listen.owner = www-data listen.group = www-data  www-data 修改为 第3步 ngin
     
     <item>
       <title>VPS 禁止远程ROOT登录</title>
-      <link>http://jimbray.xyz/post/ssh-root-login-setting/</link>
+      <link>https://jimbray.xyz/post/ssh-root-login-setting/</link>
       <pubDate>Thu, 09 Jun 2016 12:48:17 +0000</pubDate>
       
-      <guid>http://jimbray.xyz/post/ssh-root-login-setting/</guid>
+      <guid>https://jimbray.xyz/post/ssh-root-login-setting/</guid>
       <description>编辑ssh 配置文件 vi /etc/ssh/sshd_config  修改关键配置 PermitRootLogin no  重启 ssh 服务 service /etc/init.d/ssh restart  Done.</description>
     </item>
     

@@ -2,13 +2,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Topics on JIMBRAY</title>
-    <link>http://jimbray.xyz/topics/</link>
+    <link>https://jimbray.xyz/topics/</link>
     <description>Recent content in Topics on JIMBRAY</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
     
-	<atom:link href="http://jimbray.xyz/topics/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://jimbray.xyz/topics/index.xml" rel="self" type="application/rss+xml" />
     
     
   </channel>

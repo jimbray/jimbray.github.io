@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Shadowsocks on JIMBRAY</title>
-    <link>http://jimbray.xyz/tags/shadowsocks/</link>
+    <link>https://jimbray.xyz/tags/shadowsocks/</link>
     <description>Recent content in Shadowsocks on JIMBRAY</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
     <lastBuildDate>Wed, 15 Feb 2017 12:20:20 +0000</lastBuildDate>
     
-	<atom:link href="http://jimbray.xyz/tags/shadowsocks/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://jimbray.xyz/tags/shadowsocks/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>最简单方式拥有自己的SS服务器</title>
-      <link>http://jimbray.xyz/post/getpersonalss/</link>
+      <link>https://jimbray.xyz/post/getpersonalss/</link>
       <pubDate>Wed, 15 Feb 2017 12:20:20 +0000</pubDate>
       
-      <guid>http://jimbray.xyz/post/getpersonalss/</guid>
+      <guid>https://jimbray.xyz/post/getpersonalss/</guid>
       <description> 购买VPS 我买的是 openvzvps-小尾巴 国人弄的,虽然配置低点，但我又不用来做其他东西，就搭个ss，够用就行。 虽然带了小尾巴，但是为了避免广告嫌疑，我就不贴图了
 安装shadowsocks $ sudo apt-get update $ sudo apt-get install python-gevent python-pip $ sudo pip install shadowsocks $ apt-get install python-m2crypto  配置shadowsocks 创建 shadowsocks.json 配置文件
 vi /etc/shadowsocks.json  修改shadowsocks.json 配置文件
@@ -27,10 +27,10 @@ vi /etc/shadowsocks.json  修改shadowsocks.json 配置文件
     
     <item>
       <title>使用迅雷下载后 shadowsocks失效 解决办法</title>
-      <link>http://jimbray.xyz/post/ss-thunder/</link>
+      <link>https://jimbray.xyz/post/ss-thunder/</link>
       <pubDate>Thu, 09 Jun 2016 12:08:50 +0000</pubDate>
       
-      <guid>http://jimbray.xyz/post/ss-thunder/</guid>
+      <guid>https://jimbray.xyz/post/ss-thunder/</guid>
       <description>今天用的好好的 ss 突然之间失效了，看了下日志：
 failed to recv data in handshakeReceive2Callback  网上搜罗下，出现这个情况的不在少数，主要是因为使用了迅雷下载导致
 解决办法 1.在服务中找到XLServicePlatform把这个服务禁用了。现在应该可以使用ss了

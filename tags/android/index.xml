@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Android on JIMBRAY</title>
-    <link>http://jimbray.xyz/tags/android/</link>
+    <link>https://jimbray.xyz/tags/android/</link>
     <description>Recent content in Android on JIMBRAY</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
     <lastBuildDate>Sun, 02 Dec 2018 12:20:20 +0000</lastBuildDate>
     
-	<atom:link href="http://jimbray.xyz/tags/android/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://jimbray.xyz/tags/android/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Android使用ROSBridge与ROS通信 简单使用</title>
-      <link>http://jimbray.xyz/post/android-connect-to-ros/</link>
+      <link>https://jimbray.xyz/post/android-connect-to-ros/</link>
       <pubDate>Sun, 02 Dec 2018 12:20:20 +0000</pubDate>
       
-      <guid>http://jimbray.xyz/post/android-connect-to-ros/</guid>
+      <guid>https://jimbray.xyz/post/android-connect-to-ros/</guid>
       <description>环境 ROS kinetic
  ROS 服务端 安装 sudo apt-get install ros-&amp;lt;rosdistro&amp;gt;-rosbridge-suite  启动 roslaunch rosbridge_server rosbridge_websocket.launch  在这之前不需要开启 roscore, 因为 rosbridge 会默认执行 roscore
 Android客户端 要让 android 接收或者发送 ROS 消息的话，首先要在 Android上完成 websocket，然后按照协议解析，也很麻烦，不过又要站在巨人的肩膀上了，找到一个开源项目:ROSBridgeClient,这位同学使用 java-websocket 的包在Android上实现了 websocket 的应用，很棒。
@@ -28,10 +28,10 @@ public class Example { public Example() {} public static void main(String[] args
     
     <item>
       <title>FloatingActionButton的Behavior里面onNestedScroll()只调了一次?</title>
-      <link>http://jimbray.xyz/post/fab-onnestedscroll-just-called-once/</link>
+      <link>https://jimbray.xyz/post/fab-onnestedscroll-just-called-once/</link>
       <pubDate>Wed, 27 Jun 2018 20:20:20 +0000</pubDate>
       
-      <guid>http://jimbray.xyz/post/fab-onnestedscroll-just-called-once/</guid>
+      <guid>https://jimbray.xyz/post/fab-onnestedscroll-just-called-once/</guid>
       <description>今天，在重写 FloatingActionButton.Behavior 的时候，遇到了问题，记录一下
 第一个问题，在完成了 behavior 代码之后
 public class ScrollFABBehavior extends FloatingActionButton.Behavior { @Override public boolean onStartNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull FloatingActionButton child, @NonNull View directTargetChild, @NonNull View target, int axes, int type) { // Ensure we react to vertical scrolling return axes == ViewCompat.SCROLL_AXIS_VERTICAL || super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, axes); } @Override public void onNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull FloatingActionButton child, @NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) { super.</description>
@@ -39,10 +39,10 @@ public class ScrollFABBehavior extends FloatingActionButton.Behavior { @Override
     
     <item>
       <title>Android N 出现FileUriExposedException的兼容处理</title>
-      <link>http://jimbray.xyz/post/android-n-with-fileuriexposedexception/</link>
+      <link>https://jimbray.xyz/post/android-n-with-fileuriexposedexception/</link>
       <pubDate>Mon, 25 Jun 2018 20:20:20 +0000</pubDate>
       
-      <guid>http://jimbray.xyz/post/android-n-with-fileuriexposedexception/</guid>
+      <guid>https://jimbray.xyz/post/android-n-with-fileuriexposedexception/</guid>
       <description>这次遇到一个问题
 Caused by: android.os.FileUriExposedException: file:///........ exposed beyond app through Intent.getData() at android.os.StrictMode.onFileUriExposed(StrictMode.java:1799) at android.net.Uri.checkFileUriExposed(Uri.java:2346) at android.content.Intent.prepareToLeaveProcess(Intent.java:8933) at android.content.Intent.prepareToLeaveProcess(Intent.java:8894) at android.app.Instrumentation.execStartActivity(Instrumentation.java:1517) at android.app.Activity.startActivityForResult(Activity.java:4224) at android.support.v4.app.BaseFragmentActivityJB.startActivityForResult(BaseFragmentActivityJB.java:50) at android.support.v4.app.FragmentActivity.startActivityForResult(FragmentActivity.java:79) at android.app.Activity.startActivityForResult(Activity.java:4183) at android.support.v4.app.FragmentActivity.startActivityForResult(FragmentActivity.java:859) at android.app.Activity.startActivity(Activity.java:4507) at android.app.Activity.startActivity(Activity.java:4475)  充分发挥 面向 stackoverflow 编程 精神，找到了 一个解决办法
 Solved StackOverFlow Link，可是为什么呢，明明之前运行得好好的，现在突然不行了。
@@ -52,10 +52,10 @@ Google 官方解释
     
     <item>
       <title>【学习笔记】内存优化之LowMemoryKiller策略</title>
-      <link>http://jimbray.xyz/post/low-momery-killer-with-memory_optimization/</link>
+      <link>https://jimbray.xyz/post/low-momery-killer-with-memory_optimization/</link>
       <pubDate>Mon, 11 Jun 2018 20:16:16 +0000</pubDate>
       
-      <guid>http://jimbray.xyz/post/low-momery-killer-with-memory_optimization/</guid>
+      <guid>https://jimbray.xyz/post/low-momery-killer-with-memory_optimization/</guid>
       <description>什么是LowMemoryKiller 策略 在Android中，当运行的App被移动到后台之后，为了保证下次启动的速度，会将它移动到Cached的状态。这个时候，该App的进程依然存在，但组建可能已经被销毁（组件不占用内存）。这个时候用户再启动的速度就比较快，人称：热启动。如果该App的进程已经不存在了，重新启动又需要做很多初始化的工作，就会耗费多一些的时间，人称：冷启动。为了有更好的体验，当然尽可能提高App的存活几率。
 LowMemoryKiller 策略就是指那些被退出到后台的App，并不是不会被清理掉的，指是可能没有持有任何组件，不占用CPU资源，少量占用内存空间。当系统认为内存空间不同时，会根据 LRU List 的列表来进行有先后顺序的清理工作，回收一些内存空间，供新启动的程序使用。
 #####小知识：在adb中查看内存状况
@@ -77,10 +77,10 @@ onTrimMemory 会回调一个level参数，分别对应的含义是：
     
     <item>
       <title>Android主线程进行 Thread.Sleep()会导致ANR吗</title>
-      <link>http://jimbray.xyz/post/may_sleep_make_anr/</link>
+      <link>https://jimbray.xyz/post/may_sleep_make_anr/</link>
       <pubDate>Tue, 10 Apr 2018 10:01:28 +0800</pubDate>
       
-      <guid>http://jimbray.xyz/post/may_sleep_make_anr/</guid>
+      <guid>https://jimbray.xyz/post/may_sleep_make_anr/</guid>
       <description>首先 先 明白一个问题：什么是ANR
  Application Not Responding，意思是”应用没有响应“
  以前我的理解就是 “在主线程做了耗时操作”就会引起ANR，现在我觉得我是错误的，ANR的意思是应用没有响应，耗时操作实际上 并不一定会导致没有响应，我对没有响应的理解是
@@ -98,10 +98,10 @@ override fun onCreate(savedInstanceState: Bundle?</description>
     
     <item>
       <title>【学习笔记】Looper 与 Handler 的关系</title>
-      <link>http://jimbray.xyz/post/activity_with_handler_learning/</link>
+      <link>https://jimbray.xyz/post/activity_with_handler_learning/</link>
       <pubDate>Sat, 31 Mar 2018 09:38:32 +0800</pubDate>
       
-      <guid>http://jimbray.xyz/post/activity_with_handler_learning/</guid>
+      <guid>https://jimbray.xyz/post/activity_with_handler_learning/</guid>
       <description>什么是异步消息处理线程  异步消息处理线程启动会进入一个无限的循环体之中，每循环一次，从其内部的消息队列中会取出一个消息，然后回调给相应的消息处理函数，执行完成一个消息后则继续循环。若消息队列为空，线程则会阻塞等待。
  这个消息处理过程有哪些角色
  无限的循环体 内部的消息队列 相应的消息处理函数   Looper 对于 Looper这个角色，主要是 prepare() 和 loop( )两个方法。
@@ -113,10 +113,10 @@ private Looper(boolean quitAllowed) { mQueue = new MessageQueue(quitAllowed); mR
     
     <item>
       <title>基于 Smack 的 xmpp 学习笔记</title>
-      <link>http://jimbray.xyz/post/xmpp-study-notes/</link>
+      <link>https://jimbray.xyz/post/xmpp-study-notes/</link>
       <pubDate>Thu, 04 Jan 2018 20:16:16 +0800</pubDate>
       
-      <guid>http://jimbray.xyz/post/xmpp-study-notes/</guid>
+      <guid>https://jimbray.xyz/post/xmpp-study-notes/</guid>
       <description>XMPP 开发学习 由于 aSmack 已经弃用，目前使用的是 smack 原版 4.2.0
  aSmack is deprecated and obsolete. Starting with Version 4.1 Smack is able to run without modifications on Android.
 More information on how to use Smack 4.1 in your Android Project can be found in the Smack 4.1 Readme and Upgrade Guide.
@@ -126,10 +126,10 @@ More information on how to use Smack 4.1 in your Android Project can be found in
     
     <item>
       <title>自动调整大小的TextView</title>
-      <link>http://jimbray.xyz/post/android-auto-size-textview/</link>
+      <link>https://jimbray.xyz/post/android-auto-size-textview/</link>
       <pubDate>Sun, 26 Nov 2017 21:49:25 +0800</pubDate>
       
-      <guid>http://jimbray.xyz/post/android-auto-size-textview/</guid>
+      <guid>https://jimbray.xyz/post/android-auto-size-textview/</guid>
       <description>遇见问题：当一个控件显示的文字有点长的时候，可能在屏幕小的设备上就会变得显示不完整，特别是那种不允许文字省略的按钮。
 像我这种懒人，当然是看看有没有前人的肩膀可以踩。Google 了一下，果然发现了不止一个
 AutoScaleTextView
@@ -141,10 +141,10 @@ android-autofittextview
     
     <item>
       <title>[转][译]保存/恢复 Activity 和 Fragment 状态的最佳实践</title>
-      <link>http://jimbray.xyz/post/best-way-for-activity-and-fragment-state-restore/</link>
+      <link>https://jimbray.xyz/post/best-way-for-activity-and-fragment-state-restore/</link>
       <pubDate>Sat, 25 Nov 2017 16:44:19 +0800</pubDate>
       
-      <guid>http://jimbray.xyz/post/best-way-for-activity-and-fragment-state-restore/</guid>
+      <guid>https://jimbray.xyz/post/best-way-for-activity-and-fragment-state-restore/</guid>
       <description>很久之前看过的一篇文章，写的很好。转载并译于：https://inthecheesefactory.co&amp;hellip;。
 几个月以前，我发布了一篇关于Fragment状态保存和恢复的文章，那可能是目前为止最好的方式用于保存/恢复 Android Fragment 的状态。我收到了很多来自世界各地的Android开发者有价值的反馈。十分感谢你们 =)
 无论如何，StatedFragment打破了设计模式，我使用了不同于Android状态保存/恢复的方式来设计它，这样做的目的是为了让Android开发者能够更简单的理解Fragment状态的保存与恢复，就像Activity做的一样(同时处理View状态和实例状态),所以我通过开发StatedFragment做了一个实验，并且看看它是怎么做的，以及StatedFragment这样的设计是否更容易被理解？是否对开发者更加友好？
@@ -160,10 +160,10 @@ public class MainActivity extends AppCompatActivity { // These variable are dest
     
     <item>
       <title>ScrollView 与 ViewDragHelper 的混合使用学习</title>
-      <link>http://jimbray.xyz/post/supprisebottomview/</link>
+      <link>https://jimbray.xyz/post/supprisebottomview/</link>
       <pubDate>Fri, 06 Jan 2017 20:20:02 +0000</pubDate>
       
-      <guid>http://jimbray.xyz/post/supprisebottomview/</guid>
+      <guid>https://jimbray.xyz/post/supprisebottomview/</guid>
       <description>按照惯例，先上效果
 涉及到的知识点  ViewGroup 的事件分发拦截机制
  ViewDragHelper 的基本使用
@@ -177,10 +177,10 @@ public class MainActivity extends AppCompatActivity { // These variable are dest
     
     <item>
       <title>Android 一键发布 Facebook 帖文</title>
-      <link>http://jimbray.xyz/post/one-key-post-to-facebook/</link>
+      <link>https://jimbray.xyz/post/one-key-post-to-facebook/</link>
       <pubDate>Wed, 28 Dec 2016 13:00:00 +0000</pubDate>
       
-      <guid>http://jimbray.xyz/post/one-key-post-to-facebook/</guid>
+      <guid>https://jimbray.xyz/post/one-key-post-to-facebook/</guid>
       <description>一般遇到的需求都是做分享操作，现在国内已经有很多一键分享的 SDK了，而且还封装得不错，就是权限要得比较多。
 今天需要做的是 跟 Path APP 一样，在自己的 APP 发布post时，同步发送到 其他平台Facebook。
 先把基本配置做了   將 Facebook Android SDK 新增至您的行動開發環境 取得正確設定並連結至 Android 應用程式的 Facebook 應用程式編號。請參閱 Android 新手指南，新增 Facebook 應用程式編號 產生 Android 金鑰雜湊並新增至開發人員個人檔案 新增 Facebook Activity - 請將本項目加至 `AndroidManifest.xml   开始分享 建立内容模板 模板有几种方式
@@ -193,10 +193,10 @@ public class MainActivity extends AppCompatActivity { // These variable are dest
     
     <item>
       <title>我的第三个自定义View</title>
-      <link>http://jimbray.xyz/post/my-third-customview/</link>
+      <link>https://jimbray.xyz/post/my-third-customview/</link>
       <pubDate>Thu, 15 Sep 2016 15:47:03 +0800</pubDate>
       
-      <guid>http://jimbray.xyz/post/my-third-customview/</guid>
+      <guid>https://jimbray.xyz/post/my-third-customview/</guid>
       <description>这次的主角是一个折线图，牛逼的 画图控件已经很多了， 虽然只用过 MPAndroidChart 想着自己写一个学习一下咯 下面是效果
 可能录制得有点卡顿
 学习路径 变量设置 private Context mContext; private float mViewHeight, mViewWidth; private Paint mNormalPointPaint,mSelectedPointPaint, mLinePaint, mBgLinePaint, mTestPaint, mBottomTextPaint, mTopTextPaint, mAverageLinePaint, mLifeLongLinePaint, mBottomValuePaint, mBgPaint;//各种画笔 private float mVerticalOffset = dp2px(5); //上下边距 private float mPointWidth = dp2px(4f); //圆点大小（现已修改为图片） private float mHorizontalOffset = dp2px(15f); //左右边距 private float mValuePaddingOffset; private boolean mIsHorizontalValue = false; //所有值都相等（是一条水平线）将所有点都画在中间位置 private List&amp;lt;SimpleLineData&amp;gt; mData; // 数据 private List&amp;lt;String&amp;gt; mBottomTexts; // 底部文字集合 private float mBottomTextSize; // 底部文字大小 private int mBottomTextStepSize; // 底部文字 相隔展示间距 private String mTopText; // 顶部中间文字内容 private float mTopTextSize; // 顶部中间文字大小 // 点到点之间的动画相关变量 private int mDrawingLineIndex; private float mDrawingStopX = -1f, mDrawingStopY = -1f; private AnimatorSet mAnimatorLine; private boolean isAnimatingLine; // 平均线的动画相关变量 private boolean isAnimatingAverageLine; private AnimatorSet mAnimatorAverageLine; private float mDrawingStopAverageLineX = -1f; private String mAverageIconText; //平均线图示文字 private float mAverageIconTextSize; //平均线图示文字大小 private float mAverageValue = -1; // lifelong 的动画相关变量 private boolean isAnimatingLifelongLine; private AnimatorSet mAnimatorLifelongLine; private float mDrawingStopLifelongLineX = -1; private String mLifeLongIconText; //linflong 图示文字 private float mLifelongIconTextSize; private float mLifeLongValue = -1; // 点击点到底部的动画相关变量 private boolean isAnimatingSelectedLine; private AnimatorSet mAnimatorSelectedLine; private float mDrawingStopSelectedLineY = -1f; // 数据值 原点的 图片 private Bitmap mBitmapNormalCircle, mBitmapSelectedCircle; // 点击位置相关变量 private float mTouchDownX, mTouchDownY; private float mTouchPadding = dp2px(2.</description>
@@ -204,10 +204,10 @@ public class MainActivity extends AppCompatActivity { // These variable are dest
     
     <item>
       <title>我的第二个自定义View</title>
-      <link>http://jimbray.xyz/post/my-second-custom-view/</link>
+      <link>https://jimbray.xyz/post/my-second-custom-view/</link>
       <pubDate>Thu, 14 Jul 2016 15:19:05 +0000</pubDate>
       
-      <guid>http://jimbray.xyz/post/my-second-custom-view/</guid>
+      <guid>https://jimbray.xyz/post/my-second-custom-view/</guid>
       <description>自古以来，第一个总是抢走了所有的聚光灯。 怎么办，我是第二个。
 据说有一个国际惯例，要真相 那就来吧 看到了吗。 下边那个圆环就是我们第二个主角啦。 上面那个是 传说中的第一个。 没办法，第二个不管再怎么好看也比不上 号称第一的那位。 这，应该是一个诅咒。
  /** * Created by Jimbray . * on 2016/7/13 * Email: jimbray16@gmail.com * Description: 这是我第二个自定义View。 * 第一个永远是被人铭记的，可是第二个呢 * 问你一个问题：世界上最高的山峰是？ * 答：当然是珠穆朗玛峰啦！ * 那第二高的呢？ * 答：当然是乔戈里峰啦！ * -_- 你不按套路出牌啊，套路里你是不知道的！ */ public class MySecondProgressbar extends View { private Context mContext; // 准备好画圆环的矩形区域 private RectF mRectF = new RectF(0, 0, 0, 0); // 准备好画文字的矩形区域 private RectF mTextRrectF = new RectF(0, 0, 0, 0); // 握好画笔啊，有三个频段，还有一个文字 private Paint mHeavyProgressPaint, mModerateProgressPaint, mLightProgressPaint, mTextPaint; // 默认值设置 private final float default_height = dp2px(45); private final float default_width = dp2px(45); private final int default_heavy_color = Color.</description>
@@ -215,20 +215,20 @@ public class MainActivity extends AppCompatActivity { // These variable are dest
     
     <item>
       <title>我的第一个自定义View</title>
-      <link>http://jimbray.xyz/post/my-first-custom-view/</link>
+      <link>https://jimbray.xyz/post/my-first-custom-view/</link>
       <pubDate>Wed, 13 Jul 2016 12:35:05 +0000</pubDate>
       
-      <guid>http://jimbray.xyz/post/my-first-custom-view/</guid>
+      <guid>https://jimbray.xyz/post/my-first-custom-view/</guid>
       <description>直接上代码，做个学习笔记好了。
 /** * Created by Jimbray . * on 2016/7/12 * Email: jimbray16@gmail.com * Description: 这是我第一个真正意义上的自定义View */ public class MyFirstProgressbar extends View { //max progress 虽然注释写了，但是还是不解释 private int mMaxProgress = 100; // current progress private int mCurrentProgress; //progress bar 背景颜色 private int mBackgroundColor; //progress bar 进度条颜色 private int mProgressColor; //progress bar 进度条高度 private float mProgressBarheight; //progress bar 背景高度 private float mBackgroundHeight; //设置默认值 //默认progress bar 背景颜色 private final int default_background_color = Color.</description>
     </item>
     
     <item>
       <title>Facebook ShareDialog 没有回调的问题</title>
-      <link>http://jimbray.xyz/post/facebook-share-not-callback/</link>
+      <link>https://jimbray.xyz/post/facebook-share-not-callback/</link>
       <pubDate>Fri, 10 Jun 2016 20:24:04 +0000</pubDate>
       
-      <guid>http://jimbray.xyz/post/facebook-share-not-callback/</guid>
+      <guid>https://jimbray.xyz/post/facebook-share-not-callback/</guid>
       <description>完成 facebook 分享功能之后，如果手机安装了Facebook，分享之后会有成功或者失败的 反馈
 但是如果没有安装，就会使用 WEB 版本的 进行分享，这个时候，分享完了就是完了，不知道是成功还是失败。
 去看了下文档，Facebook提供这个回调。

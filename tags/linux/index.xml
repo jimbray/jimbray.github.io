@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Linux on JIMBRAY</title>
-    <link>http://jimbray.xyz/tags/linux/</link>
+    <link>https://jimbray.xyz/tags/linux/</link>
     <description>Recent content in Linux on JIMBRAY</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
     <lastBuildDate>Sat, 02 Dec 2017 23:48:48 +0800</lastBuildDate>
     
-	<atom:link href="http://jimbray.xyz/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://jimbray.xyz/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>解决Linux(Deepin)无法连接Android真机的问题</title>
-      <link>http://jimbray.xyz/post/linux-connect-android-phone/</link>
+      <link>https://jimbray.xyz/post/linux-connect-android-phone/</link>
       <pubDate>Sat, 02 Dec 2017 23:48:48 +0800</pubDate>
       
-      <guid>http://jimbray.xyz/post/linux-connect-android-phone/</guid>
+      <guid>https://jimbray.xyz/post/linux-connect-android-phone/</guid>
       <description>好不容易在 Deepin 上配置好了Android开发环境，代码写起来，运行起来爽爽的。
 可能我用的是 google 五阿哥手机，所以一路都很顺畅，今天换了个三星手机，居然连不上，无法调试。
 Google 了一下，找到解决方案，记录一下
@@ -27,10 +27,10 @@ Bus 002 Device 019: ID 18d1:4ee7 Google Inc. Bus 002 Device 018: ID 04e8:6860 Sa
     
     <item>
       <title>Ubuntu/Debian手动安装完成lnmp部署wordpress</title>
-      <link>http://jimbray.xyz/post/manual_install_lnmp/</link>
+      <link>https://jimbray.xyz/post/manual_install_lnmp/</link>
       <pubDate>Thu, 30 Jun 2016 14:31:59 +0800</pubDate>
       
-      <guid>http://jimbray.xyz/post/manual_install_lnmp/</guid>
+      <guid>https://jimbray.xyz/post/manual_install_lnmp/</guid>
       <description>安装 MySql install mysql： sudo apt-get install mysql-server  以root用户登录至MySQL： mysql -u root -p  创建用户 我们可以直接使用root用户，但通常来讲，我们需要为WordPress单独创建一个数据库用户，创建数据库wordpress，用户wpuser：
 create database wordpress; create user wpuser@localhost identified by &#39;&amp;lt;password&amp;gt;&#39;;  关联用户 创建完WordPress数据库和用户后，需要将这两者关联起来：
 grant all privileges on wordpress.* to wpuser@localhost; flush privileges;  mysql 到这一步就先告一段落了。继续下一步；
@@ -41,10 +41,10 @@ sudo apt-get install php-fpm  配置php 修改 php.</description>
     
     <item>
       <title>试玩 Docker</title>
-      <link>http://jimbray.xyz/post/try-docker/</link>
+      <link>https://jimbray.xyz/post/try-docker/</link>
       <pubDate>Thu, 09 Jun 2016 17:52:32 +0000</pubDate>
       
-      <guid>http://jimbray.xyz/post/try-docker/</guid>
+      <guid>https://jimbray.xyz/post/try-docker/</guid>
       <description>目标 docker这么火，体验一下，感受一下
 准备工作 Linux系统主机一台(我用的的ubuntu) docker文档看一下，我找了好几个，都挺不错的，就是不动一下手，总感觉虚
 开动 安装docker 我用的是ubuntu14.04 两种方式 1.源已经内置docker，不过教程裡有说那个docker没有更新
@@ -59,10 +59,10 @@ docker pull nginx docker images docker run nginx docker run -i nginx docker run 
     
     <item>
       <title>Linode 安装 lnmp 学习</title>
-      <link>http://jimbray.xyz/post/linode-install-lnmp/</link>
+      <link>https://jimbray.xyz/post/linode-install-lnmp/</link>
       <pubDate>Thu, 09 Jun 2016 17:30:04 +0000</pubDate>
       
-      <guid>http://jimbray.xyz/post/linode-install-lnmp/</guid>
+      <guid>https://jimbray.xyz/post/linode-install-lnmp/</guid>
       <description>安装 1.安装 LNMP 参见 lnmp官网
 2.安装完成之后 查看 nginx 、 php、mysql 的运行状态
 ps aux | grep nginx ps aux | grep php ps aux | gerp mysql  确保已经在运行状态
