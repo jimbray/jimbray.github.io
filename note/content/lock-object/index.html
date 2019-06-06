@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.55.6" />
 
-  <title>Topics &middot; JIMBRAY</title>
+  <title>对象锁与类锁 &middot; JIMBRAY</title>
 
   
   
@@ -36,8 +36,6 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
 
   
-  
-  <link rel="alternate" type="application/rss+xml" title="JIMBRAY" href="https://jimbray.xyz/topics/index.xml" />
   
 
   
@@ -114,10 +112,6 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://jimbray.xyz/topics/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
-    </li>
     
 
     
@@ -232,13 +226,107 @@
 
 
 <div class="header">
-  <h1>Topics</h1>
+  <h1>对象锁与类锁</h1>
+  <h2></h2>
 </div>
 <div class="content">
-  <ul>
   
-  
-  </ul>
+
+<pre><code class="language-java">public class Person {
+
+    private String name;
+    
+    private static final String TAG = Person.class.getSimpleName();
+
+    public Person(String name) {
+        this.name = name;
+    }
+
+    // Synchronized修饰一个方法
+    public synchronized void say(){
+        for(int i = 0; i &lt; 10; i++){
+            try {
+                Log.d(TAG, name + &quot; say -&gt; &quot; + i)
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    // Synchronized修饰一个代码块
+    // 如果像这样代码块是函数内的全部代码，那同步效果与上面修饰方法是一样的
+    public void say(){
+        synchronized(this) {
+            for(int i = 0; i &lt; 10; i++){
+                try {
+                    Log.d(TAG, name + &quot; say -&gt; &quot; + i)
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+       
+    }
+
+    public void talk(){
+        for(int i=0;i&lt;3;i++){
+            try {
+                Log.d(TAG, name + &quot; talk -&gt; &quot; + i)
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>这个属于对象锁，synchronized锁定的是对象（实例？），这时会有两把锁分别锁定 <strong>对象1</strong> 和 <strong>对象2</strong>，而这两把锁是互不干扰的，不形成互斥，所以两个线程可以同时执行。</p>
+
+<pre><code class="language-java">Person person1 = new Person();
+Person person2 = new Person();
+</code></pre>
+
+<p>如果两个线程同时分别对两个对象进行操作，两个对象的函数 say 或者 talk 是不会锁定的，互补干扰。</p>
+
+<p>但是如果这么写</p>
+
+<pre><code class="language-java">public void say(){
+        synchronized(Person.class) {
+            for(int i = 0; i &lt; 10; i++){
+                try {
+                    Log.d(TAG, name + &quot; say -&gt; &quot; + i)
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+       
+    }
+</code></pre>
+
+<p>这样的话，锁定的范围就扩大到 类了，属于类锁，不再局限为对象。</p>
+
+<p>所有这个类的实例，都会存在同步的效果</p>
+
+<h4 id="tips">Tips</h4>
+
+<p><em>当没有明确的对象作为锁，只是想让一段代码同步时，可以创建一个特殊的对象来充当锁：</em></p>
+
+<pre><code class="language-java">private byte[] lock = new byte[0];  // 特殊的常量，为什么用byte[]
+   public void method()
+   {
+      synchronized(lock) {
+         // Todo 同步代码块
+      }
+   }
+</code></pre>
+
+<p><strong>零长度的byte数组对象创建起来将比任何对象都经济――查看编译后的字节码：生成零长度的byte[]对象只需3条操作码，而Object lock = new Object()则需要7行操作码。</strong></p>
+
 </div>
 
 </div>
@@ -263,3 +351,4 @@
 
 </body>
 </html>
+

@@ -100,6 +100,15 @@ onTrimMemory 会回调一个level参数，分别对应的含义是：
     </item>
     
     <item>
+      <title>对象锁与类锁</title>
+      <link>https://jimbray.xyz/note/content/lock-object/</link>
+      <pubDate>Wed, 06 Jun 2018 16:16:16 +0000</pubDate>
+      
+      <guid>https://jimbray.xyz/note/content/lock-object/</guid>
+      <description>public class Person { private String name; private static final String TAG = Person.class.getSimpleName(); public Person(String name) { this.name = name; } // Synchronized修饰一个方法 public synchronized void say(){ for(int i = 0; i &amp;lt; 10; i++){ try { Log.d(TAG, name + &amp;quot; say -&amp;gt; &amp;quot; + i) Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); } } } // Synchronized修饰一个代码块 // 如果像这样代码块是函数内的全部代码，那同步效果与上面修饰方法是一样的 public void say(){ synchronized(this) { for(int i = 0; i &amp;lt; 10; i++){ try { Log.</description>
+    </item>
+    
+    <item>
       <title>Ubuntu16.04安装nginx&#43;php7环境记录</title>
       <link>https://jimbray.xyz/note/content/ubuntu16_install_nginx_and_php7/</link>
       <pubDate>Thu, 19 Apr 2018 15:10:46 +0800</pubDate>
@@ -280,13 +289,14 @@ private Looper(boolean quitAllowed) { mQueue = new MessageQueue(quitAllowed); mR
       <pubDate>Sat, 20 Jan 2018 10:39:42 +0800</pubDate>
       
       <guid>https://jimbray.xyz/note/note/</guid>
-      <description>网址导航 V2EX
+      <description>网站 V2EX | 知乎  | Github | 简书
 学习笔记 进程与线程的区别 | ORM | Android 线程池的分类 | 使用线程池的优点 | 弱引用
 | 理论上一个Android APP可以申请使用多大的内存 | 核心线程 | 为什么Handler容易引起内存泄露
 php7 如何重启 php-fpm | ubuntu16.04安装nginx+php7环境记录
-Linux新增sudo用户
+Linux新增sudo用户 | 对象锁与类锁
 工具 SVG转Vector Drawable | SVG在线编辑器 | 在线文件转换 | IP查询
-JSON View Editor[jsonohyeah] | APKPure apk下载 | 在线工具合集</description>
+JSON View Editor[jsonohyeah] | APKPure apk下载 | 在线工具合集 | Google系的在线图片压缩
+Material Design配色工具 | Flutter Pakages</description>
     </item>
     
     <item>
