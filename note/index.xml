@@ -31,6 +31,19 @@
     </item>
     
     <item>
+      <title>设计模式学习笔记</title>
+      <link>https://jimbray.xyz/note/content/design-patterns/</link>
+      <pubDate>Wed, 06 Jun 2018 16:16:16 +0000</pubDate>
+      
+      <guid>https://jimbray.xyz/note/content/design-patterns/</guid>
+      <description>设计模式的三个分类
+ 创建型模式 结构型模式 行为型模式  创建型模式 对象实例化的模式，创建型模式用于结构对象的实例化过程
+ 单例模式：某个类只能有一个实例，提供一个全局的访问点 工厂模式  简单工厂：一个工厂类根据传入的产量决定创建出哪一种产品类的实例 工厂方法：定义一个创建对象的接口，让子类实例化哪个类 抽象工厂：创建相关或依赖对象的家族，而无需明确指定具体类  建造者模式：封装一个复杂对象的构建过程，并可以按步骤构造 原形模式：通过复制现有的实例来创建新的实例  单例模式 单例模式的写法有很多种，一个一个地看一下
+ 饿汉式  public class Singleton { private Singleton singleton = new Singleton(); private Singleton() {} public static Singleton getInstance() { return singleton; } }  这段代码的好处是编写简单，但是无法做到延迟创建对象。但是我们很多时候都希望对象可以尽可能地延迟加载，从而减少负载，所以还能改进。
+ 单线程写法  public class Singleton { private static Singleton singleton = null; private Singleton() {} public static Singleton getInstance() { if (singleton == null) { singleton = new Singleton(); } return singleton; } }  这种写法也是很简单的， 由私有构造方法和一个公有静态工厂方法构成，在工厂方法中对对象进行判空处理，为空时再进行实例对象的操作。这种方式可以延迟加载，但是有一个弱点：线程不安全。</description>
+    </item>
+    
+    <item>
       <title>Ubuntu16.04安装nginx&#43;php7环境记录</title>
       <link>https://jimbray.xyz/note/content/ubuntu16_install_nginx_and_php7/</link>
       <pubDate>Thu, 19 Apr 2018 15:10:46 +0800</pubDate>
@@ -179,7 +192,7 @@ root ALL=(ALL:ALL) ALL jimbray ALL=(ALL:ALL) ALL  完成。可以日常使用 ji
 学习笔记 进程与线程的区别 | ORM | Android 线程池的分类 | 使用线程池的优点 | 弱引用
 | 理论上一个Android APP可以申请使用多大的内存 | 核心线程 | 为什么Handler容易引起内存泄露
 php7 如何重启 php-fpm | ubuntu16.04安装nginx+php7环境记录
-Linux新增sudo用户 | 对象锁与类锁
+Linux新增sudo用户 | 对象锁与类锁 | 设计模式
 工具 SVG转Vector Drawable | SVG在线编辑器 | 在线文件转换 | IP查询
 JSON View Editor[jsonohyeah] | APKPure apk下载 | 在线工具合集 | Google系的在线图片压缩
 Material Design配色工具 | Flutter Pakages</description>
