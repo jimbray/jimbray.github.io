@@ -4,8 +4,31 @@
   
   <url>
     <loc>https://jimbray.xyz/tags/android/</loc>
-    <lastmod>2018-12-02T12:20:20+00:00</lastmod>
+    <lastmod>2019-06-27T15:30:00+08:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jimbray.xyz/</loc>
+    <lastmod>2019-06-27T15:30:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jimbray.xyz/post/</loc>
+    <lastmod>2019-06-27T15:30:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jimbray.xyz/tags/</loc>
+    <lastmod>2019-06-27T15:30:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jimbray.xyz/post/build-telegram-on-windows/</loc>
+    <lastmod>2019-06-27T15:30:00+08:00</lastmod>
   </url>
   
   <url>
@@ -14,25 +37,7 @@
   </url>
   
   <url>
-    <loc>https://jimbray.xyz/</loc>
-    <lastmod>2018-12-02T12:20:20+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://jimbray.xyz/post/</loc>
-    <lastmod>2018-12-02T12:20:20+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://jimbray.xyz/tags/ros/</loc>
-    <lastmod>2018-12-02T12:20:20+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://jimbray.xyz/tags/</loc>
     <lastmod>2018-12-02T12:20:20+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -72,6 +77,11 @@
   <url>
     <loc>https://jimbray.xyz/post/low-momery-killer-with-memory_optimization/</loc>
     <lastmod>2018-06-11T20:16:16+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jimbray.xyz/note/content/lock-object-%E5%89%AF%E6%9C%AC/</loc>
+    <lastmod>2018-06-06T16:16:16+00:00</lastmod>
   </url>
   
   <url>

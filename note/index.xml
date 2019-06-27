@@ -23,6 +23,15 @@
     
     <item>
       <title>对象锁与类锁</title>
+      <link>https://jimbray.xyz/note/content/lock-object-%E5%89%AF%E6%9C%AC/</link>
+      <pubDate>Wed, 06 Jun 2018 16:16:16 +0000</pubDate>
+      
+      <guid>https://jimbray.xyz/note/content/lock-object-%E5%89%AF%E6%9C%AC/</guid>
+      <description>public class Person { private String name; private static final String TAG = Person.class.getSimpleName(); public Person(String name) { this.name = name; } // Synchronized修饰一个方法 public synchronized void say(){ for(int i = 0; i &amp;lt; 10; i++){ try { Log.d(TAG, name + &amp;quot; say -&amp;gt; &amp;quot; + i) Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); } } } // Synchronized修饰一个代码块 // 如果像这样代码块是函数内的全部代码，那同步效果与上面修饰方法是一样的 public void say(){ synchronized(this) { for(int i = 0; i &amp;lt; 10; i++){ try { Log.</description>
+    </item>
+    
+    <item>
+      <title>对象锁与类锁</title>
       <link>https://jimbray.xyz/note/content/lock-object/</link>
       <pubDate>Wed, 06 Jun 2018 16:16:16 +0000</pubDate>
       

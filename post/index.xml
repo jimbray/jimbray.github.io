@@ -7,10 +7,30 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Sun, 02 Dec 2018 12:20:20 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 27 Jun 2019 15:30:00 +0800</lastBuildDate>
     
 	<atom:link href="https://jimbray.xyz/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>在Windows上编译Android Telegram（2019最新）</title>
+      <link>https://jimbray.xyz/post/build-telegram-on-windows/</link>
+      <pubDate>Thu, 27 Jun 2019 15:30:00 +0800</pubDate>
+      
+      <guid>https://jimbray.xyz/post/build-telegram-on-windows/</guid>
+      <description>先把工具下载好。工欲善其事，必先利其器。
+官方推荐是 Android Studio 3.4 、Android NDK rev. 16b 、Android SDK 8.1
+注意：先把 Telegrm Web 登录进去，万一成功的话，可能会需要的
+我从官方的 git 仓库 fork 了一份出来
+git clone https://github.com/jimbray/Telegram.git  open（不是import）项目 TMessagesProj
+首先按照官方教程一步一步来。
+第一步 复制自己的 release.keystore 到 TMessagesProj/config 文件夹内
+第二步 修改 gradle.properties 文件内的 密码相关变量值
+第三步 修改 module级别 build.gradle
+ 修改applicationId 为 xyz.jimbray.telegram 去除 buildType 里面的 applicationIdSuffix &amp;ldquo;.beta&amp;rdquo; 后缀 其他的没有做改动  第四步 Firebase 新建 project，然后新建 Android application
+包名我设置为 xyz.jimbray.telegram与项目匹配
+然后一步一步，按照 要求 完善 build.gradle 文件，基本上与原项目一致，只看到少了一个 implementation</description>
+    </item>
     
     <item>
       <title>Android使用ROSBridge与ROS通信 简单使用</title>
