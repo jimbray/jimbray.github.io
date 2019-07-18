@@ -7,10 +7,26 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Thu, 27 Jun 2019 15:30:00 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 18 Jul 2019 16:16:16 +0800</lastBuildDate>
     
 	<atom:link href="https://jimbray.xyz/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>使用AIDL实现多进程Service的流程（使用XMPP Service为例）</title>
+      <link>https://jimbray.xyz/post/remote-service-by-aidl/</link>
+      <pubDate>Thu, 18 Jul 2019 16:16:16 +0800</pubDate>
+      
+      <guid>https://jimbray.xyz/post/remote-service-by-aidl/</guid>
+      <description>所有涉及到包名的地方 全部应该要 一致(包括aidl文件和java文件)，最终实现 remote XMPPService
+包名假定为： xyz.jimbray.xmpp
+ 编写 AIDL 相关文件（包括自定义类型数据java）
+ 新建 IXMPPServiceInterface.aidl  package xyz.jimbray.xmpp; import xyz.jimbray.xmpp.IXMPPReceiveListenerCallback; interface IXMPPServiceInterface { void registerXMPPListenerCallback(IXMPPReceiveListenerCallback listener); void unregisterXMPPListenerCallback(IXMPPReceiveListenerCallback listener); }  可以看到上面包含了 一个自定义类型，看样子应该是个接口，不是普通的数据类，但是Java普通的interface类在AIDL是不能用的，所以还是要新建一个专门的接口AIDL类
+ 新建 IXMPPReceiveListenerCallback.aidl  package xyz.jimbray.xmpp import xyz.jimbray.xmpp.XMPPMessageBase; interface IXMPPReceiveListenerCallback { void OnXMPPMessageReceived(intout XMPPMessageBase messageBase); }  这里有几个知识点
+ 自定义数据类型的使用  XMPPMessageBase 是一个数据类，必须要实现序列化Parcelable接口
+XMPPMessageBase.java 文件 必须在同一个包名、同一个包名、同一个包名地址下生成，除了使用AS自动生成的Parcelable代码外，还需要另外定义一个 函数（在AIDL过程中会调用）：
+public void readFromParcel(Parcel in) { string = in.readString(); }  同时还要新建一个 XMPPMessageBase.</description>
+    </item>
     
     <item>
       <title>在Windows上编译Android Telegram（2019最新）</title>
