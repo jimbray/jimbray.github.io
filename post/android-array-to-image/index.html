@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="使用纯Java和jni OpenCV 的方式来实现 二维数组转图像的功能">
+  <meta name="generator" content="Hugo 0.55.6" />
+
+  <title>Android像素二维数组转图像的实现 &middot; JIMBRAY</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://jimbray.xyz/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://jimbray.xyz/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="https://jimbray.xyz/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="https://jimbray.xyz/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-8790496632299830",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="lsfTBJKzPUfwHdKB84_xsa5u_38z1iLbcGOAkxOo03Q" />
+
+  
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="https://jimbray.xyz/">Jimbray</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://jimbray.xyz/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://jimbray.xyz/post/"><i class='fa fa-archive fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://jimbray.xyz/tags/"><i class='fa fa-tags fa-fw'></i>Tags</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://jimbray.xyz/note/note"><i class='fa fa-sticky-note fa-fw'></i>Notes</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/jimbray16" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/jimbray" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+  
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+  
+  
+
+
+
+  
+  
+  
+  
+	
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>Android像素二维数组转图像的实现</h1>
+  <h2>使用纯Java和jni OpenCV 的方式来实现 二维数组转图像的功能</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>23 Mar 2020, 16:16</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://jimbray.xyz/tags/android">Android</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<p>Android上需要生成图片首先想到的是 createBitmap API，看了一下之后，实现了第一种方法</p>
+
+<h3 id="纯java实现">纯Java实现</h3>
+
+<pre><code class="language-java">private Bitmap createBitmap(int[][] dataArray) {
+        // 转一维数组
+        byte[] newArray = new byte[dataArray.length * dataArray[0].length];
+
+        int index = 0;
+        for (int row = 0; row &lt; dataArray.length; row++) {
+            for (int column = 0; column &lt; dataArray[0].length; column++) {
+                newArray[index++] = (byte)dataArray[row][column];
+            }
+        }
+    
+        // 注意 width,height 与 二维数组 row，colume 的对应关系
+        Bitmap bitmap = Bitmap.createBitmap(dataArray[0].length, dataArray.length, Bitmap.Config.ARGB_8888);
+
+        int pixels[] = new int[dataArray[0].length * dataArray.length];
+        for (int i = 0; i &lt; pixels.length; ++i) {
+            //关键代码，生产灰度图
+            pixels[i] = newArray[i] * 256 * 256 + newArray[i] * 256 + newArray[i] + 0xFF000000;
+        }
+    
+        // 设置像素值
+        bitmap.setPixels(pixels, 0, 128, 0, 0, 128, 19500);
+
+        if (bitmap != null) {
+            // 只是做图片缩放
+            bitmap = zoomBitmap(bitmap, 440, 590);
+        }
+
+        return bitmap;
+
+    }
+
+    /**
+     * 图片缩放
+     * @param
+     * @param bitmap 对象
+     * @param w 要缩放的宽度
+     * @param h 要缩放的高度
+     * @return newBmp 新 Bitmap对象
+     */
+     public static Bitmap zoomBitmap (Bitmap bitmap,int w, int h){
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        Matrix matrix = new Matrix();
+        float scaleWidth = ((float) w / width);
+        float scaleHeight = ((float) h / height);
+        matrix.postScale(scaleWidth, scaleHeight);
+        Bitmap newBmp = Bitmap.createBitmap(bitmap, 0, 0, width, height,
+                matrix, true);
+        return newBmp;
+     }
+</code></pre>
+
+<p>这里的二维数组是直接拿来用的，像素数组我是拿到的一个 csv文件解析出来的，这里就不赘述了，用的是 jxl 库。</p>
+
+<p>完成之后发现实在是太慢了，出去解析 csv 的时间，光生成图片的时间都是以 秒 来计算的。</p>
+
+<p>然后就换成了 OpenCV 来实现。结合 <a href="https://jimbray.xyz/post/add-c++-support-to-existed-asproject/">在现有AS项目中新增OpenCV c++库的支持</a>，现在缺少的就只有 实现 转换图片的函数就可以了。</p>
+
+<h3 id="opencv-jni实现">OpenCV Jni实现</h3>
+
+<pre><code class="language-java">public static native Bitmap array2Bitmap(int width, int height, int[][] original_data, Bitmap bitmap);
+</code></pre>
+
+<p>现在的 AS 都已经支持可以根据提示 自动在 cpp 文件生成对应的函数了</p>
+
+<pre><code class="language-c++">extern &quot;C&quot;
+JNIEXPORT jobject JNICALL
+Java_xyz_jimbray_healthydemo_JNITools_array2Bitmap(JNIEnv *env, jclass type, jint width, jint height,
+                                                              jobjectArray original_data, jobject bitmap) {
+
+    jint rows = env-&gt;GetArrayLength(original_data);
+    jarray array = (jintArray)(env-&gt;GetObjectArrayElement(original_data, 0));
+
+    jint cols = env-&gt;GetArrayLength(array);
+
+    // 转换二维数组
+    vector&lt;vector&lt;int&gt;&gt; swp(rows, vector&lt;int&gt;(cols));
+
+    for (jint i = 0; i &lt; rows; i++) {
+        array = (jintArray)(env-&gt;GetObjectArrayElement(original_data, i));
+
+        // 获取指针
+        jint *col_data = env-&gt;GetIntArrayElements((jintArray)array, 0);
+
+        for (jint j = 0; j &lt; cols; j++) {
+            swp[i][j] = col_data[j];
+        }
+
+        // 释放指针
+        env-&gt;ReleaseIntArrayElements((jintArray)array, col_data, 0);
+    }
+
+    // 注意 width,height 的参数位置
+    cv::Mat mat = cv::Mat(height, width, CV_8U);
+
+    for (int i = 0; i &lt; height; i++) {
+        for (int j = 0; j &lt; width; j++) {
+            mat.at&lt;uchar&gt;(i, j) = swp[i][j];
+        }
+    }
+
+    // 缩放图片以方便展示
+    cv::resize(mat, mat, cv::Size(440, 590), 0, 0, CV_INTER_LINEAR);
+
+    //get source bitmap's config
+    jclass java_bitmap_class = (jclass)env-&gt;FindClass(&quot;android/graphics/Bitmap&quot;);
+    jmethodID mid = env-&gt;GetMethodID(java_bitmap_class, &quot;getConfig&quot;, &quot;()Landroid/graphics/Bitmap$Config;&quot;);
+    jobject bitmap_config = env-&gt;CallObjectMethod(bitmap, mid);
+    jobject _bitmap = mat_to_bitmap(env, mat, false, bitmap_config);
+
+    AndroidBitmap_unlockPixels(env, bitmap);
+
+    return _bitmap;
+
+}
+
+// 不要忘记定义哦
+jobject mat_to_bitmap(JNIEnv * env, cv::Mat&amp; src, bool needPremultiplyAlpha, jobject bitmap_config){
+
+    jclass java_bitmap_class = (jclass)env-&gt;FindClass(&quot;android/graphics/Bitmap&quot;);
+    jmethodID mid = env-&gt;GetStaticMethodID(java_bitmap_class,
+                                           &quot;createBitmap&quot;, &quot;(IILandroid/graphics/Bitmap$Config;)Landroid/graphics/Bitmap;&quot;);
+
+    jobject bitmap = env-&gt;CallStaticObjectMethod(java_bitmap_class,
+                                                 mid, src.size().width, src.size().height, bitmap_config);
+    AndroidBitmapInfo  info;
+    void* pixels = 0;
+
+    try {
+        //validate
+        CV_Assert(AndroidBitmap_getInfo(env, bitmap, &amp;info) &gt;= 0);
+        CV_Assert(src.type() == CV_8UC1 || src.type() == CV_8UC3 || src.type() == CV_8UC4);
+        CV_Assert(AndroidBitmap_lockPixels(env, bitmap, &amp;pixels) &gt;= 0);
+        CV_Assert(pixels);
+
+        //type mat
+        if(info.format == ANDROID_BITMAP_FORMAT_RGBA_8888){
+            cv::Mat tmp(info.height, info.width, CV_8UC4, pixels);
+            if(src.type() == CV_8UC1){
+                cvtColor(src, tmp, CV_GRAY2RGBA);
+            } else if(src.type() == CV_8UC3){
+                cvtColor(src, tmp, CV_RGB2RGBA);
+            } else if(src.type() == CV_8UC4){
+                if(needPremultiplyAlpha){
+                    cvtColor(src, tmp, COLOR_RGBA2mRGBA);
+                }else{
+                    src.copyTo(tmp);
+                }
+            }
+
+        } else{
+            cv::Mat tmp(info.height, info.width, CV_8UC2, pixels);
+            if(src.type() == CV_8UC1){
+                cvtColor(src, tmp, CV_GRAY2BGR565);
+            } else if(src.type() == CV_8UC3){
+                cvtColor(src, tmp, CV_RGB2BGR565);
+            } else if(src.type() == CV_8UC4){
+                cvtColor(src, tmp, CV_RGBA2BGR565);
+            }
+        }
+        AndroidBitmap_unlockPixels(env, bitmap);
+        return bitmap;
+    } catch(cv::Exception e){
+        AndroidBitmap_unlockPixels(env, bitmap);
+        jclass je = env-&gt;FindClass(&quot;org/opencv/core/CvException&quot;);
+        if(!je) je = env-&gt;FindClass(&quot;java/lang/Exception&quot;);
+        env-&gt;ThrowNew(je, e.what());
+        return bitmap;
+    } catch (...){
+        AndroidBitmap_unlockPixels(env, bitmap);
+        jclass je = env-&gt;FindClass(&quot;java/lang/Exception&quot;);
+        env-&gt;ThrowNew(je, &quot;Unknown exception in JNI code {nMatToBitmap}&quot;);
+        return bitmap;
+    }
+}
+</code></pre>
+
+<p>在 Java 层调用</p>
+
+<pre><code class="language-java">private Bitmap createBitmap(int[][] dataArray) {
+    Bitmap src = Bitmap.createBitmap(dataArray[0].length, dataArray.length, Bitmap.Config.ARGB_8888);
+            Bitmap bitmap = JNITools.array2Bitmap(dataArray[0].length, dataArray.length, dataArray, src);
+    return bitmap;
+}
+</code></pre>
+
+<p>完成。</p>
+
+<p>相对前面的 纯Java版本，速度现在是以 毫秒 计，根本没有对比的资格。</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://jimbray.xyz/post/add-c&#43;&#43;-support-to-existed-asproject/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://jimbray.xyz/post/add-c&#43;&#43;-support-to-existed-asproject/">在现有AS项目中新增OpenCV c&#43;&#43;库的支持</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'jimbray-github-io';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="https://jimbray.xyz/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-78813427-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+</body>
+</html>
+

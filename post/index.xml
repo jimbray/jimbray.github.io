@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Sun, 22 Mar 2020 20:16:16 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 23 Mar 2020 16:16:16 +0800</lastBuildDate>
     
 	<atom:link href="https://jimbray.xyz/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Android像素二维数组转图像的实现</title>
+      <link>https://jimbray.xyz/post/android-array-to-image/</link>
+      <pubDate>Mon, 23 Mar 2020 16:16:16 +0800</pubDate>
+      
+      <guid>https://jimbray.xyz/post/android-array-to-image/</guid>
+      <description>Android上需要生成图片首先想到的是 createBitmap API，看了一下之后，实现了第一种方法
+纯Java实现 private Bitmap createBitmap(int[][] dataArray) { // 转一维数组 byte[] newArray = new byte[dataArray.length * dataArray[0].length]; int index = 0; for (int row = 0; row &amp;lt; dataArray.length; row++) { for (int column = 0; column &amp;lt; dataArray[0].length; column++) { newArray[index++] = (byte)dataArray[row][column]; } } // 注意 width,height 与 二维数组 row，colume 的对应关系 Bitmap bitmap = Bitmap.createBitmap(dataArray[0].length, dataArray.length, Bitmap.Config.ARGB_8888); int pixels[] = new int[dataArray[0].length * dataArray.length]; for (int i = 0; i &amp;lt; pixels.</description>
+    </item>
     
     <item>
       <title>在现有AS项目中新增OpenCV c&#43;&#43;库的支持</title>
