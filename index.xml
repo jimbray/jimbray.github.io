@@ -7,10 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Thu, 18 Jul 2019 16:16:16 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 22 Mar 2020 20:16:16 +0800</lastBuildDate>
     
 	<atom:link href="https://jimbray.xyz/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>在现有AS项目中新增OpenCV c&#43;&#43;库的支持</title>
+      <link>https://jimbray.xyz/post/add-c&#43;&#43;-support-to-existed-asproject/</link>
+      <pubDate>Sun, 22 Mar 2020 20:16:16 +0800</pubDate>
+      
+      <guid>https://jimbray.xyz/post/add-c&#43;&#43;-support-to-existed-asproject/</guid>
+      <description>本文在 AS 3.4.1 版本下实现。
+使用的是 4.1.1 版本的 opencv android sdk
+现在最新版本下载地址在： https://opencv.org/releases/
+步骤  AS 切换到 project 目录下
+ 进入目录 app&amp;ndash;src，右键 src，新建 Directory.命名为 cpp
+ 右键 cpp文件夹，新建 cpp文件，命名为 cv-lib.cpp
+  // // Created by jimbray on 2020/3/17. // #include &amp;lt;jni.h&amp;gt;  先导入 jni 头文件
+ 右键 cpp文件夹，新建 CMakeLists.txt 文件
+ CMakeLists.txt 文件填入内容
+# For more information about using CMake with Android Studio, read the # documentation: https://d.android.com/studio/projects/add-native-code.html # Sets the minimum version of CMake required to build the native library.</description>
+    </item>
     
     <item>
       <title>使用AIDL实现多进程Service的流程（使用XMPP Service为例）</title>
