@@ -7,10 +7,25 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Mon, 23 Mar 2020 16:16:16 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 26 Apr 2020 20:16:16 +0800</lastBuildDate>
     
 	<atom:link href="https://jimbray.xyz/tags/android/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Win10编译Android可用的DCMTK-SO库</title>
+      <link>https://jimbray.xyz/post/compile-dcmtk-for-android/</link>
+      <pubDate>Sun, 26 Apr 2020 20:16:16 +0800</pubDate>
+      
+      <guid>https://jimbray.xyz/post/compile-dcmtk-for-android/</guid>
+      <description>准备  安装 win10 上的 Linux子系统（WSL），我选的是 ubuntu 下载 linux 版本的 android-ndk, 我使用的版本是 android-ndk-r21-linux-x86_64 目前最新的版本 下载 dcmtk 的 源码 ,我使用的版本号是3.6.5 下载 dcmtk support 包，我选择的是 dcmtk-3.6.5-win64-support-MD-iconv-msvc-15.8.zip 安装一个 Visual Studio，我使用的是2017版 安装Cmake 编译工具  首先说明一下，为了Android SO库的成功，我们需要先编译一个 VS 的版本，所以才会要求先安装一个 Visual Studio，废话不多说，上面的东西都安装好了吗，去吧，皮卡 开始吧！
+开始 编译VS版本 我是按照 Jason大神的指示一步一步完成的，居然还有视频教程，大神就是大神 。一步一步走下来，就会得到一个编译完成的 DCMTK 开发库了。为了凑字数，为了记忆深刻一点，毕竟吃了很多灰，就放几个关键知识点。
+ CMake_INSTALL_PREFIX 路径最好不要放在C盘，以防万一需要管理员权限，无法生成文件
+ VS 工程属性，设置字符集和运行库
+ 重要：将支持库包里的zlib_d.lib拷贝到生成的lib目录下(如果是区别Debug库和Release库，则应该拷贝这两个不同的文件，都改名为zlib.lib，然后在附加库配置上填写zlib.lib)
+   大概就是这样了，大神还提供了验证程序，感谢。  开始编译Android so库  打开 WSL，进入 dcmtk 源代码目录下  由于编译会产生很多中间文件，为了保持源代码目录的整洁性，所以在目录下新建一个 cmake-build 文件夹
+mkdir cmake-build cd cmake-build  进入cmake-build 文件夹后，直接执行 cmake 命令，是不行的，因为Cmake 不知道你要编译什么平台、什么架构、编译工具链什么的东西都不知道，所以只会编译一个默认版本的，作为一个炮灰以及菜鸟，我都趟过这些坑。先不说坑了，之后再补。</description>
+    </item>
     
     <item>
       <title>Android像素二维数组转图像的实现</title>

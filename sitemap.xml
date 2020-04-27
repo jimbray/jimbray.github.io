@@ -4,31 +4,36 @@
   
   <url>
     <loc>https://jimbray.xyz/tags/android/</loc>
-    <lastmod>2020-03-23T16:16:16+08:00</lastmod>
+    <lastmod>2020-04-26T20:16:16+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://jimbray.xyz/post/android-array-to-image/</loc>
-    <lastmod>2020-03-23T16:16:16+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://jimbray.xyz/</loc>
-    <lastmod>2020-03-23T16:16:16+08:00</lastmod>
+    <lastmod>2020-04-26T20:16:16+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://jimbray.xyz/post/</loc>
-    <lastmod>2020-03-23T16:16:16+08:00</lastmod>
+    <lastmod>2020-04-26T20:16:16+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://jimbray.xyz/tags/</loc>
-    <lastmod>2020-03-23T16:16:16+08:00</lastmod>
+    <lastmod>2020-04-26T20:16:16+08:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jimbray.xyz/post/compile-dcmtk-for-android/</loc>
+    <lastmod>2020-04-26T20:16:16+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jimbray.xyz/post/android-array-to-image/</loc>
+    <lastmod>2020-03-23T16:16:16+08:00</lastmod>
   </url>
   
   <url>
