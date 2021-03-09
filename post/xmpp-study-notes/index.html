@@ -1,149 +1,436 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="使用 kotlin, rxjava, smack 完成的一个xmpp demo。支持网络切换自动重连，可以直接 编译为 Android Library。"><meta name=generator content="Hugo 0.81.0"><title>基于 Smack 的 xmpp 学习笔记 &#183; 我说的这句话是谎话</title><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=https://jimbray.xyz/css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=https://jimbray.xyz/css/side-menu.css><!--<![endif]--><link rel=stylesheet href=https://jimbray.xyz/css/blackburn.css><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css><link href="https://fonts.googleapis.com/css?family=Raleway" rel=stylesheet type=text/css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script>hljs.initHighlightingOnLoad()</script><link rel="shortcut icon" href=https://jimbray.xyz/img/favicon.ico type=image/x-icon><script async src=//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js></script><script>(adsbygoogle=window.adsbygoogle||[]).push({google_ad_client:"ca-pub-8790496632299830",enable_page_level_ads:!0})</script><meta name=google-site-verification content="lsfTBJKzPUfwHdKB84_xsa5u_38z1iLbcGOAkxOo03Q"></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><a class="pure-menu-heading brand" href=https://jimbray.xyz/>Jimbray</a><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/><i class="fa fa-home fa-fw"></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/post/><i class="fa fa-archive fa-fw"></i>Archive</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/tags/><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/note/note><i class="fa fa-sticky-note fa-fw"></i>Notes</a></li></ul></div><div class="pure-menu social"><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=https://twitter.com/jimbray16 target=_blank><i class="fa fa-twitter-square fa-fw"></i>Twitter</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://github.com/jimbray target=_blank><i class="fa fa-github-square fa-fw"></i>GitHub</a></li></ul></div><div><div class=small-print><small>&copy; 2016. All rights reserved.</small></div><div class=small-print><small>Built with&nbsp;<a href=https://gohugo.io/ target=_blank>Hugo</a></small>
-<small>Theme&nbsp;<a href=https://github.com/yoshiharuyamashita/blackburn target=_blank>Blackburn</a></small></div></div></div><div id=main><div class=header><h1>基于 Smack 的 xmpp 学习笔记</h1><h2>使用 kotlin, rxjava, smack 完成的一个xmpp demo。支持网络切换自动重连，可以直接 编译为 Android Library。</h2></div><div class=content><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i><time>04 Jan 2018, 20:16</time></div><div><i class="fa fa-tags fa-fw"></i><a class=post-taxonomy-tag href=https://jimbray.xyz/tags/android>Android</a></div></div><h3 id=xmpp-开发学习>XMPP 开发学习</h3><p>由于 aSmack 已经弃用，目前使用的是 smack 原版 4.2.0</p><blockquote><p><strong>aSmack is deprecated and obsolete.</strong> Starting with Version 4.1 <a href=https://github.com/igniterealtime/Smack>Smack</a> is able to run without modifications on Android.</p><p>More information on how to use Smack 4.1 in your Android Project can be found in the <a href=https://github.com/igniterealtime/Smack/wiki/Smack-4.1-Readme-and-Upgrade-Guide>Smack 4.1 Readme and Upgrade Guide</a>.</p></blockquote><p>smack 的 github <a href=https://github.com/igniterealtime/Smack>repo</a></p><blockquote><p>Instructions how to use Smack in your Java or Android project are provided in the <a href=https://github.com/igniterealtime/Smack/wiki/Smack-4.2-Readme-and-Upgrade-Guide>Smack 4.2 Readme and Upgrade Guide</a>.</p></blockquote><p>使用Android 的同学可以进入上面的链接。</p><p>Android 需要依赖的</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>dependencies <span style=color:#f92672>{</span>
-  compile <span style=color:#e6db74>&#34;org.igniterealtime.smack:smack-android-extensions:4.2.0&#34;</span>
-  compile <span style=color:#e6db74>&#34;org.igniterealtime.smack:smack-tcp:4.2.0&#34;</span>
-<span style=color:#f92672>}</span>
-</code></pre></div><blockquote><p><strong>A typical Smack setup may also want to additional declare dependencies on smack-tcp, smack-extensions and smack-experimental</strong></p></blockquote><p>如果是一个完整的 xmpp 还需要额外依赖 这几个库，我没有使用</p><p>但是后面在做<code>注册用户</code>这个需求的时候发现 <code>AccountManager</code>这个类在 <code>smack-extensions</code>里面，如果需要一些完整的功能，还是全加上好了，或者按照自己需求。</p><blockquote><p>完整的 JID
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="使用 kotlin, rxjava, smack 完成的一个xmpp demo。支持网络切换自动重连，可以直接 编译为 Android Library。">
+  <meta name="generator" content="Hugo 0.81.0" />
+
+  <title>基于 Smack 的 xmpp 学习笔记 &middot; 我说的这句话是谎话</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://jimbray.xyz/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://jimbray.xyz/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="https://jimbray.xyz/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="https://jimbray.xyz/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-8790496632299830",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="lsfTBJKzPUfwHdKB84_xsa5u_38z1iLbcGOAkxOo03Q" />
+
+  
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="https://jimbray.xyz/">Jimbray</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://jimbray.xyz/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://jimbray.xyz/post/"><i class='fa fa-archive fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://jimbray.xyz/tags/"><i class='fa fa-tags fa-fw'></i>Tags</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://jimbray.xyz/note/note"><i class='fa fa-sticky-note fa-fw'></i>Notes</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/jimbray16" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/jimbray" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+  
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+  
+  
+
+
+
+  
+  
+  
+  
+	
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>基于 Smack 的 xmpp 学习笔记</h1>
+  <h2>使用 kotlin, rxjava, smack 完成的一个xmpp demo。支持网络切换自动重连，可以直接 编译为 Android Library。</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>04 Jan 2018, 20:16</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://jimbray.xyz/tags/android">Android</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <h3 id="xmpp-开发学习">XMPP 开发学习</h3>
+<p>由于 aSmack 已经弃用，目前使用的是 smack 原版 4.2.0</p>
+<blockquote>
+<p><strong>aSmack is deprecated and obsolete.</strong> Starting with Version 4.1 <a href="https://github.com/igniterealtime/Smack">Smack</a> is able to run without modifications on Android.</p>
+<p>More information on how to use Smack 4.1 in your Android Project can be found in the <a href="https://github.com/igniterealtime/Smack/wiki/Smack-4.1-Readme-and-Upgrade-Guide">Smack 4.1 Readme and Upgrade Guide</a>.</p>
+</blockquote>
+<p>smack 的 github <a href="https://github.com/igniterealtime/Smack">repo</a></p>
+<blockquote>
+<p>Instructions how to use Smack in your Java or Android project are provided in the <a href="https://github.com/igniterealtime/Smack/wiki/Smack-4.2-Readme-and-Upgrade-Guide">Smack 4.2 Readme and Upgrade Guide</a>.</p>
+</blockquote>
+<p>使用Android 的同学可以进入上面的链接。</p>
+<p>Android 需要依赖的</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">dependencies <span style="color:#f92672">{</span>
+  compile <span style="color:#e6db74">&#34;org.igniterealtime.smack:smack-android-extensions:4.2.0&#34;</span>
+  compile <span style="color:#e6db74">&#34;org.igniterealtime.smack:smack-tcp:4.2.0&#34;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><blockquote>
+<p><strong>A typical Smack setup may also want to additional declare dependencies on smack-tcp, smack-extensions and smack-experimental</strong></p>
+</blockquote>
+<p>如果是一个完整的 xmpp 还需要额外依赖 这几个库，我没有使用</p>
+<p>但是后面在做<code>注册用户</code>这个需求的时候发现 <code>AccountManager</code>这个类在 <code>smack-extensions</code>里面，如果需要一些完整的功能，还是全加上好了，或者按照自己需求。</p>
+<blockquote>
+<p>完整的 JID
 Username@Domain/Resource
-基本组成部分</p><p>Node/Username - 用户名/节点 用户的基本标识
+基本组成部分</p>
+<p>Node/Username - 用户名/节点 用户的基本标识
 Domain - 登陆的XMPP服务器域名
 Resource - 资源/来源，用于区别客户端来源, XMPP协议设计为可多客户端同时登陆, Resource就是用于区分同一用户不同端登陆
-Bare - 除去Resource部分, 包含Username@Domain</p></blockquote><h3 id=接口使用>接口使用</h3><h4 id=连接-connection>连接 (Connection)</h4><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>connect</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+Bare - 除去Resource部分, 包含Username@Domain</p>
+</blockquote>
+<h3 id="接口使用">接口使用</h3>
+<h4 id="连接-connection">连接 (Connection)</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">connect</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
 
-        <span style=color:#66d9ef>try</span> <span style=color:#f92672>{</span>
-            XMPPTCPConnectionConfiguration<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span> configBuilder <span style=color:#f92672>=</span> XMPPTCPConnectionConfiguration<span style=color:#f92672>.</span><span style=color:#a6e22e>builder</span><span style=color:#f92672>();</span>
-            configBuilder<span style=color:#f92672>.</span><span style=color:#a6e22e>setHostAddress</span><span style=color:#f92672>(</span>InetAddress<span style=color:#f92672>.</span><span style=color:#a6e22e>getByName</span><span style=color:#f92672>(</span>SERVER_IP<span style=color:#f92672>));</span>
-            configBuilder<span style=color:#f92672>.</span><span style=color:#a6e22e>setHost</span><span style=color:#f92672>(</span>SERVER_IP<span style=color:#f92672>);</span>
-            configBuilder<span style=color:#f92672>.</span><span style=color:#a6e22e>setPort</span><span style=color:#f92672>(</span>SERVER_PORT<span style=color:#f92672>);</span>
-            configBuilder<span style=color:#f92672>.</span><span style=color:#a6e22e>setXmppDomain</span><span style=color:#f92672>(</span>SERVER_IP<span style=color:#f92672>);</span>
-            configBuilder<span style=color:#f92672>.</span><span style=color:#a6e22e>setSecurityMode</span><span style=color:#f92672>(</span>ConnectionConfiguration<span style=color:#f92672>.</span><span style=color:#a6e22e>SecurityMode</span><span style=color:#f92672>.</span><span style=color:#a6e22e>disabled</span><span style=color:#f92672>);</span>
-            configBuilder<span style=color:#f92672>.</span><span style=color:#a6e22e>setDebuggerEnabled</span><span style=color:#f92672>(</span><span style=color:#66d9ef>true</span><span style=color:#f92672>);</span>
-            configBuilder<span style=color:#f92672>.</span><span style=color:#a6e22e>setCompressionEnabled</span><span style=color:#f92672>(</span><span style=color:#66d9ef>true</span><span style=color:#f92672>);</span>
-            configBuilder<span style=color:#f92672>.</span><span style=color:#a6e22e>setSendPresence</span><span style=color:#f92672>(</span><span style=color:#66d9ef>false</span><span style=color:#f92672>);</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            XMPPTCPConnectionConfiguration<span style="color:#f92672">.</span><span style="color:#a6e22e">Builder</span> configBuilder <span style="color:#f92672">=</span> XMPPTCPConnectionConfiguration<span style="color:#f92672">.</span><span style="color:#a6e22e">builder</span><span style="color:#f92672">();</span>
+            configBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">setHostAddress</span><span style="color:#f92672">(</span>InetAddress<span style="color:#f92672">.</span><span style="color:#a6e22e">getByName</span><span style="color:#f92672">(</span>SERVER_IP<span style="color:#f92672">));</span>
+            configBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">setHost</span><span style="color:#f92672">(</span>SERVER_IP<span style="color:#f92672">);</span>
+            configBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">setPort</span><span style="color:#f92672">(</span>SERVER_PORT<span style="color:#f92672">);</span>
+            configBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">setXmppDomain</span><span style="color:#f92672">(</span>SERVER_IP<span style="color:#f92672">);</span>
+            configBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">setSecurityMode</span><span style="color:#f92672">(</span>ConnectionConfiguration<span style="color:#f92672">.</span><span style="color:#a6e22e">SecurityMode</span><span style="color:#f92672">.</span><span style="color:#a6e22e">disabled</span><span style="color:#f92672">);</span>
+            configBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">setDebuggerEnabled</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
+            configBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">setCompressionEnabled</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
+            configBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">setSendPresence</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
 
-            mConnection <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> XMPPTCPConnection<span style=color:#f92672>(</span>configBuilder<span style=color:#f92672>.</span><span style=color:#a6e22e>build</span><span style=color:#f92672>());</span>
+            mConnection <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> XMPPTCPConnection<span style="color:#f92672">(</span>configBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">());</span>
 
-            mConnection<span style=color:#f92672>.</span><span style=color:#a6e22e>connect</span><span style=color:#f92672>();</span>
+            mConnection<span style="color:#f92672">.</span><span style="color:#a6e22e">connect</span><span style="color:#f92672">();</span>
 
-            Log<span style=color:#f92672>.</span><span style=color:#a6e22e>d</span><span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;connection status is -&gt; &#34;</span> <span style=color:#f92672>+</span> String<span style=color:#f92672>.</span><span style=color:#a6e22e>valueOf</span><span style=color:#f92672>(</span>mConnection<span style=color:#f92672>.</span><span style=color:#a6e22e>isConnected</span><span style=color:#f92672>()));</span>
-        <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>UnknownHostException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>();</span>
-            Log<span style=color:#f92672>.</span><span style=color:#a6e22e>d</span><span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> e<span style=color:#f92672>.</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>());</span>
-        <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>XmppStringprepException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>();</span>
-            Log<span style=color:#f92672>.</span><span style=color:#a6e22e>d</span><span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> e<span style=color:#f92672>.</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>());</span>
-        <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>InterruptedException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>();</span>
-            Log<span style=color:#f92672>.</span><span style=color:#a6e22e>d</span><span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> e<span style=color:#f92672>.</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>());</span>
-        <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>IOException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>();</span>
-            Log<span style=color:#f92672>.</span><span style=color:#a6e22e>d</span><span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> e<span style=color:#f92672>.</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>());</span>
-        <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>SmackException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>();</span>
-            Log<span style=color:#f92672>.</span><span style=color:#a6e22e>d</span><span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> e<span style=color:#f92672>.</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>());</span>
-        <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>XMPPException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>();</span>
-            Log<span style=color:#f92672>.</span><span style=color:#a6e22e>d</span><span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> e<span style=color:#f92672>.</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>());</span>
-        <span style=color:#f92672>}</span>
-    <span style=color:#f92672>}</span>
-</code></pre></div><p><strong>端口</strong>记得要去openfire后台去看，默认是 5222, 我一开始写成了9090，后来发现9090 的openfire 管理后台的端口。<strong>切记切记</strong></p><h4 id=登录login>登录(Login)</h4><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>/**
-</span><span style=color:#75715e>     * 登录
-</span><span style=color:#75715e>     * @param user_name 用户名
-</span><span style=color:#75715e>     * @param passwd 密码
-</span><span style=color:#75715e>     * @return 是否成功
-</span><span style=color:#75715e>     */</span>
-    fun <span style=color:#a6e22e>login</span><span style=color:#f92672>(</span>user_name<span style=color:#f92672>:</span> String<span style=color:#f92672>,</span> passwd<span style=color:#f92672>:</span> String<span style=color:#f92672>):</span> Boolean <span style=color:#f92672>{</span>
-        log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;login&#34;</span><span style=color:#f92672>)</span>
-        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>mConnection <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span> <span style=color:#f92672>&amp;&amp;</span> mConnection<span style=color:#f92672>!!.</span><span style=color:#a6e22e>isConnected</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            <span style=color:#66d9ef>try</span> <span style=color:#f92672>{</span>
-                mConnection<span style=color:#f92672>?.</span><span style=color:#a6e22e>login</span><span style=color:#f92672>(</span>user_name<span style=color:#f92672>,</span> passwd<span style=color:#f92672>)</span>
-                setStatus<span style=color:#f92672>(</span>XMPP_STATUS_ONLINE<span style=color:#f92672>)</span>
+            Log<span style="color:#f92672">.</span><span style="color:#a6e22e">d</span><span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;connection status is -&gt; &#34;</span> <span style="color:#f92672">+</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>mConnection<span style="color:#f92672">.</span><span style="color:#a6e22e">isConnected</span><span style="color:#f92672">()));</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>UnknownHostException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+            Log<span style="color:#f92672">.</span><span style="color:#a6e22e">d</span><span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">());</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>XmppStringprepException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+            Log<span style="color:#f92672">.</span><span style="color:#a6e22e">d</span><span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">());</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+            Log<span style="color:#f92672">.</span><span style="color:#a6e22e">d</span><span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">());</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>IOException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+            Log<span style="color:#f92672">.</span><span style="color:#a6e22e">d</span><span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">());</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>SmackException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+            Log<span style="color:#f92672">.</span><span style="color:#a6e22e">d</span><span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">());</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>XMPPException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+            Log<span style="color:#f92672">.</span><span style="color:#a6e22e">d</span><span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">());</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><p><strong>端口</strong>记得要去openfire后台去看，默认是 5222,  我一开始写成了9090，后来发现9090 的openfire 管理后台的端口。<strong>切记切记</strong></p>
+<h4 id="登录login">登录(Login)</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 登录
+</span><span style="color:#75715e">     * @param user_name 用户名
+</span><span style="color:#75715e">     * @param passwd 密码
+</span><span style="color:#75715e">     * @return 是否成功
+</span><span style="color:#75715e">     */</span>
+    fun <span style="color:#a6e22e">login</span><span style="color:#f92672">(</span>user_name<span style="color:#f92672">:</span> String<span style="color:#f92672">,</span> passwd<span style="color:#f92672">:</span> String<span style="color:#f92672">):</span> Boolean <span style="color:#f92672">{</span>
+        log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;login&#34;</span><span style="color:#f92672">)</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mConnection <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">&amp;&amp;</span> mConnection<span style="color:#f92672">!!.</span><span style="color:#a6e22e">isConnected</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+                mConnection<span style="color:#f92672">?.</span><span style="color:#a6e22e">login</span><span style="color:#f92672">(</span>user_name<span style="color:#f92672">,</span> passwd<span style="color:#f92672">)</span>
+                setStatus<span style="color:#f92672">(</span>XMPP_STATUS_ONLINE<span style="color:#f92672">)</span>
 
-<span style=color:#75715e>//                mConnection?.addConnectionListener(this)
-</span><span style=color:#75715e></span>                ChatManager<span style=color:#f92672>.</span><span style=color:#a6e22e>getInstanceFor</span><span style=color:#f92672>(</span>mConnection<span style=color:#f92672>).</span><span style=color:#a6e22e>addIncomingListener</span><span style=color:#f92672>(</span><span style=color:#66d9ef>this</span><span style=color:#f92672>)</span>
-                ChatManager<span style=color:#f92672>.</span><span style=color:#a6e22e>getInstanceFor</span><span style=color:#f92672>(</span>mConnection<span style=color:#f92672>).</span><span style=color:#a6e22e>addOutgoingListener</span><span style=color:#f92672>(</span><span style=color:#66d9ef>this</span><span style=color:#f92672>)</span>
+<span style="color:#75715e">//                mConnection?.addConnectionListener(this)
+</span><span style="color:#75715e"></span>                ChatManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstanceFor</span><span style="color:#f92672">(</span>mConnection<span style="color:#f92672">).</span><span style="color:#a6e22e">addIncomingListener</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">)</span>
+                ChatManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstanceFor</span><span style="color:#f92672">(</span>mConnection<span style="color:#f92672">).</span><span style="color:#a6e22e">addOutgoingListener</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">)</span>
 
-                log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;login successful&#34;</span><span style=color:#f92672>)</span>
-                <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>true</span>
+                log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;login successful&#34;</span><span style="color:#f92672">)</span>
+                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
 
-            <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>e<span style=color:#f92672>:</span> XMPPException<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>()</span>
-                log_e<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> e<span style=color:#f92672>.</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>())</span>
-            <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>e<span style=color:#f92672>:</span> SmackException<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>()</span>
-                log_e<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> e<span style=color:#f92672>.</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>())</span>
-                <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>e is SmackException<span style=color:#f92672>.</span><span style=color:#a6e22e>AlreadyLoggedInException</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>true</span>
-                <span style=color:#f92672>}</span>
-            <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>e<span style=color:#f92672>:</span> IOException<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>()</span>
-                log_e<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> e<span style=color:#f92672>.</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>())</span>
-            <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>e<span style=color:#f92672>:</span> InterruptedException<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>()</span>
-                log_e<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> e<span style=color:#f92672>.</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>())</span>
-            <span style=color:#f92672>}</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>e<span style="color:#f92672">:</span> XMPPException<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">()</span>
+                log_e<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">())</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>e<span style="color:#f92672">:</span> SmackException<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">()</span>
+                log_e<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">())</span>
+                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>e is SmackException<span style="color:#f92672">.</span><span style="color:#a6e22e">AlreadyLoggedInException</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+                <span style="color:#f92672">}</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>e<span style="color:#f92672">:</span> IOException<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">()</span>
+                log_e<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">())</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>e<span style="color:#f92672">:</span> InterruptedException<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">()</span>
+                log_e<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">())</span>
+            <span style="color:#f92672">}</span>
 
-        <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>false</span>
-    <span style=color:#f92672>}</span>
-</code></pre></div><p><code>setStatus</code>是修改状态</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>/**
-</span><span style=color:#75715e>     * 更改用户状态
-</span><span style=color:#75715e>     * @param code 状态常量
-</span><span style=color:#75715e>     */</span>
-    fun <span style=color:#a6e22e>setStatus</span><span style=color:#f92672>(</span>code<span style=color:#f92672>:</span> Int<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-        log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;setStatus&#34;</span><span style=color:#f92672>)</span>
-        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>mConnection <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span> <span style=color:#f92672>&amp;&amp;</span> mConnection<span style=color:#f92672>!!.</span><span style=color:#a6e22e>isConnected</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><p><code>setStatus</code>是修改状态</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 更改用户状态
+</span><span style="color:#75715e">     * @param code 状态常量
+</span><span style="color:#75715e">     */</span>
+    fun <span style="color:#a6e22e">setStatus</span><span style="color:#f92672">(</span>code<span style="color:#f92672">:</span> Int<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;setStatus&#34;</span><span style="color:#f92672">)</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mConnection <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">&amp;&amp;</span> mConnection<span style="color:#f92672">!!.</span><span style="color:#a6e22e">isConnected</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 
-            <span style=color:#66d9ef>try</span> <span style=color:#f92672>{</span>
-                var presence<span style=color:#f92672>:</span> Presence<span style=color:#f92672>?</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>null</span>
+            <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+                var presence<span style="color:#f92672">:</span> Presence<span style="color:#f92672">?</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>
 
-                <span style=color:#a6e22e>when</span> <span style=color:#f92672>(</span>code<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                    XMPP_STATUS_ONLINE <span style=color:#f92672>-&gt;</span> <span style=color:#f92672>{</span>
-                        log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;设置在线&#34;</span><span style=color:#f92672>)</span>
-                        presence <span style=color:#f92672>=</span> Presence<span style=color:#f92672>(</span>Presence<span style=color:#f92672>.</span><span style=color:#a6e22e>Type</span><span style=color:#f92672>.</span><span style=color:#a6e22e>available</span><span style=color:#f92672>)</span>
-                    <span style=color:#f92672>}</span>
+                <span style="color:#a6e22e">when</span> <span style="color:#f92672">(</span>code<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                    XMPP_STATUS_ONLINE <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+                        log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;设置在线&#34;</span><span style="color:#f92672">)</span>
+                        presence <span style="color:#f92672">=</span> Presence<span style="color:#f92672">(</span>Presence<span style="color:#f92672">.</span><span style="color:#a6e22e">Type</span><span style="color:#f92672">.</span><span style="color:#a6e22e">available</span><span style="color:#f92672">)</span>
+                    <span style="color:#f92672">}</span>
 
-                    XMPP_STATUS_CHAT_ME <span style=color:#f92672>-&gt;</span> <span style=color:#f92672>{</span>
-                        log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;设置Q我吧&#34;</span><span style=color:#f92672>)</span>
-                        presence <span style=color:#f92672>=</span> Presence<span style=color:#f92672>(</span>Presence<span style=color:#f92672>.</span><span style=color:#a6e22e>Type</span><span style=color:#f92672>.</span><span style=color:#a6e22e>available</span><span style=color:#f92672>)</span>
-                        presence<span style=color:#f92672>.</span><span style=color:#a6e22e>mode</span> <span style=color:#f92672>=</span> Presence<span style=color:#f92672>.</span><span style=color:#a6e22e>Mode</span><span style=color:#f92672>.</span><span style=color:#a6e22e>chat</span>
-                    <span style=color:#f92672>}</span>
+                    XMPP_STATUS_CHAT_ME <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+                        log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;设置Q我吧&#34;</span><span style="color:#f92672">)</span>
+                        presence <span style="color:#f92672">=</span> Presence<span style="color:#f92672">(</span>Presence<span style="color:#f92672">.</span><span style="color:#a6e22e">Type</span><span style="color:#f92672">.</span><span style="color:#a6e22e">available</span><span style="color:#f92672">)</span>
+                        presence<span style="color:#f92672">.</span><span style="color:#a6e22e">mode</span> <span style="color:#f92672">=</span> Presence<span style="color:#f92672">.</span><span style="color:#a6e22e">Mode</span><span style="color:#f92672">.</span><span style="color:#a6e22e">chat</span>
+                    <span style="color:#f92672">}</span>
 
-                    XMPP_STATUS_BUSY <span style=color:#f92672>-&gt;</span> <span style=color:#f92672>{</span>
-                        log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;设置忙碌&#34;</span><span style=color:#f92672>)</span>
-                        presence <span style=color:#f92672>=</span> Presence<span style=color:#f92672>(</span>Presence<span style=color:#f92672>.</span><span style=color:#a6e22e>Type</span><span style=color:#f92672>.</span><span style=color:#a6e22e>available</span><span style=color:#f92672>)</span>
-                        presence<span style=color:#f92672>.</span><span style=color:#a6e22e>mode</span> <span style=color:#f92672>=</span> Presence<span style=color:#f92672>.</span><span style=color:#a6e22e>Mode</span><span style=color:#f92672>.</span><span style=color:#a6e22e>dnd</span>
-                    <span style=color:#f92672>}</span>
+                    XMPP_STATUS_BUSY <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+                        log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;设置忙碌&#34;</span><span style="color:#f92672">)</span>
+                        presence <span style="color:#f92672">=</span> Presence<span style="color:#f92672">(</span>Presence<span style="color:#f92672">.</span><span style="color:#a6e22e">Type</span><span style="color:#f92672">.</span><span style="color:#a6e22e">available</span><span style="color:#f92672">)</span>
+                        presence<span style="color:#f92672">.</span><span style="color:#a6e22e">mode</span> <span style="color:#f92672">=</span> Presence<span style="color:#f92672">.</span><span style="color:#a6e22e">Mode</span><span style="color:#f92672">.</span><span style="color:#a6e22e">dnd</span>
+                    <span style="color:#f92672">}</span>
 
-                    XMPP_STATUS_LEAVE <span style=color:#f92672>-&gt;</span> <span style=color:#f92672>{</span>
-                        log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;设置离开&#34;</span><span style=color:#f92672>)</span>
-                        presence <span style=color:#f92672>=</span> Presence<span style=color:#f92672>(</span>Presence<span style=color:#f92672>.</span><span style=color:#a6e22e>Type</span><span style=color:#f92672>.</span><span style=color:#a6e22e>available</span><span style=color:#f92672>)</span>
-                        presence<span style=color:#f92672>.</span><span style=color:#a6e22e>mode</span> <span style=color:#f92672>=</span> Presence<span style=color:#f92672>.</span><span style=color:#a6e22e>Mode</span><span style=color:#f92672>.</span><span style=color:#a6e22e>away</span>
-                    <span style=color:#f92672>}</span>
+                    XMPP_STATUS_LEAVE <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+                        log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;设置离开&#34;</span><span style="color:#f92672">)</span>
+                        presence <span style="color:#f92672">=</span> Presence<span style="color:#f92672">(</span>Presence<span style="color:#f92672">.</span><span style="color:#a6e22e">Type</span><span style="color:#f92672">.</span><span style="color:#a6e22e">available</span><span style="color:#f92672">)</span>
+                        presence<span style="color:#f92672">.</span><span style="color:#a6e22e">mode</span> <span style="color:#f92672">=</span> Presence<span style="color:#f92672">.</span><span style="color:#a6e22e">Mode</span><span style="color:#f92672">.</span><span style="color:#a6e22e">away</span>
+                    <span style="color:#f92672">}</span>
 
-                    XMPP_STATUS_OFFLINE <span style=color:#f92672>-&gt;</span> <span style=color:#f92672>{</span>
+                    XMPP_STATUS_OFFLINE <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
 
-                        log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;设置离线&#34;</span><span style=color:#f92672>)</span>
-                        presence <span style=color:#f92672>=</span> Presence<span style=color:#f92672>(</span>Presence<span style=color:#f92672>.</span><span style=color:#a6e22e>Type</span><span style=color:#f92672>.</span><span style=color:#a6e22e>unavailable</span><span style=color:#f92672>)</span>
-                    <span style=color:#f92672>}</span>
-                <span style=color:#f92672>}</span>
+                        log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;设置离线&#34;</span><span style="color:#f92672">)</span>
+                        presence <span style="color:#f92672">=</span> Presence<span style="color:#f92672">(</span>Presence<span style="color:#f92672">.</span><span style="color:#a6e22e">Type</span><span style="color:#f92672">.</span><span style="color:#a6e22e">unavailable</span><span style="color:#f92672">)</span>
+                    <span style="color:#f92672">}</span>
+                <span style="color:#f92672">}</span>
 
-                mConnection<span style=color:#f92672>?.</span><span style=color:#a6e22e>sendStanza</span><span style=color:#f92672>(</span>presence<span style=color:#f92672>)</span>
-                log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;set status successful&#34;</span><span style=color:#f92672>)</span>
-            <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>e<span style=color:#f92672>:</span> SmackException<span style=color:#f92672>.</span><span style=color:#a6e22e>NotConnectedException</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>()</span>
-                log_e<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> e<span style=color:#f92672>.</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>())</span>
-                connect<span style=color:#f92672>()</span>
-            <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>e<span style=color:#f92672>:</span> InterruptedException<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>()</span>
-                log_e<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> e<span style=color:#f92672>.</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>())</span>
-            <span style=color:#f92672>}</span>
+                mConnection<span style="color:#f92672">?.</span><span style="color:#a6e22e">sendStanza</span><span style="color:#f92672">(</span>presence<span style="color:#f92672">)</span>
+                log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;set status successful&#34;</span><span style="color:#f92672">)</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>e<span style="color:#f92672">:</span> SmackException<span style="color:#f92672">.</span><span style="color:#a6e22e">NotConnectedException</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">()</span>
+                log_e<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">())</span>
+                connect<span style="color:#f92672">()</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>e<span style="color:#f92672">:</span> InterruptedException<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">()</span>
+                log_e<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">())</span>
+            <span style="color:#f92672">}</span>
 
 
-        <span style=color:#f92672>}</span>
-    <span style=color:#f92672>}</span>
-</code></pre></div><h4 id=注册register>注册（Register）</h4><p><code>java.lang.IllegalStateException: Creating account over insecure connection</code></p><p>不安全的连接创建 account</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>accountManager<span style=color:#f92672>.</span><span style=color:#a6e22e>sensitiveOperationOverInsecureConnection</span><span style=color:#f92672>(</span><span style=color:#66d9ef>true</span><span style=color:#f92672>);</span>
-</code></pre></div><p>现在不安全了</p><pre><code>public boolean registerUser(String user_name, String passwd) {
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><h4 id="注册register">注册（Register）</h4>
+<p><code>java.lang.IllegalStateException: Creating account over insecure connection</code></p>
+<p>不安全的连接创建 account</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">accountManager<span style="color:#f92672">.</span><span style="color:#a6e22e">sensitiveOperationOverInsecureConnection</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
+</code></pre></div><p>现在不安全了</p>
+<pre><code>public boolean registerUser(String user_name, String passwd) {
         if (mConnection != null &amp;&amp; mConnection.isConnected()) {
             // 已经connect 上了，才可以进行注册操作
             try {
@@ -173,320 +460,468 @@ Bare - 除去Resource部分, 包含Username@Domain</p></blockquote><h3 id=接口
         return false;
 
     }
-</code></pre><p>创建成功。openfile 可以看到，虽然没有 name [doge]</p><p>如果已经存在用户的，则会有异常。</p><h4 id=发送消息send-message>发送消息(Send Message)</h4><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>/**
-</span><span style=color:#75715e>     * 发送单人聊天 消息
-</span><span style=color:#75715e>     * @param chat 单人聊天室
-</span><span style=color:#75715e>     * @param message 发送的消息
-</span><span style=color:#75715e>     */</span>
-    fun <span style=color:#a6e22e>sendSingleMessage</span><span style=color:#f92672>(</span>chat<span style=color:#f92672>:</span> Chat<span style=color:#f92672>,</span> message<span style=color:#f92672>:</span> String<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-        log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;sendSingleMessage-&gt;$message&#34;</span><span style=color:#f92672>)</span>
-        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>mConnection <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            <span style=color:#66d9ef>try</span> <span style=color:#f92672>{</span>
-                chat<span style=color:#f92672>.</span><span style=color:#a6e22e>send</span><span style=color:#f92672>(</span>message<span style=color:#f92672>)</span>
-            <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>e<span style=color:#f92672>:</span> SmackException<span style=color:#f92672>.</span><span style=color:#a6e22e>NotConnectedException</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                log_e<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> e<span style=color:#f92672>.</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>())</span>
-                e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>()</span>
-                connect<span style=color:#f92672>()</span>
-            <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>e<span style=color:#f92672>:</span> InterruptedException<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                log_e<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> e<span style=color:#f92672>.</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>())</span>
-                e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>()</span>
-            <span style=color:#f92672>}</span>
-        <span style=color:#f92672>}</span>
-    <span style=color:#f92672>}</span>
-</code></pre></div><p>之前一直使用 chat.send(message: String) 这个接口，在用spark 聊天的时候，一直显示我发送的是“广播”，但我确实是只发给了一个人，也就是“发给一个人的广播“。这本身就是一个很怪的事情。而且这个“广播”的丢失率还很高。后面看了接口，发现 chat.send(message: String) 默认发送的是 normal类型的(normal为什么是广播？)，</p><p>后来改动了一下，好像改善了消息丢失的问题。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>val stanza <span style=color:#f92672>=</span> Message<span style=color:#f92672>()</span>
-stanza<span style=color:#f92672>.</span><span style=color:#a6e22e>body</span> <span style=color:#f92672>=</span> message
-stanza<span style=color:#f92672>.</span><span style=color:#a6e22e>type</span> <span style=color:#f92672>=</span> Message<span style=color:#f92672>.</span><span style=color:#a6e22e>Type</span><span style=color:#f92672>.</span><span style=color:#a6e22e>chat</span>
-chat<span style=color:#f92672>.</span><span style=color:#a6e22e>send</span><span style=color:#f92672>(</span>stanza<span style=color:#f92672>)</span>
-</code></pre></div><p>也只是修改了message 的 类型为 chat 而已。起码 spark 里面不会显示 广播了。</p><p>发送消息必须要先关注（订阅）对方，不然的话发送不能成功。</p><h4 id=添加好友>添加好友</h4><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>    <span style=color:#75715e>/**
-</span><span style=color:#75715e>     * 添加好友 无分组
-</span><span style=color:#75715e>     * @param user_name jid
-</span><span style=color:#75715e>     * @param nick_name 用户昵称
-</span><span style=color:#75715e>     * @return 是否添加成功
-</span><span style=color:#75715e>     */</span>
-    fun <span style=color:#a6e22e>addFriend</span><span style=color:#f92672>(</span>user_name<span style=color:#f92672>:</span> String<span style=color:#f92672>,</span> nick_name<span style=color:#f92672>:</span> String<span style=color:#f92672>):</span> Boolean <span style=color:#f92672>{</span>
-        log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;addFriend&#34;</span><span style=color:#f92672>)</span>
-        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>mConnection <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            <span style=color:#66d9ef>try</span> <span style=color:#f92672>{</span>
-                Roster<span style=color:#f92672>.</span><span style=color:#a6e22e>getInstanceFor</span><span style=color:#f92672>(</span>mConnection<span style=color:#f92672>).</span><span style=color:#a6e22e>createEntry</span><span style=color:#f92672>(</span>JidCreate<span style=color:#f92672>.</span><span style=color:#a6e22e>bareFrom</span><span style=color:#f92672>(</span>generateJID<span style=color:#f92672>(</span>user_name<span style=color:#f92672>)),</span>
-                        nick_name<span style=color:#f92672>,</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span>
-                <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>true</span>
-            <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>e<span style=color:#f92672>:</span> Exception<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                log_e<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> e<span style=color:#f92672>.</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>())</span>
-                e<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>()</span>
-            <span style=color:#f92672>}</span>
-        <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>false</span>
-    <span style=color:#f92672>}</span>
-</code></pre></div><p>添加好友到指定分组</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>    <span style=color:#75715e>/**
-</span><span style=color:#75715e>     * 添加好友 加入到指定分组
-</span><span style=color:#75715e>     * @param user_name jid
-</span><span style=color:#75715e>     * @param nick_name 用户昵称
-</span><span style=color:#75715e>     * @param group_name 用户组
-</span><span style=color:#75715e>     * @return 是否添加成功
-</span><span style=color:#75715e>     */</span>
-    fun <span style=color:#a6e22e>addFriendToGroup</span><span style=color:#f92672>(</span>user_name<span style=color:#f92672>:</span> String<span style=color:#f92672>,</span> nick_name<span style=color:#f92672>:</span> String<span style=color:#f92672>,</span> group_name<span style=color:#f92672>:</span> String<span style=color:#f92672>):</span> Boolean <span style=color:#f92672>{</span>
-        log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;addFriendToGroup&#34;</span><span style=color:#f92672>)</span>
-        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>mConnection <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            <span style=color:#66d9ef>try</span> <span style=color:#f92672>{</span>
-                val subscription <span style=color:#f92672>=</span> Presence<span style=color:#f92672>(</span>Presence<span style=color:#f92672>.</span><span style=color:#a6e22e>Type</span><span style=color:#f92672>.</span><span style=color:#a6e22e>subscribe</span><span style=color:#f92672>)</span>
-                subscription<span style=color:#f92672>.</span><span style=color:#a6e22e>to</span> <span style=color:#f92672>=</span> JidCreate<span style=color:#f92672>.</span><span style=color:#a6e22e>entityBareFrom</span><span style=color:#f92672>(</span>generateJID<span style=color:#f92672>(</span>user_name<span style=color:#f92672>))</span>
-                mConnection<span style=color:#f92672>?.</span><span style=color:#a6e22e>sendStanza</span><span style=color:#f92672>(</span>subscription<span style=color:#f92672>)</span>
-                Roster<span style=color:#f92672>.</span><span style=color:#a6e22e>getInstanceFor</span><span style=color:#f92672>(</span>mConnection<span style=color:#f92672>).</span><span style=color:#a6e22e>createEntry</span><span style=color:#f92672>(</span>JidCreate<span style=color:#f92672>.</span><span style=color:#a6e22e>entityBareFrom</span><span style=color:#f92672>(</span>generateJID<span style=color:#f92672>(</span>user_name<span style=color:#f92672>)),</span>
-                        nick_name<span style=color:#f92672>,</span>
-                        arrayOf<span style=color:#f92672>(</span>group_name<span style=color:#f92672>))</span>
+</code></pre><p>创建成功。openfile 可以看到，虽然没有 name [doge]</p>
+<p>如果已经存在用户的，则会有异常。</p>
+<h4 id="发送消息send-message">发送消息(Send Message)</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 发送单人聊天 消息
+</span><span style="color:#75715e">     * @param chat 单人聊天室
+</span><span style="color:#75715e">     * @param message 发送的消息
+</span><span style="color:#75715e">     */</span>
+    fun <span style="color:#a6e22e">sendSingleMessage</span><span style="color:#f92672">(</span>chat<span style="color:#f92672">:</span> Chat<span style="color:#f92672">,</span> message<span style="color:#f92672">:</span> String<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;sendSingleMessage-&gt;$message&#34;</span><span style="color:#f92672">)</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mConnection <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+                chat<span style="color:#f92672">.</span><span style="color:#a6e22e">send</span><span style="color:#f92672">(</span>message<span style="color:#f92672">)</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>e<span style="color:#f92672">:</span> SmackException<span style="color:#f92672">.</span><span style="color:#a6e22e">NotConnectedException</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                log_e<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">())</span>
+                e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">()</span>
+                connect<span style="color:#f92672">()</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>e<span style="color:#f92672">:</span> InterruptedException<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                log_e<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">())</span>
+                e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">()</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><p>之前一直使用 chat.send(message: String)  这个接口，在用spark 聊天的时候，一直显示我发送的是“广播”，但我确实是只发给了一个人，也就是“发给一个人的广播“。这本身就是一个很怪的事情。而且这个“广播”的丢失率还很高。后面看了接口，发现 chat.send(message: String) 默认发送的是 normal类型的(normal为什么是广播？)，</p>
+<p>后来改动了一下，好像改善了消息丢失的问题。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">val stanza <span style="color:#f92672">=</span> Message<span style="color:#f92672">()</span>
+stanza<span style="color:#f92672">.</span><span style="color:#a6e22e">body</span> <span style="color:#f92672">=</span> message
+stanza<span style="color:#f92672">.</span><span style="color:#a6e22e">type</span> <span style="color:#f92672">=</span> Message<span style="color:#f92672">.</span><span style="color:#a6e22e">Type</span><span style="color:#f92672">.</span><span style="color:#a6e22e">chat</span>
+chat<span style="color:#f92672">.</span><span style="color:#a6e22e">send</span><span style="color:#f92672">(</span>stanza<span style="color:#f92672">)</span>
+</code></pre></div><p>也只是修改了message 的 类型为 chat 而已。起码 spark 里面不会显示 广播了。</p>
+<p>发送消息必须要先关注（订阅）对方，不然的话发送不能成功。</p>
+<h4 id="添加好友">添加好友</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 添加好友 无分组
+</span><span style="color:#75715e">     * @param user_name jid
+</span><span style="color:#75715e">     * @param nick_name 用户昵称
+</span><span style="color:#75715e">     * @return 是否添加成功
+</span><span style="color:#75715e">     */</span>
+    fun <span style="color:#a6e22e">addFriend</span><span style="color:#f92672">(</span>user_name<span style="color:#f92672">:</span> String<span style="color:#f92672">,</span> nick_name<span style="color:#f92672">:</span> String<span style="color:#f92672">):</span> Boolean <span style="color:#f92672">{</span>
+        log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;addFriend&#34;</span><span style="color:#f92672">)</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mConnection <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+                Roster<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstanceFor</span><span style="color:#f92672">(</span>mConnection<span style="color:#f92672">).</span><span style="color:#a6e22e">createEntry</span><span style="color:#f92672">(</span>JidCreate<span style="color:#f92672">.</span><span style="color:#a6e22e">bareFrom</span><span style="color:#f92672">(</span>generateJID<span style="color:#f92672">(</span>user_name<span style="color:#f92672">)),</span>
+                        nick_name<span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>
+                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>e<span style="color:#f92672">:</span> Exception<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                log_e<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">())</span>
+                e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">()</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><p>添加好友到指定分组</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 添加好友 加入到指定分组
+</span><span style="color:#75715e">     * @param user_name jid
+</span><span style="color:#75715e">     * @param nick_name 用户昵称
+</span><span style="color:#75715e">     * @param group_name 用户组
+</span><span style="color:#75715e">     * @return 是否添加成功
+</span><span style="color:#75715e">     */</span>
+    fun <span style="color:#a6e22e">addFriendToGroup</span><span style="color:#f92672">(</span>user_name<span style="color:#f92672">:</span> String<span style="color:#f92672">,</span> nick_name<span style="color:#f92672">:</span> String<span style="color:#f92672">,</span> group_name<span style="color:#f92672">:</span> String<span style="color:#f92672">):</span> Boolean <span style="color:#f92672">{</span>
+        log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;addFriendToGroup&#34;</span><span style="color:#f92672">)</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mConnection <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+                val subscription <span style="color:#f92672">=</span> Presence<span style="color:#f92672">(</span>Presence<span style="color:#f92672">.</span><span style="color:#a6e22e">Type</span><span style="color:#f92672">.</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">)</span>
+                subscription<span style="color:#f92672">.</span><span style="color:#a6e22e">to</span> <span style="color:#f92672">=</span> JidCreate<span style="color:#f92672">.</span><span style="color:#a6e22e">entityBareFrom</span><span style="color:#f92672">(</span>generateJID<span style="color:#f92672">(</span>user_name<span style="color:#f92672">))</span>
+                mConnection<span style="color:#f92672">?.</span><span style="color:#a6e22e">sendStanza</span><span style="color:#f92672">(</span>subscription<span style="color:#f92672">)</span>
+                Roster<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstanceFor</span><span style="color:#f92672">(</span>mConnection<span style="color:#f92672">).</span><span style="color:#a6e22e">createEntry</span><span style="color:#f92672">(</span>JidCreate<span style="color:#f92672">.</span><span style="color:#a6e22e">entityBareFrom</span><span style="color:#f92672">(</span>generateJID<span style="color:#f92672">(</span>user_name<span style="color:#f92672">)),</span>
+                        nick_name<span style="color:#f92672">,</span>
+                        arrayOf<span style="color:#f92672">(</span>group_name<span style="color:#f92672">))</span>
 
-                <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>true</span>
-            <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>e<span style=color:#f92672>:</span> Exception<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                log_e<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> e<span style=color:#f92672>.</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>())</span>
-            <span style=color:#f92672>}</span>
-        <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>false</span>
-    <span style=color:#f92672>}</span>
-</code></pre></div><h4 id=获取好友get-all-friends>获取好友（Get All Friends）</h4><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>    <span style=color:#75715e>/**
-</span><span style=color:#75715e>     * 获取所有好友信息
-</span><span style=color:#75715e>     * @return 所有好友列表
-</span><span style=color:#75715e>     */</span>
-    fun <span style=color:#a6e22e>getAllFriends</span><span style=color:#f92672>():</span> List<span style=color:#f92672>&lt;</span>RosterEntry<span style=color:#f92672>&gt;?</span> <span style=color:#f92672>{</span>
-        log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;getAllFriends&#34;</span><span style=color:#f92672>)</span>
-        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>mConnection <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            val entryList <span style=color:#f92672>=</span> ArrayList<span style=color:#f92672>&lt;</span>RosterEntry<span style=color:#f92672>&gt;()</span>
-            val rotryEntry <span style=color:#f92672>=</span> Roster<span style=color:#f92672>.</span><span style=color:#a6e22e>getInstanceFor</span><span style=color:#f92672>(</span>mConnection<span style=color:#f92672>).</span><span style=color:#a6e22e>entries</span>
-            entryList <span style=color:#f92672>+=</span> rotryEntry
-            <span style=color:#66d9ef>return</span> entryList
-        <span style=color:#f92672>}</span>
+                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>e<span style="color:#f92672">:</span> Exception<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                log_e<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">())</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><h4 id="获取好友get-all-friends">获取好友（Get All Friends）</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 获取所有好友信息
+</span><span style="color:#75715e">     * @return 所有好友列表
+</span><span style="color:#75715e">     */</span>
+    fun <span style="color:#a6e22e">getAllFriends</span><span style="color:#f92672">():</span> List<span style="color:#f92672">&lt;</span>RosterEntry<span style="color:#f92672">&gt;?</span> <span style="color:#f92672">{</span>
+        log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;getAllFriends&#34;</span><span style="color:#f92672">)</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mConnection <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            val entryList <span style="color:#f92672">=</span> ArrayList<span style="color:#f92672">&lt;</span>RosterEntry<span style="color:#f92672">&gt;()</span>
+            val rotryEntry <span style="color:#f92672">=</span> Roster<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstanceFor</span><span style="color:#f92672">(</span>mConnection<span style="color:#f92672">).</span><span style="color:#a6e22e">entries</span>
+            entryList <span style="color:#f92672">+=</span> rotryEntry
+            <span style="color:#66d9ef">return</span> entryList
+        <span style="color:#f92672">}</span>
 
-        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>null</span>
-    <span style=color:#f92672>}</span>
-</code></pre></div><p>获取好友列表</p><p>还封装了好几个接口</p><ul><li><code>isAuthenticated()</code> 判断是否已经登录</li><li><code>isConnect()</code> 判断是否连接</li><li><code>disconnect()</code> 断开连接</li><li><code>getGroups()</code> 获取所有分组</li><li><code>getFriendsInGroup</code> 获取指定分组内的所有好友</li><li>&mldr; &mldr; 等等</li></ul><p>使用的时候，我用了 RxJava 的 链式调用，用起来还不错。</p><h5 id=登录>登录</h5><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>fun <span style=color:#a6e22e>login</span><span style=color:#f92672>(</span>user_name<span style=color:#f92672>:</span> String<span style=color:#f92672>,</span> passwd<span style=color:#f92672>:</span> String<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;login name-&gt;$user_name&#34;</span><span style=color:#f92672>)</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><p>获取好友列表</p>
+<p>还封装了好几个接口</p>
+<ul>
+<li><code>isAuthenticated()</code>  判断是否已经登录</li>
+<li><code>isConnect()</code>  判断是否连接</li>
+<li><code>disconnect()</code> 断开连接</li>
+<li><code>getGroups()</code> 获取所有分组</li>
+<li><code>getFriendsInGroup</code> 获取指定分组内的所有好友</li>
+<li>&hellip; &hellip; 等等</li>
+</ul>
+<p>使用的时候，我用了 RxJava 的 链式调用，用起来还不错。</p>
+<h5 id="登录">登录</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">fun <span style="color:#a6e22e">login</span><span style="color:#f92672">(</span>user_name<span style="color:#f92672">:</span> String<span style="color:#f92672">,</span> passwd<span style="color:#f92672">:</span> String<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;login name-&gt;$user_name&#34;</span><span style="color:#f92672">)</span>
 
-            curUserName <span style=color:#f92672>=</span> user_name
-            curPasswd <span style=color:#f92672>=</span> passwd
-            <span style=color:#a6e22e>if</span> <span style=color:#f92672>(</span>mXmppApiManager<span style=color:#f92672>.</span><span style=color:#a6e22e>isAuthenticated</span><span style=color:#f92672>())</span> <span style=color:#f92672>{</span>
-                <span style=color:#75715e>// 已经登录过
-</span><span style=color:#75715e></span>                val userName <span style=color:#f92672>=</span> mXmppApiManager<span style=color:#f92672>.</span><span style=color:#a6e22e>getAuthenticatedUser</span><span style=color:#f92672>()</span>
-                <span style=color:#66d9ef>if</span> <span style=color:#f92672>(!</span>TextUtils<span style=color:#f92672>.</span><span style=color:#a6e22e>isEmpty</span><span style=color:#f92672>(</span>userName<span style=color:#f92672>))</span> <span style=color:#f92672>{</span>
-                    log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;account logined as -&gt; &#34;</span> <span style=color:#f92672>+</span> userName<span style=color:#f92672>!!)</span>
-                <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-                    log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;login successful as -&gt; &#34;</span> <span style=color:#f92672>+</span> user_name<span style=color:#f92672>)</span>
-                <span style=color:#f92672>}</span>
-            <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-                <span style=color:#66d9ef>if</span> <span style=color:#f92672>(!</span>mXmppApiManager<span style=color:#f92672>.</span><span style=color:#a6e22e>isConnected</span><span style=color:#f92672>())</span> <span style=color:#f92672>{</span>
-                    <span style=color:#75715e>// 先进行连接
-</span><span style=color:#75715e></span>
-                    Observable<span style=color:#f92672>.</span><span style=color:#a6e22e>create</span><span style=color:#f92672>(</span>ObservableOnSubscribe<span style=color:#f92672>&lt;</span>Boolean<span style=color:#f92672>&gt;</span> <span style=color:#f92672>{</span> emitter <span style=color:#f92672>-&gt;</span>
-                        emitter<span style=color:#f92672>.</span><span style=color:#a6e22e>onNext</span><span style=color:#f92672>(</span>mXmppApiManager<span style=color:#f92672>.</span><span style=color:#a6e22e>connect</span><span style=color:#f92672>())</span>
-                    <span style=color:#f92672>})</span>
-                            <span style=color:#f92672>.</span><span style=color:#a6e22e>subscribeOn</span><span style=color:#f92672>(</span>Schedulers<span style=color:#f92672>.</span><span style=color:#a6e22e>io</span><span style=color:#f92672>())</span>
-                            <span style=color:#f92672>.</span><span style=color:#a6e22e>flatMap</span> <span style=color:#f92672>{</span> isConnectSuccessful <span style=color:#f92672>-&gt;</span>
-                                <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>isConnectSuccessful<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                                    <span style=color:#75715e>// 连接成功后
-</span><span style=color:#75715e></span>                                    <span style=color:#75715e>// 进行注册
-</span><span style=color:#75715e></span>                                    log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;xmpp connect successful&#34;</span><span style=color:#f92672>)</span>
-                                    Observable<span style=color:#f92672>.</span><span style=color:#a6e22e>just</span><span style=color:#f92672>(</span>mXmppApiManager<span style=color:#f92672>.</span><span style=color:#a6e22e>registerUser</span><span style=color:#f92672>(</span>user_name<span style=color:#f92672>,</span> passwd<span style=color:#f92672>))</span>
-                                <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-                                    <span style=color:#75715e>// 连接失败
-</span><span style=color:#75715e></span>                                    log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;xmpp connect failed&#34;</span><span style=color:#f92672>)</span>
-                                    <span style=color:#75715e>// 几秒后进行重连
-</span><span style=color:#75715e></span>                                    handler<span style=color:#f92672>.</span><span style=color:#a6e22e>postDelayed</span><span style=color:#f92672>(</span>reconnectRunnable<span style=color:#f92672>,</span> RECONNECT_TIME_MILLSECOND<span style=color:#f92672>)</span>
-                                    Observable<span style=color:#f92672>.</span><span style=color:#a6e22e>just</span><span style=color:#f92672>(</span><span style=color:#66d9ef>false</span><span style=color:#f92672>)</span>
-                                <span style=color:#f92672>}</span>
-                            <span style=color:#f92672>}</span>
-                            <span style=color:#f92672>.</span><span style=color:#a6e22e>flatMap</span> <span style=color:#f92672>{</span> isRegisterSuccessful <span style=color:#f92672>-&gt;</span>
-                                <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>isRegisterSuccessful<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                                    <span style=color:#75715e>// 注册成功
-</span><span style=color:#75715e></span>                                    <span style=color:#75715e>// 进行登录
-</span><span style=color:#75715e></span>                                    log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;xmpp register successful&#34;</span><span style=color:#f92672>)</span>
-                                    Observable<span style=color:#f92672>.</span><span style=color:#a6e22e>just</span><span style=color:#f92672>(</span>mXmppApiManager<span style=color:#f92672>.</span><span style=color:#a6e22e>login</span><span style=color:#f92672>(</span>user_name<span style=color:#f92672>,</span> passwd<span style=color:#f92672>))</span>
-                                <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-                                    <span style=color:#75715e>// 注册失败
-</span><span style=color:#75715e></span>                                    log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;xmpp register failed&#34;</span><span style=color:#f92672>)</span>
-                                    Observable<span style=color:#f92672>.</span><span style=color:#a6e22e>just</span><span style=color:#f92672>(</span><span style=color:#66d9ef>false</span><span style=color:#f92672>)</span>
-                                <span style=color:#f92672>}</span>
-                            <span style=color:#f92672>}.</span><span style=color:#a6e22e>observeOn</span><span style=color:#f92672>(</span>AndroidSchedulers<span style=color:#f92672>.</span><span style=color:#a6e22e>mainThread</span><span style=color:#f92672>())</span>
-                            <span style=color:#f92672>.</span><span style=color:#a6e22e>subscribe</span><span style=color:#f92672>({</span> isLoginSuccessful <span style=color:#f92672>-&gt;</span>
-                                <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>isLoginSuccessful<span style=color:#f92672>!!)</span> <span style=color:#f92672>{</span>
-                                    log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;login successful as -&gt; &#34;</span> <span style=color:#f92672>+</span> mXmppApiManager<span style=color:#f92672>.</span><span style=color:#a6e22e>getAuthenticatedUser</span><span style=color:#f92672>()!!)</span>
-                                <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-                                    log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;login failed&#34;</span><span style=color:#f92672>)</span>
-                                <span style=color:#f92672>}</span>
-                            <span style=color:#f92672>})</span>
-                <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-                    <span style=color:#75715e>// 直接进行登录操作
-</span><span style=color:#75715e></span>                    Observable<span style=color:#f92672>.</span><span style=color:#a6e22e>create</span><span style=color:#f92672>(</span>ObservableOnSubscribe<span style=color:#f92672>&lt;</span>Boolean<span style=color:#f92672>&gt;</span> <span style=color:#f92672>{</span> emitter <span style=color:#f92672>-&gt;</span>
-                        emitter<span style=color:#f92672>.</span><span style=color:#a6e22e>onNext</span><span style=color:#f92672>(</span>mXmppApiManager<span style=color:#f92672>.</span><span style=color:#a6e22e>registerUser</span><span style=color:#f92672>(</span>user_name<span style=color:#f92672>,</span> passwd<span style=color:#f92672>))</span>
-                    <span style=color:#f92672>})</span>
-                            <span style=color:#f92672>.</span><span style=color:#a6e22e>subscribeOn</span><span style=color:#f92672>(</span>Schedulers<span style=color:#f92672>.</span><span style=color:#a6e22e>io</span><span style=color:#f92672>())</span>
-                            <span style=color:#f92672>.</span><span style=color:#a6e22e>flatMap</span> <span style=color:#f92672>{</span> isRegisterSuccessful <span style=color:#f92672>-&gt;</span>
-                                <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>isRegisterSuccessful<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                                    <span style=color:#75715e>// 注册成功
-</span><span style=color:#75715e></span>                                    <span style=color:#75715e>// 进行登录
-</span><span style=color:#75715e></span>                                    log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;xmpp register successful&#34;</span><span style=color:#f92672>)</span>
-                                    Observable<span style=color:#f92672>.</span><span style=color:#a6e22e>just</span><span style=color:#f92672>(</span>mXmppApiManager<span style=color:#f92672>.</span><span style=color:#a6e22e>login</span><span style=color:#f92672>(</span>user_name<span style=color:#f92672>,</span> passwd<span style=color:#f92672>))</span>
-                                <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-                                    <span style=color:#75715e>// 注册失败
-</span><span style=color:#75715e></span>                                    log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;xmpp register failed&#34;</span><span style=color:#f92672>)</span>
-                                    Observable<span style=color:#f92672>.</span><span style=color:#a6e22e>just</span><span style=color:#f92672>(</span><span style=color:#66d9ef>false</span><span style=color:#f92672>)</span>
-                                <span style=color:#f92672>}</span>
-                            <span style=color:#f92672>}.</span><span style=color:#a6e22e>observeOn</span><span style=color:#f92672>(</span>AndroidSchedulers<span style=color:#f92672>.</span><span style=color:#a6e22e>mainThread</span><span style=color:#f92672>())</span>
-                            <span style=color:#f92672>.</span><span style=color:#a6e22e>subscribe</span> <span style=color:#f92672>{</span> isLoginSuccessful <span style=color:#f92672>-&gt;</span>
-                                <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>isLoginSuccessful<span style=color:#f92672>!!)</span> <span style=color:#f92672>{</span>
-                                    val userName <span style=color:#f92672>=</span> mXmppApiManager<span style=color:#f92672>.</span><span style=color:#a6e22e>getAuthenticatedUser</span><span style=color:#f92672>()</span>
-                                    <span style=color:#66d9ef>if</span> <span style=color:#f92672>(!</span>TextUtils<span style=color:#f92672>.</span><span style=color:#a6e22e>isEmpty</span><span style=color:#f92672>(</span>userName<span style=color:#f92672>))</span> <span style=color:#f92672>{</span>
-                                        log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;account logined as -&gt; &#34;</span> <span style=color:#f92672>+</span> userName<span style=color:#f92672>!!)</span>
-                                    <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-                                        log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;login successful as -&gt; &#34;</span> <span style=color:#f92672>+</span> userName<span style=color:#f92672>)</span>
-                                    <span style=color:#f92672>}</span>
-                                <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-                                    log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;login failed&#34;</span><span style=color:#f92672>)</span>
-                                <span style=color:#f92672>}</span>
-                            <span style=color:#f92672>}</span>
-                <span style=color:#f92672>}</span>
+            curUserName <span style="color:#f92672">=</span> user_name
+            curPasswd <span style="color:#f92672">=</span> passwd
+            <span style="color:#a6e22e">if</span> <span style="color:#f92672">(</span>mXmppApiManager<span style="color:#f92672">.</span><span style="color:#a6e22e">isAuthenticated</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+                <span style="color:#75715e">// 已经登录过
+</span><span style="color:#75715e"></span>                val userName <span style="color:#f92672">=</span> mXmppApiManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getAuthenticatedUser</span><span style="color:#f92672">()</span>
+                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>TextUtils<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">(</span>userName<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+                    log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;account logined as -&gt; &#34;</span> <span style="color:#f92672">+</span> userName<span style="color:#f92672">!!)</span>
+                <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                    log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;login successful as -&gt; &#34;</span> <span style="color:#f92672">+</span> user_name<span style="color:#f92672">)</span>
+                <span style="color:#f92672">}</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>mXmppApiManager<span style="color:#f92672">.</span><span style="color:#a6e22e">isConnected</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+                    <span style="color:#75715e">// 先进行连接
+</span><span style="color:#75715e"></span>
+                    Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">(</span>ObservableOnSubscribe<span style="color:#f92672">&lt;</span>Boolean<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span> emitter <span style="color:#f92672">-&gt;</span>
+                        emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>mXmppApiManager<span style="color:#f92672">.</span><span style="color:#a6e22e">connect</span><span style="color:#f92672">())</span>
+                    <span style="color:#f92672">})</span>
+                            <span style="color:#f92672">.</span><span style="color:#a6e22e">subscribeOn</span><span style="color:#f92672">(</span>Schedulers<span style="color:#f92672">.</span><span style="color:#a6e22e">io</span><span style="color:#f92672">())</span>
+                            <span style="color:#f92672">.</span><span style="color:#a6e22e">flatMap</span> <span style="color:#f92672">{</span> isConnectSuccessful <span style="color:#f92672">-&gt;</span>
+                                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>isConnectSuccessful<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                                    <span style="color:#75715e">// 连接成功后
+</span><span style="color:#75715e"></span>                                    <span style="color:#75715e">// 进行注册
+</span><span style="color:#75715e"></span>                                    log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;xmpp connect successful&#34;</span><span style="color:#f92672">)</span>
+                                    Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">just</span><span style="color:#f92672">(</span>mXmppApiManager<span style="color:#f92672">.</span><span style="color:#a6e22e">registerUser</span><span style="color:#f92672">(</span>user_name<span style="color:#f92672">,</span> passwd<span style="color:#f92672">))</span>
+                                <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                                    <span style="color:#75715e">// 连接失败
+</span><span style="color:#75715e"></span>                                    log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;xmpp connect failed&#34;</span><span style="color:#f92672">)</span>
+                                    <span style="color:#75715e">// 几秒后进行重连
+</span><span style="color:#75715e"></span>                                    handler<span style="color:#f92672">.</span><span style="color:#a6e22e">postDelayed</span><span style="color:#f92672">(</span>reconnectRunnable<span style="color:#f92672">,</span> RECONNECT_TIME_MILLSECOND<span style="color:#f92672">)</span>
+                                    Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">just</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">)</span>
+                                <span style="color:#f92672">}</span>
+                            <span style="color:#f92672">}</span>
+                            <span style="color:#f92672">.</span><span style="color:#a6e22e">flatMap</span> <span style="color:#f92672">{</span> isRegisterSuccessful <span style="color:#f92672">-&gt;</span>
+                                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>isRegisterSuccessful<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                                    <span style="color:#75715e">// 注册成功
+</span><span style="color:#75715e"></span>                                    <span style="color:#75715e">// 进行登录
+</span><span style="color:#75715e"></span>                                    log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;xmpp register successful&#34;</span><span style="color:#f92672">)</span>
+                                    Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">just</span><span style="color:#f92672">(</span>mXmppApiManager<span style="color:#f92672">.</span><span style="color:#a6e22e">login</span><span style="color:#f92672">(</span>user_name<span style="color:#f92672">,</span> passwd<span style="color:#f92672">))</span>
+                                <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                                    <span style="color:#75715e">// 注册失败
+</span><span style="color:#75715e"></span>                                    log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;xmpp register failed&#34;</span><span style="color:#f92672">)</span>
+                                    Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">just</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">)</span>
+                                <span style="color:#f92672">}</span>
+                            <span style="color:#f92672">}.</span><span style="color:#a6e22e">observeOn</span><span style="color:#f92672">(</span>AndroidSchedulers<span style="color:#f92672">.</span><span style="color:#a6e22e">mainThread</span><span style="color:#f92672">())</span>
+                            <span style="color:#f92672">.</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">({</span> isLoginSuccessful <span style="color:#f92672">-&gt;</span>
+                                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>isLoginSuccessful<span style="color:#f92672">!!)</span> <span style="color:#f92672">{</span>
+                                    log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;login successful as -&gt; &#34;</span> <span style="color:#f92672">+</span> mXmppApiManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getAuthenticatedUser</span><span style="color:#f92672">()!!)</span>
+                                <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                                    log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;login failed&#34;</span><span style="color:#f92672">)</span>
+                                <span style="color:#f92672">}</span>
+                            <span style="color:#f92672">})</span>
+                <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                    <span style="color:#75715e">// 直接进行登录操作
+</span><span style="color:#75715e"></span>                    Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">(</span>ObservableOnSubscribe<span style="color:#f92672">&lt;</span>Boolean<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span> emitter <span style="color:#f92672">-&gt;</span>
+                        emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>mXmppApiManager<span style="color:#f92672">.</span><span style="color:#a6e22e">registerUser</span><span style="color:#f92672">(</span>user_name<span style="color:#f92672">,</span> passwd<span style="color:#f92672">))</span>
+                    <span style="color:#f92672">})</span>
+                            <span style="color:#f92672">.</span><span style="color:#a6e22e">subscribeOn</span><span style="color:#f92672">(</span>Schedulers<span style="color:#f92672">.</span><span style="color:#a6e22e">io</span><span style="color:#f92672">())</span>
+                            <span style="color:#f92672">.</span><span style="color:#a6e22e">flatMap</span> <span style="color:#f92672">{</span> isRegisterSuccessful <span style="color:#f92672">-&gt;</span>
+                                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>isRegisterSuccessful<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                                    <span style="color:#75715e">// 注册成功
+</span><span style="color:#75715e"></span>                                    <span style="color:#75715e">// 进行登录
+</span><span style="color:#75715e"></span>                                    log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;xmpp register successful&#34;</span><span style="color:#f92672">)</span>
+                                    Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">just</span><span style="color:#f92672">(</span>mXmppApiManager<span style="color:#f92672">.</span><span style="color:#a6e22e">login</span><span style="color:#f92672">(</span>user_name<span style="color:#f92672">,</span> passwd<span style="color:#f92672">))</span>
+                                <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                                    <span style="color:#75715e">// 注册失败
+</span><span style="color:#75715e"></span>                                    log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;xmpp register failed&#34;</span><span style="color:#f92672">)</span>
+                                    Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">just</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">)</span>
+                                <span style="color:#f92672">}</span>
+                            <span style="color:#f92672">}.</span><span style="color:#a6e22e">observeOn</span><span style="color:#f92672">(</span>AndroidSchedulers<span style="color:#f92672">.</span><span style="color:#a6e22e">mainThread</span><span style="color:#f92672">())</span>
+                            <span style="color:#f92672">.</span><span style="color:#a6e22e">subscribe</span> <span style="color:#f92672">{</span> isLoginSuccessful <span style="color:#f92672">-&gt;</span>
+                                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>isLoginSuccessful<span style="color:#f92672">!!)</span> <span style="color:#f92672">{</span>
+                                    val userName <span style="color:#f92672">=</span> mXmppApiManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getAuthenticatedUser</span><span style="color:#f92672">()</span>
+                                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>TextUtils<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">(</span>userName<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+                                        log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;account logined as -&gt; &#34;</span> <span style="color:#f92672">+</span> userName<span style="color:#f92672">!!)</span>
+                                    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                                        log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;login successful as -&gt; &#34;</span> <span style="color:#f92672">+</span> userName<span style="color:#f92672">)</span>
+                                    <span style="color:#f92672">}</span>
+                                <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                                    log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;login failed&#34;</span><span style="color:#f92672">)</span>
+                                <span style="color:#f92672">}</span>
+                            <span style="color:#f92672">}</span>
+                <span style="color:#f92672">}</span>
 
-            <span style=color:#f92672>}</span>
-        <span style=color:#f92672>}</span>
-</code></pre></div><p>在登录的时候先进行一些连接的判断。</p><p>这样使用的时候就不需要去处理是否连接的问题。</p><p>还有注册也是一样</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>        fun <span style=color:#a6e22e>register</span><span style=color:#f92672>(</span>user_name<span style=color:#f92672>:</span> String<span style=color:#f92672>,</span> passwd<span style=color:#f92672>:</span> String<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            <span style=color:#75715e>// 如果已经验证过的，需要退出登录?
-</span><span style=color:#75715e></span>            log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;register name-&gt;$user_name&#34;</span><span style=color:#f92672>)</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+</code></pre></div><p>在登录的时候先进行一些连接的判断。</p>
+<p>这样使用的时候就不需要去处理是否连接的问题。</p>
+<p>还有注册也是一样</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">        fun <span style="color:#a6e22e">register</span><span style="color:#f92672">(</span>user_name<span style="color:#f92672">:</span> String<span style="color:#f92672">,</span> passwd<span style="color:#f92672">:</span> String<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#75715e">// 如果已经验证过的，需要退出登录?
+</span><span style="color:#75715e"></span>            log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;register name-&gt;$user_name&#34;</span><span style="color:#f92672">)</span>
 
-            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(!</span>mXmppApiManager<span style=color:#f92672>.</span><span style=color:#a6e22e>isConnected</span><span style=color:#f92672>())</span> <span style=color:#f92672>{</span>
-                <span style=color:#75715e>// 先进行连接
-</span><span style=color:#75715e></span>                Observable<span style=color:#f92672>.</span><span style=color:#a6e22e>create</span><span style=color:#f92672>(</span>ObservableOnSubscribe<span style=color:#f92672>&lt;</span>Boolean<span style=color:#f92672>&gt;</span> <span style=color:#f92672>{</span> emitter <span style=color:#f92672>-&gt;</span>
-                    emitter<span style=color:#f92672>.</span><span style=color:#a6e22e>onNext</span><span style=color:#f92672>(</span>mXmppApiManager<span style=color:#f92672>.</span><span style=color:#a6e22e>connect</span><span style=color:#f92672>())</span>
-                <span style=color:#f92672>})</span>
-                        <span style=color:#f92672>.</span><span style=color:#a6e22e>subscribeOn</span><span style=color:#f92672>(</span>Schedulers<span style=color:#f92672>.</span><span style=color:#a6e22e>io</span><span style=color:#f92672>())</span>
-                        <span style=color:#f92672>.</span><span style=color:#a6e22e>observeOn</span><span style=color:#f92672>(</span>Schedulers<span style=color:#f92672>.</span><span style=color:#a6e22e>io</span><span style=color:#f92672>())</span>
-                        <span style=color:#f92672>.</span><span style=color:#a6e22e>flatMap</span> <span style=color:#f92672>{</span> isConnectSuccessful <span style=color:#f92672>-&gt;</span>
-                            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>isConnectSuccessful<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                                <span style=color:#75715e>// 连接成功后
-</span><span style=color:#75715e></span>                                <span style=color:#75715e>// 进行注册
-</span><span style=color:#75715e></span>                                log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;xmpp connect successful&#34;</span><span style=color:#f92672>)</span>
-                                Observable<span style=color:#f92672>.</span><span style=color:#a6e22e>just</span><span style=color:#f92672>(</span>mXmppApiManager<span style=color:#f92672>.</span><span style=color:#a6e22e>registerUser</span><span style=color:#f92672>(</span>user_name<span style=color:#f92672>,</span> passwd<span style=color:#f92672>))</span>
-                            <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-                                <span style=color:#75715e>// 连接失败
-</span><span style=color:#75715e></span>                                log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;xmpp connect failed&#34;</span><span style=color:#f92672>)</span>
-                                <span style=color:#75715e>// 几秒后进行重连
-</span><span style=color:#75715e></span>                                handler<span style=color:#f92672>.</span><span style=color:#a6e22e>postDelayed</span><span style=color:#f92672>(</span>reconnectRunnable<span style=color:#f92672>,</span> RECONNECT_TIME_MILLSECOND<span style=color:#f92672>)</span>
-                                Observable<span style=color:#f92672>.</span><span style=color:#a6e22e>just</span><span style=color:#f92672>(</span><span style=color:#66d9ef>false</span><span style=color:#f92672>)</span>
-                            <span style=color:#f92672>}</span>
-                        <span style=color:#f92672>}</span>
-                        <span style=color:#f92672>.</span><span style=color:#a6e22e>observeOn</span><span style=color:#f92672>(</span>AndroidSchedulers<span style=color:#f92672>.</span><span style=color:#a6e22e>mainThread</span><span style=color:#f92672>())</span>
-                        <span style=color:#f92672>.</span><span style=color:#a6e22e>subscribe</span> <span style=color:#f92672>{</span> isRegisterSuccessful <span style=color:#f92672>-&gt;</span>
-                            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>isRegisterSuccessful<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                                <span style=color:#75715e>// 注册成功
-</span><span style=color:#75715e></span>                                <span style=color:#75715e>// 进行登录
-</span><span style=color:#75715e></span>                                log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;xmpp register successful&#34;</span><span style=color:#f92672>)</span>
-                            <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-                                <span style=color:#75715e>// 注册失败
-</span><span style=color:#75715e></span>                                log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;xmpp register failed&#34;</span><span style=color:#f92672>)</span>
-                            <span style=color:#f92672>}</span>
-                        <span style=color:#f92672>}</span>
-            <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-                <span style=color:#75715e>// 直接进行注册操作
-</span><span style=color:#75715e></span>                Observable<span style=color:#f92672>.</span><span style=color:#a6e22e>create</span><span style=color:#f92672>(</span>ObservableOnSubscribe<span style=color:#f92672>&lt;</span>Boolean<span style=color:#f92672>&gt;</span> <span style=color:#f92672>{</span> emitter <span style=color:#f92672>-&gt;</span>
-                    emitter<span style=color:#f92672>.</span><span style=color:#a6e22e>onNext</span><span style=color:#f92672>(</span>mXmppApiManager<span style=color:#f92672>.</span><span style=color:#a6e22e>registerUser</span><span style=color:#f92672>(</span>user_name<span style=color:#f92672>,</span> passwd<span style=color:#f92672>))</span>
-                <span style=color:#f92672>})</span>
-                        <span style=color:#f92672>.</span><span style=color:#a6e22e>subscribeOn</span><span style=color:#f92672>(</span>Schedulers<span style=color:#f92672>.</span><span style=color:#a6e22e>io</span><span style=color:#f92672>())</span>
-                        <span style=color:#f92672>.</span><span style=color:#a6e22e>observeOn</span><span style=color:#f92672>(</span>AndroidSchedulers<span style=color:#f92672>.</span><span style=color:#a6e22e>mainThread</span><span style=color:#f92672>())</span>
-                        <span style=color:#f92672>.</span><span style=color:#a6e22e>subscribe</span> <span style=color:#f92672>{</span> isRegisterSuccessful <span style=color:#f92672>-&gt;</span>
-                            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>isRegisterSuccessful<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                                <span style=color:#75715e>// 注册成功
-</span><span style=color:#75715e></span>                                log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;xmpp register successful&#34;</span><span style=color:#f92672>)</span>
-                            <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-                                <span style=color:#75715e>// 注册失败
-</span><span style=color:#75715e></span>                                log_d<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;xmpp register failed&#34;</span><span style=color:#f92672>)</span>
-                            <span style=color:#f92672>}</span>
-                        <span style=color:#f92672>}</span>
-            <span style=color:#f92672>}</span>
-        <span style=color:#f92672>}</span>
-</code></pre></div><p>这样用起来就比较方便。</p><h2 id=需要注意的问题>需要注意的问题</h2><h4 id=如何保持xmpp连接稳定>如何保持XMPP连接稳定</h4><h5 id=遇到问题>遇到问题</h5><blockquote><p>应用程序处于活动状态。但是迟早，XMPP连接都没有任何提示。服务器表示客户端仍处于联机状态，但未发送或者接收数据包。</p><p><code>XMPPConnection connection.isConnected()</code>返回 True。</p><p>实际上 客户端 无法知道 实际连接已经丢失。</p></blockquote><h5 id=解决方案>解决方案</h5><ol><li><p>首先在 openfire 服务器后台发现了这个</p><blockquote><p>服务器可以在断开闲置连接前发送XMPP Ping请求给该客户端。客户端必须回复 Ping请求，这样服务器能判断客户端连接确实是闲置状态。 XMPP规范要求所有客户端必须响应 Ping请求。如果客户端不支持该Ping请求，必须返回错误（这本身就是一个响应）。</p></blockquote><p>所以，我们的客户端必须对 服务器的 ping 请求进行回复。但是 smack 4.2 的 incomingMessage 仅仅会返回 用户消息，所以在 incomingmessage 回调里面没有办法完成这件事情。</p><p>搜索一番之后发现一个：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>connection <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> XMPPTCPConnection<span style=color:#f92672>(</span>config<span style=color:#f92672>);</span>  
-PingManager pingManager <span style=color:#f92672>=</span> PingManager<span style=color:#f92672>.</span><span style=color:#a6e22e>getInstanceFor</span><span style=color:#f92672>(</span>connection<span style=color:#f92672>);</span> pingManager<span style=color:#f92672>.</span><span style=color:#a6e22e>setPingInterval</span><span style=color:#f92672>(</span>300<span style=color:#f92672>);</span><span style=color:#75715e>//seconds
-</span></code></pre></div><p>​</p><p>在 connect 完成后 加了这个设置，测试了一下，仍然后断线的问题，但是频率少了。应该是有一点作用的。</p></li><li><p>添加 <code>XMPPConnectionListener</code> 连接监听</p><p>如果需要保持长期的连接，需要对很多异常进行进行处理，也就是重连机制的实现。</p><p>比如说</p><ul><li>监听到 <code>connectitonCloseError</code> 的时候</li><li>监听到 <code>connectionClose</code> 的时候</li><li>或者是连接异常的时候</li></ul><p>都可以加入 自动重连的逻辑，从而保证 连接的稳定性。</p></li><li><p>添加 网络变化 监听</p><p>移动应用的网络情况千变万化，有时候并不稳定，所以需要加入网络情况的判断</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>NetworkChangeReceiver</span><span style=color:#f92672>:</span> BroadcastReceiver<span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>mXmppApiManager<span style="color:#f92672">.</span><span style="color:#a6e22e">isConnected</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+                <span style="color:#75715e">// 先进行连接
+</span><span style="color:#75715e"></span>                Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">(</span>ObservableOnSubscribe<span style="color:#f92672">&lt;</span>Boolean<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span> emitter <span style="color:#f92672">-&gt;</span>
+                    emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>mXmppApiManager<span style="color:#f92672">.</span><span style="color:#a6e22e">connect</span><span style="color:#f92672">())</span>
+                <span style="color:#f92672">})</span>
+                        <span style="color:#f92672">.</span><span style="color:#a6e22e">subscribeOn</span><span style="color:#f92672">(</span>Schedulers<span style="color:#f92672">.</span><span style="color:#a6e22e">io</span><span style="color:#f92672">())</span>
+                        <span style="color:#f92672">.</span><span style="color:#a6e22e">observeOn</span><span style="color:#f92672">(</span>Schedulers<span style="color:#f92672">.</span><span style="color:#a6e22e">io</span><span style="color:#f92672">())</span>
+                        <span style="color:#f92672">.</span><span style="color:#a6e22e">flatMap</span> <span style="color:#f92672">{</span> isConnectSuccessful <span style="color:#f92672">-&gt;</span>
+                            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>isConnectSuccessful<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                                <span style="color:#75715e">// 连接成功后
+</span><span style="color:#75715e"></span>                                <span style="color:#75715e">// 进行注册
+</span><span style="color:#75715e"></span>                                log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;xmpp connect successful&#34;</span><span style="color:#f92672">)</span>
+                                Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">just</span><span style="color:#f92672">(</span>mXmppApiManager<span style="color:#f92672">.</span><span style="color:#a6e22e">registerUser</span><span style="color:#f92672">(</span>user_name<span style="color:#f92672">,</span> passwd<span style="color:#f92672">))</span>
+                            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                                <span style="color:#75715e">// 连接失败
+</span><span style="color:#75715e"></span>                                log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;xmpp connect failed&#34;</span><span style="color:#f92672">)</span>
+                                <span style="color:#75715e">// 几秒后进行重连
+</span><span style="color:#75715e"></span>                                handler<span style="color:#f92672">.</span><span style="color:#a6e22e">postDelayed</span><span style="color:#f92672">(</span>reconnectRunnable<span style="color:#f92672">,</span> RECONNECT_TIME_MILLSECOND<span style="color:#f92672">)</span>
+                                Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">just</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">)</span>
+                            <span style="color:#f92672">}</span>
+                        <span style="color:#f92672">}</span>
+                        <span style="color:#f92672">.</span><span style="color:#a6e22e">observeOn</span><span style="color:#f92672">(</span>AndroidSchedulers<span style="color:#f92672">.</span><span style="color:#a6e22e">mainThread</span><span style="color:#f92672">())</span>
+                        <span style="color:#f92672">.</span><span style="color:#a6e22e">subscribe</span> <span style="color:#f92672">{</span> isRegisterSuccessful <span style="color:#f92672">-&gt;</span>
+                            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>isRegisterSuccessful<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                                <span style="color:#75715e">// 注册成功
+</span><span style="color:#75715e"></span>                                <span style="color:#75715e">// 进行登录
+</span><span style="color:#75715e"></span>                                log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;xmpp register successful&#34;</span><span style="color:#f92672">)</span>
+                            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                                <span style="color:#75715e">// 注册失败
+</span><span style="color:#75715e"></span>                                log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;xmpp register failed&#34;</span><span style="color:#f92672">)</span>
+                            <span style="color:#f92672">}</span>
+                        <span style="color:#f92672">}</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                <span style="color:#75715e">// 直接进行注册操作
+</span><span style="color:#75715e"></span>                Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">(</span>ObservableOnSubscribe<span style="color:#f92672">&lt;</span>Boolean<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span> emitter <span style="color:#f92672">-&gt;</span>
+                    emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>mXmppApiManager<span style="color:#f92672">.</span><span style="color:#a6e22e">registerUser</span><span style="color:#f92672">(</span>user_name<span style="color:#f92672">,</span> passwd<span style="color:#f92672">))</span>
+                <span style="color:#f92672">})</span>
+                        <span style="color:#f92672">.</span><span style="color:#a6e22e">subscribeOn</span><span style="color:#f92672">(</span>Schedulers<span style="color:#f92672">.</span><span style="color:#a6e22e">io</span><span style="color:#f92672">())</span>
+                        <span style="color:#f92672">.</span><span style="color:#a6e22e">observeOn</span><span style="color:#f92672">(</span>AndroidSchedulers<span style="color:#f92672">.</span><span style="color:#a6e22e">mainThread</span><span style="color:#f92672">())</span>
+                        <span style="color:#f92672">.</span><span style="color:#a6e22e">subscribe</span> <span style="color:#f92672">{</span> isRegisterSuccessful <span style="color:#f92672">-&gt;</span>
+                            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>isRegisterSuccessful<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                                <span style="color:#75715e">// 注册成功
+</span><span style="color:#75715e"></span>                                log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;xmpp register successful&#34;</span><span style="color:#f92672">)</span>
+                            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                                <span style="color:#75715e">// 注册失败
+</span><span style="color:#75715e"></span>                                log_d<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;xmpp register failed&#34;</span><span style="color:#f92672">)</span>
+                            <span style="color:#f92672">}</span>
+                        <span style="color:#f92672">}</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+</code></pre></div><p>这样用起来就比较方便。</p>
+<h2 id="需要注意的问题">需要注意的问题</h2>
+<h4 id="如何保持xmpp连接稳定">如何保持XMPP连接稳定</h4>
+<h5 id="遇到问题">遇到问题</h5>
+<blockquote>
+<p>应用程序处于活动状态。但是迟早，XMPP连接都没有任何提示。服务器表示客户端仍处于联机状态，但未发送或者接收数据包。</p>
+<p><code>XMPPConnection connection.isConnected()</code>返回 True。</p>
+<p>实际上 客户端 无法知道 实际连接已经丢失。</p>
+</blockquote>
+<h5 id="解决方案">解决方案</h5>
+<ol>
+<li>
+<p>首先在 openfire 服务器后台发现了这个</p>
+<blockquote>
+<p>服务器可以在断开闲置连接前发送XMPP Ping请求给该客户端。客户端必须回复 Ping请求，这样服务器能判断客户端连接确实是闲置状态。 XMPP规范要求所有客户端必须响应 Ping请求。如果客户端不支持该Ping请求，必须返回错误（这本身就是一个响应）。</p>
+</blockquote>
+<p>所以，我们的客户端必须对 服务器的 ping 请求进行回复。但是 smack 4.2 的 incomingMessage 仅仅会返回 用户消息，所以在 incomingmessage 回调里面没有办法完成这件事情。</p>
+<p>搜索一番之后发现一个：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">connection <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> XMPPTCPConnection<span style="color:#f92672">(</span>config<span style="color:#f92672">);</span>  
+PingManager pingManager <span style="color:#f92672">=</span> PingManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstanceFor</span><span style="color:#f92672">(</span>connection<span style="color:#f92672">);</span> pingManager<span style="color:#f92672">.</span><span style="color:#a6e22e">setPingInterval</span><span style="color:#f92672">(</span>300<span style="color:#f92672">);</span><span style="color:#75715e">//seconds
+</span></code></pre></div><p>​</p>
+<p>在 connect 完成后 加了这个设置，测试了一下，仍然后断线的问题，但是频率少了。应该是有一点作用的。</p>
+</li>
+<li>
+<p>添加 <code>XMPPConnectionListener</code> 连接监听</p>
+<p>如果需要保持长期的连接，需要对很多异常进行进行处理，也就是重连机制的实现。</p>
+<p>比如说</p>
+<ul>
+<li>监听到 <code>connectitonCloseError</code> 的时候</li>
+<li>监听到 <code>connectionClose</code> 的时候</li>
+<li>或者是连接异常的时候</li>
+</ul>
+<p>都可以加入 自动重连的逻辑，从而保证 连接的稳定性。</p>
+</li>
+<li>
+<p>添加 网络变化 监听</p>
+<p>移动应用的网络情况千变万化，有时候并不稳定，所以需要加入网络情况的判断</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NetworkChangeReceiver</span><span style="color:#f92672">:</span> BroadcastReceiver<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
 
-    <span style=color:#66d9ef>private</span> val TAG <span style=color:#f92672>=</span> NetworkChangeReceiver<span style=color:#f92672>::</span>class<span style=color:#f92672>.</span><span style=color:#a6e22e>java</span><span style=color:#f92672>.</span><span style=color:#a6e22e>simpleName</span>
+    <span style="color:#66d9ef">private</span> val TAG <span style="color:#f92672">=</span> NetworkChangeReceiver<span style="color:#f92672">::</span>class<span style="color:#f92672">.</span><span style="color:#a6e22e">java</span><span style="color:#f92672">.</span><span style="color:#a6e22e">simpleName</span>
 
-    override fun <span style=color:#a6e22e>onReceive</span><span style=color:#f92672>(</span>context<span style=color:#f92672>:</span> Context<span style=color:#f92672>?,</span> intent<span style=color:#f92672>:</span> Intent<span style=color:#f92672>?)</span> <span style=color:#f92672>{</span>
-        log_i<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;onReceive 网络状态发生变化&#34;</span><span style=color:#f92672>)</span>
+    override fun <span style="color:#a6e22e">onReceive</span><span style="color:#f92672">(</span>context<span style="color:#f92672">:</span> Context<span style="color:#f92672">?,</span> intent<span style="color:#f92672">:</span> Intent<span style="color:#f92672">?)</span> <span style="color:#f92672">{</span>
+        log_i<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;onReceive 网络状态发生变化&#34;</span><span style="color:#f92672">)</span>
 
-        <span style=color:#75715e>// 如果api小于21，getNetworkinfo(int networType) 已弃用
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>Build<span style=color:#f92672>.</span><span style=color:#a6e22e>VERSION</span><span style=color:#f92672>.</span><span style=color:#a6e22e>SDK_INT</span> <span style=color:#f92672>&lt;</span> Build<span style=color:#f92672>.</span><span style=color:#a6e22e>VERSION_CODES</span><span style=color:#f92672>.</span><span style=color:#a6e22e>LOLLIPOP</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            log_i<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;API 小于 21&#34;</span><span style=color:#f92672>)</span>
+        <span style="color:#75715e">// 如果api小于21，getNetworkinfo(int networType) 已弃用
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>Build<span style="color:#f92672">.</span><span style="color:#a6e22e">VERSION</span><span style="color:#f92672">.</span><span style="color:#a6e22e">SDK_INT</span> <span style="color:#f92672">&lt;</span> Build<span style="color:#f92672">.</span><span style="color:#a6e22e">VERSION_CODES</span><span style="color:#f92672">.</span><span style="color:#a6e22e">LOLLIPOP</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            log_i<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;API 小于 21&#34;</span><span style="color:#f92672">)</span>
 
-            val connectivityManager <span style=color:#f92672>=</span> context<span style=color:#f92672>?.</span><span style=color:#a6e22e>getSystemService</span><span style=color:#f92672>(</span>Context<span style=color:#f92672>.</span><span style=color:#a6e22e>CONNECTIVITY_SERVICE</span><span style=color:#f92672>)</span> as ConnectivityManager
+            val connectivityManager <span style="color:#f92672">=</span> context<span style="color:#f92672">?.</span><span style="color:#a6e22e">getSystemService</span><span style="color:#f92672">(</span>Context<span style="color:#f92672">.</span><span style="color:#a6e22e">CONNECTIVITY_SERVICE</span><span style="color:#f92672">)</span> as ConnectivityManager
 
-            <span style=color:#75715e>// Wi-Fi 连接
-</span><span style=color:#75715e></span>            val wifiNetworkInfo <span style=color:#f92672>=</span> connectivityManager<span style=color:#f92672>.</span><span style=color:#a6e22e>getNetworkInfo</span><span style=color:#f92672>(</span>ConnectivityManager<span style=color:#f92672>.</span><span style=color:#a6e22e>TYPE_WIFI</span><span style=color:#f92672>)</span>
-            <span style=color:#75715e>// 移动数据连接
-</span><span style=color:#75715e></span>            val dataNetworkInfo <span style=color:#f92672>=</span> connectivityManager<span style=color:#f92672>.</span><span style=color:#a6e22e>getNetworkInfo</span><span style=color:#f92672>(</span>ConnectivityManager<span style=color:#f92672>.</span><span style=color:#a6e22e>TYPE_MOBILE</span><span style=color:#f92672>)</span>
+            <span style="color:#75715e">// Wi-Fi 连接
+</span><span style="color:#75715e"></span>            val wifiNetworkInfo <span style="color:#f92672">=</span> connectivityManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getNetworkInfo</span><span style="color:#f92672">(</span>ConnectivityManager<span style="color:#f92672">.</span><span style="color:#a6e22e">TYPE_WIFI</span><span style="color:#f92672">)</span>
+            <span style="color:#75715e">// 移动数据连接
+</span><span style="color:#75715e"></span>            val dataNetworkInfo <span style="color:#f92672">=</span> connectivityManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getNetworkInfo</span><span style="color:#f92672">(</span>ConnectivityManager<span style="color:#f92672">.</span><span style="color:#a6e22e">TYPE_MOBILE</span><span style="color:#f92672">)</span>
 
-            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>wifiNetworkInfo<span style=color:#f92672>.</span><span style=color:#a6e22e>isConnected</span> <span style=color:#f92672>&amp;&amp;</span> dataNetworkInfo<span style=color:#f92672>.</span><span style=color:#a6e22e>isConnected</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                log_i<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;Wi-Fi 已连接，移动数据已连接&#34;</span><span style=color:#f92672>)</span>
-                RxBus2<span style=color:#f92672>.</span><span style=color:#a6e22e>getIntanceBus</span><span style=color:#f92672>().</span><span style=color:#a6e22e>post</span><span style=color:#f92672>(</span>RxMessage<span style=color:#f92672>(</span>RxMessageConstants<span style=color:#f92672>.</span><span style=color:#a6e22e>MESSAGE_TYPE_NETWOKR</span><span style=color:#f92672>,</span> RxMessageConstants<span style=color:#f92672>.</span><span style=color:#a6e22e>MESSAGE_NETWORK_WIFI_CONNECTED</span><span style=color:#f92672>)</span> as Object<span style=color:#f92672>)</span>
-            <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>wifiNetworkInfo<span style=color:#f92672>.</span><span style=color:#a6e22e>isConnected</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#f92672>!</span>dataNetworkInfo<span style=color:#f92672>.</span><span style=color:#a6e22e>isConnected</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                log_i<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;Wi-Fi 已连接，移动数据已断开&#34;</span><span style=color:#f92672>)</span>
-                RxBus2<span style=color:#f92672>.</span><span style=color:#a6e22e>getIntanceBus</span><span style=color:#f92672>().</span><span style=color:#a6e22e>post</span><span style=color:#f92672>(</span>RxMessage<span style=color:#f92672>(</span>RxMessageConstants<span style=color:#f92672>.</span><span style=color:#a6e22e>MESSAGE_TYPE_NETWOKR</span><span style=color:#f92672>,</span> RxMessageConstants<span style=color:#f92672>.</span><span style=color:#a6e22e>MESSAGE_NETWORK_WIFI_CONNECTED</span><span style=color:#f92672>)</span> as Object<span style=color:#f92672>)</span>
-            <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span> <span style=color:#f92672>(!</span>wifiNetworkInfo<span style=color:#f92672>.</span><span style=color:#a6e22e>isConnected</span> <span style=color:#f92672>&amp;&amp;</span> dataNetworkInfo<span style=color:#f92672>.</span><span style=color:#a6e22e>isConnected</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                log_i<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;Wi-Fi 已断开，移动数据已连接&#34;</span><span style=color:#f92672>)</span>
-                RxBus2<span style=color:#f92672>.</span><span style=color:#a6e22e>getIntanceBus</span><span style=color:#f92672>().</span><span style=color:#a6e22e>post</span><span style=color:#f92672>(</span>RxMessage<span style=color:#f92672>(</span>RxMessageConstants<span style=color:#f92672>.</span><span style=color:#a6e22e>MESSAGE_TYPE_NETWOKR</span><span style=color:#f92672>,</span> RxMessageConstants<span style=color:#f92672>.</span><span style=color:#a6e22e>MESSAGE_NETWORK_MOBILE_CONNECTED</span><span style=color:#f92672>)</span> as Object<span style=color:#f92672>)</span>
-            <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-                RxBus2<span style=color:#f92672>.</span><span style=color:#a6e22e>getIntanceBus</span><span style=color:#f92672>().</span><span style=color:#a6e22e>post</span><span style=color:#f92672>(</span>RxMessage<span style=color:#f92672>(</span>RxMessageConstants<span style=color:#f92672>.</span><span style=color:#a6e22e>MESSAGE_TYPE_NETWOKR</span><span style=color:#f92672>,</span> RxMessageConstants<span style=color:#f92672>.</span><span style=color:#a6e22e>MESSAGE_NETWORK_DISCONNETED</span><span style=color:#f92672>)</span> as Object<span style=color:#f92672>)</span>
-                log_i<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;Wi-Fi 已断开，移动数据已断开&#34;</span><span style=color:#f92672>)</span>
-            <span style=color:#f92672>}</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>wifiNetworkInfo<span style="color:#f92672">.</span><span style="color:#a6e22e">isConnected</span> <span style="color:#f92672">&amp;&amp;</span> dataNetworkInfo<span style="color:#f92672">.</span><span style="color:#a6e22e">isConnected</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                log_i<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Wi-Fi 已连接，移动数据已连接&#34;</span><span style="color:#f92672">)</span>
+                RxBus2<span style="color:#f92672">.</span><span style="color:#a6e22e">getIntanceBus</span><span style="color:#f92672">().</span><span style="color:#a6e22e">post</span><span style="color:#f92672">(</span>RxMessage<span style="color:#f92672">(</span>RxMessageConstants<span style="color:#f92672">.</span><span style="color:#a6e22e">MESSAGE_TYPE_NETWOKR</span><span style="color:#f92672">,</span> RxMessageConstants<span style="color:#f92672">.</span><span style="color:#a6e22e">MESSAGE_NETWORK_WIFI_CONNECTED</span><span style="color:#f92672">)</span> as Object<span style="color:#f92672">)</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>wifiNetworkInfo<span style="color:#f92672">.</span><span style="color:#a6e22e">isConnected</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>dataNetworkInfo<span style="color:#f92672">.</span><span style="color:#a6e22e">isConnected</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                log_i<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Wi-Fi 已连接，移动数据已断开&#34;</span><span style="color:#f92672">)</span>
+                RxBus2<span style="color:#f92672">.</span><span style="color:#a6e22e">getIntanceBus</span><span style="color:#f92672">().</span><span style="color:#a6e22e">post</span><span style="color:#f92672">(</span>RxMessage<span style="color:#f92672">(</span>RxMessageConstants<span style="color:#f92672">.</span><span style="color:#a6e22e">MESSAGE_TYPE_NETWOKR</span><span style="color:#f92672">,</span> RxMessageConstants<span style="color:#f92672">.</span><span style="color:#a6e22e">MESSAGE_NETWORK_WIFI_CONNECTED</span><span style="color:#f92672">)</span> as Object<span style="color:#f92672">)</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>wifiNetworkInfo<span style="color:#f92672">.</span><span style="color:#a6e22e">isConnected</span> <span style="color:#f92672">&amp;&amp;</span> dataNetworkInfo<span style="color:#f92672">.</span><span style="color:#a6e22e">isConnected</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                log_i<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Wi-Fi 已断开，移动数据已连接&#34;</span><span style="color:#f92672">)</span>
+                RxBus2<span style="color:#f92672">.</span><span style="color:#a6e22e">getIntanceBus</span><span style="color:#f92672">().</span><span style="color:#a6e22e">post</span><span style="color:#f92672">(</span>RxMessage<span style="color:#f92672">(</span>RxMessageConstants<span style="color:#f92672">.</span><span style="color:#a6e22e">MESSAGE_TYPE_NETWOKR</span><span style="color:#f92672">,</span> RxMessageConstants<span style="color:#f92672">.</span><span style="color:#a6e22e">MESSAGE_NETWORK_MOBILE_CONNECTED</span><span style="color:#f92672">)</span> as Object<span style="color:#f92672">)</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                RxBus2<span style="color:#f92672">.</span><span style="color:#a6e22e">getIntanceBus</span><span style="color:#f92672">().</span><span style="color:#a6e22e">post</span><span style="color:#f92672">(</span>RxMessage<span style="color:#f92672">(</span>RxMessageConstants<span style="color:#f92672">.</span><span style="color:#a6e22e">MESSAGE_TYPE_NETWOKR</span><span style="color:#f92672">,</span> RxMessageConstants<span style="color:#f92672">.</span><span style="color:#a6e22e">MESSAGE_NETWORK_DISCONNETED</span><span style="color:#f92672">)</span> as Object<span style="color:#f92672">)</span>
+                log_i<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Wi-Fi 已断开，移动数据已断开&#34;</span><span style="color:#f92672">)</span>
+            <span style="color:#f92672">}</span>
 
-        <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-            log_i<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;API 大于 21&#34;</span><span style=color:#f92672>)</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+            log_i<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;API 大于 21&#34;</span><span style="color:#f92672">)</span>
 
-            val connectivityManager <span style=color:#f92672>=</span> context<span style=color:#f92672>?.</span><span style=color:#a6e22e>getSystemService</span><span style=color:#f92672>(</span>Context<span style=color:#f92672>.</span><span style=color:#a6e22e>CONNECTIVITY_SERVICE</span><span style=color:#f92672>)</span> as ConnectivityManager
+            val connectivityManager <span style="color:#f92672">=</span> context<span style="color:#f92672">?.</span><span style="color:#a6e22e">getSystemService</span><span style="color:#f92672">(</span>Context<span style="color:#f92672">.</span><span style="color:#a6e22e">CONNECTIVITY_SERVICE</span><span style="color:#f92672">)</span> as ConnectivityManager
 
-            val networks <span style=color:#f92672>=</span> connectivityManager<span style=color:#f92672>.</span><span style=color:#a6e22e>allNetworks</span>
+            val networks <span style="color:#f92672">=</span> connectivityManager<span style="color:#f92672">.</span><span style="color:#a6e22e">allNetworks</span>
 
-            var result <span style=color:#f92672>=</span> 0 <span style=color:#75715e>// mobile false = 1, mobile true = 2 wifi = 4
-</span><span style=color:#75715e></span>
-            <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span>network in networks<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                val networkInfo <span style=color:#f92672>=</span> connectivityManager<span style=color:#f92672>.</span><span style=color:#a6e22e>getNetworkInfo</span><span style=color:#f92672>(</span>network<span style=color:#f92672>)</span>
+            var result <span style="color:#f92672">=</span> 0 <span style="color:#75715e">// mobile false = 1, mobile true = 2 wifi = 4
+</span><span style="color:#75715e"></span>
+            <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>network in networks<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                val networkInfo <span style="color:#f92672">=</span> connectivityManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getNetworkInfo</span><span style="color:#f92672">(</span>network<span style="color:#f92672">)</span>
 
-                networkInfo<span style=color:#f92672>?.</span><span style=color:#a6e22e>let</span> <span style=color:#f92672>{</span>
-                    <span style=color:#75715e>//检测到有数据连接，但是并连接状态未生效，此种状态为wifi和数据同时已连接，以wifi连接优先
-</span><span style=color:#75715e></span>                    <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>networkInfo<span style=color:#f92672>.</span><span style=color:#a6e22e>type</span> <span style=color:#f92672>==</span> ConnectivityManager<span style=color:#f92672>.</span><span style=color:#a6e22e>TYPE_MOBILE</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#f92672>!</span>networkInfo<span style=color:#f92672>.</span><span style=color:#a6e22e>isConnected</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                        result <span style=color:#f92672>+=</span> 1
-                    <span style=color:#f92672>}</span>
+                networkInfo<span style="color:#f92672">?.</span><span style="color:#a6e22e">let</span> <span style="color:#f92672">{</span>
+                    <span style="color:#75715e">//检测到有数据连接，但是并连接状态未生效，此种状态为wifi和数据同时已连接，以wifi连接优先
+</span><span style="color:#75715e"></span>                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>networkInfo<span style="color:#f92672">.</span><span style="color:#a6e22e">type</span> <span style="color:#f92672">==</span> ConnectivityManager<span style="color:#f92672">.</span><span style="color:#a6e22e">TYPE_MOBILE</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>networkInfo<span style="color:#f92672">.</span><span style="color:#a6e22e">isConnected</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                        result <span style="color:#f92672">+=</span> 1
+                    <span style="color:#f92672">}</span>
 
-                    <span style=color:#75715e>//检测到有数据连接，并连接状态已生效，此种状态为只有数据连接，wifi并未连接上
-</span><span style=color:#75715e></span>                    <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>networkInfo<span style=color:#f92672>.</span><span style=color:#a6e22e>type</span> <span style=color:#f92672>==</span> ConnectivityManager<span style=color:#f92672>.</span><span style=color:#a6e22e>TYPE_MOBILE</span> <span style=color:#f92672>&amp;&amp;</span> networkInfo<span style=color:#f92672>.</span><span style=color:#a6e22e>isConnected</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                        result <span style=color:#f92672>+=</span> 2
-                    <span style=color:#f92672>}</span>
+                    <span style="color:#75715e">//检测到有数据连接，并连接状态已生效，此种状态为只有数据连接，wifi并未连接上
+</span><span style="color:#75715e"></span>                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>networkInfo<span style="color:#f92672">.</span><span style="color:#a6e22e">type</span> <span style="color:#f92672">==</span> ConnectivityManager<span style="color:#f92672">.</span><span style="color:#a6e22e">TYPE_MOBILE</span> <span style="color:#f92672">&amp;&amp;</span> networkInfo<span style="color:#f92672">.</span><span style="color:#a6e22e">isConnected</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                        result <span style="color:#f92672">+=</span> 2
+                    <span style="color:#f92672">}</span>
 
-                    <span style=color:#75715e>//检测到有wifi连接，连接状态必为true
-</span><span style=color:#75715e></span>                    <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>networkInfo<span style=color:#f92672>.</span><span style=color:#a6e22e>type</span> <span style=color:#f92672>==</span> ConnectivityManager<span style=color:#f92672>.</span><span style=color:#a6e22e>TYPE_WIFI</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                        result <span style=color:#f92672>+=</span> 4
-                     <span style=color:#f92672>}</span>
-               <span style=color:#f92672>}</span>
-         <span style=color:#f92672>}</span>
+                    <span style="color:#75715e">//检测到有wifi连接，连接状态必为true
+</span><span style="color:#75715e"></span>                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>networkInfo<span style="color:#f92672">.</span><span style="color:#a6e22e">type</span> <span style="color:#f92672">==</span> ConnectivityManager<span style="color:#f92672">.</span><span style="color:#a6e22e">TYPE_WIFI</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                        result <span style="color:#f92672">+=</span> 4
+                     <span style="color:#f92672">}</span>
+               <span style="color:#f92672">}</span>
+         <span style="color:#f92672">}</span>
              
-          <span style=color:#75715e>// 存在组合情况，以组合相加的唯一值作为最终状态的判断
-</span><span style=color:#75715e></span>           when <span style=color:#f92672>(</span>result<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-               0   <span style=color:#f92672>-&gt;</span>  <span style=color:#f92672>{</span>
-                   log_i<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;Wi-Fi 已断开，移动数据已断开&#34;</span><span style=color:#f92672>)</span>
-               <span style=color:#f92672>}</span>
-               2   <span style=color:#f92672>-&gt;</span>  <span style=color:#f92672>{</span>
-                   log_i<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;Wi-Fi 已断开，移动数据已连接&#34;</span><span style=color:#f92672>)</span>
-               <span style=color:#f92672>}</span>
-               4   <span style=color:#f92672>-&gt;</span>  <span style=color:#f92672>{</span>
-                   log_i<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;Wi-Fi 已连接，移动数据已断开&#34;</span><span style=color:#f92672>)</span>
-               <span style=color:#f92672>}</span>
-               5   <span style=color:#f92672>-&gt;</span>  <span style=color:#f92672>{</span>
-                   log_i<span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;Wi-Fi 已连接，移动数据已连接&#34;</span><span style=color:#f92672>)</span>
-               <span style=color:#f92672>}</span>
-           <span style=color:#f92672>}</span>
-       <span style=color:#f92672>}</span>
+          <span style="color:#75715e">// 存在组合情况，以组合相加的唯一值作为最终状态的判断
+</span><span style="color:#75715e"></span>           when <span style="color:#f92672">(</span>result<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+               0   <span style="color:#f92672">-&gt;</span>  <span style="color:#f92672">{</span>
+                   log_i<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Wi-Fi 已断开，移动数据已断开&#34;</span><span style="color:#f92672">)</span>
+               <span style="color:#f92672">}</span>
+               2   <span style="color:#f92672">-&gt;</span>  <span style="color:#f92672">{</span>
+                   log_i<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Wi-Fi 已断开，移动数据已连接&#34;</span><span style="color:#f92672">)</span>
+               <span style="color:#f92672">}</span>
+               4   <span style="color:#f92672">-&gt;</span>  <span style="color:#f92672">{</span>
+                   log_i<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Wi-Fi 已连接，移动数据已断开&#34;</span><span style="color:#f92672">)</span>
+               <span style="color:#f92672">}</span>
+               5   <span style="color:#f92672">-&gt;</span>  <span style="color:#f92672">{</span>
+                   log_i<span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Wi-Fi 已连接，移动数据已连接&#34;</span><span style="color:#f92672">)</span>
+               <span style="color:#f92672">}</span>
+           <span style="color:#f92672">}</span>
+       <span style="color:#f92672">}</span>
 
-   <span style=color:#f92672>}</span>
-<span style=color:#f92672>}</span>           
-</code></pre></div></li></ol><p>在网络变化的时候，进行连接判断，或者重连操作，也是一种保持稳定性的方法。</p><h4 id=使用的第三方库>使用的第三方库</h4><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>compile <span style=color:#e6db74>&#34;org.igniterealtime.smack:smack-android-extensions:4.2.0&#34;</span>
-compile <span style=color:#e6db74>&#34;org.igniterealtime.smack:smack-tcp:4.2.0&#34;</span>
-compile <span style=color:#e6db74>&#34;org.igniterealtime.smack:smack-extensions:4.2.0&#34;</span>
+   <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>           
+</code></pre></div></li>
+</ol>
+<p>在网络变化的时候，进行连接判断，或者重连操作，也是一种保持稳定性的方法。</p>
+<h4 id="使用的第三方库">使用的第三方库</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">compile <span style="color:#e6db74">&#34;org.igniterealtime.smack:smack-android-extensions:4.2.0&#34;</span>
+compile <span style="color:#e6db74">&#34;org.igniterealtime.smack:smack-tcp:4.2.0&#34;</span>
+compile <span style="color:#e6db74">&#34;org.igniterealtime.smack:smack-extensions:4.2.0&#34;</span>
 
-<span style=color:#75715e>// 只是在使用的时候 方便一些
-</span><span style=color:#75715e></span>compile <span style=color:#e6db74>&#39;io.reactivex.rxjava2:rxjava:2.1.8&#39;</span>
-compile <span style=color:#e6db74>&#39;io.reactivex.rxjava2:rxandroid:2.0.1&#39;</span>
-</code></pre></div><ul><li>可以根据网络状况自动重连</li><li>可以在中断后自动进行重连</li></ul><p><a href=https://github.com/jimbray/XMPPDemo>代码在这里</a></p><div class="prev-next-post pure-g"><div class=pure-u-1-24 style=text-align:left><a href=https://jimbray.xyz/post/linux-connect-android-phone/><i class="fa fa-chevron-left"></i></a></div><div class=pure-u-10-24><nav class=prev><a href=https://jimbray.xyz/post/linux-connect-android-phone/>解决Linux(Deepin)无法连接Android真机的问题</a></nav></div><div class=pure-u-2-24>&nbsp;</div><div class=pure-u-10-24><nav class=next><a href=https://jimbray.xyz/post/activity_with_handler_learning/>【学习笔记】Looper 与 Handler 的关系</a></nav></div><div class=pure-u-1-24 style=text-align:right><a href=https://jimbray.xyz/post/activity_with_handler_learning/><i class="fa fa-chevron-right"></i></a></div></div><div id=disqus_thread></div><script type=text/javascript>(function(){var a,b;if(window.location.hostname=="localhost")return;a=document.createElement('script'),a.type='text/javascript',a.async=!0,b='jimbray-github-io',a.src='//'+b+'.disqus.com/embed.js',(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(a)})()</script><noscript>Please enable JavaScript to view the <a href=http://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=http://disqus.com/ class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div></div></div><script src=https://jimbray.xyz/js/ui.js></script><script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','//www.google-analytics.com/analytics.js','ga'),ga('create','UA-78813427-1','auto'),ga('send','pageview')</script></body></html>
+<span style="color:#75715e">// 只是在使用的时候 方便一些
+</span><span style="color:#75715e"></span>compile <span style="color:#e6db74">&#39;io.reactivex.rxjava2:rxjava:2.1.8&#39;</span>
+compile <span style="color:#e6db74">&#39;io.reactivex.rxjava2:rxandroid:2.0.1&#39;</span>
+</code></pre></div><ul>
+<li>可以根据网络状况自动重连</li>
+<li>可以在中断后自动进行重连</li>
+</ul>
+<p><a href="https://github.com/jimbray/XMPPDemo">代码在这里</a></p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://jimbray.xyz/post/linux-connect-android-phone/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://jimbray.xyz/post/linux-connect-android-phone/">解决Linux(Deepin)无法连接Android真机的问题</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="https://jimbray.xyz/post/activity_with_handler_learning/">【学习笔记】Looper 与 Handler 的关系</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="https://jimbray.xyz/post/activity_with_handler_learning/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'jimbray-github-io';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="https://jimbray.xyz/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-78813427-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+</body>
+</html>
+

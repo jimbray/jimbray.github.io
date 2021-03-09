@@ -1,8 +1,28 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hugo on 我说的这句话是谎话</title><link>https://jimbray.xyz/tags/hugo/</link><description>Recent content in Hugo on 我说的这句话是谎话</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&amp;copy; 2016. All rights reserved.</copyright><lastBuildDate>Sat, 18 Nov 2017 01:23:40 +0800</lastBuildDate><atom:link href="https://jimbray.xyz/tags/hugo/index.xml" rel="self" type="application/rss+xml"/><item><title>迁移到Hugo</title><link>https://jimbray.xyz/post/move-to-hugo/</link><pubDate>Sat, 18 Nov 2017 01:23:40 +0800</pubDate><guid>https://jimbray.xyz/post/move-to-hugo/</guid><description>安装hugo 安装很简单，比node.js 方便多了，重装了系统，本来也是直接用户Hexo 的，居然装不上 hexo， 又看到了 Hugo 的 好评如潮。 索性换了。 安装教程直接参照官网了， Linux 下很简单，我直接用 apt 装了。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hugo on 我说的这句话是谎话</title>
+    <link>https://jimbray.xyz/tags/hugo/</link>
+    <description>Recent content in Hugo on 我说的这句话是谎话</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2016. All rights reserved.</copyright>
+    <lastBuildDate>Sat, 18 Nov 2017 01:23:40 +0800</lastBuildDate><atom:link href="https://jimbray.xyz/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>迁移到Hugo</title>
+      <link>https://jimbray.xyz/post/move-to-hugo/</link>
+      <pubDate>Sat, 18 Nov 2017 01:23:40 +0800</pubDate>
+      
+      <guid>https://jimbray.xyz/post/move-to-hugo/</guid>
+      <description>安装hugo 安装很简单，比node.js 方便多了，重装了系统，本来也是直接用户Hexo 的，居然装不上 hexo， 又看到了 Hugo 的 好评如潮。 索性换了。 安装教程直接参照官网了， Linux 下很简单，我直接用 apt 装了。
 基本使用 然后就是简单的基本使用了：
-创建网站 hugo new site quickstart,可以看到新建了目录
-由于默认没有一个主题(我觉得这点做的不好),所以要挑选一个主题，在主题挑选自己喜欢的款，我用的是Blackburn把 主题的 仓库 clone 到 网站目录的 themes 下就可以了。
-这个主题还有一个example文件夹，可以把里面的 comfig.toml 直接复制到 网站根目录下；里面写了一些配置，自己根据需要进行修改就可以了，记得配置 baseurl 的使用 一定要以 “/”结尾，否则上传到github时解析不到。
-创建文章hugo new test-article.md 会在 网站目录下的content目录下生成 文件，有些主题会在首页直接显示content下的 文章，我选的这个主题默认是在 content/post 文件夹下，所以只能手动复制进去了
-编辑好文章之后，配置基本与hexo 一致，只有一些小差异，比如 tags: test 是不对的，应该修改为 tags: [test],其他大同小异。
-本地生成预览，hugo server -D 生成速度很快，然后可以在 localhost直接看到效果了。</description></item></channel></rss>
+  创建网站 hugo new site quickstart,可以看到新建了目录
+  由于默认没有一个主题(我觉得这点做的不好),所以要挑选一个主题，在主题挑选自己喜欢的款，我用的是Blackburn把 主题的 仓库 clone 到 网站目录的 themes 下就可以了。
+  这个主题还有一个example文件夹，可以把里面的 comfig.toml 直接复制到 网站根目录下；里面写了一些配置，自己根据需要进行修改就可以了，记得配置 baseurl 的使用 一定要以 “/”结尾，否则上传到github时解析不到。
+  创建文章hugo new test-article.md 会在 网站目录下的content目录下生成 文件，有些主题会在首页直接显示content下的 文章，我选的这个主题默认是在 content/post 文件夹下，所以只能手动复制进去了
+  编辑好文章之后，配置基本与hexo 一致，只有一些小差异，比如 tags: test 是不对的，应该修改为 tags: [test],其他大同小异。
+  本地生成预览，hugo server -D 生成速度很快，然后可以在 localhost直接看到效果了。</description>
+    </item>
+    
+  </channel>
+</rss>

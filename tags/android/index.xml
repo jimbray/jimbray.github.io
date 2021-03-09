@@ -1,31 +1,83 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Android on 我说的这句话是谎话</title><link>https://jimbray.xyz/tags/android/</link><description>Recent content in Android on 我说的这句话是谎话</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&amp;copy; 2016. All rights reserved.</copyright><lastBuildDate>Sun, 26 Apr 2020 20:16:16 +0800</lastBuildDate><atom:link href="https://jimbray.xyz/tags/android/index.xml" rel="self" type="application/rss+xml"/><item><title>Win10编译Android可用的DCMTK-SO库</title><link>https://jimbray.xyz/post/compile-dcmtk-for-android/</link><pubDate>Sun, 26 Apr 2020 20:16:16 +0800</pubDate><guid>https://jimbray.xyz/post/compile-dcmtk-for-android/</guid><description>准备 安装 win10 上的 Linux子系统（WSL），我选的是 ubuntu 下载 linux 版本的 android-ndk, 我使用的版本是 android-ndk-r21-linux-x86_64 目前最新的版本 下载 dcmtk 的 源码 ,我使用的版本号是3.6.5 下载 dcmtk support 包，我选择的是 dcmtk-3.6.5-win64-support-MD-iconv-msvc-15.8.zip 安装一个 Visual Studio，我使用的是2017版 安装Cmake 编译工具 首先说明一下，为了Android SO库的成功，我们需要先编译一个 VS 的版本，所以才会要求先安装一个 Visual Studio，废话不多说，上面的东西都安装好了吗，去吧，皮卡 开始吧！
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Android on 我说的这句话是谎话</title>
+    <link>https://jimbray.xyz/tags/android/</link>
+    <description>Recent content in Android on 我说的这句话是谎话</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2016. All rights reserved.</copyright>
+    <lastBuildDate>Sun, 26 Apr 2020 20:16:16 +0800</lastBuildDate><atom:link href="https://jimbray.xyz/tags/android/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Win10编译Android可用的DCMTK-SO库</title>
+      <link>https://jimbray.xyz/post/compile-dcmtk-for-android/</link>
+      <pubDate>Sun, 26 Apr 2020 20:16:16 +0800</pubDate>
+      
+      <guid>https://jimbray.xyz/post/compile-dcmtk-for-android/</guid>
+      <description>准备  安装 win10 上的 Linux子系统（WSL），我选的是 ubuntu 下载 linux 版本的 android-ndk, 我使用的版本是 android-ndk-r21-linux-x86_64 目前最新的版本 下载 dcmtk 的 源码 ,我使用的版本号是3.6.5 下载 dcmtk support 包，我选择的是 dcmtk-3.6.5-win64-support-MD-iconv-msvc-15.8.zip 安装一个 Visual Studio，我使用的是2017版 安装Cmake 编译工具  首先说明一下，为了Android SO库的成功，我们需要先编译一个 VS 的版本，所以才会要求先安装一个 Visual Studio，废话不多说，上面的东西都安装好了吗，去吧，皮卡 开始吧！
 开始 编译VS版本 我是按照 Jason大神的指示一步一步完成的，居然还有视频教程，大神就是大神 。一步一步走下来，就会得到一个编译完成的 DCMTK 开发库了。为了凑字数，为了记忆深刻一点，毕竟吃了很多灰，就放几个关键知识点。
-CMake_INSTALL_PREFIX 路径最好不要放在C盘，以防万一需要管理员权限，无法生成文件
-VS 工程属性，设置字符集和运行库
-重要：将支持库包里的zlib_d.lib拷贝到生成的lib目录下(如果是区别Debug库和Release库，则应该拷贝这两个不同的文件，都改名为zlib.lib，然后在附加库配置上填写zlib.lib)
-大概就是这样了，大神还提供了验证程序，感谢。
-开始编译Android so库 打开 WSL，进入 dcmtk 源代码目录下
-由于编译会产生很多中间文件，为了保持源代码目录的整洁性，所以在目录下新建一个 cmake-build 文件夹</description></item><item><title>Android像素二维数组转图像的实现</title><link>https://jimbray.xyz/post/android-array-to-image/</link><pubDate>Mon, 23 Mar 2020 16:16:16 +0800</pubDate><guid>https://jimbray.xyz/post/android-array-to-image/</guid><description>Android上需要生成图片首先想到的是 createBitmap API，看了一下之后，实现了第一种方法
-纯Java实现 private Bitmap createBitmap(int[][] dataArray) { // 转一维数组 byte[] newArray = new byte[dataArray.length * dataArray[0].length]; int index = 0; for (int row = 0; row &amp;lt; dataArray.length; row++) { for (int column = 0; column &amp;lt; dataArray[0].length; column++) { newArray[index++] = (byte)dataArray[row][column]; } } // 注意 width,height 与 二维数组 row，colume 的对应关系 Bitmap bitmap = Bitmap.createBitmap(dataArray[0].length, dataArray.length, Bitmap.Config.ARGB_8888); int pixels[] = new int[dataArray[0].length * dataArray.length]; for (int i = 0; i &amp;lt; pixels.</description></item><item><title>在现有AS项目中新增OpenCV c++库的支持</title><link>https://jimbray.xyz/post/add-c++-support-to-existed-asproject/</link><pubDate>Sun, 22 Mar 2020 20:16:16 +0800</pubDate><guid>https://jimbray.xyz/post/add-c++-support-to-existed-asproject/</guid><description>本文在 AS 3.4.1 版本下实现。
+  CMake_INSTALL_PREFIX 路径最好不要放在C盘，以防万一需要管理员权限，无法生成文件
+  VS 工程属性，设置字符集和运行库
+  重要：将支持库包里的zlib_d.lib拷贝到生成的lib目录下(如果是区别Debug库和Release库，则应该拷贝这两个不同的文件，都改名为zlib.lib，然后在附加库配置上填写zlib.lib)
+  大概就是这样了，大神还提供了验证程序，感谢。
+  开始编译Android so库   打开 WSL，进入 dcmtk 源代码目录下
+由于编译会产生很多中间文件，为了保持源代码目录的整洁性，所以在目录下新建一个 cmake-build 文件夹</description>
+    </item>
+    
+    <item>
+      <title>Android像素二维数组转图像的实现</title>
+      <link>https://jimbray.xyz/post/android-array-to-image/</link>
+      <pubDate>Mon, 23 Mar 2020 16:16:16 +0800</pubDate>
+      
+      <guid>https://jimbray.xyz/post/android-array-to-image/</guid>
+      <description>Android上需要生成图片首先想到的是 createBitmap API，看了一下之后，实现了第一种方法
+纯Java实现 private Bitmap createBitmap(int[][] dataArray) { // 转一维数组  byte[] newArray = new byte[dataArray.length * dataArray[0].length]; int index = 0; for (int row = 0; row &amp;lt; dataArray.length; row++) { for (int column = 0; column &amp;lt; dataArray[0].length; column++) { newArray[index++] = (byte)dataArray[row][column]; } } // 注意 width,height 与 二维数组 row，colume 的对应关系  Bitmap bitmap = Bitmap.createBitmap(dataArray[0].length, dataArray.length, Bitmap.Config.ARGB_8888); int pixels[] = new int[dataArray[0].length * dataArray.length]; for (int i = 0; i &amp;lt; pixels.</description>
+    </item>
+    
+    <item>
+      <title>在现有AS项目中新增OpenCV c&#43;&#43;库的支持</title>
+      <link>https://jimbray.xyz/post/add-c&#43;&#43;-support-to-existed-asproject/</link>
+      <pubDate>Sun, 22 Mar 2020 20:16:16 +0800</pubDate>
+      
+      <guid>https://jimbray.xyz/post/add-c&#43;&#43;-support-to-existed-asproject/</guid>
+      <description>本文在 AS 3.4.1 版本下实现。
 使用的是 4.1.1 版本的 opencv android sdk
 现在最新版本下载地址在： https://opencv.org/releases/
-步骤 AS 切换到 project 目录下
-进入目录 app&amp;ndash;src，右键 src，新建 Directory.命名为 cpp
-右键 cpp文件夹，新建 cpp文件，命名为 cv-lib.cpp
+步骤   AS 切换到 project 目录下
+  进入目录 app&amp;ndash;src，右键 src，新建 Directory.命名为 cpp
+  右键 cpp文件夹，新建 cpp文件，命名为 cv-lib.cpp
 // // Created by jimbray on 2020/3/17. // #include &amp;lt;jni.h&amp;gt;先导入 jni 头文件
-右键 cpp文件夹，新建 CMakeLists.txt 文件
-CMakeLists.txt 文件填入内容
-# For more information about using CMake with Android Studio, read the # documentation: https://d.android.com/studio/projects/add-native-code.html # Sets the minimum version of CMake required to build the native library.</description></item><item><title>使用AIDL实现多进程Service的流程（使用XMPP Service为例）</title><link>https://jimbray.xyz/post/remote-service-by-aidl/</link><pubDate>Thu, 18 Jul 2019 16:16:16 +0800</pubDate><guid>https://jimbray.xyz/post/remote-service-by-aidl/</guid><description>所有涉及到包名的地方 全部应该要 一致(包括aidl文件和java文件)，最终实现 remote XMPPService
+  右键 cpp文件夹，新建 CMakeLists.txt 文件
+  CMakeLists.txt 文件填入内容
+# For more information about using CMake with Android Studio, read the # documentation: https://d.android.com/studio/projects/add-native-code.html # Sets the minimum version of CMake required to build the native library.</description>
+    </item>
+    
+    <item>
+      <title>使用AIDL实现多进程Service的流程（使用XMPP Service为例）</title>
+      <link>https://jimbray.xyz/post/remote-service-by-aidl/</link>
+      <pubDate>Thu, 18 Jul 2019 16:16:16 +0800</pubDate>
+      
+      <guid>https://jimbray.xyz/post/remote-service-by-aidl/</guid>
+      <description>所有涉及到包名的地方 全部应该要 一致(包括aidl文件和java文件)，最终实现 remote XMPPService
 包名假定为： xyz.jimbray.xmpp
-编写 AIDL 相关文件（包括自定义类型数据java）
-新建 IXMPPServiceInterface.aidl
+  编写 AIDL 相关文件（包括自定义类型数据java）
+  新建 IXMPPServiceInterface.aidl
 package xyz.jimbray.xmpp; import xyz.jimbray.xmpp.IXMPPReceiveListenerCallback; interface IXMPPServiceInterface { void registerXMPPListenerCallback(IXMPPReceiveListenerCallback listener); void unregisterXMPPListenerCallback(IXMPPReceiveListenerCallback listener); } 可以看到上面包含了 一个自定义类型，看样子应该是个接口，不是普通的数据类，但是Java普通的interface类在AIDL是不能用的，所以还是要新建一个专门的接口AIDL类
-新建 IXMPPReceiveListenerCallback.aidl
+  新建 IXMPPReceiveListenerCallback.aidl
 package xyz.jimbray.xmpp import xyz.jimbray.xmpp.XMPPMessageBase; interface IXMPPReceiveListenerCallback { void OnXMPPMessageReceived(intout XMPPMessageBase messageBase); } 这里有几个知识点
-自定义数据类型的使用
+  自定义数据类型的使用
 XMPPMessageBase 是一个数据类，必须要实现序列化Parcelable接口
 XMPPMessageBase.java 文件 必须在同一个包名、同一个包名、同一个包名地址下生成，除了使用AS自动生成的Parcelable代码外，还需要另外定义一个 函数（在AIDL过程中会调用）：
-public void readFromParcel(Parcel in) { string = in.readString(); } 同时还要新建一个 XMPPMessageBase.aidl 文件，与java文件同一个包名，文件名也是相同的</description></item><item><title>在Windows上编译Android Telegram（2019最新）</title><link>https://jimbray.xyz/post/build-telegram-on-windows/</link><pubDate>Thu, 27 Jun 2019 15:30:00 +0800</pubDate><guid>https://jimbray.xyz/post/build-telegram-on-windows/</guid><description>先把工具下载好。工欲善其事，必先利其器。
+public void readFromParcel(Parcel in) { string = in.readString(); } 同时还要新建一个 XMPPMessageBase.aidl 文件，与java文件同一个包名，文件名也是相同的</description>
+    </item>
+    
+    <item>
+      <title>在Windows上编译Android Telegram（2019最新）</title>
+      <link>https://jimbray.xyz/post/build-telegram-on-windows/</link>
+      <pubDate>Thu, 27 Jun 2019 15:30:00 +0800</pubDate>
+      
+      <guid>https://jimbray.xyz/post/build-telegram-on-windows/</guid>
+      <description>先把工具下载好。工欲善其事，必先利其器。
 官方推荐是 Android Studio 3.4 、Android NDK rev. 16b 、Android SDK 8.1
 注意：先把 Telegrm Web 登录进去，万一成功的话，可能会需要的
 我从官方的 git 仓库 fork 了一份出来
@@ -34,67 +86,148 @@ git clone https://github.com/jimbray/Telegram.git open（不是import）项目 T
 第一步 复制自己的 release.keystore 到 TMessagesProj/config 文件夹内
 第二步 修改 gradle.properties 文件内的 密码相关变量值
 第三步 修改 module级别 build.gradle
-修改applicationId 为 xyz.jimbray.telegram 去除 buildType 里面的 applicationIdSuffix &amp;ldquo;.beta&amp;rdquo; 后缀 其他的没有做改动 第四步 Firebase 新建 project，然后新建 Android application
+ 修改applicationId 为 xyz.jimbray.telegram 去除 buildType 里面的 applicationIdSuffix &amp;ldquo;.beta&amp;rdquo; 后缀 其他的没有做改动  第四步 Firebase 新建 project，然后新建 Android application
 包名我设置为 xyz.jimbray.telegram与项目匹配
 然后一步一步，按照 要求 完善 build.gradle 文件，基本上与原项目一致，只看到少了一个 implementation
-implementation &amp;#39;com.google.firebase:firebase-core:16.0.9&amp;#39; 其他基本已经有了</description></item><item><title>Android使用ROSBridge与ROS通信 简单使用</title><link>https://jimbray.xyz/post/android-connect-to-ros/</link><pubDate>Sun, 02 Dec 2018 12:20:20 +0000</pubDate><guid>https://jimbray.xyz/post/android-connect-to-ros/</guid><description>环境 ROS kinetic
-ROS 服务端 安装 sudo apt-get install ros-&amp;lt;rosdistro&amp;gt;-rosbridge-suite 启动 roslaunch rosbridge_server rosbridge_websocket.launch 在这之前不需要开启 roscore, 因为 rosbridge 会默认执行 roscore
+implementation &amp;#39;com.google.firebase:firebase-core:16.0.9&amp;#39; 其他基本已经有了</description>
+    </item>
+    
+    <item>
+      <title>Android使用ROSBridge与ROS通信 简单使用</title>
+      <link>https://jimbray.xyz/post/android-connect-to-ros/</link>
+      <pubDate>Sun, 02 Dec 2018 12:20:20 +0000</pubDate>
+      
+      <guid>https://jimbray.xyz/post/android-connect-to-ros/</guid>
+      <description>环境 ROS kinetic
+ ROS 服务端 安装 sudo apt-get install ros-&amp;lt;rosdistro&amp;gt;-rosbridge-suite 启动 roslaunch rosbridge_server rosbridge_websocket.launch 在这之前不需要开启 roscore, 因为 rosbridge 会默认执行 roscore
 Android客户端 要让 android 接收或者发送 ROS 消息的话，首先要在 Android上完成 websocket，然后按照协议解析，也很麻烦，不过又要站在巨人的肩膀上了，找到一个开源项目:ROSBridgeClient,这位同学使用 java-websocket 的包在Android上实现了 websocket 的应用，很棒。
 直接把 src/com/jilk/ros 目录复制到 我的 Android 项目里， 当然会报错啦，这些代码依赖了第三方库，加在Android工程的libs 里面 引用
-eventbus.jar 用于发送从ROS接收到的消息 java_websocket.jar 用于websocket 的实现 json-simple-1.1.jar 用于json解析 复制到项目包里的 代码包含了一个 example . 完全可以使用
-public class Example { public Example() {} public static void main(String[] args) { ROSBridgeClient client = new ROSBridgeClient(&amp;#34;ws://162.</description></item><item><title>FloatingActionButton的Behavior里面onNestedScroll()只调了一次?</title><link>https://jimbray.xyz/post/fab-onnestedscroll-just-called-once/</link><pubDate>Wed, 27 Jun 2018 20:20:20 +0000</pubDate><guid>https://jimbray.xyz/post/fab-onnestedscroll-just-called-once/</guid><description>今天，在重写 FloatingActionButton.Behavior 的时候，遇到了问题，记录一下
+ eventbus.jar 用于发送从ROS接收到的消息 java_websocket.jar 用于websocket 的实现 json-simple-1.1.jar 用于json解析  复制到项目包里的 代码包含了一个 example . 完全可以使用
+public class Example { public Example() {} public static void main(String[] args) { ROSBridgeClient client = new ROSBridgeClient(&amp;#34;ws://162.</description>
+    </item>
+    
+    <item>
+      <title>FloatingActionButton的Behavior里面onNestedScroll()只调了一次?</title>
+      <link>https://jimbray.xyz/post/fab-onnestedscroll-just-called-once/</link>
+      <pubDate>Wed, 27 Jun 2018 20:20:20 +0000</pubDate>
+      
+      <guid>https://jimbray.xyz/post/fab-onnestedscroll-just-called-once/</guid>
+      <description>今天，在重写 FloatingActionButton.Behavior 的时候，遇到了问题，记录一下
 第一个问题，在完成了 behavior 代码之后
-public class ScrollFABBehavior extends FloatingActionButton.Behavior { @Override public boolean onStartNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull FloatingActionButton child, @NonNull View directTargetChild, @NonNull View target, int axes, int type) { // Ensure we react to vertical scrolling return axes == ViewCompat.SCROLL_AXIS_VERTICAL || super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, axes); } @Override public void onNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull FloatingActionButton child, @NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) { super.</description></item><item><title>Android N 出现FileUriExposedException的兼容处理</title><link>https://jimbray.xyz/post/android-n-with-fileuriexposedexception/</link><pubDate>Mon, 25 Jun 2018 20:20:20 +0000</pubDate><guid>https://jimbray.xyz/post/android-n-with-fileuriexposedexception/</guid><description>这次遇到一个问题
-Caused by: android.os.FileUriExposedException: file:///........ exposed beyond app through Intent.getData() at android.os.StrictMode.onFileUriExposed(StrictMode.java:1799) at android.net.Uri.checkFileUriExposed(Uri.java:2346) at android.content.Intent.prepareToLeaveProcess(Intent.java:8933) at android.content.Intent.prepareToLeaveProcess(Intent.java:8894) at android.app.Instrumentation.execStartActivity(Instrumentation.java:1517) at android.app.Activity.startActivityForResult(Activity.java:4224) at android.support.v4.app.BaseFragmentActivityJB.startActivityForResult(BaseFragmentActivityJB.java:50) at android.support.v4.app.FragmentActivity.startActivityForResult(FragmentActivity.java:79) at android.app.Activity.startActivityForResult(Activity.java:4183) at android.support.v4.app.FragmentActivity.startActivityForResult(FragmentActivity.java:859) at android.app.Activity.startActivity(Activity.java:4507) at android.app.Activity.startActivity(Activity.java:4475) 充分发挥 面向 stackoverflow 编程 精神，找到了 一个解决办法
+public class ScrollFABBehavior extends FloatingActionButton.Behavior { @Override public boolean onStartNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull FloatingActionButton child, @NonNull View directTargetChild, @NonNull View target, int axes, int type) { // Ensure we react to vertical scrolling  return axes == ViewCompat.SCROLL_AXIS_VERTICAL || super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, axes); } @Override public void onNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull FloatingActionButton child, @NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) { super.</description>
+    </item>
+    
+    <item>
+      <title>Android N 出现FileUriExposedException的兼容处理</title>
+      <link>https://jimbray.xyz/post/android-n-with-fileuriexposedexception/</link>
+      <pubDate>Mon, 25 Jun 2018 20:20:20 +0000</pubDate>
+      
+      <guid>https://jimbray.xyz/post/android-n-with-fileuriexposedexception/</guid>
+      <description>这次遇到一个问题
+Caused by: android.os.FileUriExposedException: file:///........ exposed beyond app through Intent.getData()  at android.os.StrictMode.onFileUriExposed(StrictMode.java:1799) at android.net.Uri.checkFileUriExposed(Uri.java:2346) at android.content.Intent.prepareToLeaveProcess(Intent.java:8933) at android.content.Intent.prepareToLeaveProcess(Intent.java:8894) at android.app.Instrumentation.execStartActivity(Instrumentation.java:1517) at android.app.Activity.startActivityForResult(Activity.java:4224) at android.support.v4.app.BaseFragmentActivityJB.startActivityForResult(BaseFragmentActivityJB.java:50) at android.support.v4.app.FragmentActivity.startActivityForResult(FragmentActivity.java:79) at android.app.Activity.startActivityForResult(Activity.java:4183) at android.support.v4.app.FragmentActivity.startActivityForResult(FragmentActivity.java:859) at android.app.Activity.startActivity(Activity.java:4507) at android.app.Activity.startActivity(Activity.java:4475) 充分发挥 面向 stackoverflow 编程 精神，找到了 一个解决办法
 Solved StackOverFlow Link，可是为什么呢，明明之前运行得好好的，现在突然不行了。
 Google 官方解释
-This is only thrown for applications targeting Build.VERSION_CODES.N or higher. Applications targeting earlier SDK versions are allowed to share file:// Uri, but it&amp;rsquo;s strongly discouraged.</description></item><item><title>【学习笔记】内存优化之LowMemoryKiller策略</title><link>https://jimbray.xyz/post/low-momery-killer-with-memory_optimization/</link><pubDate>Mon, 11 Jun 2018 20:16:16 +0000</pubDate><guid>https://jimbray.xyz/post/low-momery-killer-with-memory_optimization/</guid><description>什么是LowMemoryKiller 策略 在Android中，当运行的App被移动到后台之后，为了保证下次启动的速度，会将它移动到Cached的状态。这个时候，该App的进程依然存在，但组建可能已经被销毁（组件不占用内存）。这个时候用户再启动的速度就比较快，人称：热启动。如果该App的进程已经不存在了，重新启动又需要做很多初始化的工作，就会耗费多一些的时间，人称：冷启动。为了有更好的体验，当然尽可能提高App的存活几率。
+ This is only thrown for applications targeting Build.VERSION_CODES.N or higher. Applications targeting earlier SDK versions are allowed to share file:// Uri, but it&amp;rsquo;s strongly discouraged.</description>
+    </item>
+    
+    <item>
+      <title>【学习笔记】内存优化之LowMemoryKiller策略</title>
+      <link>https://jimbray.xyz/post/low-momery-killer-with-memory_optimization/</link>
+      <pubDate>Mon, 11 Jun 2018 20:16:16 +0000</pubDate>
+      
+      <guid>https://jimbray.xyz/post/low-momery-killer-with-memory_optimization/</guid>
+      <description>什么是LowMemoryKiller 策略 在Android中，当运行的App被移动到后台之后，为了保证下次启动的速度，会将它移动到Cached的状态。这个时候，该App的进程依然存在，但组建可能已经被销毁（组件不占用内存）。这个时候用户再启动的速度就比较快，人称：热启动。如果该App的进程已经不存在了，重新启动又需要做很多初始化的工作，就会耗费多一些的时间，人称：冷启动。为了有更好的体验，当然尽可能提高App的存活几率。
 LowMemoryKiller 策略就是指那些被退出到后台的App，并不是不会被清理掉的，指是可能没有持有任何组件，不占用CPU资源，少量占用内存空间。当系统认为内存空间不同时，会根据 LRU List 的列表来进行有先后顺序的清理工作，回收一些内存空间，供新启动的程序使用。
 #####小知识：在adb中查看内存状况
-查看系统整体内存使用状况 adb shell dumpsys meminfo 可以看到系统中运行的全部进程所占用的内存空间。
+ 查看系统整体内存使用状况  adb shell dumpsys meminfo 可以看到系统中运行的全部进程所占用的内存空间。
 也能看到哪些App处于 Foreground状态，哪些处于Cached 状态。
 如何进行内存优化 基于 LowMemoryKiller 策略，那么，为了让我们的App尽可能地存活下来，不被系统杀死。那就有两种方法：
-提高进程优先级 降低内存占用 提高进程优先级，不在此文学习范围。我们就说说降低内存占用。
+ 提高进程优先级 降低内存占用  提高进程优先级，不在此文学习范围。我们就说说降低内存占用。
 降低了内存占用，也就是相当于降低被回收的几率，但这是一个内存优化方案，并不能作为一个App后台保活的机制（因为即使内存优化的很低了，系统内存很小的时候，仍然会被回收，只是降低几率）。
 怎么做？ 如果在App中可以监听自己处于内存管理中的什么状态，我们就可以在适当的时机，做一些优化工作（比如在后台的时候回收一些需要显示的组件）。释放一些不需要持有的内存占用，来达到降低内存占用的目的。
 onTrimMemory 方法 Android 4.0 之后 官方提供了一个 API，主要作用是提示开发者在系统内存不足时，通过释放一些不需要的内存资源，从而避免被系统杀掉。
 onTrimMemory回调 在Android4.0之后，任何实现了 ComponentCallbacks2 接口的类都可以重写实现这个回调方法。
 主要作用就是告知App当前处于系统内存回收的不同阶段的时机，在这些时机下进行自身的内存释放，以避免被系统直接杀掉，从而提高下次用户启动应用的速度，提高应用的用户体验。
 onTrimMemory 会回调一个level参数，分别对应的含义是：
-TRIM_MEMORY_UI_HIDDEN 表示 App 目前所有的 UI 界面都被隐藏，最常见的就是 点击了 Home键 或者 Back键后的状态，App被移到后台不可见了，这时候应该释放一些UI资源。
+ TRIM_MEMORY_UI_HIDDEN  表示 App 目前所有的 UI 界面都被隐藏，最常见的就是 点击了 Home键 或者 Back键后的状态，App被移到后台不可见了，这时候应该释放一些UI资源。
 这个等级比较常见
 下面三个等级是当App正在运行时可能的回调参数：
-TRIM_MRMORY_RUNNING_MODERATE 表示 App目前正常运行，并且不会被杀掉，但是系统的可用内存已经有点低了，系统可能会开始根据 LRU list 来杀掉进程了。
-TRIM_MEMORY_RUNNING_LOW 表示 App 目前正常运行，并且不会被杀掉，但是系统的可用内存已经非常低了。</description></item><item><title>Android主线程进行 Thread.Sleep()会导致ANR吗</title><link>https://jimbray.xyz/post/may_sleep_make_anr/</link><pubDate>Tue, 10 Apr 2018 10:01:28 +0800</pubDate><guid>https://jimbray.xyz/post/may_sleep_make_anr/</guid><description>首先 先 明白一个问题：什么是ANR
-Application Not Responding，意思是”应用没有响应“
-以前我的理解就是 “在主线程做了耗时操作”就会引起ANR，现在我觉得我是错误的，ANR的意思是应用没有响应，耗时操作实际上 并不一定会导致没有响应，我对没有响应的理解是
-有人（事件或操作）发出了一个请求，但是主线程没有对这个人进行反馈（可能是没时间、可能是不想理、可能是手被绑住了没有办法理你），这个叫没有响应
-那举个例子
-override fun onCreate(savedInstanceState: Bundle?) { super.onCreate(savedInstanceState) setContentView(R.layout.activity_main) // do some blablabla... Log.d(&amp;#34;test&amp;#34;, &amp;#34;准备sleep30秒&amp;#34;) Thread.sleep(30000) Log.d(&amp;#34;test&amp;#34;, &amp;#34;sleep30秒完成&amp;#34;) // do some blablabla... } 这段代码在 onCreate 中 sleep 了 30秒，会出现 ANR 吗？
+ TRIM_MRMORY_RUNNING_MODERATE  表示 App目前正常运行，并且不会被杀掉，但是系统的可用内存已经有点低了，系统可能会开始根据 LRU list 来杀掉进程了。
+ TRIM_MEMORY_RUNNING_LOW  表示 App 目前正常运行，并且不会被杀掉，但是系统的可用内存已经非常低了。</description>
+    </item>
+    
+    <item>
+      <title>Android主线程进行 Thread.Sleep()会导致ANR吗</title>
+      <link>https://jimbray.xyz/post/may_sleep_make_anr/</link>
+      <pubDate>Tue, 10 Apr 2018 10:01:28 +0800</pubDate>
+      
+      <guid>https://jimbray.xyz/post/may_sleep_make_anr/</guid>
+      <description>首先 先 明白一个问题：什么是ANR
+ Application Not Responding，意思是”应用没有响应“
+ 以前我的理解就是 “在主线程做了耗时操作”就会引起ANR，现在我觉得我是错误的，ANR的意思是应用没有响应，耗时操作实际上 并不一定会导致没有响应，我对没有响应的理解是
+ 有人（事件或操作）发出了一个请求，但是主线程没有对这个人进行反馈（可能是没时间、可能是不想理、可能是手被绑住了没有办法理你），这个叫没有响应
+ 那举个例子
+override fun onCreate(savedInstanceState: Bundle?) { super.onCreate(savedInstanceState) setContentView(R.layout.activity_main) // do some blablabla...  Log.d(&amp;#34;test&amp;#34;, &amp;#34;准备sleep30秒&amp;#34;) Thread.sleep(30000) Log.d(&amp;#34;test&amp;#34;, &amp;#34;sleep30秒完成&amp;#34;) // do some blablabla...  } 这段代码在 onCreate 中 sleep 了 30秒，会出现 ANR 吗？
 答案是
-可能会，也可能不会
-当主线程在 Sleep 的时候，如果 UI线程不需要进行操作，也就是说没有消息会发送给UI线程并要求UI线程进行处理的时候 Sleep 30秒就不会导致ANR，因为没有 出现 **ANR(应用没有响应)**的情况啊，没有人向线程请求什么东西，也就不需要响应了，既然没有响应了，那怎么会有ANR呢？
+ 可能会，也可能不会
+ 当主线程在 Sleep 的时候，如果 UI线程不需要进行操作，也就是说没有消息会发送给UI线程并要求UI线程进行处理的时候 Sleep 30秒就不会导致ANR，因为没有 出现 **ANR(应用没有响应)**的情况啊，没有人向线程请求什么东西，也就不需要响应了，既然没有响应了，那怎么会有ANR呢？
 但是，但线程在Sleep的时候，主线程有接收到需要处理的请求的时候
-需要注意的是，需要处理的请求，不一定只是用户的手动触摸，也有可能是其他线程需要对线程进行UI更新的请求，这个时候UI线程正在Sleep，根本没有办法理你（不想理你），这就符合了ANR的条件，所以会出现ANR（比如说在这 30 秒内，点击了 返回按钮，就会出现 ANR）
-另外，如果在这个30秒内进行UI更新会发生ANR吗？
-override fun onCreate(savedInstanceState: Bundle?</description></item><item><title>【学习笔记】Looper 与 Handler 的关系</title><link>https://jimbray.xyz/post/activity_with_handler_learning/</link><pubDate>Sat, 31 Mar 2018 09:38:32 +0800</pubDate><guid>https://jimbray.xyz/post/activity_with_handler_learning/</guid><description>什么是异步消息处理线程
+ 需要注意的是，需要处理的请求，不一定只是用户的手动触摸，也有可能是其他线程需要对线程进行UI更新的请求，这个时候UI线程正在Sleep，根本没有办法理你（不想理你），这就符合了ANR的条件，所以会出现ANR（比如说在这 30 秒内，点击了 返回按钮，就会出现 ANR）
+ 另外，如果在这个30秒内进行UI更新会发生ANR吗？
+override fun onCreate(savedInstanceState: Bundle?</description>
+    </item>
+    
+    <item>
+      <title>【学习笔记】Looper 与 Handler 的关系</title>
+      <link>https://jimbray.xyz/post/activity_with_handler_learning/</link>
+      <pubDate>Sat, 31 Mar 2018 09:38:32 +0800</pubDate>
+      
+      <guid>https://jimbray.xyz/post/activity_with_handler_learning/</guid>
+      <description>什么是异步消息处理线程
 异步消息处理线程启动会进入一个无限的循环体之中，每循环一次，从其内部的消息队列中会取出一个消息，然后回调给相应的消息处理函数，执行完成一个消息后则继续循环。若消息队列为空，线程则会阻塞等待。
-这个消息处理过程有哪些角色
-无限的循环体 内部的消息队列 相应的消息处理函数 Looper 对于 Looper这个角色，主要是 prepare() 和 loop( )两个方法。
+  这个消息处理过程有哪些角色
+ 无限的循环体 内部的消息队列 相应的消息处理函数    Looper 对于 Looper这个角色，主要是 prepare() 和 loop( )两个方法。
 public static final void prepare() { if (sThreadLocal.get() != null) { throw new RuntimeException(&amp;#34;Only one Looper may be created per thread&amp;#34;); } sThreadLocal.set(new Looper(true)); } sThreadLocal 是一个 ThreadLocal对象，可以在一个线程中存储变量。在最后面进行了 Looper 实例的保存。
 在 prepare() 方法中，首先进行了 Looper 对象的判空处理，如果不为空（之前已经有了一个 Looper 实例），就会抛出异常，说明了 prepare 不能被调用两次，同时也保证了 一个线程里面只能有一个 Looper 实例。
 那 new Looper(true)里面做了什么呢？
-private Looper(boolean quitAllowed) { mQueue = new MessageQueue(quitAllowed); mRun = true; mThread = Thread.</description></item><item><title>基于 Smack 的 xmpp 学习笔记</title><link>https://jimbray.xyz/post/xmpp-study-notes/</link><pubDate>Thu, 04 Jan 2018 20:16:16 +0800</pubDate><guid>https://jimbray.xyz/post/xmpp-study-notes/</guid><description>XMPP 开发学习 由于 aSmack 已经弃用，目前使用的是 smack 原版 4.2.0
-aSmack is deprecated and obsolete. Starting with Version 4.1 Smack is able to run without modifications on Android.
+private Looper(boolean quitAllowed) { mQueue = new MessageQueue(quitAllowed); mRun = true; mThread = Thread.</description>
+    </item>
+    
+    <item>
+      <title>基于 Smack 的 xmpp 学习笔记</title>
+      <link>https://jimbray.xyz/post/xmpp-study-notes/</link>
+      <pubDate>Thu, 04 Jan 2018 20:16:16 +0800</pubDate>
+      
+      <guid>https://jimbray.xyz/post/xmpp-study-notes/</guid>
+      <description>XMPP 开发学习 由于 aSmack 已经弃用，目前使用的是 smack 原版 4.2.0
+ aSmack is deprecated and obsolete. Starting with Version 4.1 Smack is able to run without modifications on Android.
 More information on how to use Smack 4.1 in your Android Project can be found in the Smack 4.1 Readme and Upgrade Guide.
-smack 的 github repo
-Instructions how to use Smack in your Java or Android project are provided in the Smack 4.</description></item><item><title>自动调整大小的TextView</title><link>https://jimbray.xyz/post/android-auto-size-textview/</link><pubDate>Sun, 26 Nov 2017 21:49:25 +0800</pubDate><guid>https://jimbray.xyz/post/android-auto-size-textview/</guid><description>遇见问题：当一个控件显示的文字有点长的时候，可能在屏幕小的设备上就会变得显示不完整，特别是那种不允许文字省略的按钮。
+ smack 的 github repo
+ Instructions how to use Smack in your Java or Android project are provided in the Smack 4.</description>
+    </item>
+    
+    <item>
+      <title>自动调整大小的TextView</title>
+      <link>https://jimbray.xyz/post/android-auto-size-textview/</link>
+      <pubDate>Sun, 26 Nov 2017 21:49:25 +0800</pubDate>
+      
+      <guid>https://jimbray.xyz/post/android-auto-size-textview/</guid>
+      <description>遇见问题：当一个控件显示的文字有点长的时候，可能在屏幕小的设备上就会变得显示不完整，特别是那种不允许文字省略的按钮。
 像我这种懒人，当然是看看有没有前人的肩膀可以踩。Google 了一下，果然发现了不止一个
 AutoScaleTextView
 android-autofittextview
 大概看一下 实现方式
 两者的 的核心代码 大致相同
-/** * Resize the text so that it fits * * @param text * The text. Neither &amp;lt;code&amp;gt;null&amp;lt;/code&amp;gt; nor empty. * @param textWidth * The width of the TextView. &amp;gt; 0 */ private void refitText(String text, int textWidth) { if (textWidth &amp;lt;= 0 || text == null || text.length() == 0) return; // the width int targetWidth = textWidth - this.</description></item><item><title>[转][译]保存/恢复 Activity 和 Fragment 状态的最佳实践</title><link>https://jimbray.xyz/post/best-way-for-activity-and-fragment-state-restore/</link><pubDate>Sat, 25 Nov 2017 16:44:19 +0800</pubDate><guid>https://jimbray.xyz/post/best-way-for-activity-and-fragment-state-restore/</guid><description>很久之前看过的一篇文章，写的很好。转载并译于：https://inthecheesefactory.co&amp;hellip;。
+/** * Resize the text so that it fits * * @param text * The text. Neither &amp;lt;code&amp;gt;null&amp;lt;/code&amp;gt; nor empty. * @param textWidth * The width of the TextView. &amp;gt; 0 */ private void refitText(String text, int textWidth) { if (textWidth &amp;lt;= 0 || text == null || text.length() == 0) return; // the width 	int targetWidth = textWidth - this.</description>
+    </item>
+    
+    <item>
+      <title>[转][译]保存/恢复 Activity 和 Fragment 状态的最佳实践</title>
+      <link>https://jimbray.xyz/post/best-way-for-activity-and-fragment-state-restore/</link>
+      <pubDate>Sat, 25 Nov 2017 16:44:19 +0800</pubDate>
+      
+      <guid>https://jimbray.xyz/post/best-way-for-activity-and-fragment-state-restore/</guid>
+      <description>很久之前看过的一篇文章，写的很好。转载并译于：https://inthecheesefactory.co&amp;hellip;。
 几个月以前，我发布了一篇关于Fragment状态保存和恢复的文章，那可能是目前为止最好的方式用于保存/恢复 Android Fragment 的状态。我收到了很多来自世界各地的Android开发者有价值的反馈。十分感谢你们 =)
 无论如何，StatedFragment打破了设计模式，我使用了不同于Android状态保存/恢复的方式来设计它，这样做的目的是为了让Android开发者能够更简单的理解Fragment状态的保存与恢复，就像Activity做的一样(同时处理View状态和实例状态),所以我通过开发StatedFragment做了一个实验，并且看看它是怎么做的，以及StatedFragment这样的设计是否更容易被理解？是否对开发者更加友好？
 现在，两个月的实验过去了，我相信我已经得到了结果。虽然StatedFragment 有点容易被理解，但是它同时带来了很大的问题。它破坏了Android View的基本框架.所以我认为这是很糟糕的，可能会导致长远的影响。事实上我已经对自己的代码感到担忧了&amp;hellip;
@@ -104,30 +237,88 @@ android-autofittextview
 这就是为什么尽管Activity已经被销毁，而我们并没有做一些特别的事情来保存状态，但是EditText中键入的文本仍然能够呈现的原因。这并不是什么魔法，这些View 的状态已经被自动的保存和恢复回来了。
 这也是为什么View 在没有被设置android:id属性的时候不能保存和恢复自己的状态的原因。
 尽管这些View 的状态被自动的保存了，但是Activity的成员变量并不会有同样的效果。这些成员变量会被和Activity一起销毁。你可以手动的保存和恢复它们，通过onSaveInstanceState和onRestoreInstanceState方法。
-public class MainActivity extends AppCompatActivity { // These variable are destroyed along with Activity private int someVarA; private String someVarB; ... @Override protected void onSaveInstanceState(Bundle outState) { super.onSaveInstanceState(outState); outState.putInt(&amp;#34;someVarA&amp;#34;, someVarA); outState.putString(&amp;#34;someVarB&amp;#34;, someVarB); } @Override protected void onRestoreInstanceState(Bundle savedInstanceState) { super.onRestoreInstanceState(savedInstanceState); someVarA = savedInstanceState.getInt(&amp;#34;someVarA&amp;#34;); someVarB = savedInstanceState.getString(&amp;#34;someVarB&amp;#34;); } } 这就是为了恢复Activity实例的状态和View 状态需要做的。</description></item><item><title>ScrollView 与 ViewDragHelper 的混合使用学习</title><link>https://jimbray.xyz/post/supprisebottomview/</link><pubDate>Fri, 06 Jan 2017 20:20:02 +0000</pubDate><guid>https://jimbray.xyz/post/supprisebottomview/</guid><description>按照惯例，先上效果
-涉及到的知识点 ViewGroup 的事件分发拦截机制
-ViewDragHelper 的基本使用
-ViewGroup 的事件分发拦截机制 ViewGroup 有三个方法
-dispatchTouchEvent onInterceptTouchEvent onTouchEvent dispatchTouchEvent 用于touch事件的分发；通俗点说，就是决定当前这个touch事件应该交给谁来处理（是当前View还是父View）
-当触摸事件发生时 Activity 的 dispatchTouchEvent(MotionEvent ev) 方法会从根元素依次往下传递直到最内层子元素或在中间某一元素中事件被拦截或者消费.
+public class MainActivity extends AppCompatActivity { // These variable are destroyed along with Activity  private int someVarA; private String someVarB; ... @Override protected void onSaveInstanceState(Bundle outState) { super.onSaveInstanceState(outState); outState.putInt(&amp;#34;someVarA&amp;#34;, someVarA); outState.putString(&amp;#34;someVarB&amp;#34;, someVarB); } @Override protected void onRestoreInstanceState(Bundle savedInstanceState) { super.onRestoreInstanceState(savedInstanceState); someVarA = savedInstanceState.getInt(&amp;#34;someVarA&amp;#34;); someVarB = savedInstanceState.getString(&amp;#34;someVarB&amp;#34;); } } 这就是为了恢复Activity实例的状态和View 状态需要做的。</description>
+    </item>
+    
+    <item>
+      <title>ScrollView 与 ViewDragHelper 的混合使用学习</title>
+      <link>https://jimbray.xyz/post/supprisebottomview/</link>
+      <pubDate>Fri, 06 Jan 2017 20:20:02 +0000</pubDate>
+      
+      <guid>https://jimbray.xyz/post/supprisebottomview/</guid>
+      <description>按照惯例，先上效果
+涉及到的知识点   ViewGroup 的事件分发拦截机制
+  ViewDragHelper 的基本使用
+  ViewGroup 的事件分发拦截机制 ViewGroup 有三个方法
+ dispatchTouchEvent onInterceptTouchEvent onTouchEvent  dispatchTouchEvent 用于touch事件的分发；通俗点说，就是决定当前这个touch事件应该交给谁来处理（是当前View还是父View）
+ 当触摸事件发生时 Activity 的 dispatchTouchEvent(MotionEvent ev) 方法会从根元素依次往下传递直到最内层子元素或在中间某一元素中事件被拦截或者消费.
 如果 return true，事件会分发给当前 View 并由 dispatchTouchEvent 方法进行消费，同时事件会停止向下传递；这样该View的onTouchEvent事件也不会得到响应. 如果 return false，会将事件返回给父 View 的 onTouchEvent 进行消费。 如果 return super.dispatchTouchEvent(ev)，事件会分发给当前 View 的 onInterceptTouchEvent 方法去进行处理。
-onInterceptTouchEvent 用于touch事件的拦截；通俗点说，就是决定刚刚 dispatchTouchEvent 抛给我的touch事件应该交给谁来处理（是当前View还是子View）注意跟dispatchTouchEvent的区别
-如果 return true，则将事件进行拦截，并将拦截到的事件交由该 View 的 onTouchEvent 进行处理； 如果 return false，则将事件向子View传递，再由子View的 dispatchTouchEvent 来对这个事件处理； 如果 return super.</description></item><item><title>Android 一键发布 Facebook 帖文</title><link>https://jimbray.xyz/post/one-key-post-to-facebook/</link><pubDate>Wed, 28 Dec 2016 13:00:00 +0000</pubDate><guid>https://jimbray.xyz/post/one-key-post-to-facebook/</guid><description>一般遇到的需求都是做分享操作，现在国内已经有很多一键分享的 SDK了，而且还封装得不错，就是权限要得比较多。
+ onInterceptTouchEvent 用于touch事件的拦截；通俗点说，就是决定刚刚 dispatchTouchEvent 抛给我的touch事件应该交给谁来处理（是当前View还是子View）注意跟dispatchTouchEvent的区别
+ 如果 return true，则将事件进行拦截，并将拦截到的事件交由该 View 的 onTouchEvent 进行处理； 如果 return false，则将事件向子View传递，再由子View的 dispatchTouchEvent 来对这个事件处理； 如果 return super.</description>
+    </item>
+    
+    <item>
+      <title>Android 一键发布 Facebook 帖文</title>
+      <link>https://jimbray.xyz/post/one-key-post-to-facebook/</link>
+      <pubDate>Wed, 28 Dec 2016 13:00:00 +0000</pubDate>
+      
+      <guid>https://jimbray.xyz/post/one-key-post-to-facebook/</guid>
+      <description>一般遇到的需求都是做分享操作，现在国内已经有很多一键分享的 SDK了，而且还封装得不错，就是权限要得比较多。
 今天需要做的是 跟 Path APP 一样，在自己的 APP 发布post时，同步发送到 其他平台Facebook。
-先把基本配置做了 將 Facebook Android SDK 新增至您的行動開發環境 取得正確設定並連結至 Android 應用程式的 Facebook 應用程式編號。請參閱 Android 新手指南，新增 Facebook 應用程式編號 產生 Android 金鑰雜湊並新增至開發人員個人檔案 新增 Facebook Activity - 請將本項目加至 `AndroidManifest.xml 开始分享 建立内容模板 模板有几种方式
-Link Photos Videos Multimedia 参见Facebook官方文档
+先把基本配置做了   將 Facebook Android SDK 新增至您的行動開發環境 取得正確設定並連結至 Android 應用程式的 Facebook 應用程式編號。請參閱 Android 新手指南，新增 Facebook 應用程式編號 產生 Android 金鑰雜湊並新增至開發人員個人檔案 新增 Facebook Activity - 請將本項目加至 `AndroidManifest.xml   开始分享 建立内容模板 模板有几种方式
+ Link Photos Videos Multimedia  参见Facebook官方文档
 最终使用 ShareApi.share(content, null); 即可发送成功
 但是发送的样式 跟 使用那些 一键分享的 SDK 是一样的
 都是那种感觉像 转发 的形式。（会看到 发送的对话框，类似于 ShareDialog）
-后台发送 仔细看了文档，发现了一个 Graph API
-而且还提供了 案例，也有各个平台的SDK使用，用起来很方便。</description></item><item><title>我的第三个自定义View</title><link>https://jimbray.xyz/post/my-third-customview/</link><pubDate>Thu, 15 Sep 2016 15:47:03 +0800</pubDate><guid>https://jimbray.xyz/post/my-third-customview/</guid><description>这次的主角是一个折线图，牛逼的 画图控件已经很多了， 虽然只用过 MPAndroidChart 想着自己写一个学习一下咯 下面是效果
+后台发送 仔细看了文档，发现了一个 Graph API 
+而且还提供了 案例，也有各个平台的SDK使用，用起来很方便。</description>
+    </item>
+    
+    <item>
+      <title>我的第三个自定义View</title>
+      <link>https://jimbray.xyz/post/my-third-customview/</link>
+      <pubDate>Thu, 15 Sep 2016 15:47:03 +0800</pubDate>
+      
+      <guid>https://jimbray.xyz/post/my-third-customview/</guid>
+      <description>这次的主角是一个折线图，牛逼的 画图控件已经很多了， 虽然只用过 MPAndroidChart 想着自己写一个学习一下咯 下面是效果
 可能录制得有点卡顿
-学习路径 变量设置 private Context mContext; private float mViewHeight, mViewWidth; private Paint mNormalPointPaint,mSelectedPointPaint, mLinePaint, mBgLinePaint, mTestPaint, mBottomTextPaint, mTopTextPaint, mAverageLinePaint, mLifeLongLinePaint, mBottomValuePaint, mBgPaint;//各种画笔 private float mVerticalOffset = dp2px(5); //上下边距 private float mPointWidth = dp2px(4f); //圆点大小（现已修改为图片） private float mHorizontalOffset = dp2px(15f); //左右边距 private float mValuePaddingOffset; private boolean mIsHorizontalValue = false; //所有值都相等（是一条水平线）将所有点都画在中间位置 private List&amp;lt;SimpleLineData&amp;gt; mData; // 数据 private List&amp;lt;String&amp;gt; mBottomTexts; // 底部文字集合 private float mBottomTextSize; // 底部文字大小 private int mBottomTextStepSize; // 底部文字 相隔展示间距 private String mTopText; // 顶部中间文字内容 private float mTopTextSize; // 顶部中间文字大小 // 点到点之间的动画相关变量 private int mDrawingLineIndex; private float mDrawingStopX = -1f, mDrawingStopY = -1f; private AnimatorSet mAnimatorLine; private boolean isAnimatingLine; // 平均线的动画相关变量 private boolean isAnimatingAverageLine; private AnimatorSet mAnimatorAverageLine; private float mDrawingStopAverageLineX = -1f; private String mAverageIconText; //平均线图示文字 private float mAverageIconTextSize; //平均线图示文字大小 private float mAverageValue = -1; // lifelong 的动画相关变量 private boolean isAnimatingLifelongLine; private AnimatorSet mAnimatorLifelongLine; private float mDrawingStopLifelongLineX = -1; private String mLifeLongIconText; //linflong 图示文字 private float mLifelongIconTextSize; private float mLifeLongValue = -1; // 点击点到底部的动画相关变量 private boolean isAnimatingSelectedLine; private AnimatorSet mAnimatorSelectedLine; private float mDrawingStopSelectedLineY = -1f; // 数据值 原点的 图片 private Bitmap mBitmapNormalCircle, mBitmapSelectedCircle; // 点击位置相关变量 private float mTouchDownX, mTouchDownY; private float mTouchPadding = dp2px(2.</description></item><item><title>我的第二个自定义View</title><link>https://jimbray.xyz/post/my-second-custom-view/</link><pubDate>Thu, 14 Jul 2016 15:19:05 +0000</pubDate><guid>https://jimbray.xyz/post/my-second-custom-view/</guid><description>自古以来，第一个总是抢走了所有的聚光灯。 怎么办，我是第二个。
+学习路径 变量设置 private Context mContext; private float mViewHeight, mViewWidth; private Paint mNormalPointPaint,mSelectedPointPaint, mLinePaint, mBgLinePaint, mTestPaint, mBottomTextPaint, mTopTextPaint, mAverageLinePaint, mLifeLongLinePaint, mBottomValuePaint, mBgPaint;//各种画笔 private float mVerticalOffset = dp2px(5); //上下边距 private float mPointWidth = dp2px(4f); //圆点大小（现已修改为图片） private float mHorizontalOffset = dp2px(15f); //左右边距 private float mValuePaddingOffset; private boolean mIsHorizontalValue = false; //所有值都相等（是一条水平线）将所有点都画在中间位置 private List&amp;lt;SimpleLineData&amp;gt; mData; // 数据 private List&amp;lt;String&amp;gt; mBottomTexts; // 底部文字集合 private float mBottomTextSize; // 底部文字大小 private int mBottomTextStepSize; // 底部文字 相隔展示间距 private String mTopText; // 顶部中间文字内容 private float mTopTextSize; // 顶部中间文字大小 // 点到点之间的动画相关变量 private int mDrawingLineIndex; private float mDrawingStopX = -1f, mDrawingStopY = -1f; private AnimatorSet mAnimatorLine; private boolean isAnimatingLine; // 平均线的动画相关变量 private boolean isAnimatingAverageLine; private AnimatorSet mAnimatorAverageLine; private float mDrawingStopAverageLineX = -1f; private String mAverageIconText; //平均线图示文字 private float mAverageIconTextSize; //平均线图示文字大小 private float mAverageValue = -1; // lifelong 的动画相关变量 private boolean isAnimatingLifelongLine; private AnimatorSet mAnimatorLifelongLine; private float mDrawingStopLifelongLineX = -1; private String mLifeLongIconText; //linflong 图示文字 private float mLifelongIconTextSize; private float mLifeLongValue = -1; // 点击点到底部的动画相关变量 private boolean isAnimatingSelectedLine; private AnimatorSet mAnimatorSelectedLine; private float mDrawingStopSelectedLineY = -1f; // 数据值 原点的 图片 private Bitmap mBitmapNormalCircle, mBitmapSelectedCircle; // 点击位置相关变量 private float mTouchDownX, mTouchDownY; private float mTouchPadding = dp2px(2.</description>
+    </item>
+    
+    <item>
+      <title>我的第二个自定义View</title>
+      <link>https://jimbray.xyz/post/my-second-custom-view/</link>
+      <pubDate>Thu, 14 Jul 2016 15:19:05 +0000</pubDate>
+      
+      <guid>https://jimbray.xyz/post/my-second-custom-view/</guid>
+      <description>自古以来，第一个总是抢走了所有的聚光灯。 怎么办，我是第二个。
 据说有一个国际惯例，要真相 那就来吧 看到了吗。 下边那个圆环就是我们第二个主角啦。 上面那个是 传说中的第一个。 没办法，第二个不管再怎么好看也比不上 号称第一的那位。 这，应该是一个诅咒。
-/** * Created by Jimbray . * on 2016/7/13 * Email: jimbray16@gmail.com * Description: 这是我第二个自定义View。 * 第一个永远是被人铭记的，可是第二个呢 * 问你一个问题：世界上最高的山峰是？ * 答：当然是珠穆朗玛峰啦！ * 那第二高的呢？ * 答：当然是乔戈里峰啦！ * -_- 你不按套路出牌啊，套路里你是不知道的！ */ public class MySecondProgressbar extends View { private Context mContext; // 准备好画圆环的矩形区域 private RectF mRectF = new RectF(0, 0, 0, 0); // 准备好画文字的矩形区域 private RectF mTextRrectF = new RectF(0, 0, 0, 0); // 握好画笔啊，有三个频段，还有一个文字 private Paint mHeavyProgressPaint, mModerateProgressPaint, mLightProgressPaint, mTextPaint; // 默认值设置 private final float default_height = dp2px(45); private final float default_width = dp2px(45); private final int default_heavy_color = Color.</description></item><item><title>我的第一个自定义View</title><link>https://jimbray.xyz/post/my-first-custom-view/</link><pubDate>Wed, 13 Jul 2016 12:35:05 +0000</pubDate><guid>https://jimbray.xyz/post/my-first-custom-view/</guid><description>直接上代码，做个学习笔记好了。
-/** * Created by Jimbray . * on 2016/7/12 * Email: jimbray16@gmail.com * Description: 这是我第一个真正意义上的自定义View */ public class MyFirstProgressbar extends View { //max progress 虽然注释写了，但是还是不解释 private int mMaxProgress = 100; // current progress private int mCurrentProgress; //progress bar 背景颜色 private int mBackgroundColor; //progress bar 进度条颜色 private int mProgressColor; //progress bar 进度条高度 private float mProgressBarheight; //progress bar 背景高度 private float mBackgroundHeight; //设置默认值 //默认progress bar 背景颜色 private final int default_background_color = Color.</description></item><item><title>Facebook ShareDialog 没有回调的问题</title><link>https://jimbray.xyz/post/facebook-share-not-callback/</link><pubDate>Fri, 10 Jun 2016 20:24:04 +0000</pubDate><guid>https://jimbray.xyz/post/facebook-share-not-callback/</guid><description>完成 facebook 分享功能之后，如果手机安装了Facebook，分享之后会有成功或者失败的 反馈
+ /** * Created by Jimbray . * on 2016/7/13 * Email: jimbray16@gmail.com * Description: 这是我第二个自定义View。 * 第一个永远是被人铭记的，可是第二个呢 * 问你一个问题：世界上最高的山峰是？ * 答：当然是珠穆朗玛峰啦！ * 那第二高的呢？ * 答：当然是乔戈里峰啦！ * -_- 你不按套路出牌啊，套路里你是不知道的！ */ public class MySecondProgressbar extends View { private Context mContext; // 准备好画圆环的矩形区域 private RectF mRectF = new RectF(0, 0, 0, 0); // 准备好画文字的矩形区域 private RectF mTextRrectF = new RectF(0, 0, 0, 0); // 握好画笔啊，有三个频段，还有一个文字 private Paint mHeavyProgressPaint, mModerateProgressPaint, mLightProgressPaint, mTextPaint; // 默认值设置 private final float default_height = dp2px(45); private final float default_width = dp2px(45); private final int default_heavy_color = Color.</description>
+    </item>
+    
+    <item>
+      <title>我的第一个自定义View</title>
+      <link>https://jimbray.xyz/post/my-first-custom-view/</link>
+      <pubDate>Wed, 13 Jul 2016 12:35:05 +0000</pubDate>
+      
+      <guid>https://jimbray.xyz/post/my-first-custom-view/</guid>
+      <description>直接上代码，做个学习笔记好了。
+/** * Created by Jimbray . * on 2016/7/12 * Email: jimbray16@gmail.com * Description: 这是我第一个真正意义上的自定义View */ public class MyFirstProgressbar extends View { //max progress 虽然注释写了，但是还是不解释 private int mMaxProgress = 100; // current progress private int mCurrentProgress; //progress bar 背景颜色 private int mBackgroundColor; //progress bar 进度条颜色 private int mProgressColor; //progress bar 进度条高度 private float mProgressBarheight; //progress bar 背景高度 private float mBackgroundHeight; //设置默认值 //默认progress bar 背景颜色 private final int default_background_color = Color.</description>
+    </item>
+    
+    <item>
+      <title>Facebook ShareDialog 没有回调的问题</title>
+      <link>https://jimbray.xyz/post/facebook-share-not-callback/</link>
+      <pubDate>Fri, 10 Jun 2016 20:24:04 +0000</pubDate>
+      
+      <guid>https://jimbray.xyz/post/facebook-share-not-callback/</guid>
+      <description>完成 facebook 分享功能之后，如果手机安装了Facebook，分享之后会有成功或者失败的 反馈
 但是如果没有安装，就会使用 WEB 版本的 进行分享，这个时候，分享完了就是完了，不知道是成功还是失败。
 去看了下文档，Facebook提供这个回调。
 叫做 CallbakManager ，既然找到了，就上手吧
 ShareDialog shareDialog = new ShareDialog(act); CallbackManager callbackManager = CallbackManager.Factory.create(); shareDialog.registerCallback(callbackManager, new FacebookCallback&amp;lt;Sharer.Result&amp;gt;() { @Override public void onSuccess(Sharer.Result result) { Log.d(&amp;#34;tag&amp;#34;, &amp;#34;OnSuccess&amp;#34;); } @Override public void onCancel() { Log.d(&amp;#34;tag&amp;#34;, &amp;#34;onCancel&amp;#34;); } @Override public void onError(FacebookException error) { Log.d(&amp;#34;tag&amp;#34;, &amp;#34;onError&amp;#34;); } }); ShareLinkContent content = new ShareLinkContent.Builder() .setContentUrl(Uri.parse(&amp;#34;http://url.com&amp;#34;)) .setImageUrl(Uri.parse(&amp;#34;http://url.com&amp;#34;)) .setContentTitle(&amp;#34;Title&amp;#34;) .setContentDescription(&amp;#34;description&amp;#34;) .build(); shareDialog.show(content, ShareDialog.Mode.AUTOMATIC); 看上去就是这样的，可是每次都没有回调 最后去Facebook 文档又看了一遍，找到解决办法了，原来之前没有看清楚
-Facebook share封装起来之后是用 Activity 做回调的 所以 纯粹的使用 CallbackManager 肯定不会生效啦。</description></item></channel></rss>
+Facebook share封装起来之后是用 Activity 做回调的 所以 纯粹的使用 CallbackManager 肯定不会生效啦。</description>
+    </item>
+    
+  </channel>
+</rss>
