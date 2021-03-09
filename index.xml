@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>我说的这句话是谎话</title>
@@ -7,7 +7,11 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Sun, 26 Apr 2020 20:16:16 +0800</lastBuildDate><atom:link href="https://jimbray.xyz/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 26 Apr 2020 20:16:16 +0800</lastBuildDate>
+    
+	<atom:link href="https://jimbray.xyz/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>Win10编译Android可用的DCMTK-SO库</title>
       <link>https://jimbray.xyz/post/compile-dcmtk-for-android/</link>
@@ -16,12 +20,11 @@
       <guid>https://jimbray.xyz/post/compile-dcmtk-for-android/</guid>
       <description>准备  安装 win10 上的 Linux子系统（WSL），我选的是 ubuntu 下载 linux 版本的 android-ndk, 我使用的版本是 android-ndk-r21-linux-x86_64 目前最新的版本 下载 dcmtk 的 源码 ,我使用的版本号是3.6.5 下载 dcmtk support 包，我选择的是 dcmtk-3.6.5-win64-support-MD-iconv-msvc-15.8.zip 安装一个 Visual Studio，我使用的是2017版 安装Cmake 编译工具  首先说明一下，为了Android SO库的成功，我们需要先编译一个 VS 的版本，所以才会要求先安装一个 Visual Studio，废话不多说，上面的东西都安装好了吗，去吧，皮卡 开始吧！
 开始 编译VS版本 我是按照 Jason大神的指示一步一步完成的，居然还有视频教程，大神就是大神 。一步一步走下来，就会得到一个编译完成的 DCMTK 开发库了。为了凑字数，为了记忆深刻一点，毕竟吃了很多灰，就放几个关键知识点。
-  CMake_INSTALL_PREFIX 路径最好不要放在C盘，以防万一需要管理员权限，无法生成文件
-  VS 工程属性，设置字符集和运行库
-  重要：将支持库包里的zlib_d.lib拷贝到生成的lib目录下(如果是区别Debug库和Release库，则应该拷贝这两个不同的文件，都改名为zlib.lib，然后在附加库配置上填写zlib.lib)
-  大概就是这样了，大神还提供了验证程序，感谢。
-  开始编译Android so库   打开 WSL，进入 dcmtk 源代码目录下
-由于编译会产生很多中间文件，为了保持源代码目录的整洁性，所以在目录下新建一个 cmake-build 文件夹</description>
+ CMake_INSTALL_PREFIX 路径最好不要放在C盘，以防万一需要管理员权限，无法生成文件
+ VS 工程属性，设置字符集和运行库
+ 重要：将支持库包里的zlib_d.lib拷贝到生成的lib目录下(如果是区别Debug库和Release库，则应该拷贝这两个不同的文件，都改名为zlib.lib，然后在附加库配置上填写zlib.lib)
+   大概就是这样了，大神还提供了验证程序，感谢。  开始编译Android so库  打开 WSL，进入 dcmtk 源代码目录下  由于编译会产生很多中间文件，为了保持源代码目录的整洁性，所以在目录下新建一个 cmake-build 文件夹
+mkdir cmake-build cd cmake-build  进入cmake-build 文件夹后，直接执行 cmake 命令，是不行的，因为Cmake 不知道你要编译什么平台、什么架构、编译工具链什么的东西都不知道，所以只会编译一个默认版本的，作为一个炮灰以及菜鸟，我都趟过这些坑。先不说坑了，之后再补。</description>
     </item>
     
     <item>
@@ -31,7 +34,7 @@
       
       <guid>https://jimbray.xyz/post/android-array-to-image/</guid>
       <description>Android上需要生成图片首先想到的是 createBitmap API，看了一下之后，实现了第一种方法
-纯Java实现 private Bitmap createBitmap(int[][] dataArray) { // 转一维数组  byte[] newArray = new byte[dataArray.length * dataArray[0].length]; int index = 0; for (int row = 0; row &amp;lt; dataArray.length; row++) { for (int column = 0; column &amp;lt; dataArray[0].length; column++) { newArray[index++] = (byte)dataArray[row][column]; } } // 注意 width,height 与 二维数组 row，colume 的对应关系  Bitmap bitmap = Bitmap.createBitmap(dataArray[0].length, dataArray.length, Bitmap.Config.ARGB_8888); int pixels[] = new int[dataArray[0].length * dataArray.length]; for (int i = 0; i &amp;lt; pixels.</description>
+纯Java实现 private Bitmap createBitmap(int[][] dataArray) { // 转一维数组 byte[] newArray = new byte[dataArray.length * dataArray[0].length]; int index = 0; for (int row = 0; row &amp;lt; dataArray.length; row++) { for (int column = 0; column &amp;lt; dataArray[0].length; column++) { newArray[index++] = (byte)dataArray[row][column]; } } // 注意 width,height 与 二维数组 row，colume 的对应关系 Bitmap bitmap = Bitmap.createBitmap(dataArray[0].length, dataArray.length, Bitmap.Config.ARGB_8888); int pixels[] = new int[dataArray[0].length * dataArray.length]; for (int i = 0; i &amp;lt; pixels.</description>
     </item>
     
     <item>
@@ -43,12 +46,12 @@
       <description>本文在 AS 3.4.1 版本下实现。
 使用的是 4.1.1 版本的 opencv android sdk
 现在最新版本下载地址在： https://opencv.org/releases/
-步骤   AS 切换到 project 目录下
-  进入目录 app&amp;ndash;src，右键 src，新建 Directory.命名为 cpp
-  右键 cpp文件夹，新建 cpp文件，命名为 cv-lib.cpp
-// // Created by jimbray on 2020/3/17. // #include &amp;lt;jni.h&amp;gt;先导入 jni 头文件
-  右键 cpp文件夹，新建 CMakeLists.txt 文件
-  CMakeLists.txt 文件填入内容
+步骤  AS 切换到 project 目录下
+ 进入目录 app&amp;ndash;src，右键 src，新建 Directory.命名为 cpp
+ 右键 cpp文件夹，新建 cpp文件，命名为 cv-lib.cpp
+  // // Created by jimbray on 2020/3/17. // #include &amp;lt;jni.h&amp;gt;  先导入 jni 头文件
+ 右键 cpp文件夹，新建 CMakeLists.txt 文件
+ CMakeLists.txt 文件填入内容
 # For more information about using CMake with Android Studio, read the # documentation: https://d.android.com/studio/projects/add-native-code.html # Sets the minimum version of CMake required to build the native library.</description>
     </item>
     
@@ -60,15 +63,12 @@
       <guid>https://jimbray.xyz/post/remote-service-by-aidl/</guid>
       <description>所有涉及到包名的地方 全部应该要 一致(包括aidl文件和java文件)，最终实现 remote XMPPService
 包名假定为： xyz.jimbray.xmpp
-  编写 AIDL 相关文件（包括自定义类型数据java）
-  新建 IXMPPServiceInterface.aidl
-package xyz.jimbray.xmpp; import xyz.jimbray.xmpp.IXMPPReceiveListenerCallback; interface IXMPPServiceInterface { void registerXMPPListenerCallback(IXMPPReceiveListenerCallback listener); void unregisterXMPPListenerCallback(IXMPPReceiveListenerCallback listener); } 可以看到上面包含了 一个自定义类型，看样子应该是个接口，不是普通的数据类，但是Java普通的interface类在AIDL是不能用的，所以还是要新建一个专门的接口AIDL类
-  新建 IXMPPReceiveListenerCallback.aidl
-package xyz.jimbray.xmpp import xyz.jimbray.xmpp.XMPPMessageBase; interface IXMPPReceiveListenerCallback { void OnXMPPMessageReceived(intout XMPPMessageBase messageBase); } 这里有几个知识点
-  自定义数据类型的使用
-XMPPMessageBase 是一个数据类，必须要实现序列化Parcelable接口
+ 编写 AIDL 相关文件（包括自定义类型数据java）
+ 新建 IXMPPServiceInterface.aidl  package xyz.jimbray.xmpp; import xyz.jimbray.xmpp.IXMPPReceiveListenerCallback; interface IXMPPServiceInterface { void registerXMPPListenerCallback(IXMPPReceiveListenerCallback listener); void unregisterXMPPListenerCallback(IXMPPReceiveListenerCallback listener); }  可以看到上面包含了 一个自定义类型，看样子应该是个接口，不是普通的数据类，但是Java普通的interface类在AIDL是不能用的，所以还是要新建一个专门的接口AIDL类
+ 新建 IXMPPReceiveListenerCallback.aidl  package xyz.jimbray.xmpp import xyz.jimbray.xmpp.XMPPMessageBase; interface IXMPPReceiveListenerCallback { void OnXMPPMessageReceived(intout XMPPMessageBase messageBase); }  这里有几个知识点
+ 自定义数据类型的使用  XMPPMessageBase 是一个数据类，必须要实现序列化Parcelable接口
 XMPPMessageBase.java 文件 必须在同一个包名、同一个包名、同一个包名地址下生成，除了使用AS自动生成的Parcelable代码外，还需要另外定义一个 函数（在AIDL过程中会调用）：
-public void readFromParcel(Parcel in) { string = in.readString(); } 同时还要新建一个 XMPPMessageBase.aidl 文件，与java文件同一个包名，文件名也是相同的</description>
+public void readFromParcel(Parcel in) { string = in.readString(); }  同时还要新建一个 XMPPMessageBase.</description>
     </item>
     
     <item>
@@ -81,15 +81,14 @@ public void readFromParcel(Parcel in) { string = in.readString(); } 同时还要
 官方推荐是 Android Studio 3.4 、Android NDK rev. 16b 、Android SDK 8.1
 注意：先把 Telegrm Web 登录进去，万一成功的话，可能会需要的
 我从官方的 git 仓库 fork 了一份出来
-git clone https://github.com/jimbray/Telegram.git open（不是import）项目 TMessagesProj
+git clone https://github.com/jimbray/Telegram.git  open（不是import）项目 TMessagesProj
 首先按照官方教程一步一步来。
 第一步 复制自己的 release.keystore 到 TMessagesProj/config 文件夹内
 第二步 修改 gradle.properties 文件内的 密码相关变量值
 第三步 修改 module级别 build.gradle
  修改applicationId 为 xyz.jimbray.telegram 去除 buildType 里面的 applicationIdSuffix &amp;ldquo;.beta&amp;rdquo; 后缀 其他的没有做改动  第四步 Firebase 新建 project，然后新建 Android application
 包名我设置为 xyz.jimbray.telegram与项目匹配
-然后一步一步，按照 要求 完善 build.gradle 文件，基本上与原项目一致，只看到少了一个 implementation
-implementation &amp;#39;com.google.firebase:firebase-core:16.0.9&amp;#39; 其他基本已经有了</description>
+然后一步一步，按照 要求 完善 build.gradle 文件，基本上与原项目一致，只看到少了一个 implementation</description>
     </item>
     
     <item>
@@ -99,11 +98,11 @@ implementation &amp;#39;com.google.firebase:firebase-core:16.0.9&amp;#39; 其他
       
       <guid>https://jimbray.xyz/post/android-connect-to-ros/</guid>
       <description>环境 ROS kinetic
- ROS 服务端 安装 sudo apt-get install ros-&amp;lt;rosdistro&amp;gt;-rosbridge-suite 启动 roslaunch rosbridge_server rosbridge_websocket.launch 在这之前不需要开启 roscore, 因为 rosbridge 会默认执行 roscore
+ ROS 服务端 安装 sudo apt-get install ros-&amp;lt;rosdistro&amp;gt;-rosbridge-suite  启动 roslaunch rosbridge_server rosbridge_websocket.launch  在这之前不需要开启 roscore, 因为 rosbridge 会默认执行 roscore
 Android客户端 要让 android 接收或者发送 ROS 消息的话，首先要在 Android上完成 websocket，然后按照协议解析，也很麻烦，不过又要站在巨人的肩膀上了，找到一个开源项目:ROSBridgeClient,这位同学使用 java-websocket 的包在Android上实现了 websocket 的应用，很棒。
 直接把 src/com/jilk/ros 目录复制到 我的 Android 项目里， 当然会报错啦，这些代码依赖了第三方库，加在Android工程的libs 里面 引用
  eventbus.jar 用于发送从ROS接收到的消息 java_websocket.jar 用于websocket 的实现 json-simple-1.1.jar 用于json解析  复制到项目包里的 代码包含了一个 example . 完全可以使用
-public class Example { public Example() {} public static void main(String[] args) { ROSBridgeClient client = new ROSBridgeClient(&amp;#34;ws://162.</description>
+public class Example { public Example() {} public static void main(String[] args) { ROSBridgeClient client = new ROSBridgeClient(&amp;quot;ws://162.</description>
     </item>
     
     <item>
@@ -112,7 +111,7 @@ public class Example { public Example() {} public static void main(String[] args
       <pubDate>Mon, 13 Aug 2018 20:20:20 +0800</pubDate>
       
       <guid>https://jimbray.xyz/note/content/app_privicy_policy/</guid>
-      <description>本应用尊重并保护所有使用服务用户的个人隐私权。 为了给您提供更准确、更有个性化的服务，本应用会按照本隐私权政策的规定使用和披露您的个人信息。但本应用将以高度的勤勉、审慎义务对待这些信息。 除本隐私权政策另有规定外，在未征得您事先许可的情况下，本应用不会将这些信息对外披露或向第三方提供。 本应用会不时更新本隐私权政策。 您在同意本应用服务使用协议之时，即视为您已经同意本隐私权政策全部内容。本隐私权政策属于本应用服务使用协议不可分割的一部分。 1. 适用范围 (a) 在您注册本应用帐号时，您根据本应用要求提供的个人注册信息；(b) 在您使用本应用网络服务，或访问本应用平台网页时，本应用自动接收并记录的您的浏览器和计算机上的信息，包括但不限于您的IP地址、浏览器的类型、使用的语言、访问日期和时间、软硬件特征信息及您需求的网页记录等数据；(c) 本应用通过合法途径从商业伙伴处取得的用户个人数据。您了解并同意，以下信息不适用本隐私权政策：(a) 您在使用本应用平台提供的搜索服务时输入的关键字信息；(b) 本应用收集到的您在本应用发布的有关信息数据，包括但不限于参与活动、成交信息及评价详情；(c) 违反法律规定或违反本应用规则行为及本应用已对您采取的措施。 2. 信息使用 (a)本应用不会向任何无关第三方提供、出售、出租、分享或交易您的个人信息，除非事先得到您的许可，或该第三方和本应用（含本应用关联公司）单独或共同为您提供服务，且在该服务结束后，其将被禁止访问包括其以前能够访问的所有这些资料。(b) 本应用亦不允许任何第三方以任何手段收集、编辑、出售或者无偿传播您的个人信息。任何本应用平台用户如从事上述活动，一经发现，本应用有权立即终止与该用户的服务协议。(c) 为服务用户的目的，本应用可能通过使用您的个人信息，向您提供您感兴趣的信息，包括但不限于向您发出产品和服务信息，或者与本应用合作伙伴共享信息以便他们向您发送有关其产品和服务的信息（后者需要您的事先同意）。 3. 信息披露 在如下情况下，本应用将依据您的个人意愿或法律的规定全部或部分的披露您的个人信息：(a) 经您事先同意，向第三方披露；(b)为提供您所要求的产品和服务，而必须和第三方分享您的个人信息；(c) 根据法律的有关规定，或者行政或司法机构的要求，向第三方或者行政、司法机构披露；(d) 如您出现违反中国有关法律、法规或者本应用服务协议或相关规则的情况，需要向第三方披露；(e) 如您是适格的知识产权投诉人并已提起投诉，应被投诉人要求，向被投诉人披露，以便双方处理可能的权利纠纷；(f) 在本应用平台上创建的某一交易中，如交易任何一方履行或部分履行了交易义务并提出信息披露请求的，本应用有权决定向该用户提供其交易对方的联络方式等必要信息，以促成交易的完成或纠纷的解决。(g) 其它本应用根据法律、法规或者网站政策认为合适的披露。 4. 信息存储和交换 本应用收集的有关您的信息和资料将保存在本应用及（或）其关联公司的服务器上，这些信息和资料可能传送至您所在国家、地区或本应用收集信息和资料所在地的境外并在境外被访问、存储和展示。 5. Cookie的使用 (a) 在您未拒绝接受cookies的情况下，本应用会在您的计算机上设定或取用cookies ，以便您能登录或使用依赖于cookies的本应用平台服务或功能。本应用使用cookies可为您提供更加周到的个性化服务，包括推广服务。(b) 您有权选择接受或拒绝接受cookies。您可以通过修改浏览器设置的方式拒绝接受cookies。但如果您选择拒绝接受cookies，则您可能无法登录或使用依赖于cookies的本应用网络服务或功能。(c) 通过本应用所设cookies所取得的有关信息，将适用本政策。 6. 信息安全 (a) 本应用帐号均有安全保护功能，请妥善保管您的用户名及密码信息。本应用将通过对用户密码进行加密等安全措施确保您的信息不丢失，不被滥用和变造。尽管有前述安全措施，但同时也请您注意在信息网络上不存在“完善的安全措施”。(b) 在使用本应用网络服务进行网上交易时，您不可避免的要向交易对方或潜在的交易对 7.本隐私政策的更改 (a)如果决定更改隐私政策，我们会在本政策中、本公司网站中以及我们认为适当的位置发布这些更改，以便您了解我们如何收集、使用您的个人信息，哪些人可以访问这些信息，以及在什么情况下我们会透露这些信息。(b)本公司保留随时修改本政策的权利，因此请经常查看。如对本政策作出重大更改，本公司会通过网站通知的形式告知。 方披露自己的个人信息，如联络方式或者邮政地址。请您妥善保护自己的个人信息，仅在必要的情形下向他人提供。如您发现自己的个人信息泄密，尤其是本应用用户名及密码发生泄露，请您立即联络本应用客服，以便本应用采取相应措施。] </description>
+      <description> 本应用尊重并保护所有使用服务用户的个人隐私权。 为了给您提供更准确、更有个性化的服务，本应用会按照本隐私权政策的规定使用和披露您的个人信息。但本应用将以高度的勤勉、审慎义务对待这些信息。 除本隐私权政策另有规定外，在未征得您事先许可的情况下，本应用不会将这些信息对外披露或向第三方提供。 本应用会不时更新本隐私权政策。 您在同意本应用服务使用协议之时，即视为您已经同意本隐私权政策全部内容。本隐私权政策属于本应用服务使用协议不可分割的一部分。 1. 适用范围 (a) 在您注册本应用帐号时，您根据本应用要求提供的个人注册信息；(b) 在您使用本应用网络服务，或访问本应用平台网页时，本应用自动接收并记录的您的浏览器和计算机上的信息，包括但不限于您的IP地址、浏览器的类型、使用的语言、访问日期和时间、软硬件特征信息及您需求的网页记录等数据；&amp;copy; 本应用通过合法途径从商业伙伴处取得的用户个人数据。您了解并同意，以下信息不适用本隐私权政策：(a) 您在使用本应用平台提供的搜索服务时输入的关键字信息；(b) 本应用收集到的您在本应用发布的有关信息数据，包括但不限于参与活动、成交信息及评价详情；&amp;copy; 违反法律规定或违反本应用规则行为及本应用已对您采取的措施。 2. 信息使用 (a)本应用不会向任何无关第三方提供、出售、出租、分享或交易您的个人信息，除非事先得到您的许可，或该第三方和本应用（含本应用关联公司）单独或共同为您提供服务，且在该服务结束后，其将被禁止访问包括其以前能够访问的所有这些资料。(b) 本应用亦不允许任何第三方以任何手段收集、编辑、出售或者无偿传播您的个人信息。任何本应用平台用户如从事上述活动，一经发现，本应用有权立即终止与该用户的服务协议。&amp;copy; 为服务用户的目的，本应用可能通过使用您的个人信息，向您提供您感兴趣的信息，包括但不限于向您发出产品和服务信息，或者与本应用合作伙伴共享信息以便他们向您发送有关其产品和服务的信息（后者需要您的事先同意）。 3. 信息披露 在如下情况下，本应用将依据您的个人意愿或法律的规定全部或部分的披露您的个人信息：(a) 经您事先同意，向第三方披露；(b)为提供您所要求的产品和服务，而必须和第三方分享您的个人信息；&amp;copy; 根据法律的有关规定，或者行政或司法机构的要求，向第三方或者行政、司法机构披露；(d) 如您出现违反中国有关法律、法规或者本应用服务协议或相关规则的情况，需要向第三方披露；(e) 如您是适格的知识产权投诉人并已提起投诉，应被投诉人要求，向被投诉人披露，以便双方处理可能的权利纠纷；(f) 在本应用平台上创建的某一交易中，如交易任何一方履行或部分履行了交易义务并提出信息披露请求的，本应用有权决定向该用户提供其交易对方的联络方式等必要信息，以促成交易的完成或纠纷的解决。(g) 其它本应用根据法律、法规或者网站政策认为合适的披露。 4. 信息存储和交换 本应用收集的有关您的信息和资料将保存在本应用及（或）其关联公司的服务器上，这些信息和资料可能传送至您所在国家、地区或本应用收集信息和资料所在地的境外并在境外被访问、存储和展示。 5. Cookie的使用 (a) 在您未拒绝接受cookies的情况下，本应用会在您的计算机上设定或取用cookies ，以便您能登录或使用依赖于cookies的本应用平台服务或功能。本应用使用cookies可为您提供更加周到的个性化服务，包括推广服务。(b) 您有权选择接受或拒绝接受cookies。您可以通过修改浏览器设置的方式拒绝接受cookies。但如果您选择拒绝接受cookies，则您可能无法登录或使用依赖于cookies的本应用网络服务或功能。&amp;copy; 通过本应用所设cookies所取得的有关信息，将适用本政策。 6. 信息安全 (a) 本应用帐号均有安全保护功能，请妥善保管您的用户名及密码信息。本应用将通过对用户密码进行加密等安全措施确保您的信息不丢失，不被滥用和变造。尽管有前述安全措施，但同时也请您注意在信息网络上不存在“完善的安全措施”。(b) 在使用本应用网络服务进行网上交易时，您不可避免的要向交易对方或潜在的交易对 7.本隐私政策的更改 (a)如果决定更改隐私政策，我们会在本政策中、本公司网站中以及我们认为适当的位置发布这些更改，以便您了解我们如何收集、使用您的个人信息，哪些人可以访问这些信息，以及在什么情况下我们会透露这些信息。(b)本公司保留随时修改本政策的权利，因此请经常查看。如对本政策作出重大更改，本公司会通过网站通知的形式告知。 方披露自己的个人信息，如联络方式或者邮政地址。请您妥善保护自己的个人信息，仅在必要的情形下向他人提供。如您发现自己的个人信息泄密，尤其是本应用用户名及密码发生泄露，请您立即联络本应用客服，以便本应用采取相应措施。] </description>
     </item>
     
     <item>
@@ -125,7 +124,7 @@ public class Example { public Example() {} public static void main(String[] args
 修改了 pubspec 文件之后，AS 像往常一样提示 需要 package get.
 之前都听正常，不知道今天怎么了。
 一直处在
-Running &amp;#34;flutter packages get&amp;#34; in project_name... 的状态。
+Running &amp;quot;flutter packages get&amp;quot; in project_name...  的状态。
 没关系我等，等了大概有10分钟吧，看了下 logcat
 OS Error: 信号灯超时时间已到 , errno = 121, address = storage.googleapis.com, port = 60109 pub get failed (69) -- attempting retry 2 in 2 seconds... OS Error: 信号灯超时时间已到 , errno = 121, address = pub.dartlang.org, port = 60352 pub get failed (69) -- attempting retry 3 in 4 seconds... Got socket error trying to find package package_name at https://pub.</description>
     </item>
@@ -138,7 +137,7 @@ OS Error: 信号灯超时时间已到 , errno = 121, address = storage.googleapi
       <guid>https://jimbray.xyz/post/fab-onnestedscroll-just-called-once/</guid>
       <description>今天，在重写 FloatingActionButton.Behavior 的时候，遇到了问题，记录一下
 第一个问题，在完成了 behavior 代码之后
-public class ScrollFABBehavior extends FloatingActionButton.Behavior { @Override public boolean onStartNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull FloatingActionButton child, @NonNull View directTargetChild, @NonNull View target, int axes, int type) { // Ensure we react to vertical scrolling  return axes == ViewCompat.SCROLL_AXIS_VERTICAL || super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, axes); } @Override public void onNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull FloatingActionButton child, @NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) { super.</description>
+public class ScrollFABBehavior extends FloatingActionButton.Behavior { @Override public boolean onStartNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull FloatingActionButton child, @NonNull View directTargetChild, @NonNull View target, int axes, int type) { // Ensure we react to vertical scrolling return axes == ViewCompat.SCROLL_AXIS_VERTICAL || super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, axes); } @Override public void onNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull FloatingActionButton child, @NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) { super.</description>
     </item>
     
     <item>
@@ -148,7 +147,7 @@ public class ScrollFABBehavior extends FloatingActionButton.Behavior { @Override
       
       <guid>https://jimbray.xyz/post/android-n-with-fileuriexposedexception/</guid>
       <description>这次遇到一个问题
-Caused by: android.os.FileUriExposedException: file:///........ exposed beyond app through Intent.getData()  at android.os.StrictMode.onFileUriExposed(StrictMode.java:1799) at android.net.Uri.checkFileUriExposed(Uri.java:2346) at android.content.Intent.prepareToLeaveProcess(Intent.java:8933) at android.content.Intent.prepareToLeaveProcess(Intent.java:8894) at android.app.Instrumentation.execStartActivity(Instrumentation.java:1517) at android.app.Activity.startActivityForResult(Activity.java:4224) at android.support.v4.app.BaseFragmentActivityJB.startActivityForResult(BaseFragmentActivityJB.java:50) at android.support.v4.app.FragmentActivity.startActivityForResult(FragmentActivity.java:79) at android.app.Activity.startActivityForResult(Activity.java:4183) at android.support.v4.app.FragmentActivity.startActivityForResult(FragmentActivity.java:859) at android.app.Activity.startActivity(Activity.java:4507) at android.app.Activity.startActivity(Activity.java:4475) 充分发挥 面向 stackoverflow 编程 精神，找到了 一个解决办法
+Caused by: android.os.FileUriExposedException: file:///........ exposed beyond app through Intent.getData() at android.os.StrictMode.onFileUriExposed(StrictMode.java:1799) at android.net.Uri.checkFileUriExposed(Uri.java:2346) at android.content.Intent.prepareToLeaveProcess(Intent.java:8933) at android.content.Intent.prepareToLeaveProcess(Intent.java:8894) at android.app.Instrumentation.execStartActivity(Instrumentation.java:1517) at android.app.Activity.startActivityForResult(Activity.java:4224) at android.support.v4.app.BaseFragmentActivityJB.startActivityForResult(BaseFragmentActivityJB.java:50) at android.support.v4.app.FragmentActivity.startActivityForResult(FragmentActivity.java:79) at android.app.Activity.startActivityForResult(Activity.java:4183) at android.support.v4.app.FragmentActivity.startActivityForResult(FragmentActivity.java:859) at android.app.Activity.startActivity(Activity.java:4507) at android.app.Activity.startActivity(Activity.java:4475)  充分发挥 面向 stackoverflow 编程 精神，找到了 一个解决办法
 Solved StackOverFlow Link，可是为什么呢，明明之前运行得好好的，现在突然不行了。
 Google 官方解释
  This is only thrown for applications targeting Build.VERSION_CODES.N or higher. Applications targeting earlier SDK versions are allowed to share file:// Uri, but it&amp;rsquo;s strongly discouraged.</description>
@@ -163,7 +162,7 @@ Google 官方解释
       <description>什么是LowMemoryKiller 策略 在Android中，当运行的App被移动到后台之后，为了保证下次启动的速度，会将它移动到Cached的状态。这个时候，该App的进程依然存在，但组建可能已经被销毁（组件不占用内存）。这个时候用户再启动的速度就比较快，人称：热启动。如果该App的进程已经不存在了，重新启动又需要做很多初始化的工作，就会耗费多一些的时间，人称：冷启动。为了有更好的体验，当然尽可能提高App的存活几率。
 LowMemoryKiller 策略就是指那些被退出到后台的App，并不是不会被清理掉的，指是可能没有持有任何组件，不占用CPU资源，少量占用内存空间。当系统认为内存空间不同时，会根据 LRU List 的列表来进行有先后顺序的清理工作，回收一些内存空间，供新启动的程序使用。
 #####小知识：在adb中查看内存状况
- 查看系统整体内存使用状况  adb shell dumpsys meminfo 可以看到系统中运行的全部进程所占用的内存空间。
+ 查看系统整体内存使用状况  adb shell dumpsys meminfo  可以看到系统中运行的全部进程所占用的内存空间。
 也能看到哪些App处于 Foreground状态，哪些处于Cached 状态。
 如何进行内存优化 基于 LowMemoryKiller 策略，那么，为了让我们的App尽可能地存活下来，不被系统杀死。那就有两种方法：
  提高进程优先级 降低内存占用  提高进程优先级，不在此文学习范围。我们就说说降低内存占用。
@@ -176,8 +175,7 @@ onTrimMemory 会回调一个level参数，分别对应的含义是：
  TRIM_MEMORY_UI_HIDDEN  表示 App 目前所有的 UI 界面都被隐藏，最常见的就是 点击了 Home键 或者 Back键后的状态，App被移到后台不可见了，这时候应该释放一些UI资源。
 这个等级比较常见
 下面三个等级是当App正在运行时可能的回调参数：
- TRIM_MRMORY_RUNNING_MODERATE  表示 App目前正常运行，并且不会被杀掉，但是系统的可用内存已经有点低了，系统可能会开始根据 LRU list 来杀掉进程了。
- TRIM_MEMORY_RUNNING_LOW  表示 App 目前正常运行，并且不会被杀掉，但是系统的可用内存已经非常低了。</description>
+ TRIM_MRMORY_RUNNING_MODERATE  表示 App目前正常运行，并且不会被杀掉，但是系统的可用内存已经有点低了，系统可能会开始根据 LRU list 来杀掉进程了。</description>
     </item>
     
     <item>
@@ -186,7 +184,7 @@ onTrimMemory 会回调一个level参数，分别对应的含义是：
       <pubDate>Wed, 06 Jun 2018 16:16:16 +0000</pubDate>
       
       <guid>https://jimbray.xyz/note/content/lock-object-%E5%89%AF%E6%9C%AC/</guid>
-      <description>public class Person { private String name; private static final String TAG = Person.class.getSimpleName(); public Person(String name) { this.name = name; } // Synchronized修饰一个方法  public synchronized void say(){ for(int i = 0; i &amp;lt; 10; i++){ try { Log.d(TAG, name + &amp;#34; say -&amp;gt; &amp;#34; + i) Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); } } } // Synchronized修饰一个代码块  // 如果像这样代码块是函数内的全部代码，那同步效果与上面修饰方法是一样的  public void say(){ synchronized(this) { for(int i = 0; i &amp;lt; 10; i++){ try { Log.</description>
+      <description>public class Person { private String name; private static final String TAG = Person.class.getSimpleName(); public Person(String name) { this.name = name; } // Synchronized修饰一个方法 public synchronized void say(){ for(int i = 0; i &amp;lt; 10; i++){ try { Log.d(TAG, name + &amp;quot; say -&amp;gt; &amp;quot; + i) Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); } } } // Synchronized修饰一个代码块 // 如果像这样代码块是函数内的全部代码，那同步效果与上面修饰方法是一样的 public void say(){ synchronized(this) { for(int i = 0; i &amp;lt; 10; i++){ try { Log.</description>
     </item>
     
     <item>
@@ -195,7 +193,7 @@ onTrimMemory 会回调一个level参数，分别对应的含义是：
       <pubDate>Wed, 06 Jun 2018 16:16:16 +0000</pubDate>
       
       <guid>https://jimbray.xyz/note/content/lock-object/</guid>
-      <description>public class Person { private String name; private static final String TAG = Person.class.getSimpleName(); public Person(String name) { this.name = name; } // Synchronized修饰一个方法  public synchronized void say(){ for(int i = 0; i &amp;lt; 10; i++){ try { Log.d(TAG, name + &amp;#34; say -&amp;gt; &amp;#34; + i) Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); } } } // Synchronized修饰一个代码块  // 如果像这样代码块是函数内的全部代码，那同步效果与上面修饰方法是一样的  public void say(){ synchronized(this) { for(int i = 0; i &amp;lt; 10; i++){ try { Log.</description>
+      <description>public class Person { private String name; private static final String TAG = Person.class.getSimpleName(); public Person(String name) { this.name = name; } // Synchronized修饰一个方法 public synchronized void say(){ for(int i = 0; i &amp;lt; 10; i++){ try { Log.d(TAG, name + &amp;quot; say -&amp;gt; &amp;quot; + i) Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); } } } // Synchronized修饰一个代码块 // 如果像这样代码块是函数内的全部代码，那同步效果与上面修饰方法是一样的 public void say(){ synchronized(this) { for(int i = 0; i &amp;lt; 10; i++){ try { Log.</description>
     </item>
     
     <item>
@@ -206,11 +204,9 @@ onTrimMemory 会回调一个level参数，分别对应的含义是：
       <guid>https://jimbray.xyz/note/content/design-patterns/</guid>
       <description>设计模式的三个分类
  创建型模式 结构型模式 行为型模式  创建型模式 对象实例化的模式，创建型模式用于结构对象的实例化过程
- 单例模式：某个类只能有一个实例，提供一个全局的访问点 工厂模式  简单工厂：一个工厂类根据传入的产量决定创建出哪一种产品类的实例 工厂方法：定义一个创建对象的接口，让子类实例化哪个类 抽象工厂：创建相关或依赖对象的家族，而无需明确指定具体类   建造者模式：封装一个复杂对象的构建过程，并可以按步骤构造 原形模式：通过复制现有的实例来创建新的实例  单例模式 单例模式的写法有很多种，一个一个地看一下
-  饿汉式
-public class Singleton { private Singleton singleton = new Singleton(); private Singleton() {} public static Singleton getInstance() { return singleton; } } 这段代码的好处是编写简单，但是无法做到延迟创建对象。但是我们很多时候都希望对象可以尽可能地延迟加载，从而减少负载，所以还能改进。
-  单线程写法
-public class Singleton { private static Singleton singleton = null; private Singleton() {} public static Singleton getInstance() { if (singleton == null) { singleton = new Singleton(); } return singleton; } } 这种写法也是很简单的， 由私有构造方法和一个公有静态工厂方法构成，在工厂方法中对对象进行判空处理，为空时再进行实例对象的操作。这种方式可以延迟加载，但是有一个弱点：线程不安全。</description>
+ 单例模式：某个类只能有一个实例，提供一个全局的访问点 工厂模式  简单工厂：一个工厂类根据传入的产量决定创建出哪一种产品类的实例 工厂方法：定义一个创建对象的接口，让子类实例化哪个类 抽象工厂：创建相关或依赖对象的家族，而无需明确指定具体类  建造者模式：封装一个复杂对象的构建过程，并可以按步骤构造 原形模式：通过复制现有的实例来创建新的实例  单例模式 单例模式的写法有很多种，一个一个地看一下
+ 饿汉式  public class Singleton { private Singleton singleton = new Singleton(); private Singleton() {} public static Singleton getInstance() { return singleton; } }  这段代码的好处是编写简单，但是无法做到延迟创建对象。但是我们很多时候都希望对象可以尽可能地延迟加载，从而减少负载，所以还能改进。
+ 单线程写法  public class Singleton { private static Singleton singleton = null; private Singleton() {} public static Singleton getInstance() { if (singleton == null) { singleton = new Singleton(); } return singleton; } }  这种写法也是很简单的， 由私有构造方法和一个公有静态工厂方法构成，在工厂方法中对对象进行判空处理，为空时再进行实例对象的操作。这种方式可以延迟加载，但是有一个弱点：线程不安全。</description>
     </item>
     
     <item>
@@ -220,15 +216,15 @@ public class Singleton { private static Singleton singleton = null; private Sing
       
       <guid>https://jimbray.xyz/note/content/ubuntu16_install_nginx_and_php7/</guid>
       <description>第一步 更新源
-apt-get update 第二步：安装nginx 直接安装
-sudo apt-get install nginx 打开nginx 服务
-sudo service nginx start 测试是否成功
+apt-get update  第二步：安装nginx 直接安装
+sudo apt-get install nginx  打开nginx 服务
+sudo service nginx start  测试是否成功
 在浏览器输入ip地址，出现以下界面
 即表示安装成功。
-第三步：安装php7 sudo apt-get install php7.0-fpm 打开nginx 配置文件
-sudo vi /etc/nginx/sites-available/default 未免修改错误，可以先进行 defaule配置文件的备份
-sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak 在 defult 文件中找到以下 代码段
-# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000 # # location ~ \.php$ { # include snippets/fastcgi-php.conf; # # # With php7.0-cgi alone: # fastcgi_pass 127.0.0.1:9000; # # With php7.</description>
+第三步：安装php7 sudo apt-get install php7.0-fpm  打开nginx 配置文件
+sudo vi /etc/nginx/sites-available/default  未免修改错误，可以先进行 defaule配置文件的备份
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak  在 defult 文件中找到以下 代码段
+# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000 # # location ~ \.php$ { # include snippets/fastcgi-php.conf; # # # With php7.</description>
     </item>
     
     <item>
@@ -242,10 +238,10 @@ sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.ba
  以前我的理解就是 “在主线程做了耗时操作”就会引起ANR，现在我觉得我是错误的，ANR的意思是应用没有响应，耗时操作实际上 并不一定会导致没有响应，我对没有响应的理解是
  有人（事件或操作）发出了一个请求，但是主线程没有对这个人进行反馈（可能是没时间、可能是不想理、可能是手被绑住了没有办法理你），这个叫没有响应
  那举个例子
-override fun onCreate(savedInstanceState: Bundle?) { super.onCreate(savedInstanceState) setContentView(R.layout.activity_main) // do some blablabla...  Log.d(&amp;#34;test&amp;#34;, &amp;#34;准备sleep30秒&amp;#34;) Thread.sleep(30000) Log.d(&amp;#34;test&amp;#34;, &amp;#34;sleep30秒完成&amp;#34;) // do some blablabla...  } 这段代码在 onCreate 中 sleep 了 30秒，会出现 ANR 吗？
+override fun onCreate(savedInstanceState: Bundle?) { super.onCreate(savedInstanceState) setContentView(R.layout.activity_main) // do some blablabla... Log.d(&amp;quot;test&amp;quot;, &amp;quot;准备sleep30秒&amp;quot;) Thread.sleep(30000) Log.d(&amp;quot;test&amp;quot;, &amp;quot;sleep30秒完成&amp;quot;) // do some blablabla... }  这段代码在 onCreate 中 sleep 了 30秒，会出现 ANR 吗？
 答案是
  可能会，也可能不会
- 当主线程在 Sleep 的时候，如果 UI线程不需要进行操作，也就是说没有消息会发送给UI线程并要求UI线程进行处理的时候 Sleep 30秒就不会导致ANR，因为没有 出现 **ANR(应用没有响应)**的情况啊，没有人向线程请求什么东西，也就不需要响应了，既然没有响应了，那怎么会有ANR呢？
+ 当主线程在 Sleep 的时候，如果 UI线程不需要进行操作，也就是说没有消息会发送给UI线程并要求UI线程进行处理的时候 Sleep 30秒就不会导致ANR，因为没有 出现 ANR(应用没有响应)的情况啊，没有人向线程请求什么东西，也就不需要响应了，既然没有响应了，那怎么会有ANR呢？
 但是，但线程在Sleep的时候，主线程有接收到需要处理的请求的时候
  需要注意的是，需要处理的请求，不一定只是用户的手动触摸，也有可能是其他线程需要对线程进行UI更新的请求，这个时候UI线程正在Sleep，根本没有办法理你（不想理你），这就符合了ANR的条件，所以会出现ANR（比如说在这 30 秒内，点击了 返回按钮，就会出现 ANR）
  另外，如果在这个30秒内进行UI更新会发生ANR吗？
@@ -284,7 +280,7 @@ override fun onCreate(savedInstanceState: Bundle?</description>
  可以总结为两个词：
  不可达 无根  就会被GC回收。
 内存泄漏会发生什么？ Android中经常出现的一种现象：内存占用越来越大，App越用越卡，只有在强制关闭程序后才会有好转的迹象，这个就属于内存泄漏。而导致内存越来越大的原因有很多，其中最主要的原因之一，就是内存泄漏。
-Handler 是怎么把内存泄漏的？ Handler mHandler = new Handler() { @Override public void handleMessage(Message msg) { iv_test.setImageBitmap(mBitmap); } } 这是一段很简单的 handler 。但使用内部类（包括匿名类）来创建Handler 的时候，Handler对象会隐式地持有一个外部类对象的引用（一般是一个 Activity）。
+Handler 是怎么把内存泄漏的？ Handler mHandler = new Handler() { @Override public void handleMessage(Message msg) { iv_test.setImageBitmap(mBitmap); } }  这是一段很简单的 handler 。但使用内部类（包括匿名类）来创建Handler 的时候，Handler对象会*隐式*地持有一个外部类对象的引用（一般是一个 Activity）。
 而Handler的主要使用场景是处理一个耗时的任务，等待任务处理完成之后，通过Handler 的消息机制通知到 Activity，然后完成更新界面的工作。
 但是，移动端的交互方式决定了何时关闭Activity是由用户决定的，如果在耗时任务完成之前，Activity就被关闭了。正常情况下，由于用户关闭了Activity，所以Activity申请的相关资源内存，应该要被释放掉。
 但是，之前的 【学习笔记】Looper 与 Handler 的关系 学习到了一点，Handler在发送消息的时候，会把Message 排队到 一个 消息队列里面 (MessageQueue)，等到任务完成后，再从消息队列里面取出来，通知handler，这里的关系是 引用持有关系可以表现为 MessageQueue -&amp;gt; Message -&amp;gt; Handler -&amp;gt; Activity，但任务没有完成的情况下，Activity理应被回收的业务逻辑下，由于Activity的引用被持有，导致GC不会去进行回收操作，这个就形成了内存泄漏。
@@ -299,11 +295,11 @@ Handler导致内存泄漏的解决办法  通过程序逻辑进行保护   在Ac
       
       <guid>https://jimbray.xyz/note/content/linux_adduser/</guid>
       <description>新增用户  使用root 用户登录
-adduser jimbray 添加用户，然后根据提示输入密码
+adduser jimbray  添加用户，然后根据提示输入密码
  加入 sudo 权限  修改 /etc/sudoers 文件权限
-chmod 755 /etc/sudoers  修改 sudoers 文件  复制一行
-root	ALL=(ALL:ALL) ALL 最终结果为
-root	ALL=(ALL:ALL) ALL jimbray ALL=(ALL:ALL) ALL 完成。可以日常使用 jimbray 了。</description>
+chmod 755 /etc/sudoers   修改 sudoers 文件  复制一行
+root ALL=(ALL:ALL) ALL  最终结果为
+root ALL=(ALL:ALL) ALL jimbray ALL=(ALL:ALL) ALL  完成。可以日常使用 jimbray 了。</description>
     </item>
     
     <item>
@@ -312,11 +308,10 @@ root	ALL=(ALL:ALL) ALL jimbray ALL=(ALL:ALL) ALL 完成。可以日常使用 jim
       <pubDate>Sat, 31 Mar 2018 09:38:32 +0800</pubDate>
       
       <guid>https://jimbray.xyz/post/activity_with_handler_learning/</guid>
-      <description>什么是异步消息处理线程
-异步消息处理线程启动会进入一个无限的循环体之中，每循环一次，从其内部的消息队列中会取出一个消息，然后回调给相应的消息处理函数，执行完成一个消息后则继续循环。若消息队列为空，线程则会阻塞等待。
-  这个消息处理过程有哪些角色
- 无限的循环体 内部的消息队列 相应的消息处理函数    Looper 对于 Looper这个角色，主要是 prepare() 和 loop( )两个方法。
-public static final void prepare() { if (sThreadLocal.get() != null) { throw new RuntimeException(&amp;#34;Only one Looper may be created per thread&amp;#34;); } sThreadLocal.set(new Looper(true)); } sThreadLocal 是一个 ThreadLocal对象，可以在一个线程中存储变量。在最后面进行了 Looper 实例的保存。
+      <description>什么是异步消息处理线程  异步消息处理线程启动会进入一个无限的循环体之中，每循环一次，从其内部的消息队列中会取出一个消息，然后回调给相应的消息处理函数，执行完成一个消息后则继续循环。若消息队列为空，线程则会阻塞等待。
+ 这个消息处理过程有哪些角色
+ 无限的循环体 内部的消息队列 相应的消息处理函数   Looper 对于 Looper这个角色，主要是 prepare() 和 loop( )两个方法。
+public static final void prepare() { if (sThreadLocal.get() != null) { throw new RuntimeException(&amp;quot;Only one Looper may be created per thread&amp;quot;); } sThreadLocal.set(new Looper(true)); }  sThreadLocal 是一个 ThreadLocal对象，可以在一个线程中存储变量。在最后面进行了 Looper 实例的保存。
 在 prepare() 方法中，首先进行了 Looper 对象的判空处理，如果不为空（之前已经有了一个 Looper 实例），就会抛出异常，说明了 prepare 不能被调用两次，同时也保证了 一个线程里面只能有一个 Looper 实例。
 那 new Looper(true)里面做了什么呢？
 private Looper(boolean quitAllowed) { mQueue = new MessageQueue(quitAllowed); mRun = true; mThread = Thread.</description>
@@ -328,11 +323,7 @@ private Looper(boolean quitAllowed) { mQueue = new MessageQueue(quitAllowed); mR
       <pubDate>Thu, 29 Mar 2018 16:16:51 +0800</pubDate>
       
       <guid>https://jimbray.xyz/note/content/how-to-restart-php7-fpm/</guid>
-      <description>  找到 php-fpm
-ps aux | grep php   kill php-fpm
-kill [对应的pid]   启动 php-fpm
-/usr/local/php/sbin/php-fpm ​
-  </description>
+      <description>找到 php-fpm  ps aux | grep php   kill php-fpm  kill [对应的pid]   启动 php-fpm  /usr/local/php/sbin/php-fpm  ​</description>
     </item>
     
     <item>
@@ -387,11 +378,10 @@ kill [对应的pid]   启动 php-fpm
       <guid>https://jimbray.xyz/note/content/process_and_thread/</guid>
       <description>进程和线程的主要差别在于它们是不同的操作系统资源管理方式。进程有独立的地址空间，一个进程崩溃后，在保护模式下不会对其它进程产生影响，而线程只是一个进程中的不同执行路径。线程有自己的堆栈和局部变量，但线程之间没有单独的地址空间，一个线程死掉就等于整个进程死掉，所以多进程的程序要比多线程的程序健壮，但在进程切换时，耗费资源较大，效率要差一些。但对于一些要求同时进行并且又要共享某些变量的并发操作，只能用线程，不能用进程。
 1) 简而言之,一个程序至少有一个进程,一个进程至少有一个线程.
- 线程的划分尺度小于进程，使得多线程程序的并发性高。
-  另外，进程在执行过程中拥有独立的内存单元，而多个线程共享内存，从而极大地提高了程序的运行效率。
-  线程在执行过程中与进程还是有区别的。每个独立的线程有一个程序运行的入口、顺序执行序列和程序的出口。**但是线程不能够独立执行，**必须依存在应用程序中，由应用程序提供多个线程执行控制。
-  从逻辑角度来看，多线程的意义在于一个应用程序中，有多个执行部分可以同时执行。但操作系统并没有将多个线程看做多个独立的应用，来实现进程的调度和管理以及资源分配。这就是进程和线程的重要区别。
-  </description>
+2) 线程的划分尺度小于进程，使得多线程程序的并发性高。
+3) 另外，进程在执行过程中拥有独立的内存单元，而多个线程共享内存，从而极大地提高了程序的运行效率。
+4) 线程在执行过程中与进程还是有区别的。每个独立的线程有一个程序运行的入口、顺序执行序列和程序的出口。但是线程不能够独立执行，必须依存在应用程序中，由应用程序提供多个线程执行控制。
+5) 从逻辑角度来看，多线程的意义在于一个应用程序中，有多个执行部分可以同时执行。但操作系统并没有将多个线程看做多个独立的应用，来实现进程的调度和管理以及资源分配。这就是进程和线程的重要区别。</description>
     </item>
     
     <item>
@@ -448,7 +438,7 @@ AutoScaleTextView
 android-autofittextview
 大概看一下 实现方式
 两者的 的核心代码 大致相同
-/** * Resize the text so that it fits * * @param text * The text. Neither &amp;lt;code&amp;gt;null&amp;lt;/code&amp;gt; nor empty. * @param textWidth * The width of the TextView. &amp;gt; 0 */ private void refitText(String text, int textWidth) { if (textWidth &amp;lt;= 0 || text == null || text.length() == 0) return; // the width 	int targetWidth = textWidth - this.</description>
+/** * Resize the text so that it fits * * @param text * The text. Neither &amp;lt;code&amp;gt;null&amp;lt;/code&amp;gt; nor empty. * @param textWidth * The width of the TextView. &amp;gt; 0 */ private void refitText(String text, int textWidth) { if (textWidth &amp;lt;= 0 || text == null || text.length() == 0) return; // the width int targetWidth = textWidth - this.</description>
     </item>
     
     <item>
@@ -467,7 +457,7 @@ android-autofittextview
 这就是为什么尽管Activity已经被销毁，而我们并没有做一些特别的事情来保存状态，但是EditText中键入的文本仍然能够呈现的原因。这并不是什么魔法，这些View 的状态已经被自动的保存和恢复回来了。
 这也是为什么View 在没有被设置android:id属性的时候不能保存和恢复自己的状态的原因。
 尽管这些View 的状态被自动的保存了，但是Activity的成员变量并不会有同样的效果。这些成员变量会被和Activity一起销毁。你可以手动的保存和恢复它们，通过onSaveInstanceState和onRestoreInstanceState方法。
-public class MainActivity extends AppCompatActivity { // These variable are destroyed along with Activity  private int someVarA; private String someVarB; ... @Override protected void onSaveInstanceState(Bundle outState) { super.onSaveInstanceState(outState); outState.putInt(&amp;#34;someVarA&amp;#34;, someVarA); outState.putString(&amp;#34;someVarB&amp;#34;, someVarB); } @Override protected void onRestoreInstanceState(Bundle savedInstanceState) { super.onRestoreInstanceState(savedInstanceState); someVarA = savedInstanceState.getInt(&amp;#34;someVarA&amp;#34;); someVarB = savedInstanceState.getString(&amp;#34;someVarB&amp;#34;); } } 这就是为了恢复Activity实例的状态和View 状态需要做的。</description>
+public class MainActivity extends AppCompatActivity { // These variable are destroyed along with Activity private int someVarA; private String someVarB; ... @Override protected void onSaveInstanceState(Bundle outState) { super.onSaveInstanceState(outState); outState.putInt(&amp;quot;someVarA&amp;quot;, someVarA); outState.putString(&amp;quot;someVarB&amp;quot;, someVarB); } @Override protected void onRestoreInstanceState(Bundle savedInstanceState) { super.onRestoreInstanceState(savedInstanceState); someVarA = savedInstanceState.getInt(&amp;quot;someVarA&amp;quot;); someVarB = savedInstanceState.getString(&amp;quot;someVarB&amp;quot;); } }  这就是为了恢复Activity实例的状态和View 状态需要做的。</description>
     </item>
     
     <item>
@@ -478,12 +468,12 @@ public class MainActivity extends AppCompatActivity { // These variable are dest
       <guid>https://jimbray.xyz/post/move-to-hugo/</guid>
       <description>安装hugo 安装很简单，比node.js 方便多了，重装了系统，本来也是直接用户Hexo 的，居然装不上 hexo， 又看到了 Hugo 的 好评如潮。 索性换了。 安装教程直接参照官网了， Linux 下很简单，我直接用 apt 装了。
 基本使用 然后就是简单的基本使用了：
-  创建网站 hugo new site quickstart,可以看到新建了目录
-  由于默认没有一个主题(我觉得这点做的不好),所以要挑选一个主题，在主题挑选自己喜欢的款，我用的是Blackburn把 主题的 仓库 clone 到 网站目录的 themes 下就可以了。
-  这个主题还有一个example文件夹，可以把里面的 comfig.toml 直接复制到 网站根目录下；里面写了一些配置，自己根据需要进行修改就可以了，记得配置 baseurl 的使用 一定要以 “/”结尾，否则上传到github时解析不到。
-  创建文章hugo new test-article.md 会在 网站目录下的content目录下生成 文件，有些主题会在首页直接显示content下的 文章，我选的这个主题默认是在 content/post 文件夹下，所以只能手动复制进去了
-  编辑好文章之后，配置基本与hexo 一致，只有一些小差异，比如 tags: test 是不对的，应该修改为 tags: [test],其他大同小异。
-  本地生成预览，hugo server -D 生成速度很快，然后可以在 localhost直接看到效果了。</description>
+ 创建网站 hugo new site quickstart,可以看到新建了目录 由于默认没有一个主题(我觉得这点做的不好),所以要挑选一个主题，在主题挑选自己喜欢的款，我用的是Blackburn把 主题的 仓库 clone 到 网站目录的 themes 下就可以了。
+ 这个主题还有一个example文件夹，可以把里面的 comfig.toml 直接复制到 网站根目录下；里面写了一些配置，自己根据需要进行修改就可以了，记得配置 baseurl 的使用 一定要以 “/”结尾，否则上传到github时解析不到。
+ 创建文章hugo new test-article.md 会在 网站目录下的content目录下生成 文件，有些主题会在首页直接显示content下的 文章，我选的这个主题默认是在 content/post 文件夹下，所以只能手动复制进去了
+ 编辑好文章之后，配置基本与hexo 一致，只有一些小差异，比如 tags: test 是不对的，应该修改为 tags: [test],其他大同小异。
+ 本地生成预览，hugo server -D 生成速度很快，然后可以在 localhost直接看到效果了。
+  主题修改 用了主题之后 ，发现首页显示的文章除了标题之后，摘要部分显示的极其混乱，markdown格式丢失不说，连规则也没有遵守，经过一番搜索之后, 找到了 首页显示的 html (/blackburn/layouts/_default/summary.</description>
     </item>
     
     <item>
@@ -515,9 +505,9 @@ public class MainActivity extends AppCompatActivity { // These variable are dest
       <guid>https://jimbray.xyz/post/build-osmc-at-rasperrypi/</guid>
       <description>手上有一台Raspberry Pi 3 ，为了避免吃灰，还是折腾一下好了。 选个系统安装一下，经过长时间的纠结 选择了 OSMC,还是插电视用吧。
 安装OSMC 系统  在 osmc官网先下载镜像 因为是在 win 下干活的，所以用的是 win32diskimager 直接选择 osmc img文件烧录就行了。 整个过程都是自动的，完成之后就会进入 系统了  修改系统语言为中文  找到 system–&amp;gt;settings–&amp;gt;apparence–&amp;gt;skin，把 fonts 改成 Arial based； 找到 skin 下面的 international，把 language 改成 Chinese； 一定要先修改字体，否则的话切换成中文之后会乱码。  不识别NTFS硬盘 系统安上了，也有中文了，手里移动硬盘插上去，准备看电影了。 但是插上去死活没反应，我硬盘不是坏了吧。 Google 老师告诉我，OSMC 不认识我的硬盘。（不识别NTFS硬盘）
-  安装 ntfs-3g ，让系统支持NTFS硬盘 sudo apt-get install ntfs-3g 安装完成之后重启
-  查看插入的硬盘对应的分区名称 sudo fdisk -l | grep NTFS 我硬盘里放电影的分区 对应的是 /dev/sda2
-  挂在指定的分区到系统 把硬盘分区挂在到指定的文件夹（可以新建） 比如我就新建了一个文件夹 叫 Movies</description>
+ 安装 ntfs-3g ，让系统支持NTFS硬盘 sudo apt-get install ntfs-3g 安装完成之后重启
+ 查看插入的硬盘对应的分区名称 sudo fdisk -l | grep NTFS 我硬盘里放电影的分区 对应的是 /dev/sda2
+ 挂在指定的分区到系统 把硬盘分区挂在到指定的文件夹（可以新建） 比如我就新建了一个文件夹 叫 Movies</description>
     </item>
     
     <item>
@@ -526,11 +516,11 @@ public class MainActivity extends AppCompatActivity { // These variable are dest
       <pubDate>Wed, 15 Feb 2017 12:20:20 +0000</pubDate>
       
       <guid>https://jimbray.xyz/post/getpersonalss/</guid>
-      <description>购买VPS 我买的是 openvzvps-小尾巴 国人弄的,虽然配置低点，但我又不用来做其他东西，就搭个ss，够用就行。 虽然带了小尾巴，但是为了避免广告嫌疑，我就不贴图了
-安装shadowsocks $ sudo apt-get update $ sudo apt-get install python-gevent python-pip $ sudo pip install shadowsocks $ apt-get install python-m2crypto 配置shadowsocks 创建 shadowsocks.json 配置文件
-vi /etc/shadowsocks.json 修改shadowsocks.json 配置文件
-{ &amp;quot;server&amp;quot;:&amp;quot;0.0.0.0&amp;quot;, &amp;quot;server_port&amp;quot;:8388, &amp;quot;local_port&amp;quot;:1080, &amp;quot;password&amp;quot;:&amp;quot;password&amp;quot;, &amp;quot;timeout&amp;quot;:600, &amp;quot;method&amp;quot;:&amp;quot;aes-256-cfb&amp;quot; } 填写自定义的端口和密码就可以了
-运行shadowsocks ssserver -c /etc/shadowsocks.json -d start ssserver -c /etc/shadowsocks.json -d stop 就搞定了。 一劳永逸，自从开了之后就没动过它。一直正常。 看了一下Youtube4K视频，略卡，不过1080无压力，日常使用完全没问题。 </description>
+      <description> 购买VPS 我买的是 openvzvps-小尾巴 国人弄的,虽然配置低点，但我又不用来做其他东西，就搭个ss，够用就行。 虽然带了小尾巴，但是为了避免广告嫌疑，我就不贴图了
+安装shadowsocks $ sudo apt-get update $ sudo apt-get install python-gevent python-pip $ sudo pip install shadowsocks $ apt-get install python-m2crypto  配置shadowsocks 创建 shadowsocks.json 配置文件
+vi /etc/shadowsocks.json  修改shadowsocks.json 配置文件
+{ &amp;quot;server&amp;quot;:&amp;quot;0.0.0.0&amp;quot;, &amp;quot;server_port&amp;quot;:8388, &amp;quot;local_port&amp;quot;:1080, &amp;quot;password&amp;quot;:&amp;quot;password&amp;quot;, &amp;quot;timeout&amp;quot;:600, &amp;quot;method&amp;quot;:&amp;quot;aes-256-cfb&amp;quot; }  填写自定义的端口和密码就可以了
+运行shadowsocks ssserver -c /etc/shadowsocks.json -d start ssserver -c /etc/shadowsocks.json -d stop  就搞定了。 一劳永逸，自从开了之后就没动过它。一直正常。 看了一下Youtube4K视频，略卡，不过1080无压力，日常使用完全没问题。 </description>
     </item>
     
     <item>
@@ -540,14 +530,14 @@ vi /etc/shadowsocks.json 修改shadowsocks.json 配置文件
       
       <guid>https://jimbray.xyz/post/supprisebottomview/</guid>
       <description>按照惯例，先上效果
-涉及到的知识点   ViewGroup 的事件分发拦截机制
-  ViewDragHelper 的基本使用
+涉及到的知识点  ViewGroup 的事件分发拦截机制
+ ViewDragHelper 的基本使用
   ViewGroup 的事件分发拦截机制 ViewGroup 有三个方法
  dispatchTouchEvent onInterceptTouchEvent onTouchEvent  dispatchTouchEvent 用于touch事件的分发；通俗点说，就是决定当前这个touch事件应该交给谁来处理（是当前View还是父View）
  当触摸事件发生时 Activity 的 dispatchTouchEvent(MotionEvent ev) 方法会从根元素依次往下传递直到最内层子元素或在中间某一元素中事件被拦截或者消费.
-如果 return true，事件会分发给当前 View 并由 dispatchTouchEvent 方法进行消费，同时事件会停止向下传递；这样该View的onTouchEvent事件也不会得到响应. 如果 return false，会将事件返回给父 View 的 onTouchEvent 进行消费。 如果 return super.dispatchTouchEvent(ev)，事件会分发给当前 View 的 onInterceptTouchEvent 方法去进行处理。
+如果 return true，事件会分发给当前 View 并由 dispatchTouchEvent 方法进行消费，同时事件会停止向下传递；这样该View的onTouchEvent事件也不会得到响应. 如果return false，会将事件返回给父 View 的 onTouchEvent 进行消费。 如果 return super.dispatchTouchEvent(ev)，事件会分发给当前 View 的 onInterceptTouchEvent 方法去进行处理。
  onInterceptTouchEvent 用于touch事件的拦截；通俗点说，就是决定刚刚 dispatchTouchEvent 抛给我的touch事件应该交给谁来处理（是当前View还是子View）注意跟dispatchTouchEvent的区别
- 如果 return true，则将事件进行拦截，并将拦截到的事件交由该 View 的 onTouchEvent 进行处理； 如果 return false，则将事件向子View传递，再由子View的 dispatchTouchEvent 来对这个事件处理； 如果 return super.</description>
+ 如果 return true，则将事件进行拦截，并将拦截到的事件交由该 View 的 onTouchEvent 进行处理； 如果 return false，则将事件向子View传递，再由子View的 dispatchTouchEvent来对这个事件处理； 如果 return super.onInterceptTouchEvent(ev)，事件会被拦截，并将事件交由该 View 的 onTouchEvent 进行处理。</description>
     </item>
     
     <item>
@@ -560,11 +550,10 @@ vi /etc/shadowsocks.json 修改shadowsocks.json 配置文件
 今天需要做的是 跟 Path APP 一样，在自己的 APP 发布post时，同步发送到 其他平台Facebook。
 先把基本配置做了   將 Facebook Android SDK 新增至您的行動開發環境 取得正確設定並連結至 Android 應用程式的 Facebook 應用程式編號。請參閱 Android 新手指南，新增 Facebook 應用程式編號 產生 Android 金鑰雜湊並新增至開發人員個人檔案 新增 Facebook Activity - 請將本項目加至 `AndroidManifest.xml   开始分享 建立内容模板 模板有几种方式
  Link Photos Videos Multimedia  参见Facebook官方文档
-最终使用 ShareApi.share(content, null); 即可发送成功
+最终使用 ShareApi.share(content, null);  即可发送成功
 但是发送的样式 跟 使用那些 一键分享的 SDK 是一样的
 都是那种感觉像 转发 的形式。（会看到 发送的对话框，类似于 ShareDialog）
-后台发送 仔细看了文档，发现了一个 Graph API 
-而且还提供了 案例，也有各个平台的SDK使用，用起来很方便。</description>
+后台发送 仔细看了文档，发现了一个 Graph API</description>
     </item>
     
     <item>
@@ -605,13 +594,12 @@ vi /etc/shadowsocks.json 修改shadowsocks.json 配置文件
       <pubDate>Thu, 30 Jun 2016 14:31:59 +0800</pubDate>
       
       <guid>https://jimbray.xyz/post/manual_install_lnmp/</guid>
-      <description>安装 MySql install mysql： sudo apt-get install mysql-server 以root用户登录至MySQL： mysql -u root -p 创建用户 我们可以直接使用root用户，但通常来讲，我们需要为WordPress单独创建一个数据库用户，创建数据库wordpress，用户wpuser：
-create database wordpress; create user wpuser@localhost identified by &amp;#39;&amp;lt;password&amp;gt;&amp;#39;; 关联用户 创建完WordPress数据库和用户后，需要将这两者关联起来：
-grant all privileges on wordpress.* to wpuser@localhost; flush privileges; mysql 到这一步就先告一段落了。继续下一步；
+      <description>安装 MySql install mysql： sudo apt-get install mysql-server  以root用户登录至MySQL： mysql -u root -p  创建用户 我们可以直接使用root用户，但通常来讲，我们需要为WordPress单独创建一个数据库用户，创建数据库wordpress，用户wpuser：
+create database wordpress; create user wpuser@localhost identified by &#39;&amp;lt;password&amp;gt;&#39;;  关联用户 创建完WordPress数据库和用户后，需要将这两者关联起来：
+grant all privileges on wordpress.* to wpuser@localhost; flush privileges;  mysql 到这一步就先告一段落了。继续下一步；
 安装 nginx 这里使用的是nginx.org 的package安装。 通过配置源的下载，做好nginx安装的准备工作。
-sudo apt-get install nginx 配置 nginx nano /etc/nginx/conf.d/default.conf listen 80; server_name localhost;#如果有域名，则填写 xxx.xxx 安装 PHP install php7.0-fpm 由于我使用的是ubuntu16.04,所以默认安装的是 php7
-sudo apt-get install php-fpm 配置php 修改 php.ini
-nano /etc/php/7.0/fpm/php.ini 放开注释并改为 0</description>
+sudo apt-get install nginx  配置 nginx nano /etc/nginx/conf.d/default.conf  listen 80; server_name localhost;#如果有域名，则填写 xxx.xxx  安装 PHP install php7.0-fpm 由于我使用的是ubuntu16.04,所以默认安装的是 php7
+sudo apt-get install php-fpm  配置php 修改 php.</description>
     </item>
     
     <item>
@@ -624,7 +612,7 @@ nano /etc/php/7.0/fpm/php.ini 放开注释并改为 0</description>
 上一篇文章是 做了很久，除了对python不熟，还有懒，所以最终的结果不尽人意，可以说做出来一个半成品。能用，但用起来不爽。 所以，现在完成了基本版，基本版基本可用了
 上次的版本是 获取 全屏截图，这样的话像QQ截图这些功能都用不上了，而且还是显示很多不必要的元素在截图里面，比如说下面这个图啊 箭头所指的地方，根本不应该出现在截图里面的，是多余的元素。 废话不多说，开干。 思路跟实现跟上次一点区别都没有 代码也只是修改了一个函数，其他的基本没有变化 主要记录遇到的几个问题
 代码 先把代码贴出来，再上问题
-def save_clipboard_image(): im = ImageGrab.grabclipboard() if im is None: print(&amp;#39;Error: No image data in clipboard&amp;#39;) return None if isinstance(im, Image.Image): print im.format, im.size, im.mode width, height = im.size saved_path = &amp;#34;img_&amp;#34; + str(time.time()) + &amp;#34;.jpg&amp;#34; # im.resize((30, 30), Image.ANTIALIAS).load() im.save(saved_path) print saved_path return saved_path else: print &amp;#39;the object in clipboard is not a image.&amp;#39; return None 这个函数是修改的，之前是获取全屏截图，现在修改为获取剪贴板中的图片</description>
+def save_clipboard_image(): im = ImageGrab.grabclipboard() if im is None: print(&#39;Error: No image data in clipboard&#39;) return None if isinstance(im, Image.Image): print im.format, im.size, im.mode width, height = im.size saved_path = &amp;quot;img_&amp;quot; + str(time.time()) + &amp;quot;.jpg&amp;quot; # im.resize((30, 30), Image.ANTIALIAS).load() im.save(saved_path) print saved_path return saved_path else: print &#39;the object in clipboard is not a image.&#39; return None  这个函数是修改的，之前是获取全屏截图，现在修改为获取剪贴板中的图片</description>
     </item>
     
     <item>
@@ -637,7 +625,7 @@ def save_clipboard_image(): im = ImageGrab.grabclipboard() if im is None: print(
 简化markdown写作中的贴图流程
 刚好最近也在学习python，看起来好有趣啊，这篇文章讲的是Mac上的， 我没有Mac，只有Windows，文章里面也写了Windows系统的实现思路，既然作者已经给出来了，作为一个python初学者，动动手罢
 思路  截图（保存在剪贴板中） 使用七牛sdk 上传剪切板中的图片 获取返回的url，并合成 markdown 贴图语法 应该就可以了吧  实现 准备工作  安装 七牛python sdk,我用的是IDE pycharm 方式  下载安装 AutoHotKey 软件 写 python代码 写AutoHotKey脚本  开始动手 写代码 由于技术太渣，搜到又看不懂win32什么的，最后获取剪贴板截图的功能没能写出来，找到了另一个库 PIL 这个库的截图也是在剪切板的，不过不是其他软件接下来的，是系统截下来的 screencapture
-AK = &amp;#39;access_key&amp;#39; SK = &amp;#39;secret_key&amp;#39; bucket_name = &amp;#34;bucket_name&amp;#34; buckey_url = { &amp;#39;bucket_name&amp;#39;: &amp;#39;domain_name&amp;#39;, } 上面是一些初始化工作 都是七牛的东西 可以在 七牛的 开发者帐号里面找到 access_key 和 secret_key 就不说了 bucket_name 是 空间名称 domain_name 是 空间域名
+AK = &#39;access_key&#39; SK = &#39;secret_key&#39; bucket_name = &amp;quot;bucket_name&amp;quot; buckey_url = { &#39;bucket_name&#39;: &#39;domain_name&#39;, }  上面是一些初始化工作 都是七牛的东西 可以在 七牛的 开发者帐号里面找到 access_key 和 secret_key 就不说了 bucket_name 是 空间名称 domain_name 是 空间域名
 继续:获取图片
 def save_clipboard_image(): pic = ImageGrab.</description>
     </item>
@@ -652,7 +640,7 @@ def save_clipboard_image(): pic = ImageGrab.</description>
 但是如果没有安装，就会使用 WEB 版本的 进行分享，这个时候，分享完了就是完了，不知道是成功还是失败。
 去看了下文档，Facebook提供这个回调。
 叫做 CallbakManager ，既然找到了，就上手吧
-ShareDialog shareDialog = new ShareDialog(act); CallbackManager callbackManager = CallbackManager.Factory.create(); shareDialog.registerCallback(callbackManager, new FacebookCallback&amp;lt;Sharer.Result&amp;gt;() { @Override public void onSuccess(Sharer.Result result) { Log.d(&amp;#34;tag&amp;#34;, &amp;#34;OnSuccess&amp;#34;); } @Override public void onCancel() { Log.d(&amp;#34;tag&amp;#34;, &amp;#34;onCancel&amp;#34;); } @Override public void onError(FacebookException error) { Log.d(&amp;#34;tag&amp;#34;, &amp;#34;onError&amp;#34;); } }); ShareLinkContent content = new ShareLinkContent.Builder() .setContentUrl(Uri.parse(&amp;#34;http://url.com&amp;#34;)) .setImageUrl(Uri.parse(&amp;#34;http://url.com&amp;#34;)) .setContentTitle(&amp;#34;Title&amp;#34;) .setContentDescription(&amp;#34;description&amp;#34;) .build(); shareDialog.show(content, ShareDialog.Mode.AUTOMATIC); 看上去就是这样的，可是每次都没有回调 最后去Facebook 文档又看了一遍，找到解决办法了，原来之前没有看清楚
+ShareDialog shareDialog = new ShareDialog(act); CallbackManager callbackManager = CallbackManager.Factory.create(); shareDialog.registerCallback(callbackManager, new FacebookCallback&amp;lt;Sharer.Result&amp;gt;() { @Override public void onSuccess(Sharer.Result result) { Log.d(&amp;quot;tag&amp;quot;, &amp;quot;OnSuccess&amp;quot;); } @Override public void onCancel() { Log.d(&amp;quot;tag&amp;quot;, &amp;quot;onCancel&amp;quot;); } @Override public void onError(FacebookException error) { Log.d(&amp;quot;tag&amp;quot;, &amp;quot;onError&amp;quot;); } }); ShareLinkContent content = new ShareLinkContent.Builder() .setContentUrl(Uri.parse(&amp;quot;http://url.com&amp;quot;)) .setImageUrl(Uri.parse(&amp;quot;http://url.com&amp;quot;)) .setContentTitle(&amp;quot;Title&amp;quot;) .setContentDescription(&amp;quot;description&amp;quot;) .build(); shareDialog.show(content, ShareDialog.Mode.AUTOMATIC);  看上去就是这样的，可是每次都没有回调 最后去Facebook 文档又看了一遍，找到解决办法了，原来之前没有看清楚
 Facebook share封装起来之后是用 Activity 做回调的 所以 纯粹的使用 CallbackManager 肯定不会生效啦。</description>
     </item>
     
@@ -665,13 +653,13 @@ Facebook share封装起来之后是用 Activity 做回调的 所以 纯粹的使
       <description>目标 docker这么火，体验一下，感受一下
 准备工作 Linux系统主机一台(我用的的ubuntu) docker文档看一下，我找了好几个，都挺不错的，就是不动一下手，总感觉虚
 开动 安装docker 我用的是ubuntu14.04 两种方式 1.源已经内置docker，不过教程裡有说那个docker没有更新
-apt-get install docker 反正我没用
-curl -sSL https://get.docker.com/ubuntu/ | sudo sh 可能需要代理
+apt-get install docker  反正我没用
+curl -sSL https://get.docker.com/ubuntu/ | sudo sh  可能需要代理
 像这个样子就是安装成功了
 docker 最主要的就是container和image了 那就弄个image吧 从哪弄？直接pull就可以了 那pull什么呢，总要知道个地址的
 先搜一下
-docker search nginx 就用第一个吧
-docker pull nginx docker images docker run nginx docker run -i nginx docker run -t nginx docker run -it nginx docker run -d nginx docker run -- name nginx-test -d nginx docker run --name nginx -test -d -p 8080:80 nginx  相关书籍:</description>
+docker search nginx  就用第一个吧
+docker pull nginx docker images docker run nginx docker run -i nginx docker run -t nginx docker run -it nginx docker run -d nginx docker run -- name nginx-test -d nginx docker run --name nginx -test -d -p 8080:80 nginx   相关书籍:</description>
     </item>
     
     <item>
@@ -682,16 +670,15 @@ docker pull nginx docker images docker run nginx docker run -i nginx docker run 
       <guid>https://jimbray.xyz/post/linode-install-lnmp/</guid>
       <description>安装 1.安装 LNMP 参见 lnmp官网
 2.安装完成之后 查看 nginx 、 php、mysql 的运行状态
-ps aux | grep nginx ps aux | grep php ps aux | gerp mysql 确保已经在运行状态
+ps aux | grep nginx ps aux | grep php ps aux | gerp mysql  确保已经在运行状态
 3.查看 nginx 的配置文件 （nginx.conf）路径可以
-whereis nginx 配置 命令查看
+whereis nginx  配置 命令查看
 配置文件内 user：www-data
 www-data 可任意修改
 4.修改 php 的配置文件 （php/etc/php-fpm.conf）
 修改
-listen.owner = www-data listen.group = www-data www-data 修改为 第3步 nginx 设置的对应的User名称
-下载 wordpress程序 官方下载  wget http://wordpress.org/latest.tar.gz tar -xzvf latest.tar.gz 将解压出来的 wordpress文件夹 复制到 自定义文件夹，我的放在了/var/www/wordpress
-cp -r wordpress /var/www/wordpress 6.</description>
+listen.owner = www-data listen.group = www-data  www-data 修改为 第3步 nginx 设置的对应的User名称
+ 下载 wordpress程序 官方下载  wget http://wordpress.org/latest.tar.gz tar -xzvf latest.tar.gz  将解压出来的 wordpress文件夹 复制到 自定义文件夹，我的放在了/var/www/wordpress</description>
     </item>
     
     <item>
@@ -700,7 +687,7 @@ cp -r wordpress /var/www/wordpress 6.</description>
       <pubDate>Thu, 09 Jun 2016 12:48:17 +0000</pubDate>
       
       <guid>https://jimbray.xyz/post/ssh-root-login-setting/</guid>
-      <description>编辑ssh 配置文件 vi /etc/ssh/sshd_config 修改关键配置 PermitRootLogin no 重启 ssh 服务 service /etc/init.d/ssh restart Done.</description>
+      <description>编辑ssh 配置文件 vi /etc/ssh/sshd_config  修改关键配置 PermitRootLogin no  重启 ssh 服务 service /etc/init.d/ssh restart  Done.</description>
     </item>
     
     <item>
@@ -709,10 +696,10 @@ cp -r wordpress /var/www/wordpress 6.</description>
       <pubDate>Thu, 09 Jun 2016 12:37:25 +0000</pubDate>
       
       <guid>https://jimbray.xyz/post/falsk-root/</guid>
-      <description>搜索结果 @app.route(&amp;#39;/&amp;lt;path&amp;gt;&amp;#39;) def info(path): resp = make_response(open(path).read()) resp.headers[&amp;#34;Content-type&amp;#34;]=&amp;#34;application/json;charset=UTF-8&amp;#34; return resp 按道理应该是可以生效的，但我在用的时候却报错了
-出现错误 IOError: [Errno 2] No such file or directory: u&amp;#39;readme.json&amp;#39; 居然找不到这个文件
+      <description>搜索结果 @app.route(&#39;/&amp;lt;path&amp;gt;&#39;) def info(path): resp = make_response(open(path).read()) resp.headers[&amp;quot;Content-type&amp;quot;]=&amp;quot;application/json;charset=UTF-8&amp;quot; return resp  按道理应该是可以生效的，但我在用的时候却报错了
+出现错误 IOError: [Errno 2] No such file or directory: u&#39;readme.json&#39;  居然找不到这个文件
 解决办法 使用绝对路径
-@app.route(&amp;#39;/&amp;lt;path&amp;gt;&amp;#39;) def today(path): base_dir = os.path.dirname(__file__) resp = make_response(open(os.path.join(base_dir, path)).read()) resp.headers[&amp;#34;Content-type&amp;#34;]=&amp;#34;application/json;charset=UTF-8&amp;#34; return resp 访问 127.0.0.1:5000/readme.json
+@app.route(&#39;/&amp;lt;path&amp;gt;&#39;) def today(path): base_dir = os.path.dirname(__file__) resp = make_response(open(os.path.join(base_dir, path)).read()) resp.headers[&amp;quot;Content-type&amp;quot;]=&amp;quot;application/json;charset=UTF-8&amp;quot; return resp  访问 127.0.0.1:5000/readme.json
 Done.</description>
     </item>
     
@@ -723,7 +710,7 @@ Done.</description>
       
       <guid>https://jimbray.xyz/post/ss-thunder/</guid>
       <description>今天用的好好的 ss 突然之间失效了，看了下日志：
-failed to recv data in handshakeReceive2Callback 网上搜罗下，出现这个情况的不在少数，主要是因为使用了迅雷下载导致
+failed to recv data in handshakeReceive2Callback  网上搜罗下，出现这个情况的不在少数，主要是因为使用了迅雷下载导致
 解决办法 1.在服务中找到XLServicePlatform把这个服务禁用了。现在应该可以使用ss了
 2.重启电脑后发现，ss又不能用了，继续查看服务，XLServicePlatform又起来了，还把启动方式变成了自动。
 3.关掉 服务，打开 C:\Program Files\Common Files\Thunder Network\ServicePlatform\XLSP.dll ，把里面的内容清空
@@ -740,10 +727,10 @@ XLServicePlatform：这个服务主要的功能是迅雷的网络诊断，并不
       <description>使用场景 使用 Hexo 的一键发布文章很方便，但是有多个地点需要同步文章的时候就麻烦了。 因为GitHub 的 repo 上 只有Hexo 编译好的 html文件， 并没有Hexo 的source 文件（也就是文章）。 如果需要在不同地点进行 文章发布的话，就没有办法完成了（先不考虑草稿的事） 所以 我们需要在其他 repo 进行文章的备份。
 使用工具 还是使用Git 进行操作 Git 需要一个服务器 现在支持 git 托管的服务已经很多了，用其他的也可以。 不过我不想注册使用那么多，还是使用Github 吧 而且还是同一个 repo
 操作步骤 上传操作 进入 Hexo 所在的文件夹 打开 git bash 窗口
-git init 进行初始化repo
+git init  进行初始化repo
 完成之后，添加 修改的文件，本来 Hexo 就自带了 .gitignore 文件 需要忽略的文件 都已经默认配置好了 接下来进行第一次 提交。 当然了，git流程还是要走正确的 首先应该是 add
-git add . 我们将所有文件进行添加 . 就是这个意思 然后commit
-git commit -m &amp;#34;commit first time&amp;#34; 提交成功之后 接下来就是 push 到github了 我们先把本地这个文件夹 映射到 远程 repo 上</description>
+git add .  我们将所有文件进行添加 . 就是这个意思 然后commit
+git commit -m &amp;quot;commit first time&amp;quot;  提交成功之后 接下来就是 push 到github了 我们先把本地这个文件夹 映射到 远程 repo 上</description>
     </item>
     
     <item>
@@ -757,10 +744,9 @@ git commit -m &amp;#34;commit first time&amp;#34; 提交成功之后 接下来�
 毕竟，好记性不如烂笔头。还是很有道理的。
 搭建完成了，感觉发布过程还是很方便的。没有繁琐的过程，专注自己的记录就可以了。
 这几年 尝试过了无数的 Blog 程序。现成的，自己搭建的，各种各样的博客都玩过，就是没有写过。 坚持是一件很难的事情。
-Done.
-Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick Start Create a new post $ hexo new &amp;#34;My New Post&amp;#34; More info: Writing
-Run server $ hexo server More info: Server</description>
+Done. Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Quick Start Create a new post $ hexo new &amp;quot;My New Post&amp;quot;  More info: Writing
+Run server $ hexo server  More info: Server</description>
     </item>
     
   </channel>
