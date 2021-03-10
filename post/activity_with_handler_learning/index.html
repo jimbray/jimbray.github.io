@@ -1,631 +1,209 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="什么是异步消息处理线程？异步消息处理过程中有哪些角色？这些角色是怎样关联到一起，完美地完成消息通信的？带你走进 Handler与Looper的世界。">
-  <meta name="generator" content="Hugo 0.81.0" />
-
-  <title>【学习笔记】Looper 与 Handler 的关系 &middot; 我说的这句话是谎话</title>
-
-  
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
-
-  <!--[if lte IE 8]>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
-  <![endif]-->
-  <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
-  <!--<![endif]-->
-
-  <!--[if lte IE 8]>
-  <link rel="stylesheet" href="https://jimbray.xyz/css/side-menu-old-ie.css">
-  <![endif]-->
-  <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="https://jimbray.xyz/css/side-menu.css">
-  <!--<![endif]-->
-
-  <link rel="stylesheet" href="https://jimbray.xyz/css/blackburn.css">
-
-  
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-  
-  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
-
-  
-  
-
-  
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  
-  <script>hljs.initHighlightingOnLoad();</script>
-  
-
-  <link rel="shortcut icon" href="https://jimbray.xyz/img/favicon.ico" type="image/x-icon" />
-
-  
-  
-
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({
-    google_ad_client: "ca-pub-8790496632299830",
-    enable_page_level_ads: true
-  });
-</script>
-<meta name="google-site-verification" content="lsfTBJKzPUfwHdKB84_xsa5u_38z1iLbcGOAkxOo03Q" />
-
-  
-</head>
-
-
-<body>
-<div id="layout">
-
-  
-<a href="#menu" id="menuLink" class="menu-link">
-  
-  <span></span>
-</a>
-<div id="menu">
-
-  
-  <a class="pure-menu-heading brand" href="https://jimbray.xyz/">Jimbray</a>
-
-
-  <div class="pure-menu">
-    <ul class="pure-menu-list">
-      
-      
-        <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://jimbray.xyz/"><i class='fa fa-home fa-fw'></i>Home</a>
-      
-        </li>
-      
-      
-        <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://jimbray.xyz/post/"><i class='fa fa-archive fa-fw'></i>Archive</a>
-      
-        </li>
-      
-      
-        <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://jimbray.xyz/tags/"><i class='fa fa-tags fa-fw'></i>Tags</a>
-      
-        </li>
-      
-      
-        <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://jimbray.xyz/note/note"><i class='fa fa-sticky-note fa-fw'></i>Notes</a>
-      
-        </li>
-      
-    </ul>
-  </div>
-
-  
-  <div class="pure-menu social">
-  <ul class="pure-menu-list">
-
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="什么是异步消息处理线程？异步消息处理过程中有哪些角色？这些角色是怎样关联到一起，完美地完成消息通信的？带你走进 Handler与Looper的世界。"><meta name=generator content="Hugo 0.81.0"><title>【学习笔记】Looper 与 Handler 的关系 &#183; 我说的这句话是谎话</title><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=https://jimbray.xyz/css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=https://jimbray.xyz/css/side-menu.css><!--<![endif]--><link rel=stylesheet href=https://jimbray.xyz/css/blackburn.css><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css><link href="https://fonts.googleapis.com/css?family=Raleway" rel=stylesheet type=text/css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script>hljs.initHighlightingOnLoad()</script><link rel="shortcut icon" href=https://jimbray.xyz/img/favicon.ico type=image/x-icon><script async src=//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js></script><script>(adsbygoogle=window.adsbygoogle||[]).push({google_ad_client:"ca-pub-8790496632299830",enable_page_level_ads:!0})</script><meta name=google-site-verification content="lsfTBJKzPUfwHdKB84_xsa5u_38z1iLbcGOAkxOo03Q"></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><a class="pure-menu-heading brand" href=https://jimbray.xyz/>Jimbray</a><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/><i class="fa fa-home fa-fw"></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/post/><i class="fa fa-archive fa-fw"></i>Archive</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/tags/><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/note/note><i class="fa fa-sticky-note fa-fw"></i>Notes</a></li></ul></div><div class="pure-menu social"><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=https://twitter.com/jimbray16 target=_blank><i class="fa fa-twitter-square fa-fw"></i>Twitter</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://github.com/jimbray target=_blank><i class="fa fa-github-square fa-fw"></i>GitHub</a></li></ul></div><div><div class=small-print><small>&copy; 2016. All rights reserved.</small></div><div class=small-print><small>Built with&nbsp;<a href=https://gohugo.io/ target=_blank>Hugo</a></small>
+<small>Theme&nbsp;<a href=https://github.com/yoshiharuyamashita/blackburn target=_blank>Blackburn</a></small></div></div></div><div id=main><div class=header><h1>【学习笔记】Looper 与 Handler 的关系</h1><h2>什么是异步消息处理线程？异步消息处理过程中有哪些角色？这些角色是怎样关联到一起，完美地完成消息通信的？带你走进 Handler与Looper的世界。</h2></div><div class=content><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i><time>31 Mar 2018, 09:38</time></div><div><i class="fa fa-tags fa-fw"></i><a class=post-taxonomy-tag href=https://jimbray.xyz/tags/android>Android</a></div></div><ul><li><p>什么是异步消息处理线程</p><p>异步消息处理线程启动会进入一个无限的循环体之中，每循环一次，从其内部的消息队列中会取出一个消息，然后回调给相应的消息处理函数，执行完成一个消息后则继续循环。若消息队列为空，线程则会阻塞等待。</p></li><li><p>这个消息处理过程有哪些角色</p><ol><li>无限的循环体</li><li>内部的消息队列</li><li>相应的消息处理函数</li></ol></li></ul><h3 id=looper>Looper</h3><p>对于 Looper这个角色，主要是 prepare() 和 loop( )两个方法。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>prepare</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>    
+        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>sThreadLocal<span style=color:#f92672>.</span><span style=color:#a6e22e>get</span><span style=color:#f92672>()</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+            <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> RuntimeException<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Only one Looper may be created per thread&#34;</span><span style=color:#f92672>);</span>    
+        <span style=color:#f92672>}</span>    
+        sThreadLocal<span style=color:#f92672>.</span><span style=color:#a6e22e>set</span><span style=color:#f92672>(</span><span style=color:#66d9ef>new</span> Looper<span style=color:#f92672>(</span><span style=color:#66d9ef>true</span><span style=color:#f92672>));</span>    
+<span style=color:#f92672>}</span> 
+</code></pre></div><p>sThreadLocal 是一个 ThreadLocal对象，可以在一个线程中存储变量。在最后面进行了 Looper 实例的保存。</p><p>在 prepare() 方法中，首先进行了 Looper 对象的判空处理，如果不为空（之前已经有了一个 Looper 实例），就会抛出异常，说明了 prepare 不能被调用两次，同时也保证了 一个线程里面只能有一个 Looper 实例。</p><p>那 <code>new Looper(true)</code>里面做了什么呢？</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>private</span> <span style=color:#a6e22e>Looper</span><span style=color:#f92672>(</span><span style=color:#66d9ef>boolean</span> quitAllowed<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+        mQueue <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> MessageQueue<span style=color:#f92672>(</span>quitAllowed<span style=color:#f92672>);</span>    
+        mRun <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span><span style=color:#f92672>;</span>    
+        mThread <span style=color:#f92672>=</span> Thread<span style=color:#f92672>.</span><span style=color:#a6e22e>currentThread</span><span style=color:#f92672>();</span>    
+<span style=color:#f92672>}</span>    
+</code></pre></div><p>在 Looper 的构造方法中，有新增一个 MessageQuene 实例，这个是一个消息队列。</p><p>然后看看第二个主要方法 loop()</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>loop</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>    
+        <span style=color:#66d9ef>final</span> Looper me <span style=color:#f92672>=</span> myLooper<span style=color:#f92672>();</span>    
+        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>me <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+            <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> RuntimeException<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;No Looper; Looper.prepare() wasn&#39;t called on this thread.&#34;</span><span style=color:#f92672>);</span>    
+        <span style=color:#f92672>}</span>    
+        <span style=color:#66d9ef>final</span> MessageQueue queue <span style=color:#f92672>=</span> me<span style=color:#f92672>.</span><span style=color:#a6e22e>mQueue</span><span style=color:#f92672>;</span>    
     
-
+        <span style=color:#75715e>// Make sure the identity of this thread is that of the local process,    
+</span><span style=color:#75715e></span>        <span style=color:#75715e>// and keep track of what that identity token actually is.    
+</span><span style=color:#75715e></span>        Binder<span style=color:#f92672>.</span><span style=color:#a6e22e>clearCallingIdentity</span><span style=color:#f92672>();</span>    
+        <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>long</span> ident <span style=color:#f92672>=</span> Binder<span style=color:#f92672>.</span><span style=color:#a6e22e>clearCallingIdentity</span><span style=color:#f92672>();</span>    
     
-
+        <span style=color:#66d9ef>for</span> <span style=color:#f92672>(;;)</span> <span style=color:#f92672>{</span>    
+            Message msg <span style=color:#f92672>=</span> queue<span style=color:#f92672>.</span><span style=color:#a6e22e>next</span><span style=color:#f92672>();</span> <span style=color:#75715e>// might block    
+</span><span style=color:#75715e></span>            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>msg <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+                <span style=color:#75715e>// No message indicates that the message queue is quitting.    
+</span><span style=color:#75715e></span>                <span style=color:#66d9ef>return</span><span style=color:#f92672>;</span>    
+            <span style=color:#f92672>}</span>    
     
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://twitter.com/jimbray16" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
-    </li>
+            <span style=color:#75715e>// This must be in a local variable, in case a UI event sets the logger    
+</span><span style=color:#75715e></span>            Printer logging <span style=color:#f92672>=</span> me<span style=color:#f92672>.</span><span style=color:#a6e22e>mLogging</span><span style=color:#f92672>;</span>    
+            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>logging <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+                logging<span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;&gt;&gt;&gt;&gt;&gt; Dispatching to &#34;</span> <span style=color:#f92672>+</span> msg<span style=color:#f92672>.</span><span style=color:#a6e22e>target</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; &#34;</span> <span style=color:#f92672>+</span>    
+                        msg<span style=color:#f92672>.</span><span style=color:#a6e22e>callback</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;: &#34;</span> <span style=color:#f92672>+</span> msg<span style=color:#f92672>.</span><span style=color:#a6e22e>what</span><span style=color:#f92672>);</span>    
+            <span style=color:#f92672>}</span>    
     
-
+            msg<span style=color:#f92672>.</span><span style=color:#a6e22e>target</span><span style=color:#f92672>.</span><span style=color:#a6e22e>dispatchMessage</span><span style=color:#f92672>(</span>msg<span style=color:#f92672>);</span>    
     
-
+            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>logging <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+                logging<span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;&lt;&lt;&lt;&lt;&lt; Finished to &#34;</span> <span style=color:#f92672>+</span> msg<span style=color:#f92672>.</span><span style=color:#a6e22e>target</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; &#34;</span> <span style=color:#f92672>+</span> msg<span style=color:#f92672>.</span><span style=color:#a6e22e>callback</span><span style=color:#f92672>);</span>    
+            <span style=color:#f92672>}</span>    
     
-
+            <span style=color:#75715e>// Make sure that during the course of dispatching the    
+</span><span style=color:#75715e></span>            <span style=color:#75715e>// identity of the thread wasn&#39;t corrupted.    
+</span><span style=color:#75715e></span>            <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>long</span> newIdent <span style=color:#f92672>=</span> Binder<span style=color:#f92672>.</span><span style=color:#a6e22e>clearCallingIdentity</span><span style=color:#f92672>();</span>    
+            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>ident <span style=color:#f92672>!=</span> newIdent<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+                Log<span style=color:#f92672>.</span><span style=color:#a6e22e>wtf</span><span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;Thread identity changed from 0x&#34;</span>    
+                        <span style=color:#f92672>+</span> Long<span style=color:#f92672>.</span><span style=color:#a6e22e>toHexString</span><span style=color:#f92672>(</span>ident<span style=color:#f92672>)</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; to 0x&#34;</span>    
+                        <span style=color:#f92672>+</span> Long<span style=color:#f92672>.</span><span style=color:#a6e22e>toHexString</span><span style=color:#f92672>(</span>newIdent<span style=color:#f92672>)</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; while dispatching to &#34;</span>    
+                        <span style=color:#f92672>+</span> msg<span style=color:#f92672>.</span><span style=color:#a6e22e>target</span><span style=color:#f92672>.</span><span style=color:#a6e22e>getClass</span><span style=color:#f92672>().</span><span style=color:#a6e22e>getName</span><span style=color:#f92672>()</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; &#34;</span>    
+                        <span style=color:#f92672>+</span> msg<span style=color:#f92672>.</span><span style=color:#a6e22e>callback</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; what=&#34;</span> <span style=color:#f92672>+</span> msg<span style=color:#f92672>.</span><span style=color:#a6e22e>what</span><span style=color:#f92672>);</span>    
+            <span style=color:#f92672>}</span>    
     
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://github.com/jimbray" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
-    </li>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-  </ul>
-</div>
-
-  
-  <div>
-  <div class="small-print">
-    <small>&copy; 2016. All rights reserved.</small>
-  </div>
-  <div class="small-print">
-    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
-    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
-  </div>
-</div>
-
-  
-  
-
-
-
-  
-  
-  
-  
-	
-
-</div>
-
-
-  <div id="main">
-
-
-<div class="header">
-  <h1>【学习笔记】Looper 与 Handler 的关系</h1>
-  <h2>什么是异步消息处理线程？异步消息处理过程中有哪些角色？这些角色是怎样关联到一起，完美地完成消息通信的？带你走进 Handler与Looper的世界。</h2>
-</div>
-<div class="content">
-
-  <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>31 Mar 2018, 09:38</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="https://jimbray.xyz/tags/android">Android</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  <ul>
-<li>
-<p>什么是异步消息处理线程</p>
-<p>异步消息处理线程启动会进入一个无限的循环体之中，每循环一次，从其内部的消息队列中会取出一个消息，然后回调给相应的消息处理函数，执行完成一个消息后则继续循环。若消息队列为空，线程则会阻塞等待。</p>
-</li>
-<li>
-<p>这个消息处理过程有哪些角色</p>
-<ol>
-<li>无限的循环体</li>
-<li>内部的消息队列</li>
-<li>相应的消息处理函数</li>
-</ol>
-</li>
-</ul>
-<h3 id="looper">Looper</h3>
-<p>对于 Looper这个角色，主要是 prepare() 和 loop( )两个方法。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">prepare</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>    
-        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>sThreadLocal<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">()</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> RuntimeException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Only one Looper may be created per thread&#34;</span><span style="color:#f92672">);</span>    
-        <span style="color:#f92672">}</span>    
-        sThreadLocal<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Looper<span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">));</span>    
-<span style="color:#f92672">}</span> 
-</code></pre></div><p>sThreadLocal 是一个 ThreadLocal对象，可以在一个线程中存储变量。在最后面进行了 Looper 实例的保存。</p>
-<p>在 prepare() 方法中，首先进行了 Looper 对象的判空处理，如果不为空（之前已经有了一个 Looper 实例），就会抛出异常，说明了 prepare 不能被调用两次，同时也保证了 一个线程里面只能有一个 Looper 实例。</p>
-<p>那 <code>new Looper(true)</code>里面做了什么呢？</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#a6e22e">Looper</span><span style="color:#f92672">(</span><span style="color:#66d9ef">boolean</span> quitAllowed<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-        mQueue <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MessageQueue<span style="color:#f92672">(</span>quitAllowed<span style="color:#f92672">);</span>    
-        mRun <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>    
-        mThread <span style="color:#f92672">=</span> Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">();</span>    
-<span style="color:#f92672">}</span>    
-</code></pre></div><p>在 Looper 的构造方法中，有新增一个 MessageQuene 实例，这个是一个消息队列。</p>
-<p>然后看看第二个主要方法 loop()</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">loop</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>    
-        <span style="color:#66d9ef">final</span> Looper me <span style="color:#f92672">=</span> myLooper<span style="color:#f92672">();</span>    
-        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>me <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> RuntimeException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;No Looper; Looper.prepare() wasn&#39;t called on this thread.&#34;</span><span style="color:#f92672">);</span>    
-        <span style="color:#f92672">}</span>    
-        <span style="color:#66d9ef">final</span> MessageQueue queue <span style="color:#f92672">=</span> me<span style="color:#f92672">.</span><span style="color:#a6e22e">mQueue</span><span style="color:#f92672">;</span>    
-    
-        <span style="color:#75715e">// Make sure the identity of this thread is that of the local process,    
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// and keep track of what that identity token actually is.    
-</span><span style="color:#75715e"></span>        Binder<span style="color:#f92672">.</span><span style="color:#a6e22e">clearCallingIdentity</span><span style="color:#f92672">();</span>    
-        <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">long</span> ident <span style="color:#f92672">=</span> Binder<span style="color:#f92672">.</span><span style="color:#a6e22e">clearCallingIdentity</span><span style="color:#f92672">();</span>    
-    
-        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(;;)</span> <span style="color:#f92672">{</span>    
-            Message msg <span style="color:#f92672">=</span> queue<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">();</span> <span style="color:#75715e">// might block    
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>msg <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-                <span style="color:#75715e">// No message indicates that the message queue is quitting.    
-</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>    
-            <span style="color:#f92672">}</span>    
-    
-            <span style="color:#75715e">// This must be in a local variable, in case a UI event sets the logger    
-</span><span style="color:#75715e"></span>            Printer logging <span style="color:#f92672">=</span> me<span style="color:#f92672">.</span><span style="color:#a6e22e">mLogging</span><span style="color:#f92672">;</span>    
-            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>logging <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-                logging<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;&gt;&gt;&gt;&gt;&gt; Dispatching to &#34;</span> <span style="color:#f92672">+</span> msg<span style="color:#f92672">.</span><span style="color:#a6e22e">target</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">+</span>    
-                        msg<span style="color:#f92672">.</span><span style="color:#a6e22e">callback</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;: &#34;</span> <span style="color:#f92672">+</span> msg<span style="color:#f92672">.</span><span style="color:#a6e22e">what</span><span style="color:#f92672">);</span>    
-            <span style="color:#f92672">}</span>    
-    
-            msg<span style="color:#f92672">.</span><span style="color:#a6e22e">target</span><span style="color:#f92672">.</span><span style="color:#a6e22e">dispatchMessage</span><span style="color:#f92672">(</span>msg<span style="color:#f92672">);</span>    
-    
-            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>logging <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-                logging<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;&lt;&lt;&lt;&lt;&lt; Finished to &#34;</span> <span style="color:#f92672">+</span> msg<span style="color:#f92672">.</span><span style="color:#a6e22e">target</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">+</span> msg<span style="color:#f92672">.</span><span style="color:#a6e22e">callback</span><span style="color:#f92672">);</span>    
-            <span style="color:#f92672">}</span>    
-    
-            <span style="color:#75715e">// Make sure that during the course of dispatching the    
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">// identity of the thread wasn&#39;t corrupted.    
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">long</span> newIdent <span style="color:#f92672">=</span> Binder<span style="color:#f92672">.</span><span style="color:#a6e22e">clearCallingIdentity</span><span style="color:#f92672">();</span>    
-            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>ident <span style="color:#f92672">!=</span> newIdent<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-                Log<span style="color:#f92672">.</span><span style="color:#a6e22e">wtf</span><span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Thread identity changed from 0x&#34;</span>    
-                        <span style="color:#f92672">+</span> Long<span style="color:#f92672">.</span><span style="color:#a6e22e">toHexString</span><span style="color:#f92672">(</span>ident<span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; to 0x&#34;</span>    
-                        <span style="color:#f92672">+</span> Long<span style="color:#f92672">.</span><span style="color:#a6e22e">toHexString</span><span style="color:#f92672">(</span>newIdent<span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; while dispatching to &#34;</span>    
-                        <span style="color:#f92672">+</span> msg<span style="color:#f92672">.</span><span style="color:#a6e22e">target</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span>    
-                        <span style="color:#f92672">+</span> msg<span style="color:#f92672">.</span><span style="color:#a6e22e">callback</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; what=&#34;</span> <span style="color:#f92672">+</span> msg<span style="color:#f92672">.</span><span style="color:#a6e22e">what</span><span style="color:#f92672">);</span>    
-            <span style="color:#f92672">}</span>    
-    
-            msg<span style="color:#f92672">.</span><span style="color:#a6e22e">recycle</span><span style="color:#f92672">();</span>    
-        <span style="color:#f92672">}</span>    
-<span style="color:#f92672">}</span>    
-</code></pre></div><p>还有一个 myLooper() 方法</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> Looper <span style="color:#a6e22e">myLooper</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-	<span style="color:#66d9ef">return</span> sThreadLocal<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">();</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><p>从 threadLocal 里面去的 looper 实例，如果为空则抛出异常，所以 loop() 方法的调用一定要在 prepare() 之后。</p>
-<p>后续的大概意思就是 异步消息处理线程的流程：进入一个无限的循环体<code>for(;;)</code>之中，每循环一次，从其内部的消息队列中<code>final MessageQueue queue = me.mQueue;</code>会取出一个消息<code>Message msg = queue.next();</code>，然后回调给相应的消息处理函数<code>msg.target.dispatchMessage(msg);    </code>，执行完成一个消息后则继续循环。若消息队列为空，线程则会阻塞等待。</p>
-<p>Looper的主要作用就是：</p>
-<ul>
-<li>prepar() 与当前线程绑定，保证一个线程只有一个 Looper 实例，同时一个 Looper实例也只有一个 MessageQuene</li>
-<li>loop() 消息循环处理机制</li>
-</ul>
-<p>理清一下异步消息处理流程的角色 出场了哪些？</p>
-<ol>
-<li>无限的循环体</li>
-<li>内部的消息队列</li>
-<li>相应的消息处理函数</li>
-</ol>
-<p>前两个都清楚来路，还剩一个 msg.target 从哪里来？要到哪里去？<del>贫僧从东土大唐而来，去往西天拜佛求经</del></p>
-<p>于是：<strong>Handler</strong> 登场。</p>
-<p>一般 Activity 中使用 Hander 有两种方式</p>
-<p>####先说第一种handler方式：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> Handler mHandler <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Handler<span style="color:#f92672">()</span>    
-    <span style="color:#f92672">{</span>    
-        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">handleMessage</span><span style="color:#f92672">(</span>android<span style="color:#f92672">.</span><span style="color:#a6e22e">os</span><span style="color:#f92672">.</span><span style="color:#a6e22e">Message</span> msg<span style="color:#f92672">)</span>    
-        <span style="color:#f92672">{</span>    
-            <span style="color:#66d9ef">switch</span> <span style="color:#f92672">(</span>msg<span style="color:#f92672">.</span><span style="color:#a6e22e">what</span><span style="color:#f92672">)</span>    
-            <span style="color:#f92672">{</span>    
-            <span style="color:#66d9ef">case</span> value<span style="color:#f92672">:</span>    
+            msg<span style=color:#f92672>.</span><span style=color:#a6e22e>recycle</span><span style=color:#f92672>();</span>    
+        <span style=color:#f92672>}</span>    
+<span style=color:#f92672>}</span>    
+</code></pre></div><p>还有一个 myLooper() 方法</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> Looper <span style=color:#a6e22e>myLooper</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+	<span style=color:#66d9ef>return</span> sThreadLocal<span style=color:#f92672>.</span><span style=color:#a6e22e>get</span><span style=color:#f92672>();</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>从 threadLocal 里面去的 looper 实例，如果为空则抛出异常，所以 loop() 方法的调用一定要在 prepare() 之后。</p><p>后续的大概意思就是 异步消息处理线程的流程：进入一个无限的循环体<code>for(;;)</code>之中，每循环一次，从其内部的消息队列中<code>final MessageQueue queue = me.mQueue;</code>会取出一个消息<code>Message msg = queue.next();</code>，然后回调给相应的消息处理函数<code>msg.target.dispatchMessage(msg); </code>，执行完成一个消息后则继续循环。若消息队列为空，线程则会阻塞等待。</p><p>Looper的主要作用就是：</p><ul><li>prepar() 与当前线程绑定，保证一个线程只有一个 Looper 实例，同时一个 Looper实例也只有一个 MessageQuene</li><li>loop() 消息循环处理机制</li></ul><p>理清一下异步消息处理流程的角色 出场了哪些？</p><ol><li>无限的循环体</li><li>内部的消息队列</li><li>相应的消息处理函数</li></ol><p>前两个都清楚来路，还剩一个 msg.target 从哪里来？要到哪里去？<del>贫僧从东土大唐而来，去往西天拜佛求经</del></p><p>于是：<strong>Handler</strong> 登场。</p><p>一般 Activity 中使用 Hander 有两种方式</p><p>####先说第一种handler方式：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>private</span> Handler mHandler <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Handler<span style=color:#f92672>()</span>    
+    <span style=color:#f92672>{</span>    
+        <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>handleMessage</span><span style=color:#f92672>(</span>android<span style=color:#f92672>.</span><span style=color:#a6e22e>os</span><span style=color:#f92672>.</span><span style=color:#a6e22e>Message</span> msg<span style=color:#f92672>)</span>    
+        <span style=color:#f92672>{</span>    
+            <span style=color:#66d9ef>switch</span> <span style=color:#f92672>(</span>msg<span style=color:#f92672>.</span><span style=color:#a6e22e>what</span><span style=color:#f92672>)</span>    
+            <span style=color:#f92672>{</span>    
+            <span style=color:#66d9ef>case</span> value<span style=color:#f92672>:</span>    
                     
-                <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>    
+                <span style=color:#66d9ef>break</span><span style=color:#f92672>;</span>    
     
-            <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>    
-                <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>    
-            <span style="color:#f92672">}</span>    
-        <span style="color:#f92672">};</span>    
-    <span style="color:#f92672">};</span>    
-</code></pre></div><p>需要看两个方法：Handler() 的构造函数干了什么？handleMessage 是谁通过什么方式调用的？</p>
-<ul>
-<li>Handler 是怎么与 消息队列(MessageQueue)联系上的？他在子线程发送的消息是怎么发送到 消息队列(MessageQueue)的？</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Handler</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>    
-        <span style="color:#66d9ef">this</span><span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>    
-<span style="color:#f92672">}</span>    
-<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Handler</span><span style="color:#f92672">(</span>Callback callback<span style="color:#f92672">,</span> <span style="color:#66d9ef">boolean</span> async<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>FIND_POTENTIAL_LEAKS<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-            <span style="color:#66d9ef">final</span> Class<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> Handler<span style="color:#f92672">&gt;</span> klass <span style="color:#f92672">=</span> getClass<span style="color:#f92672">();</span>    
-            <span style="color:#66d9ef">if</span> <span style="color:#f92672">((</span>klass<span style="color:#f92672">.</span><span style="color:#a6e22e">isAnonymousClass</span><span style="color:#f92672">()</span> <span style="color:#f92672">||</span> klass<span style="color:#f92672">.</span><span style="color:#a6e22e">isMemberClass</span><span style="color:#f92672">()</span> <span style="color:#f92672">||</span> klass<span style="color:#f92672">.</span><span style="color:#a6e22e">isLocalClass</span><span style="color:#f92672">())</span> <span style="color:#f92672">&amp;&amp;</span>    
-                    <span style="color:#f92672">(</span>klass<span style="color:#f92672">.</span><span style="color:#a6e22e">getModifiers</span><span style="color:#f92672">()</span> <span style="color:#f92672">&amp;</span> Modifier<span style="color:#f92672">.</span><span style="color:#a6e22e">STATIC</span><span style="color:#f92672">)</span> <span style="color:#f92672">==</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-                Log<span style="color:#f92672">.</span><span style="color:#a6e22e">w</span><span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;The following Handler class should be static or leaks might occur: &#34;</span> <span style="color:#f92672">+</span>    
-                    klass<span style="color:#f92672">.</span><span style="color:#a6e22e">getCanonicalName</span><span style="color:#f92672">());</span>    
-            <span style="color:#f92672">}</span>    
-        <span style="color:#f92672">}</span>    
+            <span style=color:#66d9ef>default</span><span style=color:#f92672>:</span>    
+                <span style=color:#66d9ef>break</span><span style=color:#f92672>;</span>    
+            <span style=color:#f92672>}</span>    
+        <span style=color:#f92672>};</span>    
+    <span style=color:#f92672>};</span>    
+</code></pre></div><p>需要看两个方法：Handler() 的构造函数干了什么？handleMessage 是谁通过什么方式调用的？</p><ul><li>Handler 是怎么与 消息队列(MessageQueue)联系上的？他在子线程发送的消息是怎么发送到 消息队列(MessageQueue)的？</li></ul><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#a6e22e>Handler</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>    
+        <span style=color:#66d9ef>this</span><span style=color:#f92672>(</span><span style=color:#66d9ef>null</span><span style=color:#f92672>,</span> <span style=color:#66d9ef>false</span><span style=color:#f92672>);</span>    
+<span style=color:#f92672>}</span>    
+<span style=color:#66d9ef>public</span> <span style=color:#a6e22e>Handler</span><span style=color:#f92672>(</span>Callback callback<span style=color:#f92672>,</span> <span style=color:#66d9ef>boolean</span> async<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>FIND_POTENTIAL_LEAKS<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+            <span style=color:#66d9ef>final</span> Class<span style=color:#f92672>&lt;?</span> <span style=color:#66d9ef>extends</span> Handler<span style=color:#f92672>&gt;</span> klass <span style=color:#f92672>=</span> getClass<span style=color:#f92672>();</span>    
+            <span style=color:#66d9ef>if</span> <span style=color:#f92672>((</span>klass<span style=color:#f92672>.</span><span style=color:#a6e22e>isAnonymousClass</span><span style=color:#f92672>()</span> <span style=color:#f92672>||</span> klass<span style=color:#f92672>.</span><span style=color:#a6e22e>isMemberClass</span><span style=color:#f92672>()</span> <span style=color:#f92672>||</span> klass<span style=color:#f92672>.</span><span style=color:#a6e22e>isLocalClass</span><span style=color:#f92672>())</span> <span style=color:#f92672>&amp;&amp;</span>    
+                    <span style=color:#f92672>(</span>klass<span style=color:#f92672>.</span><span style=color:#a6e22e>getModifiers</span><span style=color:#f92672>()</span> <span style=color:#f92672>&amp;</span> Modifier<span style=color:#f92672>.</span><span style=color:#a6e22e>STATIC</span><span style=color:#f92672>)</span> <span style=color:#f92672>==</span> 0<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+                Log<span style=color:#f92672>.</span><span style=color:#a6e22e>w</span><span style=color:#f92672>(</span>TAG<span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;The following Handler class should be static or leaks might occur: &#34;</span> <span style=color:#f92672>+</span>    
+                    klass<span style=color:#f92672>.</span><span style=color:#a6e22e>getCanonicalName</span><span style=color:#f92672>());</span>    
+            <span style=color:#f92672>}</span>    
+        <span style=color:#f92672>}</span>    
     
-        mLooper <span style="color:#f92672">=</span> Looper<span style="color:#f92672">.</span><span style="color:#a6e22e">myLooper</span><span style="color:#f92672">();</span>    
-        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mLooper <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> RuntimeException<span style="color:#f92672">(</span>    
-                <span style="color:#e6db74">&#34;Can&#39;t create handler inside thread that has not called Looper.prepare()&#34;</span><span style="color:#f92672">);</span>    
-        <span style="color:#f92672">}</span>    
-        mQueue <span style="color:#f92672">=</span> mLooper<span style="color:#f92672">.</span><span style="color:#a6e22e">mQueue</span><span style="color:#f92672">;</span>    
-        mCallback <span style="color:#f92672">=</span> callback<span style="color:#f92672">;</span>    
-        mAsynchronous <span style="color:#f92672">=</span> async<span style="color:#f92672">;</span>    
-    <span style="color:#f92672">}</span>    
-</code></pre></div><p>先通过 Looper.myLooper 获得 当前线程的 Looper 实例如果没有，则无法创建 Handler</p>
-<blockquote>
-<p>在 非UI线程 创建 Handler 的时候 通常都会 抛出异常：Can&rsquo;t create handler inside thread that has not called Looper.prepare()。</p>
-<p>这里有两个知识点：</p>
-<ol>
-<li>UI 线程 （Activity）并没有显式地调用 Looper.prepare() 和 Looper.loop() 方法，是因为在 启动代码中，已经在当前UI线程中调用的 这两个方法，所以直接在 UI线程创建 Handler 时  Looper.myLooper()是会返回当前线程（UI线程）的唯一 Looper实例的。</li>
-<li>在 非UI 线程中创建 Handler 时，应该要进行 Looper方法的显式调用</li>
-</ol>
-</blockquote>
-<p>通过得到的 Looper 实例，进一步获取 Looper 的 MessageQueue（消息队列），这样Handler 就得到了 MessageQueue 的联系方式。接下来就是 联系MessageQueue 的具体做法了<del>打电话还是wechat？</del></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">sendMessage</span><span style="color:#f92672">(</span>Message msg<span style="color:#f92672">)</span>    
- <span style="color:#f92672">{</span>    
-     <span style="color:#66d9ef">return</span> sendMessageDelayed<span style="color:#f92672">(</span>msg<span style="color:#f92672">,</span> 0<span style="color:#f92672">);</span>    
- <span style="color:#f92672">}</span> 
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">sendEmptyMessageDelayed</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> what<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> delayMillis<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-     Message msg <span style="color:#f92672">=</span> Message<span style="color:#f92672">.</span><span style="color:#a6e22e">obtain</span><span style="color:#f92672">();</span>    
-     msg<span style="color:#f92672">.</span><span style="color:#a6e22e">what</span> <span style="color:#f92672">=</span> what<span style="color:#f92672">;</span>    
-     <span style="color:#66d9ef">return</span> sendMessageDelayed<span style="color:#f92672">(</span>msg<span style="color:#f92672">,</span> delayMillis<span style="color:#f92672">);</span>    
- <span style="color:#f92672">}</span>   
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">sendMessageDelayed</span><span style="color:#f92672">(</span>Message msg<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> delayMillis<span style="color:#f92672">)</span>    
-   <span style="color:#f92672">{</span>    
-       <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>delayMillis <span style="color:#f92672">&lt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-           delayMillis <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>    
-       <span style="color:#f92672">}</span>    
-       <span style="color:#66d9ef">return</span> sendMessageAtTime<span style="color:#f92672">(</span>msg<span style="color:#f92672">,</span> SystemClock<span style="color:#f92672">.</span><span style="color:#a6e22e">uptimeMillis</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> delayMillis<span style="color:#f92672">);</span>    
-   <span style="color:#f92672">}</span>    
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">sendMessageAtTime</span><span style="color:#f92672">(</span>Message msg<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> uptimeMillis<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-       MessageQueue queue <span style="color:#f92672">=</span> mQueue<span style="color:#f92672">;</span>    
-       <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>queue <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-           RuntimeException e <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RuntimeException<span style="color:#f92672">(</span>    
-                   <span style="color:#66d9ef">this</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; sendMessageAtTime() called with no mQueue&#34;</span><span style="color:#f92672">);</span>    
-           Log<span style="color:#f92672">.</span><span style="color:#a6e22e">w</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Looper&#34;</span><span style="color:#f92672">,</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">getMessage</span><span style="color:#f92672">(),</span> e<span style="color:#f92672">);</span>    
-           <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>    
-       <span style="color:#f92672">}</span>    
-       <span style="color:#66d9ef">return</span> enqueueMessage<span style="color:#f92672">(</span>queue<span style="color:#f92672">,</span> msg<span style="color:#f92672">,</span> uptimeMillis<span style="color:#f92672">);</span>    
-   <span style="color:#f92672">}</span>   
-</code></pre></div><p>终于走到了能看到MessageQueue的地方 sendMessageAtTime()</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">enqueueMessage</span><span style="color:#f92672">(</span>MessageQueue queue<span style="color:#f92672">,</span> Message msg<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> uptimeMillis<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-       msg<span style="color:#f92672">.</span><span style="color:#a6e22e">target</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">;</span>    
-       <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mAsynchronous<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-           msg<span style="color:#f92672">.</span><span style="color:#a6e22e">setAsynchronous</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>    
-       <span style="color:#f92672">}</span>    
-       <span style="color:#66d9ef">return</span> queue<span style="color:#f92672">.</span><span style="color:#a6e22e">enqueueMessage</span><span style="color:#f92672">(</span>msg<span style="color:#f92672">,</span> uptimeMillis<span style="color:#f92672">);</span>    
-   <span style="color:#f92672">}</span>
-</code></pre></div><p>msg.target 很眼熟，不玩初心才行，这上面一大串转接就是 为了找到 msg.target 的来路。</p>
-<p>终于找到了，this！！！是谁？~~这个属于java的基础知识</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">loop</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>    
-        <span style="color:#f92672">...</span>  
-        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(;;)</span> <span style="color:#f92672">{</span>    
-            <span style="color:#f92672">...</span>
-            msg<span style="color:#f92672">.</span><span style="color:#a6e22e">target</span><span style="color:#f92672">.</span><span style="color:#a6e22e">dispatchMessage</span><span style="color:#f92672">(</span>msg<span style="color:#f92672">);</span>    
-            <span style="color:#f92672">...</span>  
-        <span style="color:#f92672">}</span>    
-<span style="color:#f92672">}</span>    
-</code></pre></div><p>这句就是在做 消息处理 这件事情，至此，案情水落石出，真相只有一个<del>犯人</del>target 就是 handler</p>
-<p>wait a second. 还有一个疑点。 handler处理的消息是从哪里来的？</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">queue<span style="color:#f92672">.</span><span style="color:#a6e22e">enqueueMessage</span><span style="color:#f92672">(</span>msg<span style="color:#f92672">,</span> uptimeMillis<span style="color:#f92672">);</span> 
-</code></pre></div><p>这么明显，handler 发送的消息被送到 MessageQueue 消息队列里面的，然后交给 target 的 dispatchMessage 去处理了。看一看 dispatchMessage</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dispatchMessage</span><span style="color:#f92672">(</span>Message msg<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>msg<span style="color:#f92672">.</span><span style="color:#a6e22e">callback</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-            handleCallback<span style="color:#f92672">(</span>msg<span style="color:#f92672">);</span>    
-        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>    
-            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mCallback <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mCallback<span style="color:#f92672">.</span><span style="color:#a6e22e">handleMessage</span><span style="color:#f92672">(</span>msg<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>    
-                    <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>    
-                <span style="color:#f92672">}</span>    
-            <span style="color:#f92672">}</span>    
-            handleMessage<span style="color:#f92672">(</span>msg<span style="color:#f92672">);</span>    
-        <span style="color:#f92672">}</span>    
-    <span style="color:#f92672">}</span>    
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**  
-</span><span style="color:#75715e">   * Subclasses must implement this to receive messages.  
-</span><span style="color:#75715e">   */</span>    
-  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">handleMessage</span><span style="color:#f92672">(</span>Message msg<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>   
+        mLooper <span style=color:#f92672>=</span> Looper<span style=color:#f92672>.</span><span style=color:#a6e22e>myLooper</span><span style=color:#f92672>();</span>    
+        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>mLooper <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+            <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> RuntimeException<span style=color:#f92672>(</span>    
+                <span style=color:#e6db74>&#34;Can&#39;t create handler inside thread that has not called Looper.prepare()&#34;</span><span style=color:#f92672>);</span>    
+        <span style=color:#f92672>}</span>    
+        mQueue <span style=color:#f92672>=</span> mLooper<span style=color:#f92672>.</span><span style=color:#a6e22e>mQueue</span><span style=color:#f92672>;</span>    
+        mCallback <span style=color:#f92672>=</span> callback<span style=color:#f92672>;</span>    
+        mAsynchronous <span style=color:#f92672>=</span> async<span style=color:#f92672>;</span>    
+    <span style=color:#f92672>}</span>    
+</code></pre></div><p>先通过 Looper.myLooper 获得 当前线程的 Looper 实例如果没有，则无法创建 Handler</p><blockquote><p>在 非UI线程 创建 Handler 的时候 通常都会 抛出异常：Can&rsquo;t create handler inside thread that has not called Looper.prepare()。</p><p>这里有两个知识点：</p><ol><li>UI 线程 （Activity）并没有显式地调用 Looper.prepare() 和 Looper.loop() 方法，是因为在 启动代码中，已经在当前UI线程中调用的 这两个方法，所以直接在 UI线程创建 Handler 时 Looper.myLooper()是会返回当前线程（UI线程）的唯一 Looper实例的。</li><li>在 非UI 线程中创建 Handler 时，应该要进行 Looper方法的显式调用</li></ol></blockquote><p>通过得到的 Looper 实例，进一步获取 Looper 的 MessageQueue（消息队列），这样Handler 就得到了 MessageQueue 的联系方式。接下来就是 联系MessageQueue 的具体做法了<del>打电话还是wechat？</del></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>sendMessage</span><span style=color:#f92672>(</span>Message msg<span style=color:#f92672>)</span>    
+ <span style=color:#f92672>{</span>    
+     <span style=color:#66d9ef>return</span> sendMessageDelayed<span style=color:#f92672>(</span>msg<span style=color:#f92672>,</span> 0<span style=color:#f92672>);</span>    
+ <span style=color:#f92672>}</span> 
+</code></pre></div><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>sendEmptyMessageDelayed</span><span style=color:#f92672>(</span><span style=color:#66d9ef>int</span> what<span style=color:#f92672>,</span> <span style=color:#66d9ef>long</span> delayMillis<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+     Message msg <span style=color:#f92672>=</span> Message<span style=color:#f92672>.</span><span style=color:#a6e22e>obtain</span><span style=color:#f92672>();</span>    
+     msg<span style=color:#f92672>.</span><span style=color:#a6e22e>what</span> <span style=color:#f92672>=</span> what<span style=color:#f92672>;</span>    
+     <span style=color:#66d9ef>return</span> sendMessageDelayed<span style=color:#f92672>(</span>msg<span style=color:#f92672>,</span> delayMillis<span style=color:#f92672>);</span>    
+ <span style=color:#f92672>}</span>   
+</code></pre></div><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>sendMessageDelayed</span><span style=color:#f92672>(</span>Message msg<span style=color:#f92672>,</span> <span style=color:#66d9ef>long</span> delayMillis<span style=color:#f92672>)</span>    
+   <span style=color:#f92672>{</span>    
+       <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>delayMillis <span style=color:#f92672>&lt;</span> 0<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+           delayMillis <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span>    
+       <span style=color:#f92672>}</span>    
+       <span style=color:#66d9ef>return</span> sendMessageAtTime<span style=color:#f92672>(</span>msg<span style=color:#f92672>,</span> SystemClock<span style=color:#f92672>.</span><span style=color:#a6e22e>uptimeMillis</span><span style=color:#f92672>()</span> <span style=color:#f92672>+</span> delayMillis<span style=color:#f92672>);</span>    
+   <span style=color:#f92672>}</span>    
+</code></pre></div><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>sendMessageAtTime</span><span style=color:#f92672>(</span>Message msg<span style=color:#f92672>,</span> <span style=color:#66d9ef>long</span> uptimeMillis<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+       MessageQueue queue <span style=color:#f92672>=</span> mQueue<span style=color:#f92672>;</span>    
+       <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>queue <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+           RuntimeException e <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> RuntimeException<span style=color:#f92672>(</span>    
+                   <span style=color:#66d9ef>this</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; sendMessageAtTime() called with no mQueue&#34;</span><span style=color:#f92672>);</span>    
+           Log<span style=color:#f92672>.</span><span style=color:#a6e22e>w</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Looper&#34;</span><span style=color:#f92672>,</span> e<span style=color:#f92672>.</span><span style=color:#a6e22e>getMessage</span><span style=color:#f92672>(),</span> e<span style=color:#f92672>);</span>    
+           <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>false</span><span style=color:#f92672>;</span>    
+       <span style=color:#f92672>}</span>    
+       <span style=color:#66d9ef>return</span> enqueueMessage<span style=color:#f92672>(</span>queue<span style=color:#f92672>,</span> msg<span style=color:#f92672>,</span> uptimeMillis<span style=color:#f92672>);</span>    
+   <span style=color:#f92672>}</span>   
+</code></pre></div><p>终于走到了能看到MessageQueue的地方 sendMessageAtTime()</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>private</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>enqueueMessage</span><span style=color:#f92672>(</span>MessageQueue queue<span style=color:#f92672>,</span> Message msg<span style=color:#f92672>,</span> <span style=color:#66d9ef>long</span> uptimeMillis<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+       msg<span style=color:#f92672>.</span><span style=color:#a6e22e>target</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>this</span><span style=color:#f92672>;</span>    
+       <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>mAsynchronous<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+           msg<span style=color:#f92672>.</span><span style=color:#a6e22e>setAsynchronous</span><span style=color:#f92672>(</span><span style=color:#66d9ef>true</span><span style=color:#f92672>);</span>    
+       <span style=color:#f92672>}</span>    
+       <span style=color:#66d9ef>return</span> queue<span style=color:#f92672>.</span><span style=color:#a6e22e>enqueueMessage</span><span style=color:#f92672>(</span>msg<span style=color:#f92672>,</span> uptimeMillis<span style=color:#f92672>);</span>    
+   <span style=color:#f92672>}</span>
+</code></pre></div><p>msg.target 很眼熟，不玩初心才行，这上面一大串转接就是 为了找到 msg.target 的来路。</p><p>终于找到了，this！！！是谁？~~这个属于java的基础知识</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>loop</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>    
+        <span style=color:#f92672>...</span>  
+        <span style=color:#66d9ef>for</span> <span style=color:#f92672>(;;)</span> <span style=color:#f92672>{</span>    
+            <span style=color:#f92672>...</span>
+            msg<span style=color:#f92672>.</span><span style=color:#a6e22e>target</span><span style=color:#f92672>.</span><span style=color:#a6e22e>dispatchMessage</span><span style=color:#f92672>(</span>msg<span style=color:#f92672>);</span>    
+            <span style=color:#f92672>...</span>  
+        <span style=color:#f92672>}</span>    
+<span style=color:#f92672>}</span>    
+</code></pre></div><p>这句就是在做 消息处理 这件事情，至此，案情水落石出，真相只有一个<del>犯人</del>target 就是 handler</p><p>wait a second. 还有一个疑点。 handler处理的消息是从哪里来的？</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>queue<span style=color:#f92672>.</span><span style=color:#a6e22e>enqueueMessage</span><span style=color:#f92672>(</span>msg<span style=color:#f92672>,</span> uptimeMillis<span style=color:#f92672>);</span> 
+</code></pre></div><p>这么明显，handler 发送的消息被送到 MessageQueue 消息队列里面的，然后交给 target 的 dispatchMessage 去处理了。看一看 dispatchMessage</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>dispatchMessage</span><span style=color:#f92672>(</span>Message msg<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>msg<span style=color:#f92672>.</span><span style=color:#a6e22e>callback</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+            handleCallback<span style=color:#f92672>(</span>msg<span style=color:#f92672>);</span>    
+        <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>    
+            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>mCallback <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+                <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>mCallback<span style=color:#f92672>.</span><span style=color:#a6e22e>handleMessage</span><span style=color:#f92672>(</span>msg<span style=color:#f92672>))</span> <span style=color:#f92672>{</span>    
+                    <span style=color:#66d9ef>return</span><span style=color:#f92672>;</span>    
+                <span style=color:#f92672>}</span>    
+            <span style=color:#f92672>}</span>    
+            handleMessage<span style=color:#f92672>(</span>msg<span style=color:#f92672>);</span>    
+        <span style=color:#f92672>}</span>    
+    <span style=color:#f92672>}</span>    
+</code></pre></div><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>/**  
+</span><span style=color:#75715e>   * Subclasses must implement this to receive messages.  
+</span><span style=color:#75715e>   */</span>    
+  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>handleMessage</span><span style=color:#f92672>(</span>Message msg<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>   
     
-  <span style="color:#f92672">}</span>   
-</code></pre></div><p>这是个空方法。</p>
-<p>msg.callback 是什么？我发送的消息只有 msg 跟 what ，并没有callback啊，所以一般都是 null 的，else 必然会调用的方法是 handleMessage(msg)，这个也很眼熟，不就是 new Handler() 之后需要重写的 消息处理函数吗？</p>
-<p>到这里就比较明白了。</p>
-<p>总结陈词：</p>
-<ol>
-<li>Looper 会在 当前线程中 保存唯一一个 Looper 实例，然后唯一的Looper 实例会在 Looper.prepare() 方法新建一个 同样在一个线程里唯一的 MessageQueue消息队列。</li>
-<li>Looper.loop() 会让当前线程进入一个无限循环，然后不断地从MessageQueue 的实例中读取消息，然后回调 msg.target.dispatchMessage(msg)方法。</li>
-<li>Handler 构造方法中通过当前线程的 Looper 实例，从而得到 MessageQueue消息队列的联系方式</li>
-<li>Handler 通过 sendMessage 方法 发送消息 Message 给 MessageQueue，并且在 Message 中标明自己的身份 msg.target = this, 从而在联系MessageQueue 的过程中暴露自己的身份，完成后续的消息处理。</li>
-<li>构造 Handler 实例时，重写 handleMessage 方法，也就是 msg.targte.dispatchMessage 最终调用的方法。</li>
-<li>至此，整个 Looper 与 handler 的 联系过程完成。</li>
-</ol>
-<p>####再说第二种handler方式</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">mHandler<span style="color:#f92672">.</span><span style="color:#a6e22e">post</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Runnable<span style="color:#f92672">()</span>    
-        <span style="color:#f92672">{</span>    
-            <span style="color:#a6e22e">@Override</span>    
-            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span>    
-            <span style="color:#f92672">{</span>    
-                Log<span style="color:#f92672">.</span><span style="color:#a6e22e">e</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;TAG&#34;</span><span style="color:#f92672">,</span> Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">());</span>    
-                tv_text<span style="color:#f92672">.</span><span style="color:#a6e22e">setText</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;message received.&#34;</span><span style="color:#f92672">);</span>    
-            <span style="color:#f92672">}</span>    
-        <span style="color:#f92672">});</span>    
-</code></pre></div><p>需要看两个方法 handler.post 干了什么？  谁调用了 run 方法？</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">post</span><span style="color:#f92672">(</span>Runnable r<span style="color:#f92672">)</span>    
-   <span style="color:#f92672">{</span>    
-      <span style="color:#66d9ef">return</span>  sendMessageDelayed<span style="color:#f92672">(</span>getPostMessage<span style="color:#f92672">(</span>r<span style="color:#f92672">),</span> 0<span style="color:#f92672">);</span>    
-   <span style="color:#f92672">}</span>    
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> Message <span style="color:#a6e22e">getPostMessage</span><span style="color:#f92672">(</span>Runnable r<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-      Message m <span style="color:#f92672">=</span> Message<span style="color:#f92672">.</span><span style="color:#a6e22e">obtain</span><span style="color:#f92672">();</span>    
-      m<span style="color:#f92672">.</span><span style="color:#a6e22e">callback</span> <span style="color:#f92672">=</span> r<span style="color:#f92672">;</span>    
-      <span style="color:#66d9ef">return</span> m<span style="color:#f92672">;</span>    
-  <span style="color:#f92672">}</span>   
-</code></pre></div><p>在上面方法中，看到了 message 的 callback 被赋值了，之前在 msg.target.dispatchMessage() 方法中有见到。</p>
-<blockquote>
-<p>Tips: 产生一个Message对象，可以new  ，也可以使用Message.obtain()方法；两者都可以，但是更建议使用obtain方法，因为Message内部维护了一个Message池用于Message的复用，避免使用new 重新分配内存</p>
-</blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">sendMessageDelayed</span><span style="color:#f92672">(</span>Message msg<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> delayMillis<span style="color:#f92672">)</span>    
-   <span style="color:#f92672">{</span>    
-       <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>delayMillis <span style="color:#f92672">&lt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-           delayMillis <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>    
-       <span style="color:#f92672">}</span>    
-       <span style="color:#66d9ef">return</span> sendMessageAtTime<span style="color:#f92672">(</span>msg<span style="color:#f92672">,</span> SystemClock<span style="color:#f92672">.</span><span style="color:#a6e22e">uptimeMillis</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> delayMillis<span style="color:#f92672">);</span>    
-   <span style="color:#f92672">}</span>    
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">sendMessageAtTime</span><span style="color:#f92672">(</span>Message msg<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> uptimeMillis<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-       MessageQueue queue <span style="color:#f92672">=</span> mQueue<span style="color:#f92672">;</span>    
-       <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>queue <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-           RuntimeException e <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RuntimeException<span style="color:#f92672">(</span>    
-                   <span style="color:#66d9ef">this</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; sendMessageAtTime() called with no mQueue&#34;</span><span style="color:#f92672">);</span>    
-           Log<span style="color:#f92672">.</span><span style="color:#a6e22e">w</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Looper&#34;</span><span style="color:#f92672">,</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">getMessage</span><span style="color:#f92672">(),</span> e<span style="color:#f92672">);</span>    
-           <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>    
-       <span style="color:#f92672">}</span>    
-       <span style="color:#66d9ef">return</span> enqueueMessage<span style="color:#f92672">(</span>queue<span style="color:#f92672">,</span> msg<span style="color:#f92672">,</span> uptimeMillis<span style="color:#f92672">);</span>    
-   <span style="color:#f92672">}</span>    
-</code></pre></div><p>又回到了这里 sendMessageAtTime() 跟 handler.sendMessage 殊途同归。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dispatchMessage</span><span style="color:#f92672">(</span>Message msg<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-       <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>msg<span style="color:#f92672">.</span><span style="color:#a6e22e">callback</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-           handleCallback<span style="color:#f92672">(</span>msg<span style="color:#f92672">);</span>    
-       <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>    
-           <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mCallback <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
-               <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mCallback<span style="color:#f92672">.</span><span style="color:#a6e22e">handleMessage</span><span style="color:#f92672">(</span>msg<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>    
-                   <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>    
-               <span style="color:#f92672">}</span>    
-           <span style="color:#f92672">}</span>    
-           handleMessage<span style="color:#f92672">(</span>msg<span style="color:#f92672">);</span>    
-       <span style="color:#f92672">}</span>    
-   <span style="color:#f92672">}</span>    
-</code></pre></div><p>不过，这次的 callback 可不为null 了，所以会走 handlerCallbace(msg) 分支</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">handleCallback</span><span style="color:#f92672">(</span>Message message<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        message<span style="color:#f92672">.</span><span style="color:#a6e22e">callback</span><span style="color:#f92672">.</span><span style="color:#a6e22e">run</span><span style="color:#f92672">();</span>
-    <span style="color:#f92672">}</span>
-</code></pre></div><p>也就是调用 Runnable 的 run 方法。</p>
-<p>关于 Looper ， Handler， Message 的关系已经很清楚了。</p>
-<p>Handler 不仅可以更新UI， 我们完全可以在一个子线程中去创建一个 Handler，然后使用这个handler实例在任何其他线程中发送消息，最终处理消息的代码都会在创建 Handler 实例的线程中执行。</p>
-<p>####想到一个问题</p>
-<ul>
-<li>一个 Activity 可以有多个 handler吗*</li>
-</ul>
-
-
-  
-<div class="prev-next-post pure-g">
-  <div class="pure-u-1-24" style="text-align: left;">
-    
-    <a href="https://jimbray.xyz/post/xmpp-study-notes/"><i class="fa fa-chevron-left"></i></a>
-    
-  </div>
-  <div class="pure-u-10-24">
-    
-    <nav class="prev">
-      <a href="https://jimbray.xyz/post/xmpp-study-notes/">基于 Smack 的 xmpp 学习笔记</a>
-    </nav>
-    
-  </div>
-  <div class="pure-u-2-24">
-    &nbsp;
-  </div>
-  <div class="pure-u-10-24">
-    
-    <nav class="next">
-      <a href="https://jimbray.xyz/post/may_sleep_make_anr/">Android主线程进行 Thread.Sleep()会导致ANR吗</a>
-    </nav>
-    
-  </div>
-  <div class="pure-u-1-24" style="text-align: right;">
-    
-    <a href="https://jimbray.xyz/post/may_sleep_make_anr/"><i class="fa fa-chevron-right"></i></a>
-    
-  </div>
-</div>
-
-
-
-  
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-
-(function() {
-    
-    
-    if (window.location.hostname == "localhost")
-        return;
-
-    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-    var disqus_shortname = 'jimbray-github-io';
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
-</div>
-
-</div>
-</div>
-<script src="https://jimbray.xyz/js/ui.js"></script>
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-78813427-1', 'auto');
-  ga('send', 'pageview');
-
-</script>
-
-
-
-
-
-</body>
-</html>
-
+  <span style=color:#f92672>}</span>   
+</code></pre></div><p>这是个空方法。</p><p>msg.callback 是什么？我发送的消息只有 msg 跟 what ，并没有callback啊，所以一般都是 null 的，else 必然会调用的方法是 handleMessage(msg)，这个也很眼熟，不就是 new Handler() 之后需要重写的 消息处理函数吗？</p><p>到这里就比较明白了。</p><p>总结陈词：</p><ol><li>Looper 会在 当前线程中 保存唯一一个 Looper 实例，然后唯一的Looper 实例会在 Looper.prepare() 方法新建一个 同样在一个线程里唯一的 MessageQueue消息队列。</li><li>Looper.loop() 会让当前线程进入一个无限循环，然后不断地从MessageQueue 的实例中读取消息，然后回调 msg.target.dispatchMessage(msg)方法。</li><li>Handler 构造方法中通过当前线程的 Looper 实例，从而得到 MessageQueue消息队列的联系方式</li><li>Handler 通过 sendMessage 方法 发送消息 Message 给 MessageQueue，并且在 Message 中标明自己的身份 msg.target = this, 从而在联系MessageQueue 的过程中暴露自己的身份，完成后续的消息处理。</li><li>构造 Handler 实例时，重写 handleMessage 方法，也就是 msg.targte.dispatchMessage 最终调用的方法。</li><li>至此，整个 Looper 与 handler 的 联系过程完成。</li></ol><p>####再说第二种handler方式</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>mHandler<span style=color:#f92672>.</span><span style=color:#a6e22e>post</span><span style=color:#f92672>(</span><span style=color:#66d9ef>new</span> Runnable<span style=color:#f92672>()</span>    
+        <span style=color:#f92672>{</span>    
+            <span style=color:#a6e22e>@Override</span>    
+            <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>run</span><span style=color:#f92672>()</span>    
+            <span style=color:#f92672>{</span>    
+                Log<span style=color:#f92672>.</span><span style=color:#a6e22e>e</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;TAG&#34;</span><span style=color:#f92672>,</span> Thread<span style=color:#f92672>.</span><span style=color:#a6e22e>currentThread</span><span style=color:#f92672>().</span><span style=color:#a6e22e>getName</span><span style=color:#f92672>());</span>    
+                tv_text<span style=color:#f92672>.</span><span style=color:#a6e22e>setText</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;message received.&#34;</span><span style=color:#f92672>);</span>    
+            <span style=color:#f92672>}</span>    
+        <span style=color:#f92672>});</span>    
+</code></pre></div><p>需要看两个方法 handler.post 干了什么？ 谁调用了 run 方法？</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>post</span><span style=color:#f92672>(</span>Runnable r<span style=color:#f92672>)</span>    
+   <span style=color:#f92672>{</span>    
+      <span style=color:#66d9ef>return</span>  sendMessageDelayed<span style=color:#f92672>(</span>getPostMessage<span style=color:#f92672>(</span>r<span style=color:#f92672>),</span> 0<span style=color:#f92672>);</span>    
+   <span style=color:#f92672>}</span>    
+</code></pre></div><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> Message <span style=color:#a6e22e>getPostMessage</span><span style=color:#f92672>(</span>Runnable r<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+      Message m <span style=color:#f92672>=</span> Message<span style=color:#f92672>.</span><span style=color:#a6e22e>obtain</span><span style=color:#f92672>();</span>    
+      m<span style=color:#f92672>.</span><span style=color:#a6e22e>callback</span> <span style=color:#f92672>=</span> r<span style=color:#f92672>;</span>    
+      <span style=color:#66d9ef>return</span> m<span style=color:#f92672>;</span>    
+  <span style=color:#f92672>}</span>   
+</code></pre></div><p>在上面方法中，看到了 message 的 callback 被赋值了，之前在 msg.target.dispatchMessage() 方法中有见到。</p><blockquote><p>Tips: 产生一个Message对象，可以new ，也可以使用Message.obtain()方法；两者都可以，但是更建议使用obtain方法，因为Message内部维护了一个Message池用于Message的复用，避免使用new 重新分配内存</p></blockquote><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>sendMessageDelayed</span><span style=color:#f92672>(</span>Message msg<span style=color:#f92672>,</span> <span style=color:#66d9ef>long</span> delayMillis<span style=color:#f92672>)</span>    
+   <span style=color:#f92672>{</span>    
+       <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>delayMillis <span style=color:#f92672>&lt;</span> 0<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+           delayMillis <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span>    
+       <span style=color:#f92672>}</span>    
+       <span style=color:#66d9ef>return</span> sendMessageAtTime<span style=color:#f92672>(</span>msg<span style=color:#f92672>,</span> SystemClock<span style=color:#f92672>.</span><span style=color:#a6e22e>uptimeMillis</span><span style=color:#f92672>()</span> <span style=color:#f92672>+</span> delayMillis<span style=color:#f92672>);</span>    
+   <span style=color:#f92672>}</span>    
+</code></pre></div><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>sendMessageAtTime</span><span style=color:#f92672>(</span>Message msg<span style=color:#f92672>,</span> <span style=color:#66d9ef>long</span> uptimeMillis<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+       MessageQueue queue <span style=color:#f92672>=</span> mQueue<span style=color:#f92672>;</span>    
+       <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>queue <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+           RuntimeException e <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> RuntimeException<span style=color:#f92672>(</span>    
+                   <span style=color:#66d9ef>this</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; sendMessageAtTime() called with no mQueue&#34;</span><span style=color:#f92672>);</span>    
+           Log<span style=color:#f92672>.</span><span style=color:#a6e22e>w</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Looper&#34;</span><span style=color:#f92672>,</span> e<span style=color:#f92672>.</span><span style=color:#a6e22e>getMessage</span><span style=color:#f92672>(),</span> e<span style=color:#f92672>);</span>    
+           <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>false</span><span style=color:#f92672>;</span>    
+       <span style=color:#f92672>}</span>    
+       <span style=color:#66d9ef>return</span> enqueueMessage<span style=color:#f92672>(</span>queue<span style=color:#f92672>,</span> msg<span style=color:#f92672>,</span> uptimeMillis<span style=color:#f92672>);</span>    
+   <span style=color:#f92672>}</span>    
+</code></pre></div><p>又回到了这里 sendMessageAtTime() 跟 handler.sendMessage 殊途同归。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>dispatchMessage</span><span style=color:#f92672>(</span>Message msg<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+       <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>msg<span style=color:#f92672>.</span><span style=color:#a6e22e>callback</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+           handleCallback<span style=color:#f92672>(</span>msg<span style=color:#f92672>);</span>    
+       <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>    
+           <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>mCallback <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>    
+               <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>mCallback<span style=color:#f92672>.</span><span style=color:#a6e22e>handleMessage</span><span style=color:#f92672>(</span>msg<span style=color:#f92672>))</span> <span style=color:#f92672>{</span>    
+                   <span style=color:#66d9ef>return</span><span style=color:#f92672>;</span>    
+               <span style=color:#f92672>}</span>    
+           <span style=color:#f92672>}</span>    
+           handleMessage<span style=color:#f92672>(</span>msg<span style=color:#f92672>);</span>    
+       <span style=color:#f92672>}</span>    
+   <span style=color:#f92672>}</span>    
+</code></pre></div><p>不过，这次的 callback 可不为null 了，所以会走 handlerCallbace(msg) 分支</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>handleCallback</span><span style=color:#f92672>(</span>Message message<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        message<span style=color:#f92672>.</span><span style=color:#a6e22e>callback</span><span style=color:#f92672>.</span><span style=color:#a6e22e>run</span><span style=color:#f92672>();</span>
+    <span style=color:#f92672>}</span>
+</code></pre></div><p>也就是调用 Runnable 的 run 方法。</p><p>关于 Looper ， Handler， Message 的关系已经很清楚了。</p><p>Handler 不仅可以更新UI， 我们完全可以在一个子线程中去创建一个 Handler，然后使用这个handler实例在任何其他线程中发送消息，最终处理消息的代码都会在创建 Handler 实例的线程中执行。</p><p>####想到一个问题</p><ul><li>一个 Activity 可以有多个 handler吗*</li></ul><div class="prev-next-post pure-g"><div class=pure-u-1-24 style=text-align:left><a href=https://jimbray.xyz/post/xmpp-study-notes/><i class="fa fa-chevron-left"></i></a></div><div class=pure-u-10-24><nav class=prev><a href=https://jimbray.xyz/post/xmpp-study-notes/>基于 Smack 的 xmpp 学习笔记</a></nav></div><div class=pure-u-2-24>&nbsp;</div><div class=pure-u-10-24><nav class=next><a href=https://jimbray.xyz/post/may_sleep_make_anr/>Android主线程进行 Thread.Sleep()会导致ANR吗</a></nav></div><div class=pure-u-1-24 style=text-align:right><a href=https://jimbray.xyz/post/may_sleep_make_anr/><i class="fa fa-chevron-right"></i></a></div></div><div id=disqus_thread></div><script type=text/javascript>(function(){var a,b;if(window.location.hostname=="localhost")return;a=document.createElement('script'),a.type='text/javascript',a.async=!0,b='jimbray-github-io',a.src='//'+b+'.disqus.com/embed.js',(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(a)})()</script><noscript>Please enable JavaScript to view the <a href=http://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=http://disqus.com/ class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div></div></div><script src=https://jimbray.xyz/js/ui.js></script><script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','//www.google-analytics.com/analytics.js','ga'),ga('create','UA-78813427-1','auto'),ga('send','pageview')</script></body></html>

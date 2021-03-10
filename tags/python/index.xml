@@ -1,53 +1,15 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Python on 我说的这句话是谎话</title>
-    <link>https://jimbray.xyz/tags/python/</link>
-    <description>Recent content in Python on 我说的这句话是谎话</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Sun, 19 Jun 2016 21:12:36 +0000</lastBuildDate><atom:link href="https://jimbray.xyz/tags/python/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>简化markdown写作中的贴图流程（windows基本版）</title>
-      <link>https://jimbray.xyz/post/python-to-qiniu2/</link>
-      <pubDate>Sun, 19 Jun 2016 21:12:36 +0000</pubDate>
-      
-      <guid>https://jimbray.xyz/post/python-to-qiniu2/</guid>
-      <description>接上一篇文章 简化markdown写作中的贴图流程（windows简陋版）
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Python on 我说的这句话是谎话</title><link>https://jimbray.xyz/tags/python/</link><description>Recent content in Python on 我说的这句话是谎话</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&amp;copy; 2016. All rights reserved.</copyright><lastBuildDate>Sun, 19 Jun 2016 21:12:36 +0000</lastBuildDate><atom:link href="https://jimbray.xyz/tags/python/index.xml" rel="self" type="application/rss+xml"/><item><title>简化markdown写作中的贴图流程（windows基本版）</title><link>https://jimbray.xyz/post/python-to-qiniu2/</link><pubDate>Sun, 19 Jun 2016 21:12:36 +0000</pubDate><guid>https://jimbray.xyz/post/python-to-qiniu2/</guid><description>接上一篇文章 简化markdown写作中的贴图流程（windows简陋版）
 上一篇文章是 做了很久，除了对python不熟，还有懒，所以最终的结果不尽人意，可以说做出来一个半成品。能用，但用起来不爽。 所以，现在完成了基本版，基本版基本可用了
 上次的版本是 获取 全屏截图，这样的话像QQ截图这些功能都用不上了，而且还是显示很多不必要的元素在截图里面，比如说下面这个图啊 箭头所指的地方，根本不应该出现在截图里面的，是多余的元素。 废话不多说，开干。 思路跟实现跟上次一点区别都没有 代码也只是修改了一个函数，其他的基本没有变化 主要记录遇到的几个问题
 代码 先把代码贴出来，再上问题
-def save_clipboard_image(): im = ImageGrab.grabclipboard() if im is None: print(&amp;#39;Error: No image data in clipboard&amp;#39;) return None if isinstance(im, Image.Image): print im.format, im.size, im.mode width, height = im.size saved_path = &amp;#34;img_&amp;#34; + str(time.time()) + &amp;#34;.jpg&amp;#34; # im.resize((30, 30), Image.ANTIALIAS).load() im.save(saved_path) print saved_path return saved_path else: print &amp;#39;the object in clipboard is not a image.&amp;#39; return None 这个函数是修改的，之前是获取全屏截图，现在修改为获取剪贴板中的图片</description>
-    </item>
-    
-    <item>
-      <title>简化markdown写作中的贴图流程（windows简陋版）</title>
-      <link>https://jimbray.xyz/post/python-to-qiniu/</link>
-      <pubDate>Tue, 14 Jun 2016 23:59:54 +0000</pubDate>
-      
-      <guid>https://jimbray.xyz/post/python-to-qiniu/</guid>
-      <description>上次在网上闲逛的时候看到一篇文章
+def save_clipboard_image(): im = ImageGrab.grabclipboard() if im is None: print(&amp;#39;Error: No image data in clipboard&amp;#39;) return None if isinstance(im, Image.Image): print im.format, im.size, im.mode width, height = im.size saved_path = &amp;#34;img_&amp;#34; + str(time.time()) + &amp;#34;.jpg&amp;#34; # im.resize((30, 30), Image.ANTIALIAS).load() im.save(saved_path) print saved_path return saved_path else: print &amp;#39;the object in clipboard is not a image.&amp;#39; return None 这个函数是修改的，之前是获取全屏截图，现在修改为获取剪贴板中的图片</description></item><item><title>简化markdown写作中的贴图流程（windows简陋版）</title><link>https://jimbray.xyz/post/python-to-qiniu/</link><pubDate>Tue, 14 Jun 2016 23:59:54 +0000</pubDate><guid>https://jimbray.xyz/post/python-to-qiniu/</guid><description>上次在网上闲逛的时候看到一篇文章
 简化markdown写作中的贴图流程
 刚好最近也在学习python，看起来好有趣啊，这篇文章讲的是Mac上的， 我没有Mac，只有Windows，文章里面也写了Windows系统的实现思路，既然作者已经给出来了，作为一个python初学者，动动手罢
-思路  截图（保存在剪贴板中） 使用七牛sdk 上传剪切板中的图片 获取返回的url，并合成 markdown 贴图语法 应该就可以了吧  实现 准备工作  安装 七牛python sdk,我用的是IDE pycharm 方式  下载安装 AutoHotKey 软件 写 python代码 写AutoHotKey脚本  开始动手 写代码 由于技术太渣，搜到又看不懂win32什么的，最后获取剪贴板截图的功能没能写出来，找到了另一个库 PIL 这个库的截图也是在剪切板的，不过不是其他软件接下来的，是系统截下来的 screencapture
+思路 截图（保存在剪贴板中） 使用七牛sdk 上传剪切板中的图片 获取返回的url，并合成 markdown 贴图语法 应该就可以了吧 实现 准备工作 安装 七牛python sdk,我用的是IDE pycharm 方式 下载安装 AutoHotKey 软件 写 python代码 写AutoHotKey脚本 开始动手 写代码 由于技术太渣，搜到又看不懂win32什么的，最后获取剪贴板截图的功能没能写出来，找到了另一个库 PIL 这个库的截图也是在剪切板的，不过不是其他软件接下来的，是系统截下来的 screencapture
 AK = &amp;#39;access_key&amp;#39; SK = &amp;#39;secret_key&amp;#39; bucket_name = &amp;#34;bucket_name&amp;#34; buckey_url = { &amp;#39;bucket_name&amp;#39;: &amp;#39;domain_name&amp;#39;, } 上面是一些初始化工作 都是七牛的东西 可以在 七牛的 开发者帐号里面找到 access_key 和 secret_key 就不说了 bucket_name 是 空间名称 domain_name 是 空间域名
 继续:获取图片
-def save_clipboard_image(): pic = ImageGrab.</description>
-    </item>
-    
-    <item>
-      <title>Flask 直接显示根目录文件内容</title>
-      <link>https://jimbray.xyz/post/falsk-root/</link>
-      <pubDate>Thu, 09 Jun 2016 12:37:25 +0000</pubDate>
-      
-      <guid>https://jimbray.xyz/post/falsk-root/</guid>
-      <description>搜索结果 @app.route(&amp;#39;/&amp;lt;path&amp;gt;&amp;#39;) def info(path): resp = make_response(open(path).read()) resp.headers[&amp;#34;Content-type&amp;#34;]=&amp;#34;application/json;charset=UTF-8&amp;#34; return resp 按道理应该是可以生效的，但我在用的时候却报错了
+def save_clipboard_image(): pic = ImageGrab.</description></item><item><title>Flask 直接显示根目录文件内容</title><link>https://jimbray.xyz/post/falsk-root/</link><pubDate>Thu, 09 Jun 2016 12:37:25 +0000</pubDate><guid>https://jimbray.xyz/post/falsk-root/</guid><description>搜索结果 @app.route(&amp;#39;/&amp;lt;path&amp;gt;&amp;#39;) def info(path): resp = make_response(open(path).read()) resp.headers[&amp;#34;Content-type&amp;#34;]=&amp;#34;application/json;charset=UTF-8&amp;#34; return resp 按道理应该是可以生效的，但我在用的时候却报错了
 出现错误 IOError: [Errno 2] No such file or directory: u&amp;#39;readme.json&amp;#39; 居然找不到这个文件
 解决办法 使用绝对路径
 @app.route(&amp;#39;/&amp;lt;path&amp;gt;&amp;#39;) def today(path): base_dir = os.path.dirname(__file__) resp = make_response(open(os.path.join(base_dir, path)).read()) resp.headers[&amp;#34;Content-type&amp;#34;]=&amp;#34;application/json;charset=UTF-8&amp;#34; return resp 访问 127.0.0.1:5000/readme.json
-Done.</description>
-    </item>
-    
-  </channel>
-</rss>
+Done.</description></item></channel></rss>

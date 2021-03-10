@@ -1,25 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>树莓派 on 我说的这句话是谎话</title>
-    <link>https://jimbray.xyz/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/</link>
-    <description>Recent content in 树莓派 on 我说的这句话是谎话</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Mon, 22 May 2017 12:39:36 +0000</lastBuildDate><atom:link href="https://jimbray.xyz/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>使用树莓派搭建OSMC家庭影院</title>
-      <link>https://jimbray.xyz/post/build-osmc-at-rasperrypi/</link>
-      <pubDate>Mon, 22 May 2017 12:39:36 +0000</pubDate>
-      
-      <guid>https://jimbray.xyz/post/build-osmc-at-rasperrypi/</guid>
-      <description>手上有一台Raspberry Pi 3 ，为了避免吃灰，还是折腾一下好了。 选个系统安装一下，经过长时间的纠结 选择了 OSMC,还是插电视用吧。
-安装OSMC 系统  在 osmc官网先下载镜像 因为是在 win 下干活的，所以用的是 win32diskimager 直接选择 osmc img文件烧录就行了。 整个过程都是自动的，完成之后就会进入 系统了  修改系统语言为中文  找到 system–&amp;gt;settings–&amp;gt;apparence–&amp;gt;skin，把 fonts 改成 Arial based； 找到 skin 下面的 international，把 language 改成 Chinese； 一定要先修改字体，否则的话切换成中文之后会乱码。  不识别NTFS硬盘 系统安上了，也有中文了，手里移动硬盘插上去，准备看电影了。 但是插上去死活没反应，我硬盘不是坏了吧。 Google 老师告诉我，OSMC 不认识我的硬盘。（不识别NTFS硬盘）
-  安装 ntfs-3g ，让系统支持NTFS硬盘 sudo apt-get install ntfs-3g 安装完成之后重启
-  查看插入的硬盘对应的分区名称 sudo fdisk -l | grep NTFS 我硬盘里放电影的分区 对应的是 /dev/sda2
-  挂在指定的分区到系统 把硬盘分区挂在到指定的文件夹（可以新建） 比如我就新建了一个文件夹 叫 Movies</description>
-    </item>
-    
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>树莓派 on 我说的这句话是谎话</title><link>https://jimbray.xyz/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/</link><description>Recent content in 树莓派 on 我说的这句话是谎话</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&amp;copy; 2016. All rights reserved.</copyright><lastBuildDate>Mon, 22 May 2017 12:39:36 +0000</lastBuildDate><atom:link href="https://jimbray.xyz/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/index.xml" rel="self" type="application/rss+xml"/><item><title>使用树莓派搭建OSMC家庭影院</title><link>https://jimbray.xyz/post/build-osmc-at-rasperrypi/</link><pubDate>Mon, 22 May 2017 12:39:36 +0000</pubDate><guid>https://jimbray.xyz/post/build-osmc-at-rasperrypi/</guid><description>手上有一台Raspberry Pi 3 ，为了避免吃灰，还是折腾一下好了。 选个系统安装一下，经过长时间的纠结 选择了 OSMC,还是插电视用吧。
+安装OSMC 系统 在 osmc官网先下载镜像 因为是在 win 下干活的，所以用的是 win32diskimager 直接选择 osmc img文件烧录就行了。 整个过程都是自动的，完成之后就会进入 系统了 修改系统语言为中文 找到 system–&amp;gt;settings–&amp;gt;apparence–&amp;gt;skin，把 fonts 改成 Arial based； 找到 skin 下面的 international，把 language 改成 Chinese； 一定要先修改字体，否则的话切换成中文之后会乱码。 不识别NTFS硬盘 系统安上了，也有中文了，手里移动硬盘插上去，准备看电影了。 但是插上去死活没反应，我硬盘不是坏了吧。 Google 老师告诉我，OSMC 不认识我的硬盘。（不识别NTFS硬盘）
+安装 ntfs-3g ，让系统支持NTFS硬盘 sudo apt-get install ntfs-3g 安装完成之后重启
+查看插入的硬盘对应的分区名称 sudo fdisk -l | grep NTFS 我硬盘里放电影的分区 对应的是 /dev/sda2
+挂在指定的分区到系统 把硬盘分区挂在到指定的文件夹（可以新建） 比如我就新建了一个文件夹 叫 Movies</description></item></channel></rss>

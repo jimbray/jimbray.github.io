@@ -1,649 +1,277 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="ROS官方只支持了C&#43;&#43;和Python，想要在Android上与ROS通讯，我的选择是ROSBridge">
-  <meta name="generator" content="Hugo 0.81.0" />
-
-  <title>Android使用ROSBridge与ROS通信 简单使用 &middot; 我说的这句话是谎话</title>
-
-  
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
-
-  <!--[if lte IE 8]>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
-  <![endif]-->
-  <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
-  <!--<![endif]-->
-
-  <!--[if lte IE 8]>
-  <link rel="stylesheet" href="https://jimbray.xyz/css/side-menu-old-ie.css">
-  <![endif]-->
-  <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="https://jimbray.xyz/css/side-menu.css">
-  <!--<![endif]-->
-
-  <link rel="stylesheet" href="https://jimbray.xyz/css/blackburn.css">
-
-  
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-  
-  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
-
-  
-  
-
-  
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  
-  <script>hljs.initHighlightingOnLoad();</script>
-  
-
-  <link rel="shortcut icon" href="https://jimbray.xyz/img/favicon.ico" type="image/x-icon" />
-
-  
-  
-
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({
-    google_ad_client: "ca-pub-8790496632299830",
-    enable_page_level_ads: true
-  });
-</script>
-<meta name="google-site-verification" content="lsfTBJKzPUfwHdKB84_xsa5u_38z1iLbcGOAkxOo03Q" />
-
-  
-</head>
-
-
-<body>
-<div id="layout">
-
-  
-<a href="#menu" id="menuLink" class="menu-link">
-  
-  <span></span>
-</a>
-<div id="menu">
-
-  
-  <a class="pure-menu-heading brand" href="https://jimbray.xyz/">Jimbray</a>
-
-
-  <div class="pure-menu">
-    <ul class="pure-menu-list">
-      
-      
-        <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://jimbray.xyz/"><i class='fa fa-home fa-fw'></i>Home</a>
-      
-        </li>
-      
-      
-        <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://jimbray.xyz/post/"><i class='fa fa-archive fa-fw'></i>Archive</a>
-      
-        </li>
-      
-      
-        <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://jimbray.xyz/tags/"><i class='fa fa-tags fa-fw'></i>Tags</a>
-      
-        </li>
-      
-      
-        <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://jimbray.xyz/note/note"><i class='fa fa-sticky-note fa-fw'></i>Notes</a>
-      
-        </li>
-      
-    </ul>
-  </div>
-
-  
-  <div class="pure-menu social">
-  <ul class="pure-menu-list">
-
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="ROS官方只支持了C++和Python，想要在Android上与ROS通讯，我的选择是ROSBridge"><meta name=generator content="Hugo 0.81.0"><title>Android使用ROSBridge与ROS通信 简单使用 &#183; 我说的这句话是谎话</title><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=https://jimbray.xyz/css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=https://jimbray.xyz/css/side-menu.css><!--<![endif]--><link rel=stylesheet href=https://jimbray.xyz/css/blackburn.css><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css><link href="https://fonts.googleapis.com/css?family=Raleway" rel=stylesheet type=text/css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script>hljs.initHighlightingOnLoad()</script><link rel="shortcut icon" href=https://jimbray.xyz/img/favicon.ico type=image/x-icon><script async src=//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js></script><script>(adsbygoogle=window.adsbygoogle||[]).push({google_ad_client:"ca-pub-8790496632299830",enable_page_level_ads:!0})</script><meta name=google-site-verification content="lsfTBJKzPUfwHdKB84_xsa5u_38z1iLbcGOAkxOo03Q"></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><a class="pure-menu-heading brand" href=https://jimbray.xyz/>Jimbray</a><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/><i class="fa fa-home fa-fw"></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/post/><i class="fa fa-archive fa-fw"></i>Archive</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/tags/><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/note/note><i class="fa fa-sticky-note fa-fw"></i>Notes</a></li></ul></div><div class="pure-menu social"><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=https://twitter.com/jimbray16 target=_blank><i class="fa fa-twitter-square fa-fw"></i>Twitter</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://github.com/jimbray target=_blank><i class="fa fa-github-square fa-fw"></i>GitHub</a></li></ul></div><div><div class=small-print><small>&copy; 2016. All rights reserved.</small></div><div class=small-print><small>Built with&nbsp;<a href=https://gohugo.io/ target=_blank>Hugo</a></small>
+<small>Theme&nbsp;<a href=https://github.com/yoshiharuyamashita/blackburn target=_blank>Blackburn</a></small></div></div></div><div id=main><div class=header><h1>Android使用ROSBridge与ROS通信 简单使用</h1><h2>ROS官方只支持了C++和Python，想要在Android上与ROS通讯，我的选择是ROSBridge</h2></div><div class=content><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i><time>02 Dec 2018, 12:20</time></div><div><i class="fa fa-tags fa-fw"></i><a class=post-taxonomy-tag href=https://jimbray.xyz/tags/android>Android</a>&nbsp;/
+<a class=post-taxonomy-tag href=https://jimbray.xyz/tags/ros>ROS</a></div></div><blockquote><p>环境
+ROS kinetic</p></blockquote><h4 id=ros-服务端>ROS 服务端</h4><h5 id=安装>安装</h5><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>    sudo apt-get install ros-&lt;rosdistro&gt;-rosbridge-suite
+</code></pre></div><h5 id=启动>启动</h5><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>    roslaunch rosbridge_server rosbridge_websocket.launch
+</code></pre></div><p>在这之前不需要开启 roscore, 因为 rosbridge 会默认执行 roscore</p><h4 id=android客户端>Android客户端</h4><p>要让 android 接收或者发送 ROS 消息的话，首先要在 Android上完成 websocket，然后按照协议解析，也很麻烦，不过又要站在巨人的肩膀上了，找到一个<a href=https://github.com/djilk/ROSBridgeClient>开源项目:ROSBridgeClient</a>,这位同学使用 java-websocket 的包在Android上实现了 websocket 的应用，很棒。</p><p>直接把 <code>src/com/jilk/ros</code> 目录复制到 我的 Android 项目里，
+当然会报错啦，这些代码依赖了第三方库，加在Android工程的libs 里面 引用</p><ul><li>eventbus.jar 用于发送从ROS接收到的消息</li><li>java_websocket.jar 用于websocket 的实现</li><li>json-simple-1.1.jar 用于json解析</li></ul><p>复制到项目包里的 代码包含了一个 example .
+完全可以使用</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Example</span> <span style=color:#f92672>{</span>
     
-
+    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>Example</span><span style=color:#f92672>()</span> <span style=color:#f92672>{}</span>
     
-
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>main</span><span style=color:#f92672>(</span>String<span style=color:#f92672>[]</span> args<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>        
+        ROSBridgeClient client <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> ROSBridgeClient<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;ws://162.243.238.80:9090&#34;</span><span style=color:#f92672>);</span>
+        client<span style=color:#f92672>.</span><span style=color:#a6e22e>connect</span><span style=color:#f92672>();</span>
+        <span style=color:#75715e>//testTopic(client);
+</span><span style=color:#75715e></span>        <span style=color:#66d9ef>try</span> <span style=color:#f92672>{</span>
+        testService<span style=color:#f92672>(</span>client<span style=color:#f92672>);</span>
+        <span style=color:#f92672>}</span>
+        <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>RuntimeException ex<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+            ex<span style=color:#f92672>.</span><span style=color:#a6e22e>printStackTrace</span><span style=color:#f92672>();</span>
+        <span style=color:#f92672>}</span>
+        <span style=color:#66d9ef>finally</span> <span style=color:#f92672>{</span>
+            client<span style=color:#f92672>.</span><span style=color:#a6e22e>disconnect</span><span style=color:#f92672>();</span>
+        <span style=color:#f92672>}</span>
+    <span style=color:#f92672>}</span>            
     
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://twitter.com/jimbray16" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
-    </li>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://github.com/jimbray" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
-    </li>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-  </ul>
-</div>
-
-  
-  <div>
-  <div class="small-print">
-    <small>&copy; 2016. All rights reserved.</small>
-  </div>
-  <div class="small-print">
-    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
-    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
-  </div>
-</div>
-
-  
-  
-
-
-
-  
-  
-  
-  
-	
-
-</div>
-
-
-  <div id="main">
-
-
-<div class="header">
-  <h1>Android使用ROSBridge与ROS通信 简单使用</h1>
-  <h2>ROS官方只支持了C&#43;&#43;和Python，想要在Android上与ROS通讯，我的选择是ROSBridge</h2>
-</div>
-<div class="content">
-
-  <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>02 Dec 2018, 12:20</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="https://jimbray.xyz/tags/android">Android</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="https://jimbray.xyz/tags/ros">ROS</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  <blockquote>
-<p>环境
-ROS kinetic</p>
-</blockquote>
-<h4 id="ros-服务端">ROS 服务端</h4>
-<h5 id="安装">安装</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">    sudo apt-get install ros-&lt;rosdistro&gt;-rosbridge-suite
-</code></pre></div><h5 id="启动">启动</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">    roslaunch rosbridge_server rosbridge_websocket.launch
-</code></pre></div><p>在这之前不需要开启 roscore, 因为 rosbridge 会默认执行 roscore</p>
-<h4 id="android客户端">Android客户端</h4>
-<p>要让 android 接收或者发送 ROS 消息的话，首先要在 Android上完成 websocket，然后按照协议解析，也很麻烦，不过又要站在巨人的肩膀上了，找到一个<a href="https://github.com/djilk/ROSBridgeClient">开源项目:ROSBridgeClient</a>,这位同学使用 java-websocket 的包在Android上实现了 websocket 的应用，很棒。</p>
-<p>直接把 <code>src/com/jilk/ros</code> 目录复制到 我的 Android 项目里，
-当然会报错啦，这些代码依赖了第三方库，加在Android工程的libs 里面 引用</p>
-<ul>
-<li>eventbus.jar 用于发送从ROS接收到的消息</li>
-<li>java_websocket.jar 用于websocket 的实现</li>
-<li>json-simple-1.1.jar 用于json解析</li>
-</ul>
-<p>复制到项目包里的 代码包含了一个 example .
-完全可以使用</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Example</span> <span style="color:#f92672">{</span>
-    
-    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Example</span><span style="color:#f92672">()</span> <span style="color:#f92672">{}</span>
-    
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>        
-        ROSBridgeClient client <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ROSBridgeClient<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ws://162.243.238.80:9090&#34;</span><span style="color:#f92672">);</span>
-        client<span style="color:#f92672">.</span><span style="color:#a6e22e">connect</span><span style="color:#f92672">();</span>
-        <span style="color:#75715e">//testTopic(client);
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
-        testService<span style="color:#f92672">(</span>client<span style="color:#f92672">);</span>
-        <span style="color:#f92672">}</span>
-        <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>RuntimeException ex<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-            ex<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
-        <span style="color:#f92672">}</span>
-        <span style="color:#66d9ef">finally</span> <span style="color:#f92672">{</span>
-            client<span style="color:#f92672">.</span><span style="color:#a6e22e">disconnect</span><span style="color:#f92672">();</span>
-        <span style="color:#f92672">}</span>
-    <span style="color:#f92672">}</span>            
-    
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testService</span><span style="color:#f92672">(</span>ROSBridgeClient client<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
-            Service<span style="color:#f92672">&lt;</span>Empty<span style="color:#f92672">,</span> GetTime<span style="color:#f92672">&gt;</span> timeService <span style="color:#f92672">=</span>
-                    <span style="color:#66d9ef">new</span> Service<span style="color:#f92672">&lt;</span>Empty<span style="color:#f92672">,</span> GetTime<span style="color:#f92672">&gt;(</span><span style="color:#e6db74">&#34;/rosapi/get_time&#34;</span><span style="color:#f92672">,</span> Empty<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> GetTime<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> client<span style="color:#f92672">);</span> 
-            timeService<span style="color:#f92672">.</span><span style="color:#a6e22e">verify</span><span style="color:#f92672">();</span>
-            <span style="color:#75715e">//System.out.println(&#34;Time (secs): &#34; + timeService.callBlocking(new Empty()).time.sec);
-</span><span style="color:#75715e"></span>            
-            Service<span style="color:#f92672">&lt;</span>com<span style="color:#f92672">.</span><span style="color:#a6e22e">jilk</span><span style="color:#f92672">.</span><span style="color:#a6e22e">ros</span><span style="color:#f92672">.</span><span style="color:#a6e22e">rosapi</span><span style="color:#f92672">.</span><span style="color:#a6e22e">message</span><span style="color:#f92672">.</span><span style="color:#a6e22e">Service</span><span style="color:#f92672">,</span> Type<span style="color:#f92672">&gt;</span> serviceTypeService <span style="color:#f92672">=</span>
-                    <span style="color:#66d9ef">new</span> Service<span style="color:#f92672">&lt;</span>com<span style="color:#f92672">.</span><span style="color:#a6e22e">jilk</span><span style="color:#f92672">.</span><span style="color:#a6e22e">ros</span><span style="color:#f92672">.</span><span style="color:#a6e22e">rosapi</span><span style="color:#f92672">.</span><span style="color:#a6e22e">message</span><span style="color:#f92672">.</span><span style="color:#a6e22e">Service</span><span style="color:#f92672">,</span> Type<span style="color:#f92672">&gt;(</span><span style="color:#e6db74">&#34;/rosapi/service_type&#34;</span><span style="color:#f92672">,</span>
-                        com<span style="color:#f92672">.</span><span style="color:#a6e22e">jilk</span><span style="color:#f92672">.</span><span style="color:#a6e22e">ros</span><span style="color:#f92672">.</span><span style="color:#a6e22e">rosapi</span><span style="color:#f92672">.</span><span style="color:#a6e22e">message</span><span style="color:#f92672">.</span><span style="color:#a6e22e">Service</span><span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> Type<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> client<span style="color:#f92672">);</span>
-            serviceTypeService<span style="color:#f92672">.</span><span style="color:#a6e22e">verify</span><span style="color:#f92672">();</span>
-            String type <span style="color:#f92672">=</span> serviceTypeService<span style="color:#f92672">.</span><span style="color:#a6e22e">callBlocking</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> com<span style="color:#f92672">.</span><span style="color:#a6e22e">jilk</span><span style="color:#f92672">.</span><span style="color:#a6e22e">ros</span><span style="color:#f92672">.</span><span style="color:#a6e22e">rosapi</span><span style="color:#f92672">.</span><span style="color:#a6e22e">message</span><span style="color:#f92672">.</span><span style="color:#a6e22e">Service</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/rosapi/service_response_details&#34;</span><span style="color:#f92672">)).</span><span style="color:#a6e22e">type</span><span style="color:#f92672">;</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>testService</span><span style=color:#f92672>(</span>ROSBridgeClient client<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>try</span> <span style=color:#f92672>{</span>
+            Service<span style=color:#f92672>&lt;</span>Empty<span style=color:#f92672>,</span> GetTime<span style=color:#f92672>&gt;</span> timeService <span style=color:#f92672>=</span>
+                    <span style=color:#66d9ef>new</span> Service<span style=color:#f92672>&lt;</span>Empty<span style=color:#f92672>,</span> GetTime<span style=color:#f92672>&gt;(</span><span style=color:#e6db74>&#34;/rosapi/get_time&#34;</span><span style=color:#f92672>,</span> Empty<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>,</span> GetTime<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>,</span> client<span style=color:#f92672>);</span> 
+            timeService<span style=color:#f92672>.</span><span style=color:#a6e22e>verify</span><span style=color:#f92672>();</span>
+            <span style=color:#75715e>//System.out.println(&#34;Time (secs): &#34; + timeService.callBlocking(new Empty()).time.sec);
+</span><span style=color:#75715e></span>            
+            Service<span style=color:#f92672>&lt;</span>com<span style=color:#f92672>.</span><span style=color:#a6e22e>jilk</span><span style=color:#f92672>.</span><span style=color:#a6e22e>ros</span><span style=color:#f92672>.</span><span style=color:#a6e22e>rosapi</span><span style=color:#f92672>.</span><span style=color:#a6e22e>message</span><span style=color:#f92672>.</span><span style=color:#a6e22e>Service</span><span style=color:#f92672>,</span> Type<span style=color:#f92672>&gt;</span> serviceTypeService <span style=color:#f92672>=</span>
+                    <span style=color:#66d9ef>new</span> Service<span style=color:#f92672>&lt;</span>com<span style=color:#f92672>.</span><span style=color:#a6e22e>jilk</span><span style=color:#f92672>.</span><span style=color:#a6e22e>ros</span><span style=color:#f92672>.</span><span style=color:#a6e22e>rosapi</span><span style=color:#f92672>.</span><span style=color:#a6e22e>message</span><span style=color:#f92672>.</span><span style=color:#a6e22e>Service</span><span style=color:#f92672>,</span> Type<span style=color:#f92672>&gt;(</span><span style=color:#e6db74>&#34;/rosapi/service_type&#34;</span><span style=color:#f92672>,</span>
+                        com<span style=color:#f92672>.</span><span style=color:#a6e22e>jilk</span><span style=color:#f92672>.</span><span style=color:#a6e22e>ros</span><span style=color:#f92672>.</span><span style=color:#a6e22e>rosapi</span><span style=color:#f92672>.</span><span style=color:#a6e22e>message</span><span style=color:#f92672>.</span><span style=color:#a6e22e>Service</span><span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>,</span> Type<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>,</span> client<span style=color:#f92672>);</span>
+            serviceTypeService<span style=color:#f92672>.</span><span style=color:#a6e22e>verify</span><span style=color:#f92672>();</span>
+            String type <span style=color:#f92672>=</span> serviceTypeService<span style=color:#f92672>.</span><span style=color:#a6e22e>callBlocking</span><span style=color:#f92672>(</span><span style=color:#66d9ef>new</span> com<span style=color:#f92672>.</span><span style=color:#a6e22e>jilk</span><span style=color:#f92672>.</span><span style=color:#a6e22e>ros</span><span style=color:#f92672>.</span><span style=color:#a6e22e>rosapi</span><span style=color:#f92672>.</span><span style=color:#a6e22e>message</span><span style=color:#f92672>.</span><span style=color:#a6e22e>Service</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;/rosapi/service_response_details&#34;</span><span style=color:#f92672>)).</span><span style=color:#a6e22e>type</span><span style=color:#f92672>;</span>
             
-            Service<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">,</span> MessageDetails<span style="color:#f92672">&gt;</span> serviceDetails <span style="color:#f92672">=</span>
-                    <span style="color:#66d9ef">new</span> Service<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">,</span> MessageDetails<span style="color:#f92672">&gt;(</span><span style="color:#e6db74">&#34;/rosapi/service_response_details&#34;</span><span style="color:#f92672">,</span>
-                        Type<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> MessageDetails<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> client<span style="color:#f92672">);</span>
-            serviceDetails<span style="color:#f92672">.</span><span style="color:#a6e22e">verify</span><span style="color:#f92672">();</span>
-            <span style="color:#75715e">//serviceDetails.callBlocking(new Type(type)).print();
-</span><span style="color:#75715e"></span>            
-            Topic<span style="color:#f92672">&lt;</span>Log<span style="color:#f92672">&gt;</span> logTopic <span style="color:#f92672">=</span>
-                    <span style="color:#66d9ef">new</span> Topic<span style="color:#f92672">&lt;</span>Log<span style="color:#f92672">&gt;(</span><span style="color:#e6db74">&#34;/rosout&#34;</span><span style="color:#f92672">,</span> Log<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> client<span style="color:#f92672">);</span>
-            logTopic<span style="color:#f92672">.</span><span style="color:#a6e22e">verify</span><span style="color:#f92672">();</span>
+            Service<span style=color:#f92672>&lt;</span>Type<span style=color:#f92672>,</span> MessageDetails<span style=color:#f92672>&gt;</span> serviceDetails <span style=color:#f92672>=</span>
+                    <span style=color:#66d9ef>new</span> Service<span style=color:#f92672>&lt;</span>Type<span style=color:#f92672>,</span> MessageDetails<span style=color:#f92672>&gt;(</span><span style=color:#e6db74>&#34;/rosapi/service_response_details&#34;</span><span style=color:#f92672>,</span>
+                        Type<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>,</span> MessageDetails<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>,</span> client<span style=color:#f92672>);</span>
+            serviceDetails<span style=color:#f92672>.</span><span style=color:#a6e22e>verify</span><span style=color:#f92672>();</span>
+            <span style=color:#75715e>//serviceDetails.callBlocking(new Type(type)).print();
+</span><span style=color:#75715e></span>            
+            Topic<span style=color:#f92672>&lt;</span>Log<span style=color:#f92672>&gt;</span> logTopic <span style=color:#f92672>=</span>
+                    <span style=color:#66d9ef>new</span> Topic<span style=color:#f92672>&lt;</span>Log<span style=color:#f92672>&gt;(</span><span style=color:#e6db74>&#34;/rosout&#34;</span><span style=color:#f92672>,</span> Log<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>,</span> client<span style=color:#f92672>);</span>
+            logTopic<span style=color:#f92672>.</span><span style=color:#a6e22e>verify</span><span style=color:#f92672>();</span>
 
-            <span style="color:#75715e">/*
-</span><span style="color:#75715e">            System.out.println(&#34;Nodes&#34;);
-</span><span style="color:#75715e">            for (String s : client.getNodes())
-</span><span style="color:#75715e">                System.out.println(&#34;    &#34; + s);
-</span><span style="color:#75715e">            System.out.println(&#34;Topics&#34;);
-</span><span style="color:#75715e">            for (String s : client.getTopics()) {
-</span><span style="color:#75715e">                System.out.println(s + &#34;:&#34;);
-</span><span style="color:#75715e">                client.getTopicMessageDetails(s).print();
-</span><span style="color:#75715e">            }
-</span><span style="color:#75715e">            System.out.println(&#34;Services&#34;);
-</span><span style="color:#75715e">            for (String s : client.getServices()) {
-</span><span style="color:#75715e">                System.out.println(s + &#34;:&#34;);
-</span><span style="color:#75715e">                client.getServiceRequestDetails(s).print();
-</span><span style="color:#75715e">                System.out.println(&#34;-----------------&#34;);
-</span><span style="color:#75715e">                client.getServiceResponseDetails(s).print();
-</span><span style="color:#75715e">            }
-</span><span style="color:#75715e">            */</span>
-        <span style="color:#f92672">}</span>
-        <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException ex<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Process was interrupted.&#34;</span><span style="color:#f92672">);</span>
-        <span style="color:#f92672">}</span>
-        <span style="color:#75715e">/*
-</span><span style="color:#75715e">        Service&lt;Empty, Topics&gt; topicService =
-</span><span style="color:#75715e">                new Service&lt;Empty, Topics&gt;(&#34;/rosapi/topics&#34;, Empty.class, Topics.class, client);
-</span><span style="color:#75715e">        Service&lt;Topic, Type&gt; typeService =
-</span><span style="color:#75715e">                new Service&lt;Topic, Type&gt;(&#34;/rosapi/topic_type&#34;, Topic.class, Type.class, client);
-</span><span style="color:#75715e">        Service&lt;Type, MessageDetails&gt; messageService =
-</span><span style="color:#75715e">                new Service&lt;Type, MessageDetails&gt;(&#34;/rosapi/message_details&#34;, Type.class, MessageDetails.class, client);
-</span><span style="color:#75715e">        try {
-</span><span style="color:#75715e">            Topics topics = topicService.callBlocking(new Empty());
-</span><span style="color:#75715e">            for (String topicString : topics.topics) {
-</span><span style="color:#75715e">                Topic topic = new Topic();
-</span><span style="color:#75715e">                topic.topic = topicString;
-</span><span style="color:#75715e">                Type type = typeService.callBlocking(topic);
-</span><span style="color:#75715e">                MessageDetails details = messageService.callBlocking(type);
-</span><span style="color:#75715e">                System.out.println(&#34;Topic: &#34; + topic.topic + &#34; Type: &#34; + type.type);
-</span><span style="color:#75715e">                details.print();
-</span><span style="color:#75715e">                System.out.println();
-</span><span style="color:#75715e">            }
-</span><span style="color:#75715e">            Type type = new Type();
-</span><span style="color:#75715e">            type.type = &#34;time&#34;;
-</span><span style="color:#75715e">            System.out.print(&#34;Single type check on \&#39;time\&#39;: &#34;);
-</span><span style="color:#75715e">            messageService.callBlocking(type).print();
-</span><span style="color:#75715e">        }
-</span><span style="color:#75715e">        catch (InterruptedException ex) {
-</span><span style="color:#75715e">            System.out.println(&#34;testService: process was interrupted.&#34;);
-</span><span style="color:#75715e">        }
-</span><span style="color:#75715e">        */</span>
-    <span style="color:#f92672">}</span>
+            <span style=color:#75715e>/*
+</span><span style=color:#75715e>            System.out.println(&#34;Nodes&#34;);
+</span><span style=color:#75715e>            for (String s : client.getNodes())
+</span><span style=color:#75715e>                System.out.println(&#34;    &#34; + s);
+</span><span style=color:#75715e>            System.out.println(&#34;Topics&#34;);
+</span><span style=color:#75715e>            for (String s : client.getTopics()) {
+</span><span style=color:#75715e>                System.out.println(s + &#34;:&#34;);
+</span><span style=color:#75715e>                client.getTopicMessageDetails(s).print();
+</span><span style=color:#75715e>            }
+</span><span style=color:#75715e>            System.out.println(&#34;Services&#34;);
+</span><span style=color:#75715e>            for (String s : client.getServices()) {
+</span><span style=color:#75715e>                System.out.println(s + &#34;:&#34;);
+</span><span style=color:#75715e>                client.getServiceRequestDetails(s).print();
+</span><span style=color:#75715e>                System.out.println(&#34;-----------------&#34;);
+</span><span style=color:#75715e>                client.getServiceResponseDetails(s).print();
+</span><span style=color:#75715e>            }
+</span><span style=color:#75715e>            */</span>
+        <span style=color:#f92672>}</span>
+        <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>InterruptedException ex<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+            System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Process was interrupted.&#34;</span><span style=color:#f92672>);</span>
+        <span style=color:#f92672>}</span>
+        <span style=color:#75715e>/*
+</span><span style=color:#75715e>        Service&lt;Empty, Topics&gt; topicService =
+</span><span style=color:#75715e>                new Service&lt;Empty, Topics&gt;(&#34;/rosapi/topics&#34;, Empty.class, Topics.class, client);
+</span><span style=color:#75715e>        Service&lt;Topic, Type&gt; typeService =
+</span><span style=color:#75715e>                new Service&lt;Topic, Type&gt;(&#34;/rosapi/topic_type&#34;, Topic.class, Type.class, client);
+</span><span style=color:#75715e>        Service&lt;Type, MessageDetails&gt; messageService =
+</span><span style=color:#75715e>                new Service&lt;Type, MessageDetails&gt;(&#34;/rosapi/message_details&#34;, Type.class, MessageDetails.class, client);
+</span><span style=color:#75715e>        try {
+</span><span style=color:#75715e>            Topics topics = topicService.callBlocking(new Empty());
+</span><span style=color:#75715e>            for (String topicString : topics.topics) {
+</span><span style=color:#75715e>                Topic topic = new Topic();
+</span><span style=color:#75715e>                topic.topic = topicString;
+</span><span style=color:#75715e>                Type type = typeService.callBlocking(topic);
+</span><span style=color:#75715e>                MessageDetails details = messageService.callBlocking(type);
+</span><span style=color:#75715e>                System.out.println(&#34;Topic: &#34; + topic.topic + &#34; Type: &#34; + type.type);
+</span><span style=color:#75715e>                details.print();
+</span><span style=color:#75715e>                System.out.println();
+</span><span style=color:#75715e>            }
+</span><span style=color:#75715e>            Type type = new Type();
+</span><span style=color:#75715e>            type.type = &#34;time&#34;;
+</span><span style=color:#75715e>            System.out.print(&#34;Single type check on \&#39;time\&#39;: &#34;);
+</span><span style=color:#75715e>            messageService.callBlocking(type).print();
+</span><span style=color:#75715e>        }
+</span><span style=color:#75715e>        catch (InterruptedException ex) {
+</span><span style=color:#75715e>            System.out.println(&#34;testService: process was interrupted.&#34;);
+</span><span style=color:#75715e>        }
+</span><span style=color:#75715e>        */</span>
+    <span style=color:#f92672>}</span>
 
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testTopic</span><span style="color:#f92672">(</span>ROSBridgeClient client<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        Topic<span style="color:#f92672">&lt;</span>Clock<span style="color:#f92672">&gt;</span> clockTopic <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Topic<span style="color:#f92672">&lt;</span>Clock<span style="color:#f92672">&gt;(</span><span style="color:#e6db74">&#34;/clock&#34;</span><span style="color:#f92672">,</span> Clock<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> client<span style="color:#f92672">);</span>
-        clockTopic<span style="color:#f92672">.</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">();</span>
-        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>20000<span style="color:#f92672">);}</span> <span style="color:#66d9ef">catch</span><span style="color:#f92672">(</span>InterruptedException ex<span style="color:#f92672">)</span> <span style="color:#f92672">{}</span>
-        Clock cl <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
-        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
-            cl <span style="color:#f92672">=</span> clockTopic<span style="color:#f92672">.</span><span style="color:#a6e22e">take</span><span style="color:#f92672">();</span> <span style="color:#75715e">// just gets one
-</span><span style="color:#75715e"></span>        <span style="color:#f92672">}</span>
-        <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException ex<span style="color:#f92672">)</span> <span style="color:#f92672">{}</span>
-        cl<span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">();</span>
-        cl<span style="color:#f92672">.</span><span style="color:#a6e22e">clock</span><span style="color:#f92672">.</span><span style="color:#a6e22e">nsecs</span><span style="color:#f92672">++;</span>
-        clockTopic<span style="color:#f92672">.</span><span style="color:#a6e22e">unsubscribe</span><span style="color:#f92672">();</span>
-        clockTopic<span style="color:#f92672">.</span><span style="color:#a6e22e">advertise</span><span style="color:#f92672">();</span>
-        clockTopic<span style="color:#f92672">.</span><span style="color:#a6e22e">publish</span><span style="color:#f92672">(</span>cl<span style="color:#f92672">);</span>
-        clockTopic<span style="color:#f92672">.</span><span style="color:#a6e22e">unadvertise</span><span style="color:#f92672">();</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>testTopic</span><span style=color:#f92672>(</span>ROSBridgeClient client<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        Topic<span style=color:#f92672>&lt;</span>Clock<span style=color:#f92672>&gt;</span> clockTopic <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Topic<span style=color:#f92672>&lt;</span>Clock<span style=color:#f92672>&gt;(</span><span style=color:#e6db74>&#34;/clock&#34;</span><span style=color:#f92672>,</span> Clock<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>,</span> client<span style=color:#f92672>);</span>
+        clockTopic<span style=color:#f92672>.</span><span style=color:#a6e22e>subscribe</span><span style=color:#f92672>();</span>
+        <span style=color:#66d9ef>try</span> <span style=color:#f92672>{</span>Thread<span style=color:#f92672>.</span><span style=color:#a6e22e>sleep</span><span style=color:#f92672>(</span>20000<span style=color:#f92672>);}</span> <span style=color:#66d9ef>catch</span><span style=color:#f92672>(</span>InterruptedException ex<span style=color:#f92672>)</span> <span style=color:#f92672>{}</span>
+        Clock cl <span style=color:#f92672>=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>;</span>
+        <span style=color:#66d9ef>try</span> <span style=color:#f92672>{</span>
+            cl <span style=color:#f92672>=</span> clockTopic<span style=color:#f92672>.</span><span style=color:#a6e22e>take</span><span style=color:#f92672>();</span> <span style=color:#75715e>// just gets one
+</span><span style=color:#75715e></span>        <span style=color:#f92672>}</span>
+        <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>InterruptedException ex<span style=color:#f92672>)</span> <span style=color:#f92672>{}</span>
+        cl<span style=color:#f92672>.</span><span style=color:#a6e22e>print</span><span style=color:#f92672>();</span>
+        cl<span style=color:#f92672>.</span><span style=color:#a6e22e>clock</span><span style=color:#f92672>.</span><span style=color:#a6e22e>nsecs</span><span style=color:#f92672>++;</span>
+        clockTopic<span style=color:#f92672>.</span><span style=color:#a6e22e>unsubscribe</span><span style=color:#f92672>();</span>
+        clockTopic<span style=color:#f92672>.</span><span style=color:#a6e22e>advertise</span><span style=color:#f92672>();</span>
+        clockTopic<span style=color:#f92672>.</span><span style=color:#a6e22e>publish</span><span style=color:#f92672>(</span>cl<span style=color:#f92672>);</span>
+        clockTopic<span style=color:#f92672>.</span><span style=color:#a6e22e>unadvertise</span><span style=color:#f92672>();</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
 </code></pre></div><p>example很好理解
-就看了下 topic 相关的东西 testTopic，我觉得如果有很多topic就要用很多的testXXXTopic了，有点麻烦，所以我二次封装了一个 RosBridgeClientManager 来用</p>
-<h5 id="连接-ros-master">连接 ROS master</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
-</span><span style="color:#75715e">     * 连接 ROS master
-</span><span style="color:#75715e">     * @param url ROS master IP
-</span><span style="color:#75715e">     * @param port ROS master 端口
-</span><span style="color:#75715e">     * @param listener 连接状态监听器
-</span><span style="color:#75715e">     */</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">connect</span><span style="color:#f92672">(</span><span style="color:#66d9ef">final</span> String url<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> port<span style="color:#f92672">,</span> <span style="color:#66d9ef">final</span> ROSClient<span style="color:#f92672">.</span><span style="color:#a6e22e">ConnectionStatusListener</span> listener<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>url <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">&amp;&amp;</span> url<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span>mCurUrl<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
-            <span style="color:#75715e">// already connected
-</span><span style="color:#75715e"></span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
-            mRosBridgeClient <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ROSBridgeClient<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ws://&#34;</span> <span style="color:#f92672">+</span> url <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;:&#34;</span> <span style="color:#f92672">+</span> port<span style="color:#f92672">);</span>
-            mRosBridgeClient<span style="color:#f92672">.</span><span style="color:#a6e22e">connect</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> ROSClient<span style="color:#f92672">.</span><span style="color:#a6e22e">ConnectionStatusListener</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-                <span style="color:#a6e22e">@Override</span>
-                <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onConnect</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-                    <span style="color:#75715e">// connected successful
-</span><span style="color:#75715e"></span>                    mCurUrl <span style="color:#f92672">=</span> url<span style="color:#f92672">;</span>
-                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>listener <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-                        listener<span style="color:#f92672">.</span><span style="color:#a6e22e">onConnect</span><span style="color:#f92672">();</span>
-                    <span style="color:#f92672">}</span>
-                <span style="color:#f92672">}</span>
+就看了下 topic 相关的东西 testTopic，我觉得如果有很多topic就要用很多的testXXXTopic了，有点麻烦，所以我二次封装了一个 RosBridgeClientManager 来用</p><h5 id=连接-ros-master>连接 ROS master</h5><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>/**
+</span><span style=color:#75715e>     * 连接 ROS master
+</span><span style=color:#75715e>     * @param url ROS master IP
+</span><span style=color:#75715e>     * @param port ROS master 端口
+</span><span style=color:#75715e>     * @param listener 连接状态监听器
+</span><span style=color:#75715e>     */</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>connect</span><span style=color:#f92672>(</span><span style=color:#66d9ef>final</span> String url<span style=color:#f92672>,</span> <span style=color:#66d9ef>int</span> port<span style=color:#f92672>,</span> <span style=color:#66d9ef>final</span> ROSClient<span style=color:#f92672>.</span><span style=color:#a6e22e>ConnectionStatusListener</span> listener<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>url <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span> <span style=color:#f92672>&amp;&amp;</span> url<span style=color:#f92672>.</span><span style=color:#a6e22e>equals</span><span style=color:#f92672>(</span>mCurUrl<span style=color:#f92672>))</span> <span style=color:#f92672>{</span>
+            <span style=color:#75715e>// already connected
+</span><span style=color:#75715e></span>        <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
+            mRosBridgeClient <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> ROSBridgeClient<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;ws://&#34;</span> <span style=color:#f92672>+</span> url <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;:&#34;</span> <span style=color:#f92672>+</span> port<span style=color:#f92672>);</span>
+            mRosBridgeClient<span style=color:#f92672>.</span><span style=color:#a6e22e>connect</span><span style=color:#f92672>(</span><span style=color:#66d9ef>new</span> ROSClient<span style=color:#f92672>.</span><span style=color:#a6e22e>ConnectionStatusListener</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+                <span style=color:#a6e22e>@Override</span>
+                <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>onConnect</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+                    <span style=color:#75715e>// connected successful
+</span><span style=color:#75715e></span>                    mCurUrl <span style=color:#f92672>=</span> url<span style=color:#f92672>;</span>
+                    <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>listener <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                        listener<span style=color:#f92672>.</span><span style=color:#a6e22e>onConnect</span><span style=color:#f92672>();</span>
+                    <span style=color:#f92672>}</span>
+                <span style=color:#f92672>}</span>
 
-                <span style="color:#a6e22e">@Override</span>
-                <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onDisconnect</span><span style="color:#f92672">(</span><span style="color:#66d9ef">boolean</span> normal<span style="color:#f92672">,</span> String reason<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> code<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-                    <span style="color:#75715e">// client disconnected
-</span><span style="color:#75715e"></span>                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>listener <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-                        listener<span style="color:#f92672">.</span><span style="color:#a6e22e">onDisconnect</span><span style="color:#f92672">(</span>normal<span style="color:#f92672">,</span> reason<span style="color:#f92672">,</span> code<span style="color:#f92672">);</span>
-                    <span style="color:#f92672">}</span>
+                <span style=color:#a6e22e>@Override</span>
+                <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>onDisconnect</span><span style=color:#f92672>(</span><span style=color:#66d9ef>boolean</span> normal<span style=color:#f92672>,</span> String reason<span style=color:#f92672>,</span> <span style=color:#66d9ef>int</span> code<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                    <span style=color:#75715e>// client disconnected
+</span><span style=color:#75715e></span>                    <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>listener <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                        listener<span style=color:#f92672>.</span><span style=color:#a6e22e>onDisconnect</span><span style=color:#f92672>(</span>normal<span style=color:#f92672>,</span> reason<span style=color:#f92672>,</span> code<span style=color:#f92672>);</span>
+                    <span style=color:#f92672>}</span>
 
-                <span style="color:#f92672">}</span>
+                <span style=color:#f92672>}</span>
 
-                <span style="color:#a6e22e">@Override</span>
-                <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onError</span><span style="color:#f92672">(</span>Exception ex<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-                    <span style="color:#75715e">// connect error
-</span><span style="color:#75715e"></span>                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>listener <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-                        listener<span style="color:#f92672">.</span><span style="color:#a6e22e">onError</span><span style="color:#f92672">(</span>ex<span style="color:#f92672">);</span>
-                    <span style="color:#f92672">}</span>
-                <span style="color:#f92672">}</span>
-            <span style="color:#f92672">});</span>
-        <span style="color:#f92672">}</span>
-    <span style="color:#f92672">}</span>
-</code></pre></div><p>加了一个连接监听器，可以在业务层进行状态判断了。</p>
-<h5 id="注册topic-到-ros">注册topic 到 ROS</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#75715e">/**
-</span><span style="color:#75715e">     * 注册topic
-</span><span style="color:#75715e">     * @param topicName topic 名称
-</span><span style="color:#75715e">     * @param data_type 消息类型
-</span><span style="color:#75715e">     * @param &lt;T&gt;
-</span><span style="color:#75715e">     */</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">advertiseTopic</span><span style="color:#f92672">(</span>String topicName<span style="color:#f92672">,</span> T data_type<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        AdvertiseTopicObject<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> topic <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AdvertiseTopicObject<span style="color:#f92672">&lt;&gt;(</span>topicName<span style="color:#f92672">,</span> data_type<span style="color:#f92672">,</span> mRosBridgeClient<span style="color:#f92672">);</span>
-        topic<span style="color:#f92672">.</span><span style="color:#a6e22e">setMessage_type</span><span style="color:#f92672">(</span>data_type<span style="color:#f92672">);</span>
-        topic<span style="color:#f92672">.</span><span style="color:#a6e22e">advertise</span><span style="color:#f92672">();</span>
+                <span style=color:#a6e22e>@Override</span>
+                <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>onError</span><span style=color:#f92672>(</span>Exception ex<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                    <span style=color:#75715e>// connect error
+</span><span style=color:#75715e></span>                    <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>listener <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                        listener<span style=color:#f92672>.</span><span style=color:#a6e22e>onError</span><span style=color:#f92672>(</span>ex<span style=color:#f92672>);</span>
+                    <span style=color:#f92672>}</span>
+                <span style=color:#f92672>}</span>
+            <span style=color:#f92672>});</span>
+        <span style=color:#f92672>}</span>
+    <span style=color:#f92672>}</span>
+</code></pre></div><p>加了一个连接监听器，可以在业务层进行状态判断了。</p><h5 id=注册topic-到-ros>注册topic 到 ROS</h5><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>    <span style=color:#75715e>/**
+</span><span style=color:#75715e>     * 注册topic
+</span><span style=color:#75715e>     * @param topicName topic 名称
+</span><span style=color:#75715e>     * @param data_type 消息类型
+</span><span style=color:#75715e>     * @param &lt;T&gt;
+</span><span style=color:#75715e>     */</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>advertiseTopic</span><span style=color:#f92672>(</span>String topicName<span style=color:#f92672>,</span> T data_type<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        AdvertiseTopicObject<span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> topic <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> AdvertiseTopicObject<span style=color:#f92672>&lt;&gt;(</span>topicName<span style=color:#f92672>,</span> data_type<span style=color:#f92672>,</span> mRosBridgeClient<span style=color:#f92672>);</span>
+        topic<span style=color:#f92672>.</span><span style=color:#a6e22e>setMessage_type</span><span style=color:#f92672>(</span>data_type<span style=color:#f92672>);</span>
+        topic<span style=color:#f92672>.</span><span style=color:#a6e22e>advertise</span><span style=color:#f92672>();</span>
 
-        <span style="color:#75715e">// 利用 反射获取泛型，主要是得到 T.class,我也没试
-</span><span style="color:#75715e">//        Class &lt;T&gt; entityClass = (Class &lt;T&gt;) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-</span><span style="color:#75715e">//        Topic topic = new Topic(topicName, entityClass, client);
-</span><span style="color:#75715e">//        topic.advertise();
-</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+        <span style=color:#75715e>// 利用 反射获取泛型，主要是得到 T.class,我也没试
+</span><span style=color:#75715e>//        Class &lt;T&gt; entityClass = (Class &lt;T&gt;) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+</span><span style=color:#75715e>//        Topic topic = new Topic(topicName, entityClass, client);
+</span><span style=color:#75715e>//        topic.advertise();
+</span><span style=color:#75715e></span>    <span style=color:#f92672>}</span>
 </code></pre></div><p>原来的 advertise 已经很简单了，为什么我还要弄这个东西？ <del>我也不知道啊</del>
-AdvertiseTopicObject.java</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AdvertiseTopicObject</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+AdvertiseTopicObject.java</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>AdvertiseTopicObject</span><span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> <span style=color:#f92672>{</span>
 
-    <span style="color:#66d9ef">private</span> T message_type<span style="color:#f92672">;</span>
+    <span style=color:#66d9ef>private</span> T message_type<span style=color:#f92672>;</span>
 
-    <span style="color:#66d9ef">private</span> String topicName<span style="color:#f92672">;</span>
+    <span style=color:#66d9ef>private</span> String topicName<span style=color:#f92672>;</span>
 
-    <span style="color:#66d9ef">private</span> ROSBridgeClient client<span style="color:#f92672">;</span>
+    <span style=color:#66d9ef>private</span> ROSBridgeClient client<span style=color:#f92672>;</span>
 
-    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">AdvertiseTopicObject</span><span style="color:#f92672">(</span>String topicName<span style="color:#f92672">,</span> T type<span style="color:#f92672">,</span> ROSBridgeClient rosBridgeClient<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">client</span> <span style="color:#f92672">=</span> rosBridgeClient<span style="color:#f92672">;</span>
-        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">topicName</span> <span style="color:#f92672">=</span> topicName<span style="color:#f92672">;</span>
-        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">message_type</span> <span style="color:#f92672">=</span> type<span style="color:#f92672">;</span>
-    <span style="color:#f92672">}</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>AdvertiseTopicObject</span><span style=color:#f92672>(</span>String topicName<span style=color:#f92672>,</span> T type<span style=color:#f92672>,</span> ROSBridgeClient rosBridgeClient<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>client</span> <span style=color:#f92672>=</span> rosBridgeClient<span style=color:#f92672>;</span>
+        <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>topicName</span> <span style=color:#f92672>=</span> topicName<span style=color:#f92672>;</span>
+        <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>message_type</span> <span style=color:#f92672>=</span> type<span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
 
 
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">advertise</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-        Topic topic <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Topic<span style="color:#f92672">(</span>topicName<span style="color:#f92672">,</span> message_type<span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">(),</span> client<span style="color:#f92672">);</span>
-        topic<span style="color:#f92672">.</span><span style="color:#a6e22e">advertise</span><span style="color:#f92672">();</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><h5 id="发布topic-消息">发布topic 消息</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
-</span><span style="color:#75715e">     * 发布 topic 消息
-</span><span style="color:#75715e">     * @param topicName topic名称
-</span><span style="color:#75715e">     * @param msg 消息
-</span><span style="color:#75715e">     * @param &lt;T&gt; 消息类型
-</span><span style="color:#75715e">     */</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">publishTopic</span><span style="color:#f92672">(</span>String topicName<span style="color:#f92672">,</span> T msg<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        PublishTopicObject<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> publishTopicObject <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> PublishTopicObject<span style="color:#f92672">&lt;&gt;();</span>
-        publishTopicObject<span style="color:#f92672">.</span><span style="color:#a6e22e">setTopic</span><span style="color:#f92672">(</span>topicName<span style="color:#f92672">);</span>
-        publishTopicObject<span style="color:#f92672">.</span><span style="color:#a6e22e">setMsg</span><span style="color:#f92672">(</span>msg<span style="color:#f92672">);</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>advertise</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+        Topic topic <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Topic<span style=color:#f92672>(</span>topicName<span style=color:#f92672>,</span> message_type<span style=color:#f92672>.</span><span style=color:#a6e22e>getClass</span><span style=color:#f92672>(),</span> client<span style=color:#f92672>);</span>
+        topic<span style=color:#f92672>.</span><span style=color:#a6e22e>advertise</span><span style=color:#f92672>();</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><h5 id=发布topic-消息>发布topic 消息</h5><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>/**
+</span><span style=color:#75715e>     * 发布 topic 消息
+</span><span style=color:#75715e>     * @param topicName topic名称
+</span><span style=color:#75715e>     * @param msg 消息
+</span><span style=color:#75715e>     * @param &lt;T&gt; 消息类型
+</span><span style=color:#75715e>     */</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>publishTopic</span><span style=color:#f92672>(</span>String topicName<span style=color:#f92672>,</span> T msg<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        PublishTopicObject<span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> publishTopicObject <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> PublishTopicObject<span style=color:#f92672>&lt;&gt;();</span>
+        publishTopicObject<span style=color:#f92672>.</span><span style=color:#a6e22e>setTopic</span><span style=color:#f92672>(</span>topicName<span style=color:#f92672>);</span>
+        publishTopicObject<span style=color:#f92672>.</span><span style=color:#a6e22e>setMsg</span><span style=color:#f92672>(</span>msg<span style=color:#f92672>);</span>
 
-        String msg_str <span style="color:#f92672">=</span> mGson<span style="color:#f92672">.</span><span style="color:#a6e22e">toJson</span><span style="color:#f92672">(</span>publishTopicObject<span style="color:#f92672">);</span>
-        mRosBridgeClient<span style="color:#f92672">.</span><span style="color:#a6e22e">send</span><span style="color:#f92672">(</span>msg_str<span style="color:#f92672">);</span>
-    <span style="color:#f92672">}</span>
+        String msg_str <span style=color:#f92672>=</span> mGson<span style=color:#f92672>.</span><span style=color:#a6e22e>toJson</span><span style=color:#f92672>(</span>publishTopicObject<span style=color:#f92672>);</span>
+        mRosBridgeClient<span style=color:#f92672>.</span><span style=color:#a6e22e>send</span><span style=color:#f92672>(</span>msg_str<span style=color:#f92672>);</span>
+    <span style=color:#f92672>}</span>
 </code></pre></div><p>跟上面的 AdvertiseTopicObject 保持一致，所以有了
-PublishTopicObject.java</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PublishTopicObject</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+PublishTopicObject.java</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>PublishTopicObject</span><span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> <span style=color:#f92672>{</span>
 
-    <span style="color:#66d9ef">private</span> String op <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;publish&#34;</span><span style="color:#f92672">;</span>
+    <span style=color:#66d9ef>private</span> String op <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;publish&#34;</span><span style=color:#f92672>;</span>
 
-    <span style="color:#66d9ef">private</span> String topic<span style="color:#f92672">;</span>
+    <span style=color:#66d9ef>private</span> String topic<span style=color:#f92672>;</span>
 
-    <span style="color:#66d9ef">private</span> T msg<span style="color:#f92672">;</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><h5 id="订阅-topic">订阅 topic</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
-</span><span style="color:#75715e">     * 订阅topic
-</span><span style="color:#75715e">     * @param topicName topic 名称
-</span><span style="color:#75715e">     * @param listener 消息监听器
-</span><span style="color:#75715e">     */</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">subscribeTopic</span><span style="color:#f92672">(</span>String topicName<span style="color:#f92672">,</span> OnRosMessageListener listener
-    <span style="color:#f92672">{</span>
-        SubscribeTopicObject subscribeTopicObject <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SubscribeTopicObject<span style="color:#f92672">();</span>
-        subscribeTopicObject<span style="color:#f92672">.</span><span style="color:#a6e22e">setTopic</span><span style="color:#f92672">(</span>topicName<span style="color:#f92672">);</span>
+    <span style=color:#66d9ef>private</span> T msg<span style=color:#f92672>;</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><h5 id=订阅-topic>订阅 topic</h5><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>/**
+</span><span style=color:#75715e>     * 订阅topic
+</span><span style=color:#75715e>     * @param topicName topic 名称
+</span><span style=color:#75715e>     * @param listener 消息监听器
+</span><span style=color:#75715e>     */</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>subscribeTopic</span><span style=color:#f92672>(</span>String topicName<span style=color:#f92672>,</span> OnRosMessageListener listener
+    <span style=color:#f92672>{</span>
+        SubscribeTopicObject subscribeTopicObject <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> SubscribeTopicObject<span style=color:#f92672>();</span>
+        subscribeTopicObject<span style=color:#f92672>.</span><span style=color:#a6e22e>setTopic</span><span style=color:#f92672>(</span>topicName<span style=color:#f92672>);</span>
 
-        String msg_str <span style="color:#f92672">=</span> mGson<span style="color:#f92672">.</span><span style="color:#a6e22e">toJson</span><span style="color:#f92672">(</span>subscribeTopicObject<span style="color:#f92672">);</span>
-        mRosBridgeClient<span style="color:#f92672">.</span><span style="color:#a6e22e">send</span><span style="color:#f92672">(</span>msg_str<span style="color:#f92672">);</span>
-        addROSMessageListener<span style="color:#f92672">(</span>listener<span style="color:#f92672">);</span>
+        String msg_str <span style=color:#f92672>=</span> mGson<span style=color:#f92672>.</span><span style=color:#a6e22e>toJson</span><span style=color:#f92672>(</span>subscribeTopicObject<span style=color:#f92672>);</span>
+        mRosBridgeClient<span style=color:#f92672>.</span><span style=color:#a6e22e>send</span><span style=color:#f92672>(</span>msg_str<span style=color:#f92672>);</span>
+        addROSMessageListener<span style=color:#f92672>(</span>listener<span style=color:#f92672>);</span>
 
-    <span style="color:#f92672">}</span>
+    <span style=color:#f92672>}</span>
 </code></pre></div><p>同理：跟上面的 PublishTopicObject 保持一致，所以有了
-SubscribeTopicObject.java</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SubscribeTopicObject</span> <span style="color:#f92672">{</span>
+SubscribeTopicObject.java</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>SubscribeTopicObject</span> <span style=color:#f92672>{</span>
 
-    <span style="color:#66d9ef">private</span> String op <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;subscribe&#34;</span><span style="color:#f92672">;</span>
+    <span style=color:#66d9ef>private</span> String op <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;subscribe&#34;</span><span style=color:#f92672>;</span>
 
-    <span style="color:#66d9ef">private</span> String topic<span style="color:#f92672">;</span>
+    <span style=color:#66d9ef>private</span> String topic<span style=color:#f92672>;</span>
 
-    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getOp</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">return</span> op<span style="color:#f92672">;</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><h5 id="取消订阅-topic">取消订阅 topic</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
-</span><span style="color:#75715e">     * 取消订阅topic
-</span><span style="color:#75715e">     * @param topicName
-</span><span style="color:#75715e">     * @param listener
-</span><span style="color:#75715e">     */</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">unSubscribeTopic</span><span style="color:#f92672">(</span>String topicName<span style="color:#f92672">,</span> OnRosMessageListener listener<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        UnSubscribeTopicObject unSubscribeTopicObject <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> UnSubscribeTopicObject<span style="color:#f92672">();</span>
-        unSubscribeTopicObject<span style="color:#f92672">.</span><span style="color:#a6e22e">setTopic</span><span style="color:#f92672">(</span>topicName<span style="color:#f92672">);</span>
+    <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>getOp</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>return</span> op<span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><h5 id=取消订阅-topic>取消订阅 topic</h5><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>/**
+</span><span style=color:#75715e>     * 取消订阅topic
+</span><span style=color:#75715e>     * @param topicName
+</span><span style=color:#75715e>     * @param listener
+</span><span style=color:#75715e>     */</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>unSubscribeTopic</span><span style=color:#f92672>(</span>String topicName<span style=color:#f92672>,</span> OnRosMessageListener listener<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        UnSubscribeTopicObject unSubscribeTopicObject <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> UnSubscribeTopicObject<span style=color:#f92672>();</span>
+        unSubscribeTopicObject<span style=color:#f92672>.</span><span style=color:#a6e22e>setTopic</span><span style=color:#f92672>(</span>topicName<span style=color:#f92672>);</span>
 
-        String msg_str <span style="color:#f92672">=</span> mGson<span style="color:#f92672">.</span><span style="color:#a6e22e">toJson</span><span style="color:#f92672">(</span>unSubscribeTopicObject<span style="color:#f92672">);</span>
+        String msg_str <span style=color:#f92672>=</span> mGson<span style=color:#f92672>.</span><span style=color:#a6e22e>toJson</span><span style=color:#f92672>(</span>unSubscribeTopicObject<span style=color:#f92672>);</span>
         
-        mRosBridgeClient<span style="color:#f92672">.</span><span style="color:#a6e22e">send</span><span style="color:#f92672">(</span>msg_str<span style="color:#f92672">);</span>
-        removeROSMessageListener<span style="color:#f92672">(</span>listener<span style="color:#f92672">);</span>
+        mRosBridgeClient<span style=color:#f92672>.</span><span style=color:#a6e22e>send</span><span style=color:#f92672>(</span>msg_str<span style=color:#f92672>);</span>
+        removeROSMessageListener<span style=color:#f92672>(</span>listener<span style=color:#f92672>);</span>
     
-    <span style="color:#f92672">}</span>
-</code></pre></div><p>还有 UnSubscribeTopicObject.java</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UnSubscribeTopicObject</span> <span style="color:#f92672">{</span>
+    <span style=color:#f92672>}</span>
+</code></pre></div><p>还有 UnSubscribeTopicObject.java</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>UnSubscribeTopicObject</span> <span style=color:#f92672>{</span>
 
-    <span style="color:#66d9ef">private</span> String op <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;unsubscribe&#34;</span><span style="color:#f92672">;</span>
+    <span style=color:#66d9ef>private</span> String op <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;unsubscribe&#34;</span><span style=color:#f92672>;</span>
 
-    <span style="color:#66d9ef">private</span> String topic<span style="color:#f92672">;</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><h5 id="接收ros-消息">接收ROS 消息</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//Receive data from ROS server, send from ROSBridgeWebSocketClient onMessage()
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// using eventbus ?!
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onEvent</span><span style="color:#f92672">(</span><span style="color:#66d9ef">final</span> PublishEvent event<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        Log<span style="color:#f92672">.</span><span style="color:#a6e22e">d</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;TAG&#34;</span><span style="color:#f92672">,</span> event<span style="color:#f92672">.</span><span style="color:#a6e22e">msg</span><span style="color:#f92672">);</span>
-        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> index <span style="color:#f92672">=</span> 0 <span style="color:#f92672">;</span> index <span style="color:#f92672">&lt;</span> mROSListenerList<span style="color:#f92672">.</span><span style="color:#a6e22e">size</span><span style="color:#f92672">();</span> index<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
-            mROSListenerList<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>curIndex<span style="color:#f92672">).</span><span style="color:#a6e22e">onStringMessageReceive</span><span style="color:#f92672">(</span>event<span style="color:#f92672">.</span><span style="color:#a6e22e">name</span><span style="color:#f92672">,</span> stringData<span style="color:#f92672">);</span>
-            <span style="color:#75715e">//mROSListenerList.get(curIndex).onImageMessageReceive(event.name, imageData);
-</span><span style="color:#75715e"></span>        <span style="color:#f92672">}</span>
-    <span style="color:#f92672">}</span>
-</code></pre></div><p>在 ROSBridgeWebSocketClient.java 里面找到了接收消息后发出来的代码</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    EventBus<span style="color:#f92672">.</span><span style="color:#a6e22e">getDefault</span><span style="color:#f92672">().</span><span style="color:#a6e22e">post</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> PublishEvent<span style="color:#f92672">(</span>operation<span style="color:#f92672">,</span>publish<span style="color:#f92672">.</span><span style="color:#a6e22e">topic</span><span style="color:#f92672">,</span>content<span style="color:#f92672">));</span>
-</code></pre></div><p>Emmm&hellip; 用的是 EventBus，先用起来再说。</p>
-<p>还有就是关于服务的封装了，没写。</p>
-<p>完成代码在 <a href="https://gist.github.com/jimbray/58df654d7ff87565ae10fc2801c86a4a">Github gist</a></p>
-<blockquote>
-<p>参考：
-<a href="https://blog.csdn.net/happen23/article/details/53082001">使用rosbridge协议实现安卓跟ROS的解耦</a>
-<a href="https://blog.csdn.net/gengv/article/details/5178055">在泛型中得到T.class</a></p>
-</blockquote>
-
-
-  
-<div class="prev-next-post pure-g">
-  <div class="pure-u-1-24" style="text-align: left;">
-    
-    <a href="https://jimbray.xyz/post/using-flutter-in-china/"><i class="fa fa-chevron-left"></i></a>
-    
-  </div>
-  <div class="pure-u-10-24">
-    
-    <nav class="prev">
-      <a href="https://jimbray.xyz/post/using-flutter-in-china/">Flutter 卡在 package get 的解决办法</a>
-    </nav>
-    
-  </div>
-  <div class="pure-u-2-24">
-    &nbsp;
-  </div>
-  <div class="pure-u-10-24">
-    
-    <nav class="next">
-      <a href="https://jimbray.xyz/post/build-telegram-on-windows/">在Windows上编译Android Telegram（2019最新）</a>
-    </nav>
-    
-  </div>
-  <div class="pure-u-1-24" style="text-align: right;">
-    
-    <a href="https://jimbray.xyz/post/build-telegram-on-windows/"><i class="fa fa-chevron-right"></i></a>
-    
-  </div>
-</div>
-
-
-
-  
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-
-(function() {
-    
-    
-    if (window.location.hostname == "localhost")
-        return;
-
-    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-    var disqus_shortname = 'jimbray-github-io';
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
-</div>
-
-</div>
-</div>
-<script src="https://jimbray.xyz/js/ui.js"></script>
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-78813427-1', 'auto');
-  ga('send', 'pageview');
-
-</script>
-
-
-
-
-
-</body>
-</html>
-
+    <span style=color:#66d9ef>private</span> String topic<span style=color:#f92672>;</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><h5 id=接收ros-消息>接收ROS 消息</h5><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>//Receive data from ROS server, send from ROSBridgeWebSocketClient onMessage()
+</span><span style=color:#75715e></span>    <span style=color:#75715e>// using eventbus ?!
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>onEvent</span><span style=color:#f92672>(</span><span style=color:#66d9ef>final</span> PublishEvent event<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        Log<span style=color:#f92672>.</span><span style=color:#a6e22e>d</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;TAG&#34;</span><span style=color:#f92672>,</span> event<span style=color:#f92672>.</span><span style=color:#a6e22e>msg</span><span style=color:#f92672>);</span>
+        <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>int</span> index <span style=color:#f92672>=</span> 0 <span style=color:#f92672>;</span> index <span style=color:#f92672>&lt;</span> mROSListenerList<span style=color:#f92672>.</span><span style=color:#a6e22e>size</span><span style=color:#f92672>();</span> index<span style=color:#f92672>++)</span> <span style=color:#f92672>{</span>
+            mROSListenerList<span style=color:#f92672>.</span><span style=color:#a6e22e>get</span><span style=color:#f92672>(</span>curIndex<span style=color:#f92672>).</span><span style=color:#a6e22e>onStringMessageReceive</span><span style=color:#f92672>(</span>event<span style=color:#f92672>.</span><span style=color:#a6e22e>name</span><span style=color:#f92672>,</span> stringData<span style=color:#f92672>);</span>
+            <span style=color:#75715e>//mROSListenerList.get(curIndex).onImageMessageReceive(event.name, imageData);
+</span><span style=color:#75715e></span>        <span style=color:#f92672>}</span>
+    <span style=color:#f92672>}</span>
+</code></pre></div><p>在 ROSBridgeWebSocketClient.java 里面找到了接收消息后发出来的代码</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>    EventBus<span style=color:#f92672>.</span><span style=color:#a6e22e>getDefault</span><span style=color:#f92672>().</span><span style=color:#a6e22e>post</span><span style=color:#f92672>(</span><span style=color:#66d9ef>new</span> PublishEvent<span style=color:#f92672>(</span>operation<span style=color:#f92672>,</span>publish<span style=color:#f92672>.</span><span style=color:#a6e22e>topic</span><span style=color:#f92672>,</span>content<span style=color:#f92672>));</span>
+</code></pre></div><p>Emmm&mldr; 用的是 EventBus，先用起来再说。</p><p>还有就是关于服务的封装了，没写。</p><p>完成代码在 <a href=https://gist.github.com/jimbray/58df654d7ff87565ae10fc2801c86a4a>Github gist</a></p><blockquote><p>参考：
+<a href=https://blog.csdn.net/happen23/article/details/53082001>使用rosbridge协议实现安卓跟ROS的解耦</a>
+<a href=https://blog.csdn.net/gengv/article/details/5178055>在泛型中得到T.class</a></p></blockquote><div class="prev-next-post pure-g"><div class=pure-u-1-24 style=text-align:left><a href=https://jimbray.xyz/post/using-flutter-in-china/><i class="fa fa-chevron-left"></i></a></div><div class=pure-u-10-24><nav class=prev><a href=https://jimbray.xyz/post/using-flutter-in-china/>Flutter 卡在 package get 的解决办法</a></nav></div><div class=pure-u-2-24>&nbsp;</div><div class=pure-u-10-24><nav class=next><a href=https://jimbray.xyz/post/build-telegram-on-windows/>在Windows上编译Android Telegram（2019最新）</a></nav></div><div class=pure-u-1-24 style=text-align:right><a href=https://jimbray.xyz/post/build-telegram-on-windows/><i class="fa fa-chevron-right"></i></a></div></div><div id=disqus_thread></div><script type=text/javascript>(function(){var a,b;if(window.location.hostname=="localhost")return;a=document.createElement('script'),a.type='text/javascript',a.async=!0,b='jimbray-github-io',a.src='//'+b+'.disqus.com/embed.js',(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(a)})()</script><noscript>Please enable JavaScript to view the <a href=http://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=http://disqus.com/ class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div></div></div><script src=https://jimbray.xyz/js/ui.js></script><script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','//www.google-analytics.com/analytics.js','ga'),ga('create','UA-78813427-1','auto'),ga('send','pageview')</script></body></html>
