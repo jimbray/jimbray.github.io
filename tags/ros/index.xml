@@ -3,4 +3,4 @@ ROS 服务端 安装 sudo apt-get install ros-&amp;lt;rosdistro&amp;gt;-rosbridg
 Android客户端 要让 android 接收或者发送 ROS 消息的话，首先要在 Android上完成 websocket，然后按照协议解析，也很麻烦，不过又要站在巨人的肩膀上了，找到一个开源项目:ROSBridgeClient,这位同学使用 java-websocket 的包在Android上实现了 websocket 的应用，很棒。
 直接把 src/com/jilk/ros 目录复制到 我的 Android 项目里， 当然会报错啦，这些代码依赖了第三方库，加在Android工程的libs 里面 引用
 eventbus.jar 用于发送从ROS接收到的消息 java_websocket.jar 用于websocket 的实现 json-simple-1.1.jar 用于json解析 复制到项目包里的 代码包含了一个 example . 完全可以使用
-public class Example { public Example() {} public static void main(String[] args) { ROSBridgeClient client = new ROSBridgeClient(&amp;#34;ws://162.</description></item></channel></rss>
+public class Example { public Example() {} public static void main(String[] args) { ROSBridgeClient client = new ROSBridgeClient(&amp;quot;ws://162.</description></item></channel></rss>

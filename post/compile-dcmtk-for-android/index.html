@@ -1,95 +1,96 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="虽然标题说的是win10，其实还是用的 Linux，我是用的WSL来编译的，之前的windows编译血泪史，真的太累。"><meta name=generator content="Hugo 0.81.0"><title>Win10编译Android可用的DCMTK-SO库 &#183; 我说的这句话是谎话</title><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=https://jimbray.xyz/css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=https://jimbray.xyz/css/side-menu.css><!--<![endif]--><link rel=stylesheet href=https://jimbray.xyz/css/blackburn.css><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css><link href="https://fonts.googleapis.com/css?family=Raleway" rel=stylesheet type=text/css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script>hljs.initHighlightingOnLoad()</script><link rel="shortcut icon" href=https://jimbray.xyz/img/favicon.ico type=image/x-icon><script async src=//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js></script><script>(adsbygoogle=window.adsbygoogle||[]).push({google_ad_client:"ca-pub-8790496632299830",enable_page_level_ads:!0})</script><meta name=google-site-verification content="lsfTBJKzPUfwHdKB84_xsa5u_38z1iLbcGOAkxOo03Q"></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><a class="pure-menu-heading brand" href=https://jimbray.xyz/>Jimbray</a><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/><i class="fa fa-home fa-fw"></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/post/><i class="fa fa-archive fa-fw"></i>Archive</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/tags/><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/note/note><i class="fa fa-sticky-note fa-fw"></i>Notes</a></li></ul></div><div class="pure-menu social"><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=https://twitter.com/jimbray16 target=_blank><i class="fa fa-twitter-square fa-fw"></i>Twitter</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://github.com/jimbray target=_blank><i class="fa fa-github-square fa-fw"></i>GitHub</a></li></ul></div><div><div class=small-print><small>&copy; 2016. All rights reserved.</small></div><div class=small-print><small>Built with&nbsp;<a href=https://gohugo.io/ target=_blank>Hugo</a></small>
-<small>Theme&nbsp;<a href=https://github.com/yoshiharuyamashita/blackburn target=_blank>Blackburn</a></small></div></div></div><div id=main><div class=header><h1>Win10编译Android可用的DCMTK-SO库</h1><h2>虽然标题说的是win10，其实还是用的 Linux，我是用的WSL来编译的，之前的windows编译血泪史，真的太累。</h2></div><div class=content><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i><time>26 Apr 2020, 20:16</time></div><div><i class="fa fa-tags fa-fw"></i><a class=post-taxonomy-tag href=https://jimbray.xyz/tags/android>Android</a></div></div><h3 id=准备>准备</h3><ol><li>安装 win10 上的 Linux子系统（WSL），我选的是 ubuntu</li><li>下载 linux 版本的 <a href=https://developer.android.com/ndk/downloads>android-ndk</a>, 我使用的版本是 android-ndk-r21-linux-x86_64 目前最新的版本</li><li>下载 dcmtk 的 <a href=https://www.dcmtk.org/dcmtk.php.en#snapshot>源码</a> ,我使用的版本号是3.6.5</li><li>下载 dcmtk support 包，我选择的是 <a href=https://dicom.offis.de/download/dcmtk/dcmtk365/support/dcmtk-3.6.5-win64-support-MD-iconv-msvc-15.8.zip>dcmtk-3.6.5-win64-support-MD-iconv-msvc-15.8.zip</a></li><li>安装一个 Visual Studio，我使用的是2017版</li><li>安装Cmake 编译工具</li></ol><p>首先说明一下，为了Android SO库的成功，我们需要先编译一个 VS 的版本，所以才会要求先安装一个 Visual Studio，废话不多说，上面的东西都安装好了吗，<del>去吧，皮卡</del> <strong>开始吧！</strong></p><h3 id=开始>开始</h3><h4 id=编译vs版本>编译VS版本</h4><p>我是按照 <a href=https://www.jianshu.com/p/b06349d609ba>Jason大神的指示一步一步完成的</a>，居然还有<a href=https://www.bilibili.com/video/av55027364>视频教程</a>，大神就是大神 。一步一步走下来，就会得到一个编译完成的 DCMTK 开发库了。<del>为了凑字数</del>，为了记忆深刻一点，毕竟吃了很多灰，就放几个关键知识点。</p><ul><li><p>CMake_INSTALL_PREFIX 路径最好不要放在C盘，以防万一需要管理员权限，无法生成文件</p></li><li><p>VS 工程属性，设置字符集和运行库</p></li><li><p><strong>重要：将支持库包里的zlib_d.lib拷贝到生成的lib目录下(如果是区别Debug库和Release库，则应该拷贝这两个不同的文件，都改名为zlib.lib，然后在附加库配置上填写zlib.lib)</strong></p><p><img src=https://cdn.nlark.com/yuque/0/2020/png/621514/1587966569318-8a6b1c6a-17b6-42b1-a773-96c42b2c9c59.png alt=image-20200422090953561></p></li><li><p>大概就是这样了，大神还提供了验证程序，感谢。</p></li></ul><h4 id=开始编译android-so库>开始编译Android so库</h4><ul><li><p>打开 WSL，进入 dcmtk 源代码目录下</p><p>由于编译会产生很多中间文件，为了保持源代码目录的整洁性，所以在目录下新建一个 cmake-build 文件夹</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>mkdir cmake-build
-cd cmake-build
-</code></pre></div><p>进入cmake-build 文件夹后，直接执行 cmake 命令，是不行的，因为Cmake 不知道你要编译什么平台、什么架构、编译工具链什么的东西都不知道，所以只会编译一个默认版本的，作为一个炮灰以及菜鸟，我都趟过这些坑。先不说坑了，之后再补。</p><p>执行命令</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>cmake -DCMAKE_TOOLCHAIN_FILE<span style=color:#f92672>=</span>../../android-ndk/android-ndk-r21/build/cmake/android.toolchain.cmake -DANDROID_NDK<span style=color:#f92672>=</span>../../android-ndk/android-ndk-r21/ -DCMAKE_BUILD_TYPE<span style=color:#f92672>=</span>Release -DANDROID_ABI<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;arm64-v8a&#34;</span> -DBUILD_SHARED_LIBS<span style=color:#f92672>=</span>ON ..
-</code></pre></div><p>大概是意思是：我要在 <code>..</code>上级目录进行编译操作，编译工具链用的是android-ndk里面自带的 <code>android.toolchain.cmake</code>，同时指定了一下 <code>android-ndk</code>的路径，毕竟是要编译在Android使用的嘛，最后，直接就编译 Release 版本吧，平台架构选择的是 arm64 的，还有，我要编译 so动态链接库，不是.a</p><p>所以开启 <code>build_shared_libs</code>开关吧。</p><p>静候佳音就可以了。</p><p><img src=https://cdn.nlark.com/yuque/0/2020/png/621514/1587966583633-328f95d2-2a0d-4d28-81b6-d1b7ae630aac.png alt=image-20200422094713591></p><p>噢，只有DNK，没有SDK不行？还有ANDROID_EMULATOR 的事？</p><p>那就去 CMake/dcmtkUseAndroidSDK.cmake 一探究竟：</p><p>发现很多函数，比如</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cmake data-lang=cmake>function(<span style=color:#e6db74>DCMTK_SETUP_ANDROID_EMULATOR</span>)<span style=color:#960050;background-color:#1e0010>
-</span><span style=color:#960050;background-color:#1e0010></span>function(<span style=color:#e6db74>DCMTK_ANDROID_LIST_EMULATORS</span> <span style=color:#e6db74>ONLINE</span> <span style=color:#e6db74>OFFLINE</span>)<span style=color:#960050;background-color:#1e0010>
-</span><span style=color:#960050;background-color:#1e0010></span>function(<span style=color:#e6db74>DCMTK_ANDROID_EMULATOR_GENERATE_UUID</span> <span style=color:#e6db74>VAR</span>)<span style=color:#960050;background-color:#1e0010>
-</span><span style=color:#960050;background-color:#1e0010></span>function(<span style=color:#e6db74>DCMTK_ANDROID_GET_EMULATOR_UUID</span> <span style=color:#e6db74>EMULATOR_NAME</span> <span style=color:#e6db74>VAR</span>)<span style=color:#960050;background-color:#1e0010>
-</span><span style=color:#960050;background-color:#1e0010></span>function(<span style=color:#e6db74>DCMTK_ANDROID_GET_EMULATOR_NAME</span> <span style=color:#e6db74>VAR</span> <span style=color:#e6db74>EMULATOR_UUID</span>)<span style=color:#960050;background-color:#1e0010>
-</span><span style=color:#960050;background-color:#1e0010></span>function(<span style=color:#e6db74>DCMTK_ANDROID_START_EMULATOR</span> <span style=color:#e6db74>VAR</span>)<span style=color:#960050;background-color:#1e0010>
-</span><span style=color:#960050;background-color:#1e0010></span>function(<span style=color:#e6db74>DCMTK_ANDROID_WAIT_FOR_EMULATOR</span> <span style=color:#e6db74>VAR</span>)<span style=color:#960050;background-color:#1e0010>
-</span><span style=color:#960050;background-color:#1e0010></span>function(<span style=color:#e6db74>DCMTK_ANDROID_STOP_EMULATOR</span> <span style=color:#e6db74>VAR</span>)<span style=color:#960050;background-color:#1e0010>
-</span><span style=color:#960050;background-color:#1e0010></span>function(<span style=color:#e6db74>DCMTK_ANDROID_PUSH</span> <span style=color:#e6db74>VAR</span>)<span style=color:#960050;background-color:#1e0010>
-</span><span style=color:#960050;background-color:#1e0010></span>function(<span style=color:#e6db74>DCMTK_ANDROID_SHELL</span> <span style=color:#e6db74>VAR</span>)<span style=color:#960050;background-color:#1e0010>
-</span><span style=color:#960050;background-color:#1e0010>...
-</span></code></pre></div><p>为什么要使用模拟器呢？经过一段时间摸索，大概的意思就是需要开启一个模拟器验证一下编译的东西能否运行，我没有验证这个事实，但是我觉得我不需要验证了，我相信cmake，T_T有点虚。</p><p>那怎么改动呢，我把所有看到的相关 Emulator的函数，第一句就写了 return() ，相当于把这个功能废了，但是又不影响别的地方调用，主要是根本改不动其他地方&mldr;..</p><p><img src=https://cdn.nlark.com/yuque/0/2020/png/621514/1587966603171-e34d119e-3ef8-4934-b832-db80543bbe48.png alt=image-20200422095802279></p><p>就是上面那样。</p><p>然后重新执行 cmake 指令</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>cmake -DCMAKE_TOOLCHAIN_FILE<span style=color:#f92672>=</span>../../android-ndk/android-ndk-r21/build/cmake/android.toolchain.cmake -DANDROID_NDK<span style=color:#f92672>=</span>../../android-ndk/android-ndk-r21/ -DCMAKE_BUILD_TYPE<span style=color:#f92672>=</span>Release -DANDROID_ABI<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;arm64-v8a&#34;</span> -DBUILD_SHARED_LIBS<span style=color:#f92672>=</span>ON ..
-</code></pre></div><p>之前那个错误没有了，现在又冒出来另一个错误：</p><p><img src=https://cdn.nlark.com/yuque/0/2020/png/621514/1587966643851-4efd7b44-a64c-4f81-88cc-1b3218868d27.png alt=image-20200422092610973></p><p>出错了，不知道为啥。</p><p>然后make一下，看看具体的错误。</p><p><img src=https://cdn.nlark.com/yuque/0/2020/png/621514/1587966675420-7c0b83da-fd93-4078-84ae-8cdba3e38de5.png alt=image-20200422092819554></p><p>看样子是缺少了很多变量的定义，完全不知道怎么回事，通过一段时间的摸索与对比，发现了VS编译出来的东西与这里cmake出来的东西有一点点区别，那就是 <code>arith.h</code> 文件</p><p>首先看 cmake-build 目录下的 （根本没有）</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>cmake-build<span style=color:#ae81ff>\c</span>onfig<span style=color:#ae81ff>\i</span>ndclude<span style=color:#ae81ff>\d</span>cmtk<span style=color:#ae81ff>\c</span>onfig<span style=color:#ae81ff>\a</span>rith.h
-</code></pre></div><p>但是</p><p>内容是这样的：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c++ data-lang=c++><span style=color:#75715e>#ifndef CONFIG_ARITH_H
-</span><span style=color:#75715e>#define CONFIG_ARITH_H
-</span><span style=color:#75715e></span>  
-<span style=color:#75715e>#define DCMTK_SIGNED_CHAR_DIGITS10 2
-</span><span style=color:#75715e>#define DCMTK_UNSIGNED_CHAR_DIGITS10 2
-</span><span style=color:#75715e>#define DCMTK_SIGNED_SHORT_DIGITS10 4
-</span><span style=color:#75715e>#define DCMTK_UNSIGNED_SHORT_DIGITS10 4
-</span><span style=color:#75715e>#define DCMTK_SIGNED_INT_DIGITS10 9
-</span><span style=color:#75715e>#define DCMTK_UNSIGNED_INT_DIGITS10 9
-</span><span style=color:#75715e>#define DCMTK_SIGNED_LONG_DIGITS10 18
-</span><span style=color:#75715e>#define DCMTK_UNSIGNED_LONG_DIGITS10 19
-</span><span style=color:#75715e>#define DCMTK_FLOAT_MAX_DIGITS10 9
-</span><span style=color:#75715e>#define DCMTK_DOUBLE_MAX_DIGITS10 17
-</span></code></pre></div><p>然后打开由VS编译的版本，在下面这个目录下</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=color:#ae81ff>\c</span>onfig<span style=color:#ae81ff>\i</span>nclude<span style=color:#ae81ff>\d</span>cmtk<span style=color:#ae81ff>\c</span>onfig<span style=color:#ae81ff>\a</span>rith.h
-</code></pre></div><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c++ data-lang=c++><span style=color:#75715e>#ifndef CONFIG_ARITH_H
-</span><span style=color:#75715e>#define CONFIG_ARITH_H
-</span><span style=color:#75715e></span>  
-<span style=color:#75715e>#define DCMTK_SIGNED_CHAR_DIGITS10 2
-</span><span style=color:#75715e>#define DCMTK_UNSIGNED_CHAR_DIGITS10 2
-</span><span style=color:#75715e>#define DCMTK_SIGNED_SHORT_DIGITS10 4
-</span><span style=color:#75715e>#define DCMTK_UNSIGNED_SHORT_DIGITS10 4
-</span><span style=color:#75715e>#define DCMTK_SIGNED_INT_DIGITS10 9
-</span><span style=color:#75715e>#define DCMTK_UNSIGNED_INT_DIGITS10 9
-</span><span style=color:#75715e>#define DCMTK_SIGNED_LONG_DIGITS10 9
-</span><span style=color:#75715e>#define DCMTK_UNSIGNED_LONG_DIGITS10 9
-</span><span style=color:#75715e>#define DCMTK_FLOAT_MAX_DIGITS10 9
-</span><span style=color:#75715e>#define DCMTK_DOUBLE_MAX_DIGITS10 17
-</span><span style=color:#75715e>#define DCMTK_CHAR_TRAPS OFTrue
-</span><span style=color:#75715e>#define DCMTK_CHAR_MODULO OFTrue
-</span><span style=color:#75715e>#define DCMTK_SIGNED_CHAR_TRAPS OFTrue
-</span><span style=color:#75715e>#define DCMTK_SIGNED_CHAR_MODULO OFTrue
-</span><span style=color:#75715e>#define DCMTK_UNSIGNED_CHAR_TRAPS OFTrue
-</span><span style=color:#75715e>#define DCMTK_UNSIGNED_CHAR_MODULO OFTrue
-</span><span style=color:#75715e>#define DCMTK_SIGNED_SHORT_TRAPS OFTrue
-</span><span style=color:#75715e>#define DCMTK_SIGNED_SHORT_MODULO OFTrue
-</span><span style=color:#75715e>#define DCMTK_UNSIGNED_SHORT_TRAPS OFTrue
-</span><span style=color:#75715e>#define DCMTK_UNSIGNED_SHORT_MODULO OFTrue
-</span><span style=color:#75715e>#define DCMTK_SIGNED_INT_TRAPS OFTrue
-</span><span style=color:#75715e>#define DCMTK_SIGNED_INT_MODULO OFTrue
-</span><span style=color:#75715e>#define DCMTK_UNSIGNED_INT_TRAPS OFTrue
-</span><span style=color:#75715e>#define DCMTK_UNSIGNED_INT_MODULO OFTrue
-</span><span style=color:#75715e>#define DCMTK_SIGNED_LONG_TRAPS OFTrue
-</span><span style=color:#75715e>#define DCMTK_SIGNED_LONG_MODULO OFTrue
-</span><span style=color:#75715e>#define DCMTK_UNSIGNED_LONG_TRAPS OFTrue
-</span><span style=color:#75715e>#define DCMTK_UNSIGNED_LONG_MODULO OFTrue
-</span><span style=color:#75715e>#define DCMTK_FLOAT_TRAPS OFFalse
-</span><span style=color:#75715e>#define DCMTK_DOUBLE_TRAPS OFFalse
-</span><span style=color:#75715e>#define DCMTK_FLOAT_HAS_INFINITY OFTrue
-</span><span style=color:#75715e>#define DCMTK_FLOAT_INFINITY *OFreinterpret_cast( const float*, &#34;\000\000\200\177&#34; )
-</span><span style=color:#75715e>#define DCMTK_DOUBLE_HAS_INFINITY OFTrue
-</span><span style=color:#75715e>#define DCMTK_DOUBLE_INFINITY *OFreinterpret_cast( const double*, &#34;\000\000\000\000\000\000\360\177&#34; )
-</span><span style=color:#75715e>#define DCMTK_FLOAT_HAS_QUIET_NAN OFTrue
-</span><span style=color:#75715e>#define DCMTK_FLOAT_QUIET_NAN *OFreinterpret_cast( const float*, &#34;\000\000\300\377&#34; )
-</span><span style=color:#75715e>#define DCMTK_DOUBLE_HAS_QUIET_NAN OFTrue
-</span><span style=color:#75715e>#define DCMTK_DOUBLE_QUIET_NAN *OFreinterpret_cast( const double*, &#34;\000\000\000\000\000\000\370\377&#34; )
-</span><span style=color:#75715e>#define DCMTK_FLOAT_HAS_SIGNALING_NAN OFTrue
-</span><span style=color:#75715e>#define DCMTK_FLOAT_SIGNALING_NAN *OFreinterpret_cast( const float*, &#34;\001\000\200\377&#34; )
-</span><span style=color:#75715e>#define DCMTK_DOUBLE_HAS_SIGNALING_NAN OFTrue
-</span><span style=color:#75715e>#define DCMTK_DOUBLE_SIGNALING_NAN *OFreinterpret_cast( const double*, &#34;\001\000\000\000\000\000\360\377&#34; )
-</span><span style=color:#75715e>#define DCMTK_FLOAT_IS_IEC559 OFTrue
-</span><span style=color:#75715e>#define DCMTK_DOUBLE_IS_IEC559 OFTrue
-</span><span style=color:#75715e>#define DCMTK_FLOAT_HAS_DENORM OFdenorm_present
-</span><span style=color:#75715e>#define DCMTK_FLOAT_DENORM_MIN *OFreinterpret_cast( const float*, &#34;\001\000\000\000&#34; )
-</span><span style=color:#75715e>#define DCMTK_DOUBLE_HAS_DENORM OFdenorm_present
-</span><span style=color:#75715e>#define DCMTK_DOUBLE_DENORM_MIN *OFreinterpret_cast( const double*, &#34;\001\000\000\000\000\000\000\000&#34; )
-</span><span style=color:#75715e>#define DCMTK_FLOAT_TINYNESS_BEFORE OFTrue
-</span><span style=color:#75715e>#define DCMTK_DOUBLE_TINYNESS_BEFORE OFTrue
-</span><span style=color:#75715e>#define DCMTK_FLOAT_HAS_DENORM_LOSS OFTrue
-</span><span style=color:#75715e>#define DCMTK_DOUBLE_HAS_DENORM_LOSS OFTrue
-</span><span style=color:#75715e>#define DCMTK_ROUND_STYLE 1
-</span><span style=color:#75715e></span>  
-<span style=color:#75715e>#endif </span><span style=color:#75715e>// CONFIG_ARITH_H
-</span></code></pre></div><p>而且随便看几个变量，其实就是错误里面报错的缺少的变量。</p><p>把多的比较完整的内容复制到 文件中</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>cmake-build<span style=color:#ae81ff>\c</span>onfig<span style=color:#ae81ff>\i</span>ndclude<span style=color:#ae81ff>\d</span>cmtk<span style=color:#ae81ff>\c</span>onfig<span style=color:#ae81ff>\a</span>rith.h
-</code></pre></div><p>然后再执行 cmake 命令</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>cmake -DCMAKE_TOOLCHAIN_FILE<span style=color:#f92672>=</span>../../android-ndk/android-ndk-r21/build/cmake/android.toolchain.cmake -DANDROID_NDK<span style=color:#f92672>=</span>../../android-ndk/android-ndk-r21/ -DCMAKE_BUILD_TYPE<span style=color:#f92672>=</span>Release -DANDROID_ABI<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;arm64-v8a&#34;</span> -DBUILD_SHARED_LIBS<span style=color:#f92672>=</span>ON ..
-</code></pre></div><p><img src=https://cdn.nlark.com/yuque/0/2020/png/621514/1587966704145-0b4dd64b-3165-46d2-b46e-6c46d5ff00d5.png alt=image-20200422100741655></p><p>看到了让人欣喜的文字</p><pre><code>Configuring done
-Generating done
-</code></pre><p>最后，执行 make 命令</p><pre><code>make
-</code></pre><p><img src=https://cdn.nlark.com/yuque/0/2020/png/621514/1587966717560-7fb8b472-d018-41f5-a088-11a25c2d2c28.png alt=image-20200422103530557></p></li></ul><p>验证就是 Android JNI 的基本流程了</p><ul><li>把 so 库放在 libs 文件夹内</li><li>写好 CMakeList.txt 文件</li></ul><p>编译好之后有很多库，挑选自己需要使用的模块进行引用就可以了。</p><p><img src=https://cdn.nlark.com/yuque/0/2020/png/621514/1587967092580-83e45e61-bfa3-466c-8cff-22f9dc2cc5db.png alt=image-20200427134144877></p><div class="prev-next-post pure-g"><div class=pure-u-1-24 style=text-align:left><a href=https://jimbray.xyz/post/android-array-to-image/><i class="fa fa-chevron-left"></i></a></div><div class=pure-u-10-24><nav class=prev><a href=https://jimbray.xyz/post/android-array-to-image/>Android像素二维数组转图像的实现</a></nav></div><div class=pure-u-2-24>&nbsp;</div><div class=pure-u-10-24><nav class=next><a href=https://jimbray.xyz/post/using_adb_in_android/>免root在Android设备上使用adb命令</a></nav></div><div class=pure-u-1-24 style=text-align:right><a href=https://jimbray.xyz/post/using_adb_in_android/><i class="fa fa-chevron-right"></i></a></div></div><div id=disqus_thread></div><script type=text/javascript>(function(){var a,b;if(window.location.hostname=="localhost")return;a=document.createElement('script'),a.type='text/javascript',a.async=!0,b='jimbray-github-io',a.src='//'+b+'.disqus.com/embed.js',(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(a)})()</script><noscript>Please enable JavaScript to view the <a href=http://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=http://disqus.com/ class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div></div></div><script src=https://jimbray.xyz/js/ui.js></script><script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','//www.google-analytics.com/analytics.js','ga'),ga('create','UA-78813427-1','auto'),ga('send','pageview')</script></body></html>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="虽然标题说的是win10，其实还是用的 Linux，我是用的WSL来编译的，之前的windows编译血泪史，真的太累。"><meta name=generator content="Hugo 0.55.6"><title>Win10编译Android可用的DCMTK-SO库 &middot; 我说的这句话是谎话</title><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=https://jimbray.xyz/css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=https://jimbray.xyz/css/side-menu.css><!--<![endif]--><link rel=stylesheet href=https://jimbray.xyz/css/blackburn.css><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css><link href="https://fonts.googleapis.com/css?family=Raleway" rel=stylesheet type=text/css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script>hljs.initHighlightingOnLoad();</script><link rel="shortcut icon" href=https://jimbray.xyz/img/favicon.ico type=image/x-icon><script async src=//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js></script><script>(adsbygoogle=window.adsbygoogle||[]).push({google_ad_client:"ca-pub-8790496632299830",enable_page_level_ads:true});</script><meta name=google-site-verification content=lsfTBJKzPUfwHdKB84_xsa5u_38z1iLbcGOAkxOo03Q></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><a class="pure-menu-heading brand" href=https://jimbray.xyz/>Jimbray</a><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/><i class="fa fa-home fa-fw"></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/post/><i class="fa fa-archive fa-fw"></i>Archive</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/tags/><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/note/note><i class="fa fa-sticky-note fa-fw"></i>Notes</a></li></ul></div><div class="pure-menu social"><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=https://twitter.com/jimbray16 target=_blank><i class="fa fa-twitter-square fa-fw"></i>Twitter</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://github.com/jimbray target=_blank><i class="fa fa-github-square fa-fw"></i>GitHub</a></li></ul></div><div><div class=small-print><small>&copy; 2016. All rights reserved.</small></div><div class=small-print><small>Built with&nbsp;<a href=https://gohugo.io/ target=_blank>Hugo</a></small>
+<small>Theme&nbsp;<a href=https://github.com/yoshiharuyamashita/blackburn target=_blank>Blackburn</a></small></div></div></div><div id=main><div class=header><h1>Win10编译Android可用的DCMTK-SO库</h1><h2>虽然标题说的是win10，其实还是用的 Linux，我是用的WSL来编译的，之前的windows编译血泪史，真的太累。</h2></div><div class=content><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i><time>26 Apr 2020, 20:16</time></div><div><i class="fa fa-tags fa-fw"></i><a class=post-taxonomy-tag href=https://jimbray.xyz/tags/android>Android</a></div></div><h3 id=准备>准备</h3><ol><li>安装 win10 上的 Linux子系统（WSL），我选的是 ubuntu</li><li>下载 linux 版本的 <a href=https://developer.android.com/ndk/downloads>android-ndk</a>, 我使用的版本是 android-ndk-r21-linux-x86_64 目前最新的版本</li><li>下载 dcmtk 的 <a href=https://www.dcmtk.org/dcmtk.php.en#snapshot>源码</a> ,我使用的版本号是3.6.5</li><li>下载 dcmtk support 包，我选择的是 <a href=https://dicom.offis.de/download/dcmtk/dcmtk365/support/dcmtk-3.6.5-win64-support-MD-iconv-msvc-15.8.zip>dcmtk-3.6.5-win64-support-MD-iconv-msvc-15.8.zip</a></li><li>安装一个 Visual Studio，我使用的是2017版</li><li>安装Cmake 编译工具</li></ol><p>首先说明一下，为了Android SO库的成功，我们需要先编译一个 VS 的版本，所以才会要求先安装一个 Visual Studio，废话不多说，上面的东西都安装好了吗，<del>去吧，皮卡</del> <strong>开始吧！</strong></p><h3 id=开始>开始</h3><h4 id=编译vs版本>编译VS版本</h4><p>我是按照 <a href=https://www.jianshu.com/p/b06349d609ba>Jason大神的指示一步一步完成的</a>，居然还有<a href=https://www.bilibili.com/video/av55027364>视频教程</a>，大神就是大神 。一步一步走下来，就会得到一个编译完成的 DCMTK 开发库了。<del>为了凑字数</del>，为了记忆深刻一点，毕竟吃了很多灰，就放几个关键知识点。</p><ul><li><p>CMake_INSTALL_PREFIX 路径最好不要放在C盘，以防万一需要管理员权限，无法生成文件</p></li><li><p>VS 工程属性，设置字符集和运行库</p></li><li><p><strong>重要：将支持库包里的zlib_d.lib拷贝到生成的lib目录下(如果是区别Debug库和Release库，则应该拷贝这两个不同的文件，都改名为zlib.lib，然后在附加库配置上填写zlib.lib)</strong></p></li></ul><p><img src=https://cdn.nlark.com/yuque/0/2020/png/621514/1587966569318-8a6b1c6a-17b6-42b1-a773-96c42b2c9c59.png alt=image-20200422090953561></p><ul><li>大概就是这样了，大神还提供了验证程序，感谢。</li></ul><h4 id=开始编译android-so库>开始编译Android so库</h4><ul><li>打开 WSL，进入 dcmtk 源代码目录下</li></ul><p>由于编译会产生很多中间文件，为了保持源代码目录的整洁性，所以在目录下新建一个 cmake-build 文件夹</p><pre><code class=language-shell>  mkdir cmake-build
+  cd cmake-build
+</code></pre><p>进入cmake-build 文件夹后，直接执行 cmake 命令，是不行的，因为Cmake 不知道你要编译什么平台、什么架构、编译工具链什么的东西都不知道，所以只会编译一个默认版本的，作为一个炮灰以及菜鸟，我都趟过这些坑。先不说坑了，之后再补。</p><p>执行命令</p><pre><code class=language-shell>  cmake -DCMAKE_TOOLCHAIN_FILE=../../android-ndk/android-ndk-r21/build/cmake/android.toolchain.cmake -DANDROID_NDK=../../android-ndk/android-ndk-r21/ -DCMAKE_BUILD_TYPE=Release -DANDROID_ABI=&quot;arm64-v8a&quot; -DBUILD_SHARED_LIBS=ON ..
+</code></pre><p>大概是意思是：我要在 <code>..</code>上级目录进行编译操作，编译工具链用的是android-ndk里面自带的 <code>android.toolchain.cmake</code>，同时指定了一下 <code>android-ndk</code>的路径，毕竟是要编译在Android使用的嘛，最后，直接就编译 Release 版本吧，平台架构选择的是 arm64 的，还有，我要编译 so动态链接库，不是.a</p><p>所以开启 <code>build_shared_libs</code>开关吧。</p><p>静候佳音就可以了。</p><p><img src=https://cdn.nlark.com/yuque/0/2020/png/621514/1587966583633-328f95d2-2a0d-4d28-81b6-d1b7ae630aac.png alt=image-20200422094713591></p><p>噢，只有DNK，没有SDK不行？还有ANDROID_EMULATOR 的事？</p><p>那就去 CMake/dcmtkUseAndroidSDK.cmake 一探究竟：</p><p>发现很多函数，比如</p><pre><code class=language-cmake>  function(DCMTK_SETUP_ANDROID_EMULATOR)
+  function(DCMTK_ANDROID_LIST_EMULATORS ONLINE OFFLINE)
+  function(DCMTK_ANDROID_EMULATOR_GENERATE_UUID VAR)
+  function(DCMTK_ANDROID_GET_EMULATOR_UUID EMULATOR_NAME VAR)
+  function(DCMTK_ANDROID_GET_EMULATOR_NAME VAR EMULATOR_UUID)
+  function(DCMTK_ANDROID_START_EMULATOR VAR)
+  function(DCMTK_ANDROID_WAIT_FOR_EMULATOR VAR)
+  function(DCMTK_ANDROID_STOP_EMULATOR VAR)
+  function(DCMTK_ANDROID_PUSH VAR)
+  function(DCMTK_ANDROID_SHELL VAR)
+  ...
+</code></pre><p>为什么要使用模拟器呢？经过一段时间摸索，大概的意思就是需要开启一个模拟器验证一下编译的东西能否运行，我没有验证这个事实，但是我觉得我不需要验证了，我相信cmake，T_T有点虚。</p><p>那怎么改动呢，我把所有看到的相关 Emulator的函数，第一句就写了 return() ，相当于把这个功能废了，但是又不影响别的地方调用，主要是根本改不动其他地方&hellip;..</p><p><img src=https://cdn.nlark.com/yuque/0/2020/png/621514/1587966603171-e34d119e-3ef8-4934-b832-db80543bbe48.png alt=image-20200422095802279></p><p>就是上面那样。</p><p>然后重新执行 cmake 指令</p><pre><code class=language-shell>  cmake -DCMAKE_TOOLCHAIN_FILE=../../android-ndk/android-ndk-r21/build/cmake/android.toolchain.cmake -DANDROID_NDK=../../android-ndk/android-ndk-r21/ -DCMAKE_BUILD_TYPE=Release -DANDROID_ABI=&quot;arm64-v8a&quot; -DBUILD_SHARED_LIBS=ON ..
+</code></pre><p>之前那个错误没有了，现在又冒出来另一个错误：</p><p><img src=https://cdn.nlark.com/yuque/0/2020/png/621514/1587966643851-4efd7b44-a64c-4f81-88cc-1b3218868d27.png alt=image-20200422092610973></p><p>出错了，不知道为啥。</p><p>然后make一下，看看具体的错误。</p><p><img src=https://cdn.nlark.com/yuque/0/2020/png/621514/1587966675420-7c0b83da-fd93-4078-84ae-8cdba3e38de5.png alt=image-20200422092819554></p><p>看样子是缺少了很多变量的定义，完全不知道怎么回事，通过一段时间的摸索与对比，发现了VS编译出来的东西与这里cmake出来的东西有一点点区别，那就是 <code>arith.h</code> 文件</p><p>首先看 cmake-build 目录下的 （根本没有）</p><pre><code class=language-shell>  cmake-build\config\indclude\dcmtk\config\arith.h
+</code></pre><p>但是</p><p>内容是这样的：</p><pre><code class=language-c++>  #ifndef CONFIG_ARITH_H
+  #define CONFIG_ARITH_H
+  
+  #define DCMTK_SIGNED_CHAR_DIGITS10 2
+  #define DCMTK_UNSIGNED_CHAR_DIGITS10 2
+  #define DCMTK_SIGNED_SHORT_DIGITS10 4
+  #define DCMTK_UNSIGNED_SHORT_DIGITS10 4
+  #define DCMTK_SIGNED_INT_DIGITS10 9
+  #define DCMTK_UNSIGNED_INT_DIGITS10 9
+  #define DCMTK_SIGNED_LONG_DIGITS10 18
+  #define DCMTK_UNSIGNED_LONG_DIGITS10 19
+  #define DCMTK_FLOAT_MAX_DIGITS10 9
+  #define DCMTK_DOUBLE_MAX_DIGITS10 17
+</code></pre><p>然后打开由VS编译的版本，在下面这个目录下</p><pre><code class=language-shell>  \config\include\dcmtk\config\arith.h
+</code></pre><pre><code class=language-c++>  #ifndef CONFIG_ARITH_H
+  #define CONFIG_ARITH_H
+  
+  #define DCMTK_SIGNED_CHAR_DIGITS10 2
+  #define DCMTK_UNSIGNED_CHAR_DIGITS10 2
+  #define DCMTK_SIGNED_SHORT_DIGITS10 4
+  #define DCMTK_UNSIGNED_SHORT_DIGITS10 4
+  #define DCMTK_SIGNED_INT_DIGITS10 9
+  #define DCMTK_UNSIGNED_INT_DIGITS10 9
+  #define DCMTK_SIGNED_LONG_DIGITS10 9
+  #define DCMTK_UNSIGNED_LONG_DIGITS10 9
+  #define DCMTK_FLOAT_MAX_DIGITS10 9
+  #define DCMTK_DOUBLE_MAX_DIGITS10 17
+  #define DCMTK_CHAR_TRAPS OFTrue
+  #define DCMTK_CHAR_MODULO OFTrue
+  #define DCMTK_SIGNED_CHAR_TRAPS OFTrue
+  #define DCMTK_SIGNED_CHAR_MODULO OFTrue
+  #define DCMTK_UNSIGNED_CHAR_TRAPS OFTrue
+  #define DCMTK_UNSIGNED_CHAR_MODULO OFTrue
+  #define DCMTK_SIGNED_SHORT_TRAPS OFTrue
+  #define DCMTK_SIGNED_SHORT_MODULO OFTrue
+  #define DCMTK_UNSIGNED_SHORT_TRAPS OFTrue
+  #define DCMTK_UNSIGNED_SHORT_MODULO OFTrue
+  #define DCMTK_SIGNED_INT_TRAPS OFTrue
+  #define DCMTK_SIGNED_INT_MODULO OFTrue
+  #define DCMTK_UNSIGNED_INT_TRAPS OFTrue
+  #define DCMTK_UNSIGNED_INT_MODULO OFTrue
+  #define DCMTK_SIGNED_LONG_TRAPS OFTrue
+  #define DCMTK_SIGNED_LONG_MODULO OFTrue
+  #define DCMTK_UNSIGNED_LONG_TRAPS OFTrue
+  #define DCMTK_UNSIGNED_LONG_MODULO OFTrue
+  #define DCMTK_FLOAT_TRAPS OFFalse
+  #define DCMTK_DOUBLE_TRAPS OFFalse
+  #define DCMTK_FLOAT_HAS_INFINITY OFTrue
+  #define DCMTK_FLOAT_INFINITY *OFreinterpret_cast( const float*, &quot;\000\000\200\177&quot; )
+  #define DCMTK_DOUBLE_HAS_INFINITY OFTrue
+  #define DCMTK_DOUBLE_INFINITY *OFreinterpret_cast( const double*, &quot;\000\000\000\000\000\000\360\177&quot; )
+  #define DCMTK_FLOAT_HAS_QUIET_NAN OFTrue
+  #define DCMTK_FLOAT_QUIET_NAN *OFreinterpret_cast( const float*, &quot;\000\000\300\377&quot; )
+  #define DCMTK_DOUBLE_HAS_QUIET_NAN OFTrue
+  #define DCMTK_DOUBLE_QUIET_NAN *OFreinterpret_cast( const double*, &quot;\000\000\000\000\000\000\370\377&quot; )
+  #define DCMTK_FLOAT_HAS_SIGNALING_NAN OFTrue
+  #define DCMTK_FLOAT_SIGNALING_NAN *OFreinterpret_cast( const float*, &quot;\001\000\200\377&quot; )
+  #define DCMTK_DOUBLE_HAS_SIGNALING_NAN OFTrue
+  #define DCMTK_DOUBLE_SIGNALING_NAN *OFreinterpret_cast( const double*, &quot;\001\000\000\000\000\000\360\377&quot; )
+  #define DCMTK_FLOAT_IS_IEC559 OFTrue
+  #define DCMTK_DOUBLE_IS_IEC559 OFTrue
+  #define DCMTK_FLOAT_HAS_DENORM OFdenorm_present
+  #define DCMTK_FLOAT_DENORM_MIN *OFreinterpret_cast( const float*, &quot;\001\000\000\000&quot; )
+  #define DCMTK_DOUBLE_HAS_DENORM OFdenorm_present
+  #define DCMTK_DOUBLE_DENORM_MIN *OFreinterpret_cast( const double*, &quot;\001\000\000\000\000\000\000\000&quot; )
+  #define DCMTK_FLOAT_TINYNESS_BEFORE OFTrue
+  #define DCMTK_DOUBLE_TINYNESS_BEFORE OFTrue
+  #define DCMTK_FLOAT_HAS_DENORM_LOSS OFTrue
+  #define DCMTK_DOUBLE_HAS_DENORM_LOSS OFTrue
+  #define DCMTK_ROUND_STYLE 1
+  
+  #endif // CONFIG_ARITH_H
+</code></pre><p>而且随便看几个变量，其实就是错误里面报错的缺少的变量。</p><p>把多的比较完整的内容复制到 文件中</p><pre><code class=language-shell>  cmake-build\config\indclude\dcmtk\config\arith.h
+</code></pre><p>然后再执行 cmake 命令</p><pre><code class=language-shell>  cmake -DCMAKE_TOOLCHAIN_FILE=../../android-ndk/android-ndk-r21/build/cmake/android.toolchain.cmake -DANDROID_NDK=../../android-ndk/android-ndk-r21/ -DCMAKE_BUILD_TYPE=Release -DANDROID_ABI=&quot;arm64-v8a&quot; -DBUILD_SHARED_LIBS=ON ..
+</code></pre><p><img src=https://cdn.nlark.com/yuque/0/2020/png/621514/1587966704145-0b4dd64b-3165-46d2-b46e-6c46d5ff00d5.png alt=image-20200422100741655></p><p>看到了让人欣喜的文字</p><pre><code>  Configuring done
+  Generating done
+</code></pre><p>最后，执行 make 命令</p><pre><code>  make
+</code></pre><p><img src=https://cdn.nlark.com/yuque/0/2020/png/621514/1587966717560-7fb8b472-d018-41f5-a088-11a25c2d2c28.png alt=image-20200422103530557></p><p>验证就是 Android JNI 的基本流程了</p><ul><li>把 so 库放在 libs 文件夹内</li><li>写好 CMakeList.txt 文件</li></ul><p>编译好之后有很多库，挑选自己需要使用的模块进行引用就可以了。</p><p><img src=https://cdn.nlark.com/yuque/0/2020/png/621514/1587967092580-83e45e61-bfa3-466c-8cff-22f9dc2cc5db.png alt=image-20200427134144877></p><div class="prev-next-post pure-g"><div class=pure-u-1-24 style=text-align:left><a href=https://jimbray.xyz/post/android-array-to-image/><i class="fa fa-chevron-left"></i></a></div><div class=pure-u-10-24><nav class=prev><a href=https://jimbray.xyz/post/android-array-to-image/>Android像素二维数组转图像的实现</a></nav></div><div class=pure-u-2-24>&nbsp;</div><div class=pure-u-10-24><nav class=next><a href=https://jimbray.xyz/post/using_adb_in_android/>免root在Android设备上使用adb命令</a></nav></div><div class=pure-u-1-24 style=text-align:right><a href=https://jimbray.xyz/post/using_adb_in_android/><i class="fa fa-chevron-right"></i></a></div></div><div id=disqus_thread></div><script type=text/javascript>(function(){if(window.location.hostname=="localhost")
+return;var dsq=document.createElement('script');dsq.type='text/javascript';dsq.async=true;var disqus_shortname='jimbray-github-io';dsq.src='//'+disqus_shortname+'.disqus.com/embed.js';(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href=http://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=http://disqus.com/ class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div></div></div><script src=https://jimbray.xyz/js/ui.js></script><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-78813427-1','auto');ga('send','pageview');</script></body></html>
