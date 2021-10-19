@@ -1,5 +1,254 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="onNestedScroll 像这种一遍滚一遍调的函数，只调一次怎么可以完美地完成我的任务"><meta name=generator content="Hugo 0.55.6"><title>FloatingActionButton的Behavior里面onNestedScroll()只调了一次? &middot; 我说的这句话是谎话</title><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=https://jimbray.xyz/css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=https://jimbray.xyz/css/side-menu.css><!--<![endif]--><link rel=stylesheet href=https://jimbray.xyz/css/blackburn.css><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css><link href="https://fonts.googleapis.com/css?family=Raleway" rel=stylesheet type=text/css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script>hljs.initHighlightingOnLoad();</script><link rel="shortcut icon" href=https://jimbray.xyz/img/favicon.ico type=image/x-icon><script async src=//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js></script><script>(adsbygoogle=window.adsbygoogle||[]).push({google_ad_client:"ca-pub-8790496632299830",enable_page_level_ads:true});</script><meta name=google-site-verification content=lsfTBJKzPUfwHdKB84_xsa5u_38z1iLbcGOAkxOo03Q></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><a class="pure-menu-heading brand" href=https://jimbray.xyz/>Jimbray</a><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/><i class="fa fa-home fa-fw"></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/tags/><i class="fa fa-tags fa-fw"></i>Tags</a></li></ul></div><div class="pure-menu social"><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=https://twitter.com/jimbray16 target=_blank><i class="fa fa-twitter-square fa-fw"></i>Twitter</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://github.com/jimbray target=_blank><i class="fa fa-github-square fa-fw"></i>GitHub</a></li></ul></div><div><div class=small-print><small>&copy; 2016. All rights reserved.</small></div><div class=small-print><small>Built with&nbsp;<a href=https://gohugo.io/ target=_blank>Hugo</a></small>
-<small>Theme&nbsp;<a href=https://github.com/yoshiharuyamashita/blackburn target=_blank>Blackburn</a></small></div></div></div><div id=main><div class=header><h1>FloatingActionButton的Behavior里面onNestedScroll()只调了一次?</h1><h2>onNestedScroll 像这种一遍滚一遍调的函数，只调一次怎么可以完美地完成我的任务</h2></div><div class=content><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i><time>27 Jun 2018, 20:20</time></div><div><i class="fa fa-tags fa-fw"></i><a class=post-taxonomy-tag href=https://jimbray.xyz/tags/android>Android</a></div></div><p>今天，在重写 FloatingActionButton.Behavior 的时候，遇到了问题，记录一下</p><p>第一个问题，在完成了 behavior 代码之后</p><pre><code class=language-java>public class ScrollFABBehavior extends FloatingActionButton.Behavior {
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="onNestedScroll 像这种一遍滚一遍调的函数，只调一次怎么可以完美地完成我的任务">
+  <meta name="generator" content="Hugo 0.55.6" />
+
+  <title>FloatingActionButton的Behavior里面onNestedScroll()只调了一次? &middot; 我说的这句话是谎话</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://jimbray.xyz/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://jimbray.xyz/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="https://jimbray.xyz/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="https://jimbray.xyz/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-8790496632299830",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="lsfTBJKzPUfwHdKB84_xsa5u_38z1iLbcGOAkxOo03Q" />
+
+  
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="https://jimbray.xyz/">Jimbray</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://jimbray.xyz/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://jimbray.xyz/tags/"><i class='fa fa-tags fa-fw'></i>Tags</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/jimbray16" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/jimbray" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+  
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+  
+  
+
+
+
+  
+  
+  
+  
+	
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>FloatingActionButton的Behavior里面onNestedScroll()只调了一次?</h1>
+  <h2>onNestedScroll 像这种一遍滚一遍调的函数，只调一次怎么可以完美地完成我的任务</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>27 Jun 2018, 20:20</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://jimbray.xyz/tags/android">Android</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>今天，在重写 FloatingActionButton.Behavior 的时候，遇到了问题，记录一下</p>
+
+<p>第一个问题，在完成了 behavior 代码之后</p>
+
+<pre><code class="language-java">public class ScrollFABBehavior extends FloatingActionButton.Behavior {
 
     @Override
     public boolean onStartNestedScroll(@NonNull CoordinatorLayout coordinatorLayout,
@@ -30,11 +279,29 @@
     }
 
 }
-</code></pre><p>用在 FAB 上的时候 出现了 异常</p><pre><code class=language-shell>Could not inflate Behavior subclass com.example.....ScrollFABBehavior
-</code></pre><p>仔细一看，shit，忘记了 从 xml 加载对应的 构造函数</p><p>加上就解决了</p><pre><code class=language-java>    public ScrollFABBehavior(Context context, AttributeSet attrs) {
+</code></pre>
+
+<p>用在 FAB 上的时候 出现了 异常</p>
+
+<pre><code class="language-shell">Could not inflate Behavior subclass com.example.....ScrollFABBehavior
+</code></pre>
+
+<p>仔细一看，shit，忘记了 从 xml 加载对应的 构造函数</p>
+
+<p>加上就解决了</p>
+
+<pre><code class="language-java">    public ScrollFABBehavior(Context context, AttributeSet attrs) {
         super();
     }
-</code></pre><p>接下来是第二个问题</p><p>FAB 的 hide() 没有问题，可以hide 完之后 不show 了。</p><p>跟踪一下发现，onNestedScroll() 只调用了一次</p><pre><code class=language-java>/**
+</code></pre>
+
+<p>接下来是第二个问题</p>
+
+<p>FAB 的 hide() 没有问题，可以hide 完之后 不show 了。</p>
+
+<p>跟踪一下发现，onNestedScroll() 只调用了一次</p>
+
+<pre><code class="language-java">/**
          * Called when a nested scroll in progress has updated and the target has scrolled or
          * attempted to scroll.
          *
@@ -63,7 +330,15 @@
          *
          * @see NestedScrollingParent2#onNestedScroll(View, int, int, int, int, int)
          */
-</code></pre><p>这好像是在逗我？我也看不懂，大概意思就是 这个函数在 scroll 的时候就会更新</p><p>可是并没有</p><p>解决办法：</p><pre><code class=language-java>@Override
+</code></pre>
+
+<p>这好像是在逗我？我也看不懂，大概意思就是 这个函数在 scroll 的时候就会更新</p>
+
+<p>可是并没有</p>
+
+<p>解决办法：</p>
+
+<pre><code class="language-java">@Override
     public void onNestedScroll(@NonNull CoordinatorLayout coordinatorLayout,
                                @NonNull FloatingActionButton child,
                                @NonNull View target,
@@ -90,5 +365,92 @@
             child.show();
         }
     }
-</code></pre><p>跟上面的区别就是 hide 的时候 别把 FAB visibility 变成GONE，而是变成 INVISIBLE</p><p>GONE 与 INVISIBLE 的区别就不说了。</p><p>为什么会发生这种情况呢？</p><p>道听途说：FAB都GONE 掉了，就不跟踪Scroll状态了，所以也就没有 onNestedScroll() 什么事，但是INVISIBLE 就不同了，会很勤奋地做这件事情，虽然看不见。</p><div class="prev-next-post pure-g"><div class=pure-u-1-24 style=text-align:left><a href=https://jimbray.xyz/post/android-n-with-fileuriexposedexception/><i class="fa fa-chevron-left"></i></a></div><div class=pure-u-10-24><nav class=prev><a href=https://jimbray.xyz/post/android-n-with-fileuriexposedexception/>Android N 出现FileUriExposedException的兼容处理</a></nav></div><div class=pure-u-2-24>&nbsp;</div><div class=pure-u-10-24><nav class=next><a href=https://jimbray.xyz/post/using-flutter-in-china/>Flutter 卡在 package get 的解决办法</a></nav></div><div class=pure-u-1-24 style=text-align:right><a href=https://jimbray.xyz/post/using-flutter-in-china/><i class="fa fa-chevron-right"></i></a></div></div><div id=disqus_thread></div><script type=text/javascript>(function(){if(window.location.hostname=="localhost")
-return;var dsq=document.createElement('script');dsq.type='text/javascript';dsq.async=true;var disqus_shortname='jimbray-github-io';dsq.src='//'+disqus_shortname+'.disqus.com/embed.js';(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href=http://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=http://disqus.com/ class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div></div></div><script src=https://jimbray.xyz/js/ui.js></script><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-78813427-1','auto');ga('send','pageview');</script></body></html>
+</code></pre>
+
+<p>跟上面的区别就是 hide 的时候 别把 FAB visibility 变成GONE，而是变成 INVISIBLE</p>
+
+<p>GONE 与 INVISIBLE 的区别就不说了。</p>
+
+<p>为什么会发生这种情况呢？</p>
+
+<p>道听途说：FAB都GONE 掉了，就不跟踪Scroll状态了，所以也就没有 onNestedScroll() 什么事，但是INVISIBLE 就不同了，会很勤奋地做这件事情，虽然看不见。</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://jimbray.xyz/post/android-n-with-fileuriexposedexception/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://jimbray.xyz/post/android-n-with-fileuriexposedexception/">Android N 出现FileUriExposedException的兼容处理</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="https://jimbray.xyz/post/using-flutter-in-china/">Flutter 卡在 package get 的解决办法</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="https://jimbray.xyz/post/using-flutter-in-china/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'jimbray-github-io';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="https://jimbray.xyz/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-78813427-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+</body>
+</html>
+

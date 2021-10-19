@@ -1,12 +1,269 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content=对之前简陋版的升级修改><meta name=generator content="Hugo 0.55.6"><title>简化markdown写作中的贴图流程（windows基本版） &middot; 我说的这句话是谎话</title><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=https://jimbray.xyz/css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=https://jimbray.xyz/css/side-menu.css><!--<![endif]--><link rel=stylesheet href=https://jimbray.xyz/css/blackburn.css><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css><link href="https://fonts.googleapis.com/css?family=Raleway" rel=stylesheet type=text/css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script>hljs.initHighlightingOnLoad();</script><link rel="shortcut icon" href=https://jimbray.xyz/img/favicon.ico type=image/x-icon><script async src=//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js></script><script>(adsbygoogle=window.adsbygoogle||[]).push({google_ad_client:"ca-pub-8790496632299830",enable_page_level_ads:true});</script><meta name=google-site-verification content=lsfTBJKzPUfwHdKB84_xsa5u_38z1iLbcGOAkxOo03Q></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><a class="pure-menu-heading brand" href=https://jimbray.xyz/>Jimbray</a><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/><i class="fa fa-home fa-fw"></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/tags/><i class="fa fa-tags fa-fw"></i>Tags</a></li></ul></div><div class="pure-menu social"><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=https://twitter.com/jimbray16 target=_blank><i class="fa fa-twitter-square fa-fw"></i>Twitter</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://github.com/jimbray target=_blank><i class="fa fa-github-square fa-fw"></i>GitHub</a></li></ul></div><div><div class=small-print><small>&copy; 2016. All rights reserved.</small></div><div class=small-print><small>Built with&nbsp;<a href=https://gohugo.io/ target=_blank>Hugo</a></small>
-<small>Theme&nbsp;<a href=https://github.com/yoshiharuyamashita/blackburn target=_blank>Blackburn</a></small></div></div></div><div id=main><div class=header><h1>简化markdown写作中的贴图流程（windows基本版）</h1><h2>对之前简陋版的升级修改</h2></div><div class=content><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i><time>19 Jun 2016, 21:12</time></div><div><i class="fa fa-tags fa-fw"></i><a class=post-taxonomy-tag href=https://jimbray.xyz/tags/python>Python</a></div></div><p>接上一篇文章 <a href=http://jimbray.xyz/2016/06/14/python-to-qiniu/>简化markdown写作中的贴图流程（windows简陋版）</a></p><p>上一篇文章是 做了很久，除了对python不熟，还有懒，所以最终的结果不尽人意，可以说做出来一个半成品。能用，但用起来不爽。
-所以，现在完成了基本版，基本版基本可用了</p><p>上次的版本是 获取 全屏截图，这样的话像QQ截图这些功能都用不上了，而且还是显示很多不必要的元素在截图里面，比如说下面这个图啊
-<img src=http://driver.365yhb.cn/img_1466342265.26.jpg alt=不必要.jpg>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="对之前简陋版的升级修改">
+  <meta name="generator" content="Hugo 0.55.6" />
+
+  <title>简化markdown写作中的贴图流程（windows基本版） &middot; 我说的这句话是谎话</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://jimbray.xyz/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://jimbray.xyz/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="https://jimbray.xyz/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="https://jimbray.xyz/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-8790496632299830",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="lsfTBJKzPUfwHdKB84_xsa5u_38z1iLbcGOAkxOo03Q" />
+
+  
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="https://jimbray.xyz/">Jimbray</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://jimbray.xyz/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://jimbray.xyz/tags/"><i class='fa fa-tags fa-fw'></i>Tags</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/jimbray16" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/jimbray" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+  
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+  
+  
+
+
+
+  
+  
+  
+  
+	
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>简化markdown写作中的贴图流程（windows基本版）</h1>
+  <h2>对之前简陋版的升级修改</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>19 Jun 2016, 21:12</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://jimbray.xyz/tags/python">Python</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<p>接上一篇文章 <a href="http://jimbray.xyz/2016/06/14/python-to-qiniu/">简化markdown写作中的贴图流程（windows简陋版）</a></p>
+
+<p>上一篇文章是 做了很久，除了对python不熟，还有懒，所以最终的结果不尽人意，可以说做出来一个半成品。能用，但用起来不爽。
+所以，现在完成了基本版，基本版基本可用了</p>
+
+<p>上次的版本是 获取 全屏截图，这样的话像QQ截图这些功能都用不上了，而且还是显示很多不必要的元素在截图里面，比如说下面这个图啊
+<img src="http://driver.365yhb.cn/img_1466342265.26.jpg" alt="不必要.jpg" />
 箭头所指的地方，根本不应该出现在截图里面的，是多余的元素。
 废话不多说，开干。
 思路跟实现跟上次一点区别都没有
 代码也只是修改了一个函数，其他的基本没有变化
-主要记录遇到的几个问题</p><h3 id=代码>代码</h3><p>先把代码贴出来，再上问题</p><pre><code class=language-python>def save_clipboard_image():
+主要记录遇到的几个问题</p>
+
+<h3 id="代码">代码</h3>
+
+<p>先把代码贴出来，再上问题</p>
+
+<pre><code class="language-python">def save_clipboard_image():
     im = ImageGrab.grabclipboard()
     if im is None:
         print('Error: No image data in clipboard')
@@ -24,12 +281,27 @@
     else:
         print 'the object in clipboard is not a image.'
         return None
-</code></pre><p>这个函数是修改的，之前是获取全屏截图，现在修改为获取剪贴板中的图片</p><h4 id=遇到的问题>遇到的问题</h4><h5 id=问题1>问题1</h5><pre><code class=language-bash>Unsupported BMP bitfields layout
-</code></pre><p>这个是 Pillow 的bug，搜索到解决办法：
+</code></pre>
+
+<p>这个函数是修改的，之前是获取全屏截图，现在修改为获取剪贴板中的图片</p>
+
+<h4 id="遇到的问题">遇到的问题</h4>
+
+<h5 id="问题1">问题1</h5>
+
+<pre><code class="language-bash">Unsupported BMP bitfields layout
+</code></pre>
+
+<p>这个是 Pillow 的bug，搜索到解决办法：
+<!-- more -->
 作者：青南
-链接：<a href=https://zhuanlan.zhihu.com/p/21303461>https://zhuanlan.zhihu.com/p/21303461</a>
-来源：知乎</p><p>这个问题从Pillow 2.8.0开始，一直到3.2.0都没有被官方解决。目前有一个间接的解决办法。
-请打开Python安装目录下的\Lib\site-packages\PIL\BmpImagePlugin.py文件，将以下代码：</p><pre><code class=language-python>if file_info['bits'] in SUPPORTED:
+链接：<a href="https://zhuanlan.zhihu.com/p/21303461">https://zhuanlan.zhihu.com/p/21303461</a>
+来源：知乎</p>
+
+<p>这个问题从Pillow 2.8.0开始，一直到3.2.0都没有被官方解决。目前有一个间接的解决办法。
+请打开Python安装目录下的\Lib\site-packages\PIL\BmpImagePlugin.py文件，将以下代码：</p>
+
+<pre><code class="language-python">if file_info['bits'] in SUPPORTED:
     if file_info['bits'] == 32 and file_info['rgba_mask'] in SUPPORTED[file_info['bits']]:
         raw_mode = MASK_MODES[(file_info['bits'], file_info['rgba_mask'])]
         self.mode = &quot;RGBA&quot; if raw_mode in (&quot;BGRA&quot;,) else self.mode
@@ -39,7 +311,11 @@
         raise IOError(&quot;Unsupported BMP bitfields layout&quot;)
 else:
     raise IOError(&quot;Unsupported BMP bitfields layout&quot;)
-</code></pre><p>修改为：</p><pre><code class=language-python>if file_info['bits'] in SUPPORTED:
+</code></pre>
+
+<p>修改为：</p>
+
+<pre><code class="language-python">if file_info['bits'] in SUPPORTED:
     if file_info['bits'] == 32 and file_info['rgba_mask'] in SUPPORTED[file_info['bits']]:
         raw_mode = MASK_MODES[(file_info['bits'], file_info['rgba_mask'])]
         self.mode = &quot;RGBA&quot; if raw_mode in (&quot;BGRA&quot;,) else self.mode
@@ -53,16 +329,42 @@ else:
         raise IOError(&quot;Unsupported BMP bitfields layout&quot;)
 else:
     raise IOError(&quot;Unsupported BMP bitfields layout&quot;)
-</code></pre><p>就能解决本问题。</p><h5 id=问题2>问题2</h5><pre><code class=language-bash>IOError: image file is truncated (1044 bytes not processed)
-</code></pre><p>搜索到解决办法 <a href=http://www.cnblogs.com/hongfei/p/4436767.html>Python：IOError: image file is truncated 的解决办法</a></p><pre><code class=language-python>from PIL import ImageFile
+</code></pre>
+
+<p>就能解决本问题。</p>
+
+<h5 id="问题2">问题2</h5>
+
+<pre><code class="language-bash">IOError: image file is truncated (1044 bytes not processed)
+</code></pre>
+
+<p>搜索到解决办法 <a href="http://www.cnblogs.com/hongfei/p/4436767.html">Python：IOError: image file is truncated 的解决办法</a></p>
+
+<pre><code class="language-python">from PIL import ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
-</code></pre><p>问题解决。在 ahk脚本中修改以下 新python文件的路径就可以愉快地玩耍了</p><pre><code class=language-ahk>^!v::
+</code></pre>
+
+<p>问题解决。在 ahk脚本中修改以下 新python文件的路径就可以愉快地玩耍了</p>
+
+<pre><code class="language-ahk">^!v::
 run,%comspec% /c python D:\python\clipboard_to_qiniu.py
-</code></pre><p>reload 以下 ahk 脚本，使用方法跟之前一模一样，不过现在支持像QQ这类切图软件了。</p><h3 id=改进>改进</h3><p>每次截图之后，就会发现 python文件所在文件夹就会多一张图片，都是已经上传到七牛的了，留下来没有什么用处，还浪费我空间。
-那就再加一个逻辑吧：上传到七牛后删除本地的图片</p><pre><code class=language-python>def deleteLocalImage(path):
+</code></pre>
+
+<p>reload 以下 ahk 脚本，使用方法跟之前一模一样，不过现在支持像QQ这类切图软件了。</p>
+
+<h3 id="改进">改进</h3>
+
+<p>每次截图之后，就会发现 python文件所在文件夹就会多一张图片，都是已经上传到七牛的了，留下来没有什么用处，还浪费我空间。
+那就再加一个逻辑吧：上传到七牛后删除本地的图片</p>
+
+<pre><code class="language-python">def deleteLocalImage(path):
     if(os.path.isfile(path)):#文件存在
         os.remove(path)
-</code></pre><p>主函数也修改以下</p><pre><code class=language-python>if __name__ == '__main__':
+</code></pre>
+
+<p>主函数也修改以下</p>
+
+<pre><code class="language-python">if __name__ == '__main__':
     saved_path = save_clipboard_image()
     if saved_path == None:
         pass
@@ -70,7 +372,88 @@ run,%comspec% /c python D:\python\clipboard_to_qiniu.py
         q = Qiniu(AK, SK)
         q.upload_file(bucket_name, saved_path, saved_path)
         deleteLocalImage(saved_path)
-</code></pre><p>搞定收工。
+</code></pre>
+
+<p>搞定收工。
 这次用起来比较普通了。
-<img src=http://driver.365yhb.cn/%E6%99%AE%E6%99%AE%E9%80%9A%E9%80%9A.jpg alt=普普通通.jpg></p><div class="prev-next-post pure-g"><div class=pure-u-1-24 style=text-align:left><a href=https://jimbray.xyz/post/python-to-qiniu/><i class="fa fa-chevron-left"></i></a></div><div class=pure-u-10-24><nav class=prev><a href=https://jimbray.xyz/post/python-to-qiniu/>简化markdown写作中的贴图流程（windows简陋版）</a></nav></div><div class=pure-u-2-24>&nbsp;</div><div class=pure-u-10-24><nav class=next><a href=https://jimbray.xyz/post/manual_install_lnmp/>Ubuntu/Debian手动安装完成lnmp部署wordpress</a></nav></div><div class=pure-u-1-24 style=text-align:right><a href=https://jimbray.xyz/post/manual_install_lnmp/><i class="fa fa-chevron-right"></i></a></div></div><div id=disqus_thread></div><script type=text/javascript>(function(){if(window.location.hostname=="localhost")
-return;var dsq=document.createElement('script');dsq.type='text/javascript';dsq.async=true;var disqus_shortname='jimbray-github-io';dsq.src='//'+disqus_shortname+'.disqus.com/embed.js';(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href=http://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=http://disqus.com/ class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div></div></div><script src=https://jimbray.xyz/js/ui.js></script><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-78813427-1','auto');ga('send','pageview');</script></body></html>
+<img src="http://driver.365yhb.cn/%E6%99%AE%E6%99%AE%E9%80%9A%E9%80%9A.jpg" alt="普普通通.jpg" /></p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://jimbray.xyz/post/python-to-qiniu/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://jimbray.xyz/post/python-to-qiniu/">简化markdown写作中的贴图流程（windows简陋版）</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="https://jimbray.xyz/post/manual_install_lnmp/">Ubuntu/Debian手动安装完成lnmp部署wordpress</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="https://jimbray.xyz/post/manual_install_lnmp/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'jimbray-github-io';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="https://jimbray.xyz/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-78813427-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+</body>
+</html>
+

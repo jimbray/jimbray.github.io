@@ -1,11 +1,289 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content=ROS官方只支持了C&#43;&#43;和Python，想要在Android上与ROS通讯，我的选择是ROSBridge><meta name=generator content="Hugo 0.55.6"><title>Android使用ROSBridge与ROS通信 简单使用 &middot; 我说的这句话是谎话</title><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=https://jimbray.xyz/css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=https://jimbray.xyz/css/side-menu.css><!--<![endif]--><link rel=stylesheet href=https://jimbray.xyz/css/blackburn.css><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css><link href="https://fonts.googleapis.com/css?family=Raleway" rel=stylesheet type=text/css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script>hljs.initHighlightingOnLoad();</script><link rel="shortcut icon" href=https://jimbray.xyz/img/favicon.ico type=image/x-icon><script async src=//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js></script><script>(adsbygoogle=window.adsbygoogle||[]).push({google_ad_client:"ca-pub-8790496632299830",enable_page_level_ads:true});</script><meta name=google-site-verification content=lsfTBJKzPUfwHdKB84_xsa5u_38z1iLbcGOAkxOo03Q></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><a class="pure-menu-heading brand" href=https://jimbray.xyz/>Jimbray</a><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/><i class="fa fa-home fa-fw"></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/tags/><i class="fa fa-tags fa-fw"></i>Tags</a></li></ul></div><div class="pure-menu social"><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=https://twitter.com/jimbray16 target=_blank><i class="fa fa-twitter-square fa-fw"></i>Twitter</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://github.com/jimbray target=_blank><i class="fa fa-github-square fa-fw"></i>GitHub</a></li></ul></div><div><div class=small-print><small>&copy; 2016. All rights reserved.</small></div><div class=small-print><small>Built with&nbsp;<a href=https://gohugo.io/ target=_blank>Hugo</a></small>
-<small>Theme&nbsp;<a href=https://github.com/yoshiharuyamashita/blackburn target=_blank>Blackburn</a></small></div></div></div><div id=main><div class=header><h1>Android使用ROSBridge与ROS通信 简单使用</h1><h2>ROS官方只支持了C&#43;&#43;和Python，想要在Android上与ROS通讯，我的选择是ROSBridge</h2></div><div class=content><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i><time>02 Dec 2018, 12:20</time></div><div><i class="fa fa-tags fa-fw"></i><a class=post-taxonomy-tag href=https://jimbray.xyz/tags/android>Android</a>&nbsp;&#47;
-<a class=post-taxonomy-tag href=https://jimbray.xyz/tags/ros>ROS</a></div></div><blockquote><p>环境
-ROS kinetic</p></blockquote><h4 id=ros-服务端>ROS 服务端</h4><h5 id=安装>安装</h5><pre><code class=language-shell>    sudo apt-get install ros-&lt;rosdistro&gt;-rosbridge-suite
-</code></pre><h5 id=启动>启动</h5><pre><code class=language-shell>    roslaunch rosbridge_server rosbridge_websocket.launch
-</code></pre><p>在这之前不需要开启 roscore, 因为 rosbridge 会默认执行 roscore</p><h4 id=android客户端>Android客户端</h4><p>要让 android 接收或者发送 ROS 消息的话，首先要在 Android上完成 websocket，然后按照协议解析，也很麻烦，不过又要站在巨人的肩膀上了，找到一个<a href=https://github.com/djilk/ROSBridgeClient>开源项目:ROSBridgeClient</a>,这位同学使用 java-websocket 的包在Android上实现了 websocket 的应用，很棒。</p><p>直接把 <code>src/com/jilk/ros</code> 目录复制到 我的 Android 项目里，
-当然会报错啦，这些代码依赖了第三方库，加在Android工程的libs 里面 引用</p><ul><li>eventbus.jar 用于发送从ROS接收到的消息</li><li>java_websocket.jar 用于websocket 的实现</li><li>json-simple-1.1.jar 用于json解析</li></ul><p>复制到项目包里的 代码包含了一个 example .
-完全可以使用</p><pre><code class=language-java>public class Example {
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ROS官方只支持了C&#43;&#43;和Python，想要在Android上与ROS通讯，我的选择是ROSBridge">
+  <meta name="generator" content="Hugo 0.55.6" />
+
+  <title>Android使用ROSBridge与ROS通信 简单使用 &middot; 我说的这句话是谎话</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://jimbray.xyz/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://jimbray.xyz/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="https://jimbray.xyz/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="https://jimbray.xyz/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-8790496632299830",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="lsfTBJKzPUfwHdKB84_xsa5u_38z1iLbcGOAkxOo03Q" />
+
+  
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="https://jimbray.xyz/">Jimbray</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://jimbray.xyz/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://jimbray.xyz/tags/"><i class='fa fa-tags fa-fw'></i>Tags</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/jimbray16" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/jimbray" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+  
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+  
+  
+
+
+
+  
+  
+  
+  
+	
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>Android使用ROSBridge与ROS通信 简单使用</h1>
+  <h2>ROS官方只支持了C&#43;&#43;和Python，想要在Android上与ROS通讯，我的选择是ROSBridge</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>02 Dec 2018, 12:20</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://jimbray.xyz/tags/android">Android</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="https://jimbray.xyz/tags/ros">ROS</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<blockquote>
+<p>环境
+ROS kinetic</p>
+</blockquote>
+
+<h4 id="ros-服务端">ROS 服务端</h4>
+
+<h5 id="安装">安装</h5>
+
+<pre><code class="language-shell">    sudo apt-get install ros-&lt;rosdistro&gt;-rosbridge-suite
+</code></pre>
+
+<h5 id="启动">启动</h5>
+
+<pre><code class="language-shell">    roslaunch rosbridge_server rosbridge_websocket.launch
+</code></pre>
+
+<p>在这之前不需要开启 roscore, 因为 rosbridge 会默认执行 roscore</p>
+
+<h4 id="android客户端">Android客户端</h4>
+
+<p>要让 android 接收或者发送 ROS 消息的话，首先要在 Android上完成 websocket，然后按照协议解析，也很麻烦，不过又要站在巨人的肩膀上了，找到一个<a href="https://github.com/djilk/ROSBridgeClient">开源项目:ROSBridgeClient</a>,这位同学使用 java-websocket 的包在Android上实现了 websocket 的应用，很棒。</p>
+
+<p>直接把 <code>src/com/jilk/ros</code> 目录复制到 我的 Android 项目里，
+当然会报错啦，这些代码依赖了第三方库，加在Android工程的libs 里面 引用</p>
+
+<ul>
+<li>eventbus.jar 用于发送从ROS接收到的消息</li>
+<li>java_websocket.jar 用于websocket 的实现</li>
+<li>json-simple-1.1.jar 用于json解析</li>
+</ul>
+
+<p>复制到项目包里的 代码包含了一个 example .
+完全可以使用</p>
+
+<pre><code class="language-java">public class Example {
     
     public Example() {}
     
@@ -114,8 +392,14 @@ ROS kinetic</p></blockquote><h4 id=ros-服务端>ROS 服务端</h4><h5 id=安装
         clockTopic.unadvertise();
     }
 }
-</code></pre><p>example很好理解
-就看了下 topic 相关的东西 testTopic，我觉得如果有很多topic就要用很多的testXXXTopic了，有点麻烦，所以我二次封装了一个 RosBridgeClientManager 来用</p><h5 id=连接-ros-master>连接 ROS master</h5><pre><code class=language-java>/**
+</code></pre>
+
+<p>example很好理解
+就看了下 topic 相关的东西 testTopic，我觉得如果有很多topic就要用很多的testXXXTopic了，有点麻烦，所以我二次封装了一个 RosBridgeClientManager 来用</p>
+
+<h5 id="连接-ros-master">连接 ROS master</h5>
+
+<pre><code class="language-java">/**
      * 连接 ROS master
      * @param url ROS master IP
      * @param port ROS master 端口
@@ -155,7 +439,13 @@ ROS kinetic</p></blockquote><h4 id=ros-服务端>ROS 服务端</h4><h5 id=安装
             });
         }
     }
-</code></pre><p>加了一个连接监听器，可以在业务层进行状态判断了。</p><h5 id=注册topic-到-ros>注册topic 到 ROS</h5><pre><code class=language-java>    /**
+</code></pre>
+
+<p>加了一个连接监听器，可以在业务层进行状态判断了。</p>
+
+<h5 id="注册topic-到-ros">注册topic 到 ROS</h5>
+
+<pre><code class="language-java">    /**
      * 注册topic
      * @param topicName topic 名称
      * @param data_type 消息类型
@@ -171,8 +461,12 @@ ROS kinetic</p></blockquote><h4 id=ros-服务端>ROS 服务端</h4><h5 id=安装
 //        Topic topic = new Topic(topicName, entityClass, client);
 //        topic.advertise();
     }
-</code></pre><p>原来的 advertise 已经很简单了，为什么我还要弄这个东西？ <del>我也不知道啊</del>
-AdvertiseTopicObject.java</p><pre><code class=language-java>public class AdvertiseTopicObject&lt;T&gt; {
+</code></pre>
+
+<p>原来的 advertise 已经很简单了，为什么我还要弄这个东西？ <del>我也不知道啊</del>
+AdvertiseTopicObject.java</p>
+
+<pre><code class="language-java">public class AdvertiseTopicObject&lt;T&gt; {
 
     private T message_type;
 
@@ -192,7 +486,11 @@ AdvertiseTopicObject.java</p><pre><code class=language-java>public class Adverti
         topic.advertise();
     }
 }
-</code></pre><h5 id=发布topic-消息>发布topic 消息</h5><pre><code class=language-java>/**
+</code></pre>
+
+<h5 id="发布topic-消息">发布topic 消息</h5>
+
+<pre><code class="language-java">/**
      * 发布 topic 消息
      * @param topicName topic名称
      * @param msg 消息
@@ -206,8 +504,12 @@ AdvertiseTopicObject.java</p><pre><code class=language-java>public class Adverti
         String msg_str = mGson.toJson(publishTopicObject);
         mRosBridgeClient.send(msg_str);
     }
-</code></pre><p>跟上面的 AdvertiseTopicObject 保持一致，所以有了
-PublishTopicObject.java</p><pre><code class=language-java>public class PublishTopicObject&lt;T&gt; {
+</code></pre>
+
+<p>跟上面的 AdvertiseTopicObject 保持一致，所以有了
+PublishTopicObject.java</p>
+
+<pre><code class="language-java">public class PublishTopicObject&lt;T&gt; {
 
     private String op = &quot;publish&quot;;
 
@@ -215,7 +517,11 @@ PublishTopicObject.java</p><pre><code class=language-java>public class PublishTo
 
     private T msg;
 }
-</code></pre><h5 id=订阅-topic>订阅 topic</h5><pre><code class=language-java>/**
+</code></pre>
+
+<h5 id="订阅-topic">订阅 topic</h5>
+
+<pre><code class="language-java">/**
      * 订阅topic
      * @param topicName topic 名称
      * @param listener 消息监听器
@@ -230,8 +536,12 @@ PublishTopicObject.java</p><pre><code class=language-java>public class PublishTo
         addROSMessageListener(listener);
 
     }
-</code></pre><p>同理：跟上面的 PublishTopicObject 保持一致，所以有了
-SubscribeTopicObject.java</p><pre><code class=language-java>public class SubscribeTopicObject {
+</code></pre>
+
+<p>同理：跟上面的 PublishTopicObject 保持一致，所以有了
+SubscribeTopicObject.java</p>
+
+<pre><code class="language-java">public class SubscribeTopicObject {
 
     private String op = &quot;subscribe&quot;;
 
@@ -241,7 +551,11 @@ SubscribeTopicObject.java</p><pre><code class=language-java>public class Subscri
         return op;
     }
 }
-</code></pre><h5 id=取消订阅-topic>取消订阅 topic</h5><pre><code class=language-java>/**
+</code></pre>
+
+<h5 id="取消订阅-topic">取消订阅 topic</h5>
+
+<pre><code class="language-java">/**
      * 取消订阅topic
      * @param topicName
      * @param listener
@@ -256,13 +570,21 @@ SubscribeTopicObject.java</p><pre><code class=language-java>public class Subscri
         removeROSMessageListener(listener);
     
     }
-</code></pre><p>还有 UnSubscribeTopicObject.java</p><pre><code class=language-java>public class UnSubscribeTopicObject {
+</code></pre>
+
+<p>还有 UnSubscribeTopicObject.java</p>
+
+<pre><code class="language-java">public class UnSubscribeTopicObject {
 
     private String op = &quot;unsubscribe&quot;;
 
     private String topic;
 }
-</code></pre><h5 id=接收ros-消息>接收ROS 消息</h5><pre><code class=language-java>//Receive data from ROS server, send from ROSBridgeWebSocketClient onMessage()
+</code></pre>
+
+<h5 id="接收ros-消息">接收ROS 消息</h5>
+
+<pre><code class="language-java">//Receive data from ROS server, send from ROSBridgeWebSocketClient onMessage()
     // using eventbus ?!
     public void onEvent(final PublishEvent event) {
         Log.d(&quot;TAG&quot;, event.msg);
@@ -271,8 +593,101 @@ SubscribeTopicObject.java</p><pre><code class=language-java>public class Subscri
             //mROSListenerList.get(curIndex).onImageMessageReceive(event.name, imageData);
         }
     }
-</code></pre><p>在 ROSBridgeWebSocketClient.java 里面找到了接收消息后发出来的代码</p><pre><code class=language-java>    EventBus.getDefault().post(new PublishEvent(operation,publish.topic,content));
-</code></pre><p>Emmm&hellip; 用的是 EventBus，先用起来再说。</p><p>还有就是关于服务的封装了，没写。</p><p>完成代码在 <a href=https://gist.github.com/jimbray/58df654d7ff87565ae10fc2801c86a4a>Github gist</a></p><blockquote><p>参考：
-<a href=https://blog.csdn.net/happen23/article/details/53082001>使用rosbridge协议实现安卓跟ROS的解耦</a>
-<a href=https://blog.csdn.net/gengv/article/details/5178055>在泛型中得到T.class</a></p></blockquote><div class="prev-next-post pure-g"><div class=pure-u-1-24 style=text-align:left><a href=https://jimbray.xyz/post/using-flutter-in-china/><i class="fa fa-chevron-left"></i></a></div><div class=pure-u-10-24><nav class=prev><a href=https://jimbray.xyz/post/using-flutter-in-china/>Flutter 卡在 package get 的解决办法</a></nav></div><div class=pure-u-2-24>&nbsp;</div><div class=pure-u-10-24><nav class=next><a href=https://jimbray.xyz/post/build-telegram-on-windows/>在Windows上编译Android Telegram（2019最新）</a></nav></div><div class=pure-u-1-24 style=text-align:right><a href=https://jimbray.xyz/post/build-telegram-on-windows/><i class="fa fa-chevron-right"></i></a></div></div><div id=disqus_thread></div><script type=text/javascript>(function(){if(window.location.hostname=="localhost")
-return;var dsq=document.createElement('script');dsq.type='text/javascript';dsq.async=true;var disqus_shortname='jimbray-github-io';dsq.src='//'+disqus_shortname+'.disqus.com/embed.js';(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href=http://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=http://disqus.com/ class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div></div></div><script src=https://jimbray.xyz/js/ui.js></script><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-78813427-1','auto');ga('send','pageview');</script></body></html>
+</code></pre>
+
+<p>在 ROSBridgeWebSocketClient.java 里面找到了接收消息后发出来的代码</p>
+
+<pre><code class="language-java">    EventBus.getDefault().post(new PublishEvent(operation,publish.topic,content));
+</code></pre>
+
+<p>Emmm&hellip; 用的是 EventBus，先用起来再说。</p>
+
+<p>还有就是关于服务的封装了，没写。</p>
+
+<p>完成代码在 <a href="https://gist.github.com/jimbray/58df654d7ff87565ae10fc2801c86a4a">Github gist</a></p>
+
+<blockquote>
+<p>参考：
+<a href="https://blog.csdn.net/happen23/article/details/53082001">使用rosbridge协议实现安卓跟ROS的解耦</a>
+<a href="https://blog.csdn.net/gengv/article/details/5178055">在泛型中得到T.class</a></p>
+</blockquote>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://jimbray.xyz/post/using-flutter-in-china/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://jimbray.xyz/post/using-flutter-in-china/">Flutter 卡在 package get 的解决办法</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="https://jimbray.xyz/post/build-telegram-on-windows/">在Windows上编译Android Telegram（2019最新）</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="https://jimbray.xyz/post/build-telegram-on-windows/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'jimbray-github-io';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="https://jimbray.xyz/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-78813427-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+</body>
+</html>
+

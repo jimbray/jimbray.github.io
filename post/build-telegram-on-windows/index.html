@@ -1,12 +1,459 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="编译自己的 Telegram"><meta name=generator content="Hugo 0.55.6"><title>在Windows上编译Android Telegram（2019最新） &middot; 我说的这句话是谎话</title><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=https://jimbray.xyz/css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=https://jimbray.xyz/css/side-menu.css><!--<![endif]--><link rel=stylesheet href=https://jimbray.xyz/css/blackburn.css><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css><link href="https://fonts.googleapis.com/css?family=Raleway" rel=stylesheet type=text/css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script>hljs.initHighlightingOnLoad();</script><link rel="shortcut icon" href=https://jimbray.xyz/img/favicon.ico type=image/x-icon><script async src=//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js></script><script>(adsbygoogle=window.adsbygoogle||[]).push({google_ad_client:"ca-pub-8790496632299830",enable_page_level_ads:true});</script><meta name=google-site-verification content=lsfTBJKzPUfwHdKB84_xsa5u_38z1iLbcGOAkxOo03Q></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><a class="pure-menu-heading brand" href=https://jimbray.xyz/>Jimbray</a><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/><i class="fa fa-home fa-fw"></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/tags/><i class="fa fa-tags fa-fw"></i>Tags</a></li></ul></div><div class="pure-menu social"><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=https://twitter.com/jimbray16 target=_blank><i class="fa fa-twitter-square fa-fw"></i>Twitter</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://github.com/jimbray target=_blank><i class="fa fa-github-square fa-fw"></i>GitHub</a></li></ul></div><div><div class=small-print><small>&copy; 2016. All rights reserved.</small></div><div class=small-print><small>Built with&nbsp;<a href=https://gohugo.io/ target=_blank>Hugo</a></small>
-<small>Theme&nbsp;<a href=https://github.com/yoshiharuyamashita/blackburn target=_blank>Blackburn</a></small></div></div></div><div id=main><div class=header><h1>在Windows上编译Android Telegram（2019最新）</h1><h2>编译自己的 Telegram</h2></div><div class=content><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i><time>27 Jun 2019, 15:30</time></div><div><i class="fa fa-tags fa-fw"></i><a class=post-taxonomy-tag href=https://jimbray.xyz/tags/android>Android</a></div></div><p>先把工具下载好。工欲善其事，必先利其器。</p><p>官方推荐是 Android Studio 3.4 、Android NDK rev. 16b 、Android SDK 8.1</p><p><strong>注意：先把 Telegrm Web 登录进去，万一成功的话，可能会需要的</strong></p><p>我从官方的 git 仓库 fork 了一份出来</p><pre><code class=language-bash>git clone https://github.com/jimbray/Telegram.git
-</code></pre><p>open（不是import）项目 TMessagesProj</p><p>首先按照官方教程一步一步来。</p><h4 id=第一步>第一步</h4><p>复制自己的 release.keystore 到 TMessagesProj/config 文件夹内</p><h4 id=第二步>第二步</h4><p>修改 gradle.properties 文件内的 密码相关变量值</p><h4 id=第三步>第三步</h4><p>修改 module级别 build.gradle</p><ol><li>修改applicationId 为 xyz.jimbray.telegram</li><li>去除 buildType 里面的 applicationIdSuffix &ldquo;.beta&rdquo; 后缀</li><li>其他的没有做改动</li></ol><h4 id=第四步>第四步</h4><p>Firebase 新建 project，然后新建 Android application</p><p>包名我设置为 <code>xyz.jimbray.telegram</code>与项目匹配</p><p>然后一步一步，按照 要求 完善 build.gradle 文件，基本上与原项目一致，只看到少了一个 implementation</p><pre><code class=language-groovy>implementation 'com.google.firebase:firebase-core:16.0.9'
-</code></pre><p>其他基本已经有了</p><p>下载 <code>google-services.json</code> 放在 TMessagesProj根目录</p><h4 id=第五步>第五步</h4><p>记得修改 local.properties 的 ndk.dir</p><p>尝试编译</p><p>出现问题：</p><pre><code>GNUMAKE: Expected exactly one source file in compile step: com.android.build.gradle.external.gnumake.CommandClassifier$NativeCompilerBuildTool@55ee87d9
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="编译自己的 Telegram">
+  <meta name="generator" content="Hugo 0.55.6" />
+
+  <title>在Windows上编译Android Telegram（2019最新） &middot; 我说的这句话是谎话</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://jimbray.xyz/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://jimbray.xyz/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="https://jimbray.xyz/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="https://jimbray.xyz/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-8790496632299830",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="lsfTBJKzPUfwHdKB84_xsa5u_38z1iLbcGOAkxOo03Q" />
+
+  
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="https://jimbray.xyz/">Jimbray</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://jimbray.xyz/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://jimbray.xyz/tags/"><i class='fa fa-tags fa-fw'></i>Tags</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/jimbray16" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/jimbray" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+  
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+  
+  
+
+
+
+  
+  
+  
+  
+	
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>在Windows上编译Android Telegram（2019最新）</h1>
+  <h2>编译自己的 Telegram</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>27 Jun 2019, 15:30</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://jimbray.xyz/tags/android">Android</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<p>先把工具下载好。工欲善其事，必先利其器。</p>
+
+<p>官方推荐是 Android Studio 3.4 、Android NDK rev. 16b  、Android SDK 8.1</p>
+
+<p><strong>注意：先把 Telegrm Web 登录进去，万一成功的话，可能会需要的</strong></p>
+
+<p>我从官方的 git 仓库 fork 了一份出来</p>
+
+<pre><code class="language-bash">git clone https://github.com/jimbray/Telegram.git
+</code></pre>
+
+<p>open（不是import）项目 TMessagesProj</p>
+
+<p>首先按照官方教程一步一步来。</p>
+
+<h4 id="第一步">第一步</h4>
+
+<p>复制自己的 release.keystore 到 TMessagesProj/config 文件夹内</p>
+
+<h4 id="第二步">第二步</h4>
+
+<p>修改 gradle.properties 文件内的 密码相关变量值</p>
+
+<h4 id="第三步">第三步</h4>
+
+<p>修改 module级别 build.gradle</p>
+
+<ol>
+<li>修改applicationId 为 xyz.jimbray.telegram</li>
+<li>去除 buildType 里面的  applicationIdSuffix &ldquo;.beta&rdquo; 后缀</li>
+<li>其他的没有做改动</li>
+</ol>
+
+<h4 id="第四步">第四步</h4>
+
+<p>Firebase 新建 project，然后新建 Android application</p>
+
+<p>包名我设置为 <code>xyz.jimbray.telegram</code>与项目匹配</p>
+
+<p>然后一步一步，按照 要求 完善 build.gradle 文件，基本上与原项目一致，只看到少了一个 implementation</p>
+
+<pre><code class="language-groovy">implementation 'com.google.firebase:firebase-core:16.0.9'
+</code></pre>
+
+<p>其他基本已经有了</p>
+
+<p>下载 <code>google-services.json</code> 放在  TMessagesProj根目录</p>
+
+<h4 id="第五步">第五步</h4>
+
+<p>记得修改 local.properties 的 ndk.dir</p>
+
+<p>尝试编译</p>
+
+<p>出现问题：</p>
+
+<pre><code>GNUMAKE: Expected exactly one source file in compile step: com.android.build.gradle.external.gnumake.CommandClassifier$NativeCompilerBuildTool@55ee87d9
 but received: 
 '-DVERSION=1.3.1'
-</code></pre><p>解决方案：有效</p><blockquote><p>Go to the Android.mk in exoplayer-flac/src/main/jni and change the</p><p>&rsquo;-DVERSION=&ldquo;1.3.1&rdquo;&rsquo; 改为 -DVERSION=&ldquo;1.3.1&rdquo;</p><p>Emmm&hellip; 就是去掉单引号。</p></blockquote><p>继续出现问题</p><pre><code>Error while executing process D:\AndroidNDK\android-ndk-r16b-windows-x86_64\android-ndk-r16b\ndk-build.cmd with arguments {NDK_PROJECT_PATH=null
+</code></pre>
+
+<p>解决方案：有效</p>
+
+<blockquote>
+<p>Go to the Android.mk in exoplayer-flac/src/main/jni and change the</p>
+
+<p>&rsquo;-DVERSION=&ldquo;1.3.1&rdquo;&rsquo; 改为 -DVERSION=&ldquo;1.3.1&rdquo;</p>
+
+<p>Emmm&hellip; 就是去掉单引号。</p>
+</blockquote>
+
+<p>继续出现问题</p>
+
+<pre><code>Error while executing process D:\AndroidNDK\android-ndk-r16b-windows-x86_64\android-ndk-r16b\ndk-build.cmd with arguments {NDK_PROJECT_PATH=null
 ...
 android ndk make error 87...
-</code></pre><p>解决方案：无效，依旧报错 [](<a href=https://stackoverflow.com/questions/50704268/ndk-project-path-null-on-android-studio-3-1-2>https://stackoverflow.com/questions/50704268/ndk-project-path-null-on-android-studio-3-1-2</a>) 尝试更新 gradle 版本 3.4.1 ，而且我用的 AS3.4 gradle wrapper 已经默认为 5.1.1了</p><blockquote><p>修改 project 级别的 build.gradle</p></blockquote><p>解决方案：有效！</p><blockquote><p>原因是.MK文件中包含的文件太多了，而windows对于函数参数个数有限制，解决办法：<a href=http://stackoverflow.com/questions/12598933/ndk-build-createprocess-make-e-87-the-parameter-is-incorrect>http://stackoverflow.com/questions/12598933/ndk-build-createprocess-make-e-87-the-parameter-is-incorrect</a></p><p>在Android.mk文件中添加：<strong>LOCAL_SHORT_COMMANDS := true</strong></p><p>在Application.mk文件中添加：<strong>APP_SHORT_COMMANDS := true</strong></p><p>来自：[](<a href=https://www.cnblogs.com/lanrenxinxin/p/5924886.html>https://www.cnblogs.com/lanrenxinxin/p/5924886.html</a>)</p></blockquote><p>编译成功。但是我明明修改了 applicationId ,但是还是要把原本的 Telegram 先卸载掉呢？</p><p>这个后面再查，先登录看看？</p><p>报错： 程序提示</p><pre><code>CONNECTION_API_ID_INVALID
-</code></pre><p>噢，应该是忘记 配置 telegram 的 <a href=https://core.telegram.org/api/obtaining_api_id>api id</a>了</p><p>按照 流程 配置好后</p><p>修改 org.telegram.messager/BuildVars.java文件填入对应的</p><p>app_id app_hash 等相关信息</p><blockquote><p>填写到org.telegram.messager/BuildVars.java中，HOCKEY_APP_HASH和HOCKEY_APP_HASH_DEBUGE在代码中的使用需要注释掉，不想注释的话，可以直接使用将app_bash填写进去。</p><p>或者填入字符串 （32为 “0”）</p></blockquote><p>build 运行成功，登录也可以了。nice！</p><p>接下来就能调试学习 Telegram 了</p><p>不过有几个要求遵守：</p><ol><li>你的应用请不要使用 Telegram 这个名子，或者必须要让你的用户知道此应用是非官方的</li><li>请不要使用标准logo(蓝底白飞机)作为你的应用图标</li><li>请学习 Telegram的 security guidelines 还有 要保护要你的用户的数据和隐私</li><li>请记得发布你的代码以遵循开源协议</li></ol><div class="prev-next-post pure-g"><div class=pure-u-1-24 style=text-align:left><a href=https://jimbray.xyz/post/android-connect-to-ros/><i class="fa fa-chevron-left"></i></a></div><div class=pure-u-10-24><nav class=prev><a href=https://jimbray.xyz/post/android-connect-to-ros/>Android使用ROSBridge与ROS通信 简单使用</a></nav></div><div class=pure-u-2-24>&nbsp;</div><div class=pure-u-10-24><nav class=next><a href=https://jimbray.xyz/post/remote-service-by-aidl/>使用AIDL实现多进程Service的流程（使用XMPP Service为例）</a></nav></div><div class=pure-u-1-24 style=text-align:right><a href=https://jimbray.xyz/post/remote-service-by-aidl/><i class="fa fa-chevron-right"></i></a></div></div><div id=disqus_thread></div><script type=text/javascript>(function(){if(window.location.hostname=="localhost")
-return;var dsq=document.createElement('script');dsq.type='text/javascript';dsq.async=true;var disqus_shortname='jimbray-github-io';dsq.src='//'+disqus_shortname+'.disqus.com/embed.js';(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href=http://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=http://disqus.com/ class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div></div></div><script src=https://jimbray.xyz/js/ui.js></script><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-78813427-1','auto');ga('send','pageview');</script></body></html>
+</code></pre>
+
+<p>解决方案：无效，依旧报错 [](<a href="https://stackoverflow.com/questions/50704268/ndk-project-path-null-on-android-studio-3-1-2">https://stackoverflow.com/questions/50704268/ndk-project-path-null-on-android-studio-3-1-2</a>) 尝试更新 gradle 版本 3.4.1 ，而且我用的 AS3.4 gradle wrapper 已经默认为 5.1.1了</p>
+
+<blockquote>
+<p>修改 project 级别的 build.gradle</p>
+</blockquote>
+
+<p>解决方案：有效！</p>
+
+<blockquote>
+<p>原因是.MK文件中包含的文件太多了，而windows对于函数参数个数有限制，解决办法：<a href="http://stackoverflow.com/questions/12598933/ndk-build-createprocess-make-e-87-the-parameter-is-incorrect">http://stackoverflow.com/questions/12598933/ndk-build-createprocess-make-e-87-the-parameter-is-incorrect</a></p>
+
+<p>在Android.mk文件中添加：<strong>LOCAL_SHORT_COMMANDS := true</strong></p>
+
+<p>在Application.mk文件中添加：<strong>APP_SHORT_COMMANDS := true</strong></p>
+
+<p>来自：[](<a href="https://www.cnblogs.com/lanrenxinxin/p/5924886.html">https://www.cnblogs.com/lanrenxinxin/p/5924886.html</a>)</p>
+</blockquote>
+
+<p>编译成功。但是我明明修改了 applicationId ,但是还是要把原本的  Telegram 先卸载掉呢？</p>
+
+<p>这个后面再查，先登录看看？</p>
+
+<p>报错： 程序提示</p>
+
+<pre><code>CONNECTION_API_ID_INVALID
+</code></pre>
+
+<p>噢，应该是忘记 配置 telegram 的 <a href="https://core.telegram.org/api/obtaining_api_id">api id</a>了</p>
+
+<p>按照 流程 配置好后</p>
+
+<p>修改 org.telegram.messager/BuildVars.java文件填入对应的</p>
+
+<p>app_id app_hash 等相关信息</p>
+
+<blockquote>
+<p>填写到org.telegram.messager/BuildVars.java中，HOCKEY_APP_HASH和HOCKEY_APP_HASH_DEBUGE在代码中的使用需要注释掉，不想注释的话，可以直接使用将app_bash填写进去。</p>
+
+<p>或者填入字符串 （32为 “0”）</p>
+</blockquote>
+
+<p>build 运行成功，登录也可以了。nice！</p>
+
+<p>接下来就能调试学习 Telegram 了</p>
+
+<p>不过有几个要求遵守：</p>
+
+<ol>
+<li>你的应用请不要使用 Telegram 这个名子，或者必须要让你的用户知道此应用是非官方的</li>
+<li>请不要使用标准logo(蓝底白飞机)作为你的应用图标</li>
+<li>请学习 Telegram的 security guidelines 还有 要保护要你的用户的数据和隐私</li>
+<li>请记得发布你的代码以遵循开源协议</li>
+</ol>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://jimbray.xyz/post/android-connect-to-ros/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://jimbray.xyz/post/android-connect-to-ros/">Android使用ROSBridge与ROS通信 简单使用</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="https://jimbray.xyz/post/remote-service-by-aidl/">使用AIDL实现多进程Service的流程（使用XMPP Service为例）</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="https://jimbray.xyz/post/remote-service-by-aidl/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'jimbray-github-io';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="https://jimbray.xyz/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-78813427-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+</body>
+</html>
+

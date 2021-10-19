@@ -1,14 +1,47 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hexo on 我说的这句话是谎话</title><link>https://jimbray.xyz/tags/hexo/</link><description>Recent content in Hexo on 我说的这句话是谎话</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&amp;copy; 2016. All rights reserved.</copyright><lastBuildDate>Sat, 04 Jun 2016 16:48:27 +0000</lastBuildDate><atom:link href="https://jimbray.xyz/tags/hexo/index.xml" rel="self" type="application/rss+xml"/><item><title>在同一个repo备份hexo文章以及配置</title><link>https://jimbray.xyz/post/sync-hexo-source/</link><pubDate>Sat, 04 Jun 2016 16:48:27 +0000</pubDate><guid>https://jimbray.xyz/post/sync-hexo-source/</guid><description>使用场景 使用 Hexo 的一键发布文章很方便，但是有多个地点需要同步文章的时候就麻烦了。 因为GitHub 的 repo 上 只有Hexo 编译好的 html文件， 并没有Hexo 的source 文件（也就是文章）。 如果需要在不同地点进行 文章发布的话，就没有办法完成了（先不考虑草稿的事） 所以 我们需要在其他 repo 进行文章的备份。
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hexo on 我说的这句话是谎话</title>
+    <link>https://jimbray.xyz/tags/hexo/</link>
+    <description>Recent content in Hexo on 我说的这句话是谎话</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2016. All rights reserved.</copyright>
+    <lastBuildDate>Sat, 04 Jun 2016 16:48:27 +0000</lastBuildDate>
+    
+	<atom:link href="https://jimbray.xyz/tags/hexo/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>在同一个repo备份hexo文章以及配置</title>
+      <link>https://jimbray.xyz/post/sync-hexo-source/</link>
+      <pubDate>Sat, 04 Jun 2016 16:48:27 +0000</pubDate>
+      
+      <guid>https://jimbray.xyz/post/sync-hexo-source/</guid>
+      <description>使用场景 使用 Hexo 的一键发布文章很方便，但是有多个地点需要同步文章的时候就麻烦了。 因为GitHub 的 repo 上 只有Hexo 编译好的 html文件， 并没有Hexo 的source 文件（也就是文章）。 如果需要在不同地点进行 文章发布的话，就没有办法完成了（先不考虑草稿的事） 所以 我们需要在其他 repo 进行文章的备份。
 使用工具 还是使用Git 进行操作 Git 需要一个服务器 现在支持 git 托管的服务已经很多了，用其他的也可以。 不过我不想注册使用那么多，还是使用Github 吧 而且还是同一个 repo
 操作步骤 上传操作 进入 Hexo 所在的文件夹 打开 git bash 窗口
-git init 进行初始化repo
+git init  进行初始化repo
 完成之后，添加 修改的文件，本来 Hexo 就自带了 .gitignore 文件 需要忽略的文件 都已经默认配置好了 接下来进行第一次 提交。 当然了，git流程还是要走正确的 首先应该是 add
-git add . 我们将所有文件进行添加 . 就是这个意思 然后commit
-git commit -m &amp;quot;commit first time&amp;quot; 提交成功之后 接下来就是 push 到github了 我们先把本地这个文件夹 映射到 远程 repo 上</description></item><item><title>Hello World</title><link>https://jimbray.xyz/post/hello-world/</link><pubDate>Fri, 03 Jun 2016 16:48:27 +0000</pubDate><guid>https://jimbray.xyz/post/hello-world/</guid><description>参照 史上最详细的Hexo博客搭建图文教程 搭建了自己的 Blog，向来不会写东西。
+git add .  我们将所有文件进行添加 . 就是这个意思 然后commit
+git commit -m &amp;quot;commit first time&amp;quot;  提交成功之后 接下来就是 push 到github了 我们先把本地这个文件夹 映射到 远程 repo 上</description>
+    </item>
+    
+    <item>
+      <title>Hello World</title>
+      <link>https://jimbray.xyz/post/hello-world/</link>
+      <pubDate>Fri, 03 Jun 2016 16:48:27 +0000</pubDate>
+      
+      <guid>https://jimbray.xyz/post/hello-world/</guid>
+      <description>参照 史上最详细的Hexo博客搭建图文教程 搭建了自己的 Blog，向来不会写东西。
 作为一个技术工作者，工作学习过程中总会有一些经验总结，我又比较健忘，基本上学什么忘什么，还是找个地方做下笔记做个记录好了。
 毕竟，好记性不如烂笔头。还是很有道理的。
 搭建完成了，感觉发布过程还是很方便的。没有繁琐的过程，专注自己的记录就可以了。
 这几年 尝试过了无数的 Blog 程序。现成的，自己搭建的，各种各样的博客都玩过，就是没有写过。 坚持是一件很难的事情。
 Done. Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick Start Create a new post $ hexo new &amp;quot;My New Post&amp;quot; More info: Writing
-Run server $ hexo server More info: Server</description></item></channel></rss>
+Quick Start Create a new post $ hexo new &amp;quot;My New Post&amp;quot;  More info: Writing
+Run server $ hexo server  More info: Server</description>
+    </item>
+    
+  </channel>
+</rss>

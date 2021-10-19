@@ -1,5 +1,261 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="所有涉及到包名的地方 全部应该要 一致(包括aidl文件和java文件)!!这个很重要！！！"><meta name=generator content="Hugo 0.55.6"><title>使用AIDL实现多进程Service的流程（使用XMPP Service为例） &middot; 我说的这句话是谎话</title><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=https://jimbray.xyz/css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=https://jimbray.xyz/css/side-menu.css><!--<![endif]--><link rel=stylesheet href=https://jimbray.xyz/css/blackburn.css><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css><link href="https://fonts.googleapis.com/css?family=Raleway" rel=stylesheet type=text/css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script>hljs.initHighlightingOnLoad();</script><link rel="shortcut icon" href=https://jimbray.xyz/img/favicon.ico type=image/x-icon><script async src=//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js></script><script>(adsbygoogle=window.adsbygoogle||[]).push({google_ad_client:"ca-pub-8790496632299830",enable_page_level_ads:true});</script><meta name=google-site-verification content=lsfTBJKzPUfwHdKB84_xsa5u_38z1iLbcGOAkxOo03Q></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><a class="pure-menu-heading brand" href=https://jimbray.xyz/>Jimbray</a><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/><i class="fa fa-home fa-fw"></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://jimbray.xyz/tags/><i class="fa fa-tags fa-fw"></i>Tags</a></li></ul></div><div class="pure-menu social"><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=https://twitter.com/jimbray16 target=_blank><i class="fa fa-twitter-square fa-fw"></i>Twitter</a></li><li class=pure-menu-item><a class=pure-menu-link href=https://github.com/jimbray target=_blank><i class="fa fa-github-square fa-fw"></i>GitHub</a></li></ul></div><div><div class=small-print><small>&copy; 2016. All rights reserved.</small></div><div class=small-print><small>Built with&nbsp;<a href=https://gohugo.io/ target=_blank>Hugo</a></small>
-<small>Theme&nbsp;<a href=https://github.com/yoshiharuyamashita/blackburn target=_blank>Blackburn</a></small></div></div></div><div id=main><div class=header><h1>使用AIDL实现多进程Service的流程（使用XMPP Service为例）</h1><h2>所有涉及到包名的地方 全部应该要 一致(包括aidl文件和java文件)!!这个很重要！！！</h2></div><div class=content><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i><time>18 Jul 2019, 16:16</time></div><div><i class="fa fa-tags fa-fw"></i><a class=post-taxonomy-tag href=https://jimbray.xyz/tags/android>Android</a></div></div><p><strong>所有涉及到包名的地方 全部应该要 一致(包括aidl文件和java文件)</strong>，最终实现 remote XMPPService</p><p>包名假定为： xyz.jimbray.xmpp</p><ul><li><p>编写 AIDL 相关文件（包括自定义类型数据java）</p><ol><li>新建 IXMPPServiceInterface.aidl</li></ol><pre><code class=language-java> package xyz.jimbray.xmpp;
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="所有涉及到包名的地方 全部应该要 一致(包括aidl文件和java文件)!!这个很重要！！！">
+  <meta name="generator" content="Hugo 0.55.6" />
+
+  <title>使用AIDL实现多进程Service的流程（使用XMPP Service为例） &middot; 我说的这句话是谎话</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://jimbray.xyz/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://jimbray.xyz/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="https://jimbray.xyz/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="https://jimbray.xyz/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-8790496632299830",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="lsfTBJKzPUfwHdKB84_xsa5u_38z1iLbcGOAkxOo03Q" />
+
+  
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="https://jimbray.xyz/">Jimbray</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://jimbray.xyz/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://jimbray.xyz/tags/"><i class='fa fa-tags fa-fw'></i>Tags</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/jimbray16" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/jimbray" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+  
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+  
+  
+
+
+
+  
+  
+  
+  
+	
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>使用AIDL实现多进程Service的流程（使用XMPP Service为例）</h1>
+  <h2>所有涉及到包名的地方 全部应该要 一致(包括aidl文件和java文件)!!这个很重要！！！</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>18 Jul 2019, 16:16</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://jimbray.xyz/tags/android">Android</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p><strong>所有涉及到包名的地方 全部应该要 一致(包括aidl文件和java文件)</strong>，最终实现 remote XMPPService</p>
+
+<p>包名假定为： xyz.jimbray.xmpp</p>
+
+<ul>
+<li><p>编写 AIDL 相关文件（包括自定义类型数据java）</p>
+
+<ol>
+<li>新建 IXMPPServiceInterface.aidl</li>
+</ol>
+
+<pre><code class="language-java"> package xyz.jimbray.xmpp;
      
  import xyz.jimbray.xmpp.IXMPPReceiveListenerCallback;
      
@@ -7,20 +263,77 @@
     void registerXMPPListenerCallback(IXMPPReceiveListenerCallback listener);
     void unregisterXMPPListenerCallback(IXMPPReceiveListenerCallback listener);
  }
-</code></pre><p>可以看到上面包含了 一个自定义类型，看样子应该是个接口，不是普通的数据类，但是Java普通的interface类在AIDL是不能用的，所以还是要新建一个专门的接口AIDL类</p><ol><li>新建 IXMPPReceiveListenerCallback.aidl</li></ol><pre><code class=language-java> package xyz.jimbray.xmpp
+</code></pre>
+
+<p>可以看到上面包含了 一个自定义类型，看样子应该是个接口，不是普通的数据类，但是Java普通的interface类在AIDL是不能用的，所以还是要新建一个专门的接口AIDL类</p>
+
+<ol>
+<li>新建 IXMPPReceiveListenerCallback.aidl</li>
+</ol>
+
+<pre><code class="language-java"> package xyz.jimbray.xmpp
      
  import xyz.jimbray.xmpp.XMPPMessageBase;
      
  interface IXMPPReceiveListenerCallback {
      void OnXMPPMessageReceived(intout XMPPMessageBase messageBase);
  }
-</code></pre><p>这里有几个<strong>知识点</strong></p><ul><li>自定义数据类型的使用</li></ul><p>XMPPMessageBase 是一个数据类，必须要实现序列化<strong>Parcelable</strong>接口</p><p>XMPPMessageBase.java 文件 必须在<strong>同一个包名</strong>、<strong>同一个包名</strong>、<strong>同一个包名</strong>地址下生成，除了使用AS自动生成的Parcelable代码外，还需要另外定义一个 函数（在AIDL过程中会调用）：</p><pre><code class=language-java>   public void readFromParcel(Parcel in) {
+</code></pre>
+
+<p>这里有几个<strong>知识点</strong></p>
+
+<ul>
+<li>自定义数据类型的使用</li>
+</ul>
+
+<p>XMPPMessageBase 是一个数据类，必须要实现序列化<strong>Parcelable</strong>接口</p>
+
+<p>XMPPMessageBase.java 文件 必须在<strong>同一个包名</strong>、<strong>同一个包名</strong>、<strong>同一个包名</strong>地址下生成，除了使用AS自动生成的Parcelable代码外，还需要另外定义一个 函数（在AIDL过程中会调用）：</p>
+
+<pre><code class="language-java">   public void readFromParcel(Parcel in) {
            string = in.readString();
    }
-</code></pre><p>同时还要新建一个 XMPPMessageBase.aidl 文件，与java文件<strong>同一个包名</strong>，文件名也是相同的</p><pre><code class=language-java>   package xyz.jimbray.xmpp;
+</code></pre>
+
+<p>同时还要新建一个 XMPPMessageBase.aidl 文件，与java文件<strong>同一个包名</strong>，文件名也是相同的</p>
+
+<pre><code class="language-java">   package xyz.jimbray.xmpp;
        
    parcelable XMPPMessageBase;
-</code></pre><p>并且在使用 这个自定义类型数据的时候，aidl文件必须要**手动、显式地进行导入操作 **import</p><p>看 IXMPPReceiveListenerCallback.aidl 文件的 第3行！</p><ul><li>数据的 流向设置</li></ul><p>在 AIDL 文件中，所有非Java基本类型的参数必须要加上 <strong>in、out、inout</strong>标记以表明参数流向</p><ul><li>in : 表示参数数据只能从客户端传递到服务端，基本类型默认只支持in 流向</li><li>out: 表示参数数据只能从服务端传递到客户端。即：如果服务端修改了参数对象的值，那么客户端的值也会变化，但是服务端无法读取到客户端的值。</li><li>inout： 表示参数可以双向传递。</li></ul><p>到目前为止，我们写了 一共4个文件</p><ol><li>IXMPPServiceInterface.aidl</li><li>IXMPPReceiveListenerCallback.aidl</li><li>XMPPMessageBase.aidl</li><li>XMPPMessageBase.java</li></ol></li><li><p>编写 服务端 java 代码</p><ol><li>新建 XMPPService.java （只写关键代码）</li></ol><pre><code class=language-java> class XMPPService extends Service {
+</code></pre>
+
+<p>并且在使用 这个自定义类型数据的时候，aidl文件必须要**手动、显式地进行导入操作 **import</p>
+
+<p>看 IXMPPReceiveListenerCallback.aidl 文件的 第3行！</p>
+
+<ul>
+<li>数据的 流向设置</li>
+</ul>
+
+<p>在 AIDL 文件中，所有非Java基本类型的参数必须要加上 <strong>in、out、inout</strong>标记以表明参数流向</p>
+
+<ul>
+<li>in : 表示参数数据只能从客户端传递到服务端，基本类型默认只支持in 流向</li>
+<li>out: 表示参数数据只能从服务端传递到客户端。即：如果服务端修改了参数对象的值，那么客户端的值也会变化，但是服务端无法读取到客户端的值。</li>
+<li>inout： 表示参数可以双向传递。</li>
+</ul>
+
+<p>到目前为止，我们写了 一共4个文件</p>
+
+<ol>
+<li>IXMPPServiceInterface.aidl</li>
+<li>IXMPPReceiveListenerCallback.aidl</li>
+<li>XMPPMessageBase.aidl</li>
+<li>XMPPMessageBase.java</li>
+</ol></li>
+
+<li><p>编写 服务端 java 代码</p>
+
+<ol>
+<li>新建 XMPPService.java （只写关键代码）</li>
+</ol>
+
+<pre><code class="language-java"> class XMPPService extends Service {
          
      // RemoteCallback
      final RemoteCallbackList&lt;IXMPPReceiveListenerCallback&gt; mXMPPReceiveListenerCallbacks = new RemoteCallbackList&lt;&gt;();
@@ -67,7 +380,19 @@
      }
          
  }
-</code></pre><p>到这里，服务端就完成了。</p><ol><li>编写客户端 java 代码</li></ol><p>如果是不同的app，需要将AIDL相关文件原封不动地复制到新的App对应的目录中，如果是同一个App的话就不需要了。</p><p>MainActivity.java (只写关键代码)</p><pre><code class=language-java> private IXMPPServiceInterface mBinder;
+</code></pre>
+
+<p>到这里，服务端就完成了。</p>
+
+<ol>
+<li>编写客户端 java 代码</li>
+</ol>
+
+<p>如果是不同的app，需要将AIDL相关文件原封不动地复制到新的App对应的目录中，如果是同一个App的话就不需要了。</p>
+
+<p>MainActivity.java (只写关键代码)</p>
+
+<pre><code class="language-java"> private IXMPPServiceInterface mBinder;
      
      
  // 绑定服务
@@ -97,9 +422,97 @@
      
          }
      };
-</code></pre><p>到这里，一个ADIL流程就走完了。</p></li></ul><p>而且还顺便做了一个 Remote Service 的实现。</p><p>当然了，要作为一个remote Service ，还需要进行 AndroidMenifest.xml 的配置</p><pre><code class=language-xml>  &lt;service android:name=&quot;.xmpp.XMPPService&quot;
+</code></pre>
+
+<p>到这里，一个ADIL流程就走完了。</p></li>
+</ul>
+
+<p>而且还顺便做了一个 Remote Service 的实现。</p>
+
+<p>当然了，要作为一个remote Service ，还需要进行 AndroidMenifest.xml 的配置</p>
+
+<pre><code class="language-xml">  &lt;service android:name=&quot;.xmpp.XMPPService&quot;
               android:enabled=&quot;true&quot;
               android:exported=&quot;true&quot;
               android:process=&quot;:xmpp&quot;/&gt;
-</code></pre><div class="prev-next-post pure-g"><div class=pure-u-1-24 style=text-align:left><a href=https://jimbray.xyz/post/build-telegram-on-windows/><i class="fa fa-chevron-left"></i></a></div><div class=pure-u-10-24><nav class=prev><a href=https://jimbray.xyz/post/build-telegram-on-windows/>在Windows上编译Android Telegram（2019最新）</a></nav></div><div class=pure-u-2-24>&nbsp;</div><div class=pure-u-10-24><nav class=next><a href=https://jimbray.xyz/post/add-c&#43;&#43;-support-to-existed-asproject/>在现有AS项目中新增OpenCV c&#43;&#43;库的支持</a></nav></div><div class=pure-u-1-24 style=text-align:right><a href=https://jimbray.xyz/post/add-c&#43;&#43;-support-to-existed-asproject/><i class="fa fa-chevron-right"></i></a></div></div><div id=disqus_thread></div><script type=text/javascript>(function(){if(window.location.hostname=="localhost")
-return;var dsq=document.createElement('script');dsq.type='text/javascript';dsq.async=true;var disqus_shortname='jimbray-github-io';dsq.src='//'+disqus_shortname+'.disqus.com/embed.js';(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href=http://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=http://disqus.com/ class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div></div></div><script src=https://jimbray.xyz/js/ui.js></script><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-78813427-1','auto');ga('send','pageview');</script></body></html>
+</code></pre>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://jimbray.xyz/post/build-telegram-on-windows/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://jimbray.xyz/post/build-telegram-on-windows/">在Windows上编译Android Telegram（2019最新）</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="https://jimbray.xyz/post/add-c&#43;&#43;-support-to-existed-asproject/">在现有AS项目中新增OpenCV c&#43;&#43;库的支持</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="https://jimbray.xyz/post/add-c&#43;&#43;-support-to-existed-asproject/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'jimbray-github-io';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="https://jimbray.xyz/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-78813427-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+</body>
+</html>
+
